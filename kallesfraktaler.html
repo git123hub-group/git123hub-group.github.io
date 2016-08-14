@@ -1,0 +1,318 @@
+
+<HTML>
+<HEAD>
+<TITLE>Kalles Fraktaler 2</TITLE>
+<base href="http://www.chillheimer.de/kallesfraktaler/" />
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</HEAD>
+<BODY bottommargin="0" topmargin="0">
+
+<TABLE align="center" border="0" cellPadding="5" cellSpacing="5" width="100%">
+  
+  <TR>
+    <td>
+      <table style="width:100%; padding: 0; border-spacing:0">
+      	<tr>
+          <td align="left" style="padding:0; width: calc(42%)"><a href="http://www.chillheimer.de/kallesfraktaler/"
+            style="text-decoration: none; height: 19px">Link to original</a></td>
+          <td align="left" style="padding:0; width: calc(42%)"><a href="https://git123hub.github.io/"
+            style="text-decoration: none; height: 19px">Return to index</a></td>
+          <td align="right" style="padding:0; width: calc(8%)"><a href="http://www.easycounter.com/">
+	    <img src="//www.easycounter.com/counter.php?git123hub,kallesfraktaler"
+	    border="0" alt="Hit Counter"></a></td>
+          <td align="right" style="padding:0; width: calc(8%)"><a href="http://www.easycounter.com/se/"><img
+            src="http://www.easycounter.com/counter.php?kallesfraktaler"
+            border="0" /></a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <TR>
+    <TD align="left" vAlign="MIDDLE"><FONT face="Verdana" size="3"><b>Kalles Fraktaler 2</TD>
+</tr><tr>
+    <TD align="left" vAlign="MIDDLE">
+      <P align="center">
+<table border=1 cellspacing=0 cellpadding=5><tr><td>
+	<FONT size="2">32-bit version: <A href="fraktal_sft.htm" >[fraktal_sft.zip - 445kB]</A></FONT><br>
+	<FONT size="2">64-bit version: <A href="fraktal_sft64.htm" >[fraktal_sft64.zip - 460 kB]</A></FONT><br>
+	<FONT size="2">Movie assembler 32-bit: <A href="KeyFramesMovie.htm" >[KeyFramesMovie.zip - 71 kB]</A></FONT><br>
+	<FONT size="2">Movie assembler 64-bit: <A href="KeyFramesMovie64.htm" >[KeyFramesMovie64.zip - 54 kB]</A></FONT><br>
+	<FONT size="2">Gallery with parameter files: <A href="fr_gallery.zip" >[fr_gallery.zip - 54 kB]</A></FONT><br>
+	<FONT size="2">Source files: <A href="fractal_src_2.9.3.zip" >[fractal_src_2.9.3.zip - 592 kB]</A></FONT><br>
+	<FONT size="2">Source files: <A href="KeyFramesMovie_src.zip" >[KeyFramesMovie_src.zip - 53 kB]</A></FONT><br>
+</tr></td></table><FONT face="Verdana" size="2">
+<br><b>Check out <a href="mmy">MMY3D</a> - a Movie Maker with 3D effects by <a href=https://www.youtube.com/channel/UC1abJGxA_o3V432zRSNchRA>Yann Le Bihan</a></b>
+      <P>
+Mandelbrot fractals are fascinating both for the esthetic beauty and also because they are truly infinite.<br><br>
+
+Recently a new method was developed to render Mandelbrot fractal images from a reference point rather than calculating the escape-speed for each pixel.
+Since lower precision then can be used, the time to render images decreases significantly.<br>
+Compared with the fastest programs using the old method, this program is more than <b>100</b> times faster on zoom levels around e100!<br>
+For details see <a href=http://www.superfractalthing.co.nf/sft_maths.pdf>sft_maths.pdf</a><br><br>
+My humble thanks to K.I.Martin for sharing his mathematical findings, which I think is almost as big discovery as the Mandelbrot formula itself.<br>
+My humble thanks also to Pauldelbrot for the solid glitch solving method which enables accurate render and make the new rendering method complete!<br><br>
+Thanks also to Dikydau for the locations in the gallery and to those that have given feedback and suggestions.<br>
+Thanks also to Botond Kósa and knighty for the extensions on Series Approximation.<br>
+Thanks also to laser blaster for the Burning Ship perturbation formula.<br>
+Thanks also to stardust4ever for formulas on other fractals (Cubic Burning Ship, Buffalo, Cubic Buffalo and Celtic)<br>
+<br>
+For feedback and discussions, please visit the <a href=http://www.fractalforums.com/kalles-fraktaler/>forum</a><br>
+Take a look at this <a href=tutorial.htm>tutorial</a> if you want to make a zoom movie<br>
+Old versions of can be found <a href=old.htm>here</a><br>
+<br><br>
+
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td colspan=2><FONT face="Verdana" size="3"><b>Kalles Fraktaler</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 2.11:</b></td><td><FONT face="Verdana" size="2">A bunch of new fractals added!</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 2.10.1:</b></td><td><FONT face="Verdana" size="2">A bunch of new fractals added, among them 4th and 5th power Burning Ship, Buffalo, Celtic, Mandelbar, Simon.snake's wonderful radiating formula, and many more!</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 2.9.4:</b></td><td><FONT face="Verdana" size="2">Newton-Raphson method to quickly find minibrot or pattern duplication</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 2.9.2:</b></td><td><FONT face="Verdana" size="2">Custom zoom size</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 2.9.1:</b></td><td><FONT face="Verdana" size="2">Enhanced exploring experience, Distance estimation, Arbitrary size ratio</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 2.8.1:</b></td><td><FONT face="Verdana" size="2">Enhanced exploring experience, skew animation + bugg fix</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 2.7.9:</b></td><td><FONT face="Verdana" size="2">New feature to only check real or imag values for bailout. Available from the Iterations dialog</td></tr>
+<tr><td colspan=2><img src=screen.png alt="Kalles Fraktaler 2"></td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr><td colspan=2><FONT face="Verdana" size="3"><b>Key Frames Movie Maker</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 1.32:</b></td><td><FONT face="Verdana" size="2">Image texture</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 1.31:</b></td><td><FONT face="Verdana" size="2">Distance estimation</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 1.29:</b></td><td><FONT face="Verdana" size="2">Frame by fram rendering for skew animation</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 1.26:</b></td><td><FONT face="Verdana" size="2">"Slope" encoding</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 1.25:</b></td><td><FONT face="Verdana" size="2">Long wave colors</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 1.22:</b></td><td><FONT face="Verdana" size="2">Bug fix - color jumps on negative cycling and fractional color division</td></tr>
+<tr><td width=0 nowrap valign=top align=right><FONT face="Verdana" size="2"><b>Update Version 1.21:</b></td><td><FONT face="Verdana" size="2">Current version</td></tr>
+<tr><td colspan=2><img src=screen1.png alt="Key Frames Movie Maker"></td></tr>
+</table>
+<br>
+<font face="Verdana" size="2">
+<table width=100% border=1 cellspacing=0 cellpadding=5><tr><td>
+<font size=4><b>Manual</b><br>
+<font size=3><b>Shortcut only:</b>
+<table><tr><td colspan=3><font size=2><b>Ctrl+B</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2>Toggle skew animation. Enter the number of frames in the popup dialog</td>
+</table>
+<font size=3><b>Menu items:</b>
+<table><tr><td colspan=3><font size=2><b>File</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Open</td>
+<td><font size=2>Opens the current location from a parameter file (*.kfr)</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Save</td>
+<td><font size=2>Saves the current location in the current parameter file (*.kfr)</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Save as</td>
+<td><font size=2>Saves the current location in a new parameter file (*.kfr)</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Save as Jpeg</td>
+<td><font size=2>Saves the current location in a jpeg file (*.jpg)</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Store zoom-out images</td>
+<td><font size=2>Zoom out automatically with the selected Zoom size and store jpeg image file and map file (*.kfb) for each zoom out. The zoom out stops when the depth is lower than 1. The resulting files can be used by the KeyFramMovie program to create a zoom-in animation.</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Save map</td>
+<td><font size=2>Saves the current location in a map file (*.kfb). This file can be used by the KeyFramMovie program.</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Examine Zoom sequence</td>
+<td><font size=2>Make sure you store the end location as a kfr file in the same directory as you store the zoom sequence frames. This function allows you to examine the frames one by one and add references to remove eventual visible glitch blobs, or choose another pixel as the main reference.</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Resume Zoom sequence</td>
+<td><font size=2>Make sure you store the end location as a kfr file in the same directory as you store the zoom sequence frames. This function allows you to resume and continue the zoom out sequnce, if it got interrupted.</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Exit</td>
+<td><font size=2>Exit this program</td>
+
+<tr><td colspan=3><font size=2><b>Action</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Zoom size</td>
+<td><font size=2>Set the level of zoom, left mouse click to zoom in, right to zoom out</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Location...</td>
+<td><font size=2>Displays the Location dialog where the coordinates for this location is displayed and can be edited.</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Iterations...</td>
+<td><font size=2>Displays the Iterations dialog where the maximum iteration number for this location is displayed and can be edited.<br>The smooth color transition method is also set here, and the power on the Mandelbrot function.<br>
+The fractal types is also set here - Mandelbrot, Burning Ship, Buffalo or Celtic.
+<br>This dialog also displays
+<br>- Min: The minimum iteration count for a pixel in this location
+<br>- Max: The maximum iteration count for a pixel in this location
+<br>- Appr: The number of iterations given by Series approximation
+<br>- Calculations: The number of calculations performed and also the number of calculations per second is shown if this dialog is displayed while the image is rendered</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Set colors...</td>
+<td><font size=2>Displays the Number of colors dialog where the colors can be edited.</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Reset</td>
+<td><font size=2>Set the location to the start point</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Center cursor</td>
+<td><font size=2>Center the cursor to image's pattern center</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Find Minibrot</td>
+<td><font size=2>Starts an automatic zoom-in in the image's pattern center, until a Minibrot is found or if it fails to find the center.</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Set window size</td>
+<td><font size=2>Set the size of the display window.</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Set image size</td>
+<td><font size=2>Set the size of the internal image size. If this is larger than the window size, an anti-alias effect is achieved</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Refresh</td>
+<td><font size=2>Render the current location</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Cancel rendering</td>
+<td><font size=2>Cancel the current rendering</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Rotate</td>
+<td><font size=2>Activate rotation, drag to rotate the image</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Reset rotation</td>
+<td><font size=2>Clear any rotation</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Show Inflection</td>
+<td><font size=2>Activate or deactivate display of Inflection</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Skew</td>
+<td><font size=2>Opens the Skew dialog which allows to "un-skew" locations that are skewed</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Zoom animation</td>
+<td><font size=2>Turns animation on or off when zooming</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td colspan=2 valign=top nowrap><font size=2><b>Special</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Add reference (Color)</td>
+<td><font size=2>Add a reference and re-calculates the pixels with the same iteration count as the reference. This is useful if the Auto solve glitches function fails to find and solve glitches in the image</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Set main reference</td>
+<td><font size=2>Let you click the image and select the main reference for the whole image. This can be useful when glitches appears on top of minibrots when the reference is outside this minibrot. The glitch pattern disappears from the minibrot if the main reference is selected inside the minibrot.</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td valign=top nowrap>&nbsp;&nbsp;</td><td><font size=2><b>Reuse reference</td>
+<td><font size=2>Do not re-calculate the reference for further zooming. This can be useful when during automatic zoom-out and to test different reference points, but must not be used together with the Auto solve glitches function active</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Find center of glitch (Color)</td>
+<td><font size=2>Centers the mouse pointer over the glitch blob found, if any</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Auto solve glitches</td>
+<td><font size=2>Turns the Auto solve glitches function on or off</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Solve glitch with near pixel method</td>
+<td><font size=2>Instead of re-render all pixels with the same iteration count value(color) only the connected pixels are re-rendered. On some locations other areas in the same view have the exact same iteration count values. These pixels may be correctly rendered and may be incorrect if re-rendered with another reference</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Find highest iteration</td>
+<td><font size=2>Centers the mouse pointer over the pixel with the highest iteration</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Show iterations</td>
+<td><font size=2>Displays the image black-and-white with the pixels with the highest iteration as white and the pixels with the lowest iteration as black</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>No approximation</td>
+<td><font size=2>Turns the Series approximation function on or off.</td>
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Non exact find Minibrot</td>
+<td><font size=2>Makes the Find Minibrot function fail every 20 zoom-in, in order to gain depth automatically without ending up in a Minibrot</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Special</td>
+<td><font size=2>
+<b>Mirror</b> - mirrors the image around the x-axis. Can be used on the deeper half of a zoom sequence to a minibrot - but not too close to the minibrot and too close to the half...<br>
+</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Show smooth transition colors</td>
+<td><font size=2>Displays the image black-and-white representing the smoothing coefficient</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Use long double always</td>
+<td><font size=2>Use always the 80-bit long double hardware data type. This can solve some type of glitches</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Use floatexp always</td>
+<td><font size=2>Use always the double mantissa/integer exponent data type. This probably only make the render slower</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Use auto iterations</td>
+<td><font size=2>Turns automatic iteration control on or off. This is on per default.</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Set Ratio</b></td>
+<td><font size=2>Enables chaning the ratio between height and width of the background image in order to enable stretching locations. Combinated with rotation, an almost infinite skewing ability is enabled, useful when exploring the hidden treasures of the new Fractals!</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Reset Ratio</b></td>
+<td><font size=2>Reset ratio to default</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Skew animation</b></td>
+<td><font size=2>Activates or deactivas skew animation. If activated, a popup allows you to specify end skew parameters and number of frames. The fractal will be rendered frame by frame, 
+and can be combined with frame by frame rendering in KeyFrameMovieMaker or MMY3D</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Show glitches</b></td>
+<td><font size=2>When activated, glitches are displayed with a solid color</td>
+
+</tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td valign=top nowrap><font size=2><b>Newton-Raphson zooming</b></td>
+<td><font size=2>When activated, a dialog will be displayed, which allows you to select if the zoom should jump directly to the minibrot, or to 3/4 zooms to the minibrot, where the current pattern is doubled.<br>
+Click on the fractal to specify the start point of the search of the minibrot<br>
+The current zoom size is used to set the boundaries of search around the selected point<br>
+Notice that it can take an hour or more to calculate the position of minibrots beyond e1000. However, that should be still much faster than zooming to the minibrot manually by selecting the center of the pattern in the view, or with the automatic search of minibrot that is also using the pattern center</td>
+
+</tr></table>
+<hr>
+<font size=3><b>Number of colors dialog</b><br>
+<table><tr><td valign=top nowrap><font size=2><b>Number of key colors</td>
+<td><font size=2>Set the number of key colors between 1 and 1024.</td>
+
+</tr><tr><td valign=top nowrap><font size=2><b>Divide iteration</td>
+<td><font size=2>Divide each iteration number with this value, for dense images this value can be greater than 1</td>
+
+</tr><tr><td valign=top nowrap><font size=2><b>Color offset</td>
+<td><font size=2>Offset the colors in the palette</td>
+</tr><tr><td valign=top nowrap><font size=2><b>Random</td>
+<td><font size=2>Fill the palette with random colors made from the Seed value. The Seed button select a seed value randomly.</td>
+
+</tr><tr><td valign=top nowrap><font size=2><b>More contrast</td>
+<td><font size=2>Move RGB values closer to max or min</td>
+</tr><tr><td valign=top nowrap><font size=2><b>Less contrast</td>
+<td><font size=2>Move RGB values closer to the middle</td>
+
+</tr><tr><td valign=top nowrap><font size=2><b>Show slopes</td>
+<td><font size=2>Enable slope encoding for 3D effect.<br>First value is the magnification of the slopes. The start value of 100 is suitable for the unzoomed view. Deep views requires a couple of magnitudes higher value.<br>The second value is the percentage with which the slope encoding is applied on the coloring. 100 is max, however flat areas will still have the palette color visible.</td>
+
+</tr><tr><td valign=top nowrap><font size=2><b>Save palette</td>
+<td><font size=2>Save the current palette in file</td>
+</tr><tr><td valign=top nowrap><font size=2><b>Open palette</td>
+<td><font size=2>Load palette from file</td>
+</tr><tr><td valign=top nowrap><font size=2><b>Expand double</td>
+<td><font size=2>Double the number of key colors without changing the palette. This allows finer control of individual colors without changing the palette for other colors</td>
+</tr><tr><td valign=top nowrap><font size=2><b>Expand all</td>
+<td><font size=2>Increase the number of key color to maximum 1024 without changing the palette</td>
+</tr><tr><td valign=top nowrap><font size=2><b>Double</td>
+<td><font size=2>Double the key colors by repeating them</td>
+</tr><tr><td valign=top nowrap><font size=2><b>Merge Colors</td>
+<td><font size=2>Allows a selected color to be merged to every specied key color</td>
+</tr><tr><td valign=top nowrap><font size=2><b>Show index</td>
+<td><font size=2>Capture the mouse, hover the mouse over the fractal image and the corresponding color in the list will be highlighted. Click and the color selection dialog will be displayed for the active color</td>
+</tr><tr><td valign=top nowrap><font size=2><b>Smooth color transition</td>
+<td><font size=2>Makes the transitions of colors smooth</td>
+
+</tr><tr><td valign=top nowrap><font size=2><b>Inverse smooth color transition</td>
+<td><font size=2>Inverse the smooth color transition which makes edges more visible</td>
+
+</tr><tr><td valign=top nowrap><font size=2><b>Unnamed dropdown box</td>
+<td><font size=2>Specifies handling of the iteration count values prior to coloring</td>
+
+</tr><tr><td valign=top nowrap><font size=2><b>Palette waves</td>
+<td><font size=2>The palette can be filled from sine waves applied on Red, Green, Blue and Black-and-white. Each input box specifies the number of periods applied on the number of key colors in the palette. If the input box is left empty, no wave of this color is applied. At right of each input box the "P"-button makes the number you entered prime, since different prime numbers probably give more variation. The last input box specifies the waves offset.<br>The button "Generate" applies the waves on the palette, the "Seed" button fills the fields with random values</td>
+
+</tr><tr><td valign=top nowrap><font size=2><b>Infinite waves</td>
+<td><font size=2>Waves can be applied on Hue, Saturation and Brightness rather than RGB values. The Period value specifies the length of the period (not the number of periods as for the Palette waves). Periods with prime numbers should be able to produce an infinite number unique colors<br>
+A negative value on Hue, Saturation or Brightness makes a flat percentage value to be applied on all iterations.
+</td>
+</tr></table>
+<hr>
+<font size=3><b>Key Frame Movie Maker</b><br>
+<table><tr><td valign=top nowrap><font size=2><b>Directory</td>
+<td><font size=2>Use the right small button to select the directory where you have stored the zoom-out images. By doing so values will be set automatically in this dialog</td>
+<tr><td valign=top nowrap><font size=2><b>Speed control</td>
+<td><font size=2>The number of frames in the movie can set for each key frame. The zoom movie will start from the last, most zoom out, image, which will have number zero. The Frame num button can be used to get help in selecting the key frame.<br>The speed values are applied per <i>key</i> frame</td>
+<tr><td valign=top nowrap><font size=2><b>Rotate control</td>
+<td><font size=2>The change of the degree for each <i>movie</i> frame in the movie can be set for each <i>key</i> frame. This is set with a float value, which can be negative. If the list is left empty no rotation will be performed. If set the movie resolution will be half</td>
+<tr><td valign=top nowrap><font size=2><b>Color cycle control</td>
+<td><font size=2>The change of the color index for each <i>movie</i> frame in the movie can be set for each <i>key</i> frame. This is set with a float value, which can be negative. If the list is left empty no cycling will be performed.</td>
+<tr><td valign=top nowrap><font size=2><b>Color division control</td>
+<td><font size=2>The value of the color division can be set for each <i>key</i> frame. This can be set with a float value. If the list is left empty the division value from the zoom sequence is used. The iteration division value is changed smoothly in a logarithmic way. Note that very small changes can cause chaotic changes in the movie.</td>
+<tr><td valign=top nowrap><font size=2><b>Number of colors control</td>
+<td><font size=2>The number of colors can be set for each <i>key</i> frame. Decreasing the number of key colors can reveal dense patterns in a more smooth way than changing the color division.</td>
+
+<tr><td valign=top nowrap><font size=2><b>Wave coloring</td>
+<td><font size=2>This is the same function as "Infinite waves". The infinite waves are not read from the KFB frames, so it must entered again in this program. The ability to quickly test the parameters is enabled with the "Test" button.</td>
+
+<tr><td valign=top nowrap><font size=2><b>Long waves</td>
+<td><font size=2>Sine waves of any color can be applied on the frames, mainly to emphasize the final minibrot. The color is only applied every second of the sine period.</td>
+
+<tr><td valign=top nowrap><font size=2><b>Start frame</td>
+<td><font size=2>The start frame of the movie can be specified. This is applied when creating the movie, when testing with the check box "Test only" is set, or to test single frames with the "Test" button.</td>
+
+<tr><td valign=top nowrap><font size=2><b>Show zoom text</td>
+<td><font size=2>Turns the zoom text on or off. My recommendation is to have it turned on. The font can be selected with the Font button</td>
+<tr><td valign=top nowrap><font size=2><b>Smooth color transitions</td>
+<td><font size=2>Makes the transitions of colors smooth</td>
+<tr><td valign=top nowrap><font size=2><b>Zoom out level</td>
+<td><font size=2>This value must be the same as the Zoom size selected when the zoom out images were created</td>
+<tr><td valign=top nowrap><font size=2><b>Frames per movie</td>
+<td><font size=2>Several avi files will be created, since some codec get corrupted if they get too large. An automatic value is set based on the Movie size field</td>
+<tr><td valign=top nowrap><font size=2><b>FPS</td>
+<td><font size=2>Frames per second. 30 is the optimize value if the movie is to be published on youtube</td>
+<tr><td valign=top nowrap><font size=2><b>Test only</td>
+<td><font size=2>Only displays the movie in the preview window and do not create avi files</td>
+<tr><td valign=top nowrap><font size=2><b>Movie size</td>
+<td><font size=2>The size of the resulting movies</td>
+
+
+</table>
+</font>
+</BODY>
+</HTML>
