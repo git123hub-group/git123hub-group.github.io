@@ -5,3 +5,8 @@
 `` ` inline backquote ` ``
 ``` `` block code `` ```
 ```````` many backtick ````````
+```````````````````````````````
+block code {
+  using markdown
+}
+```````````````````````````````
