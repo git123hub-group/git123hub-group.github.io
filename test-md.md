@@ -15,4 +15,4 @@ block code {
 ```markdown
 :octocat:
 ```
-:oct\ocat:
+:oct\x66cat:
