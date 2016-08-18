@@ -1,0 +1,305 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="zh" />
+    <title><s:text name="bshare.website.title.post"/></title>
+    <link rel="shortcut icon" href="http://www.bshare.cn/favicon.ico" type="image/x-icon" />
+    <link href="http://static.bshare.cn/frame/css/bshareBox2.css?t=20151218.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="bsAccountDiv" class="bsMiddleD">
+    <div class="spacer10"></div>
+    <div class="left">
+        <img id="platLogo" src="http://static.bshare.cn/frame/images/logos/l3/.gif" />
+    </div>
+    <div class="fix">
+        <div id="reconnectNote" class="connNote char14 txtR">
+            <a class="oauthLink linkU charOrg" href="javascript:;">您的帐号：<span class="screenName charRed char14"></span>&nbsp;授权已过期，请重新连接</a>
+            <div class="clear"></div>
+        </div>
+        <div id="connectNote" class="connNote txtR">
+            <span class="screenName char14 charOrg"></span>
+            <span>&nbsp;|&nbsp;</span>
+            <a class="oauthLink link" href="javascript:;">换个账号</a>
+        </div>
+        <div id="oauthNote" class="connNote txtR">
+            <a class="oauthLink link charOrg char14" href="javascript:;">请先登录<span id="platName">buzzinate.platform.name.</span></a>
+            <div class="clear"></div>
+        </div>
+        <div class="clear spacer5"></div>
+        <p id="oauthMsg" class="bsMsg charRed txtR"></p>
+        <div class="clear"></div>
+    </div>
+    <div class="clear spacer10"></div>
+</div>
+<div class="clear"></div>
+
+<div id="bsContentDiv" class="bsMiddleD bsLayer0">
+    <div class="spacer5"></div>
+    <div class="left" style="padding-top: 4px;">说说你喜欢的理由
+    <span id="sinaTips" style="display:none;">（还可以@好友哦）</span></div>
+    <div class="fix txtR">还可以输入<span id="leftNum" 
+        class="char16 charB"></span>字</div>
+    <div class="clear spacer5"></div>
+    <div id="txtWrap" class="posR">
+        <div id="txtReciver" class="posA char14"></div>
+        <textarea id="txtEditor" class="charGry char14"> -   </textarea>
+        <div id="atSuggest" class="posA">
+            <p>选择昵称或轻敲空格输入</p>
+            <div class="spacer5"></div>
+            <div id="atTableAnchor"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    
+    <div id="urlWrap">
+        <div class="spacer5"></div>
+        <p class="txtEllipsis txtR right" title=""></p>
+        <div class="clear spacer5"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+
+<script type="text/javascript" charset="utf-8">
+var hot_plats = {
+    "": { name: "buzzinate.platform.name." }
+}, 
+
+static_follows = {
+    "sinaminiblog": "http://t.sina.com.cn/bshare",
+    "sohuminiblog": "http://t.sohu.com/u/8642674",
+    "renren": "http://page.renren.com/699113371",
+    "kaixin001": "http://www.kaixin001.com/home/?uid=26410095"
+};
+
+hot_plats[""].accessSuccess = "false" === "true";
+hot_plats[""].expire = "false" === "true";
+hot_plats[""].accountUid = "";
+hot_plats[""].screenName = "";
+hot_plats[""].info = "";
+</script>
+
+<div id="bsWaitingDiv" class="bsMiddleD bsLayer1">
+    <div class="spacer10"></div>
+    <div class="statusWrap txtC">
+        <div class="satusIcon">
+            <div class="spacer40"></div>
+            <ul id="ajaxLoad"></ul>
+        </div>
+        <div class="satusMsg">
+            <div class="spacer20"></div>
+            <p class="char14">正在分享，请等待...</p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear" ></div>
+</div>
+<div class="clear"></div>
+
+<div id="bsSuccDiv" class="bsMiddleD bsLayer2">
+    <div class="spacer10"></div>
+    <div class="statusWrap txtC">
+        <div class="satusIcon">
+            <div class="spacer10"></div>
+            <img src="http://static.bshare.cn/frame/images/bsLayer/share_success.gif" />
+            <div class="spacer5"></div>
+        </div>
+        <div class="satusMsg">
+            <p class="heading char16">分享成功</p>
+	        <div class="spacer10"></div>
+	        <a id="viewShare" class="link charOrg" target="_blank">查看我的分享</a>
+            <div class="spacer5"></div>
+            <div id="promoMsg"></div>
+        </div>
+	    <!-- Follow Start -->
+        <div class="clear spacer15"></div>
+	    <div id="foDiv" class="txtL">
+	        <div id="foTip" class="left charB">关注</div>
+	        <div id="foStatic" class="left"></div>
+	        <div id="foCustom" class="left">
+	            <a id="foCard" class="link left" href="javascript:;"><img class="left" /><div class="fix"></div></a>
+	            <a id="foBtn" class="btnOrg right" href="javascript:;">关注</a>
+	        </div>
+	        <div class="clear"></div>
+	    </div>
+	    <div class="clear" ></div>
+	    <!-- Follow End -->
+    </div>
+    <div class="clear" ></div>
+</div>
+<div class="clear"></div>
+
+<div id="bsFailDiv" class="bsMiddleD bsLayer3">
+    <div class="spacer10"></div>
+    <div class="statusWrap txtC">
+        <div class="satusIcon">
+            <div class="spacer10"></div>
+            <img src="http://static.bshare.cn/frame/images/bsLayer/share_fail.gif" />
+            <div class="spacer5"></div>
+        </div>
+        <div class="satusMsg">
+            <p class="heading char16">分享失败</p>
+            <div class="clear spacer15"></div>
+            <p id="shareErrMsg"></p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear" ></div>
+</div>
+<div class="clear"></div>
+
+<div id="bsButtonDiv" class="bsMiddleD">
+    <div class="spacer15" ></div>
+    <p id="activityName" class="txtEllipsis txtR right"></p>
+    <div class="clear spacer10"></div>
+    <div id="platWrap" class="left posR"></div>
+    <div class="fix txtR">
+        <a id="bsShareBtn" class="bsShare btnOrg right" 
+            href="javascript:;">立即分享</a>
+    </div>
+    <div class="clear spacer10"></div>
+</div>
+<div class="clear"></div>
+
+<div id="bsFooterDiv" class="bsMiddleD">
+    
+		<div class="logonWrap left">
+		    <a id="bsLoginLink" class="link left txtEllipsis"></a>
+		    <span class="left">&nbsp;&nbsp;</span>
+		    <a id="myAccount" class="link left" target="_blank" href="http://www.bshare.cn/userProfile"
+		        title="我的账号">我的账号</a>
+		    <a id="registerAcct" class="link left" target="_blank" href="http://www.bshare.cn/register"
+		        title="注册">注册</a>
+		</div>
+		<div id="bsPower" class="fix txtR">
+		    <a class="link" href="http://www.bshare.cn" target="_blank"><span class="charOrg">b</span>Share</a>
+		</div>
+    
+    <div class="clear spacer5"></div>
+</div>
+
+<div id="bsMask" class="posA"></div>
+
+<form id="dataForm" name="dataForm" method="post" accept-charset="utf-8">
+    <input type="hidden" name="site" value="" id="site"/>
+    <input type="hidden" name="request_locale" value="" id="request_locale"/>
+	<input type="hidden" name="url" value="" id="url"/>
+	<input type="hidden" name="title" value="" id="title"/>
+	<input type="hidden" name="text" value="" id="text"/>
+	<input type="hidden" name="content" value="" id="content"/>
+    <input type="hidden" name="tweet" value=" -   " id="tweet"/>
+    <input type="hidden" name="pic" value="" id="pic"/>
+    <input type="hidden" name="pics" value="" id="pics"/>
+	<input type="hidden" name="publisherUuid" value="" id="publisherUuid"/>
+	<input type="hidden" name="type" value="0" id="type"/>
+	<input type="hidden" name="lang" value="" id="lang"/>
+	<input type="hidden" name="vTag" value="" id="vTag"/>
+	<input type="hidden" name="vUid" value="" id="vUid"/>
+	<input type="hidden" name="vEmail" value="" id="vEmail"/>
+	<input type="hidden" name="video" value="" id="video"/>
+    <input type="hidden" name="promote" value="" id="promote"/>
+	<!-- joinwish start -->
+	<input type="hidden" name="product" value="" id="product"/>
+	<input type="hidden" name="price" value="" id="price"/>
+	<!-- joinwish end -->
+	<!-- chezhumb start -->
+	<input type="hidden" name="newsid" value="" id="newsid"/>
+	<!-- chezhumb end -->
+	<input type="hidden" name="surl" value="" id="surl"/>
+	<input type="hidden" name="apvuid" value="" id="apvuid"/>
+	<input type="hidden" name="apts" value="" id="apts"/>
+	<input type="hidden" name="apsign" value="" id="apsign"/>
+</form>
+
+<script type="text/javascript" charset="utf-8">
+var bs_vars = {
+    bhost: "http://bshare.optimix.asia",
+    ohost: "http://one.bshare.cn",
+    phost: "http://points.bshare.cn",
+    imgPath: "http://static.bshare.cn/images",
+    frameImgPath: "http://static.bshare.cn/frame/images"
+}, bs_msg = {
+    login: '登录',
+    logout: '注销',
+    selectImg: '点击选取图片',
+    switchPlat: '您还可以分享到:',
+    shareTo: '分享到',
+    sharing: '分享中...',
+    shareAgainS: '继续分享',
+    shareAgainF: '重新分享',
+    shareNow: '立即分享',
+    follow: '关注',
+    afterFollow: '已关注'
+}, controls = {
+    isLogoSite: true,
+    
+    
+    isLoggedin: false,
+    displayName: "",
+    
+    isConnSite: false, 
+
+    isPromote: false, 
+    shareStatus: 0 // 0: waiting for share; 1: sharing; 2: succeeded; 3. failed
+};
+controls.isPromote = controls.isConnSite && controls.isPromote;
+</script>
+
+    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/frame/js/bshareOauth.js?v=20151218"></script>
+
+</body>
+</html>
