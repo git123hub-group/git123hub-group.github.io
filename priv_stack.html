@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+我的堆栈:
+<div><input type="text" style="width:calc(100% - 108px);" id="inputData" /><input type="button" style="width:50px" value="进栈" onclick="pushButton()"
+/><input type="button" style="width:50px" value="出栈" onclick="popButton()" /></div>
+<pre id="stackB"></pre>
+<pre>
+本地计数器: 访问 <span id="local_counter"></span> 次.
+easycounter: <a href="http://www.easycounter.com/"><img
+  src="//www.easycounter.com/counter.php?git123hub" border="0"
+  alt="Hit Counter"></a>
+</pre>
+<script type="text/javascript">
+// <![CDATA[
+var stackList = document.getElementById("stackB")
+var input = document.getElementById("inputData")
+var db, tx, store, random_like_name = "sData%dCGeYk", rez, update = false, stackS;
+var request = indexedDB.open("data", 4);
+request.onupgradeneeded = function (e) {
+	var db = request.result;
+	if (!db.objectStoreNames.contains("data")){
+		var store = db.createObjectStore(random_like_name, {keyPath: "ID"});
+		update = true;
+	}
+	// alert("initialized");
+}
+var op = function () {
+	tx = db.transaction(random_like_name, "readwrite");
+	store = tx.objectStore(random_like_name);
+	var get1 = store.get("Stack");
+	get1.onsuccess = function () {
+		rez = get1.result;
+		getStackData();
+	}
+}
+request.onsuccess = function () {
+	db = request.result;
+	update && db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put({ "ID": "Stack", "ptr": -1, data: [] });
+	op();
+}
+
+var pushData = function(data) {
+	rez.data[++rez.ptr] = data; 
+}
+var popData = function() {
+	var d = input.value;
+	rez.ptr < 0 || (d = rez.data[rez.ptr], rez.data.length = rez.ptr--);
+	return d;
+}
+var getStackData = function () {
+	stackS = "";
+	for (var i = 0; i < 10 && rez.ptr >= i; ++i) {
+		stackS += rez.data[rez.ptr-i].replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;") + "<br />";
+	}
+	stackList.innerHTML = stackS;
+}
+var pushButton = function() {
+	pushData(input.value);
+	getStackData();
+	db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put(rez)
+}
+var popButton = function() {
+	input.value = popData();
+	getStackData();
+	db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put(rez)
+}
+
+// ]]>
+</script>
+</body>
+  <script type="text/javascript">
+    var localCount = +(localStorage.localCount$5 || 0) + 1;
+    localStorage.localCount$5 = localCount;
+    document.getElementById("local_counter").innerHTML = localCount;
+  </script>
+  <script type="text/javascript">window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</html>
