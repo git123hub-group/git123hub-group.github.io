@@ -20,10 +20,10 @@ easycounter: <a href="http://www.easycounter.com/"><img
 var stackList = document.getElementById("stackB")
 var input = document.getElementById("inputData")
 var db, tx, store, random_like_name = "sData%dCGeYk", rez, update = false, stackS;
-var request = indexedDB.open("data", 4);
+var request = indexedDB.open("sdata", 4);
 request.onupgradeneeded = function (e) {
 	var db = request.result;
-	if (!db.objectStoreNames.contains("data")){
+	if (!db.objectStoreNames.contains("sdata")){
 		var store = db.createObjectStore(random_like_name, {keyPath: "ID"});
 		update = true;
 	}
