@@ -6,7 +6,7 @@
     a {text-decoration: none;}
 </style>
 </head>
-<body onbeforeunload="db.transaction(random_like_name, 'readwrite').objectStore(random_like_name).put(rez);">
+<body onbeforeunload="isChanged && db.transaction(random_like_name, 'readwrite').objectStore(random_like_name).put(rez);">
 <pre>* <a href="/index/">返回到首页</a></pre>
 我的堆栈:
 <div><input type="text" style="width:calc(100% - 108px);" id="inputData" /><input type="button" style="width:50px" value="进栈" onclick="pushButton()"
@@ -20,6 +20,7 @@ easycounter: <a href="http://www.easycounter.com/"><img
 </pre>
 <script type="text/javascript">
 // <![CDATA[
+var isChanged = false;
 var stackList = document.getElementById("stackB")
 var input = document.getElementById("inputData")
 var db, tx, store, random_like_name = "sData%dCGeYk", rez, update = false, stackS;
@@ -65,10 +66,12 @@ var getStackData = function () {
 var pushButton = function() {
 	pushData(input.value);
 	getStackData();
+	isChanged = true;
 }
 var popButton = function() {
 	input.value = popData();
 	getStackData();
+	isChanged = true;
 }
 // ]]>
 </script>
