@@ -65,14 +65,12 @@ var getStackData = function () {
 var pushButton = function() {
 	pushData(input.value);
 	getStackData();
-	db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put(rez)
 }
 var popButton = function() {
 	input.value = popData();
 	getStackData();
-	db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put(rez)
 }
-
+document.body.onbeforeunload = function () {db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put(rez);}
 // ]]>
 </script>
 </body>
