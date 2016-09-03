@@ -6,7 +6,7 @@
     a {text-decoration: none;}
 </style>
 </head>
-<body>
+<body onbeforeunload="db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put(rez);">
 <pre>* <a href="/index/">返回到首页</a></pre>
 我的堆栈:
 <div><input type="text" style="width:calc(100% - 108px);" id="inputData" /><input type="button" style="width:50px" value="进栈" onclick="pushButton()"
@@ -70,7 +70,6 @@ var popButton = function() {
 	input.value = popData();
 	getStackData();
 }
-requestIdleCallback(function () {document.body.onbeforeunload = function () {db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put(rez);}})
 // ]]>
 </script>
 </body>
