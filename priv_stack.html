@@ -70,7 +70,7 @@ var popButton = function() {
 	input.value = popData();
 	getStackData();
 }
-requestAnimationFrame(function () {document.body.onbeforeunload = function () {db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put(rez);}})
+requestIdleCallback(function () {document.body.onbeforeunload = function () {db.transaction(random_like_name, "readwrite").objectStore(random_like_name).put(rez);}})
 // ]]>
 </script>
 </body>
