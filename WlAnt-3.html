@@ -67,7 +67,7 @@ var checkNeighbors = function (a) { /* a: 8 numbers/booleans */
   for (var i = 0; i < 4; ++i) {
     nns += a[i];
   }
-  if (nns & 4) {
+  if (nns & 3) {
     for (var i = 4; i < 8; ++i) if (a[i]) return 0;
     return 1;
   }
