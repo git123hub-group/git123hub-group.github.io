@@ -51,7 +51,7 @@ var importRLE = function (e) {
           y += num; x = 0;
         } else if (/[ABC]/.test(last)) {
           while(num--) {
-            array[prevOffset + ((alignY + y) << 7) + alignX + x] = symbols[last] & 2;
+            array[prevOffset + ((alignY + y) << 7) + alignX + x] = symbols[last] >> 1;
             array[currOffset + ((alignY + y) << 7) + alignX + x] = symbols[last] & 1;
             x++;
           }
