@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -41,6 +41,17 @@
 <div style="display: inline-block;" onclick="getCode()">
 <div style="display: table; width: 90px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
 <div style="display: table-cell; vertical-align: middle; text-align: center">get code</div>
+</div>
+</div>
+<br />
+<div style="display: inline-block;" onclick="importRLE(WlAntCode)">
+<div style="display: table; width: 100px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">import RLE</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="exportRLE()">
+<div style="display: table; width: 100px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">export RLE</div>
 </div>
 </div>
 <br />
@@ -102,6 +113,8 @@ var setPixel = function (x, y) {
   if (!editState) { return false; }
   var x1 = (x / 5) | 0;
   var y1 = (y / 5) | 0;
+  x1 > 127 && (x1 = 127);
+  y1 > 127 && (y1 = 127);
   array[currOffset + y1 * 128 + x1] = selectState[1];
   array[prevOffset + y1 * 128 + x1] = selectState[0];
   ctx.fillStyle = WlAntColor[selectState[0] * 2 + selectState[1]];
@@ -144,8 +157,10 @@ var reverse = function () {
   currOffset = temp;
   rerender();
 }
+var crule = "WlAnt";
 //]]>
 </script>
+<script src="WlAnt-RLE-pattern.min.js" type="text/javascript"></script>
 <script type="text/javascript">window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 </body>
 </html>
