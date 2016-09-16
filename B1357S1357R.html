@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+.wborder {border: 2px solid #000; display: inline-block; width: 40px; height: 40px; box-sizing: border-box;}
+</style>
+<title>Reversible Rule</title>
+</head>
+<body>
+<pre>
+* <a href="/index/" style="text-decoration: none;">返回到首页</a>
+</pre>
+<center>
+<canvas id="WlAntCanvas" width="640" height="640" onclick="setPixel(event.offsetX, event.offsetY)"></canvas>
+<br />
+<div style="background-color: #FFFFFF;" class="wborder" onclick="selectState=[0,0]"></div>
+<div style="background-color: #FF0000;" class="wborder" onclick="selectState=[0,1]"></div>
+<div style="background-color: #80FF00;" class="wborder" onclick="selectState=[1,0]"></div>
+<div style="background-color: #0000FF;" class="wborder" onclick="selectState=[1,1]"></div>
+<div style="display: inline-block;" onclick="editState ^= 1; editState || createRunInterval()">
+<div style="display: table; width: 120px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">run / pause</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="editState = 1; createRunInterval()">
+<div style="display: table; width: 60px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">step</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="reverse()">
+<div style="display: table; width: 80px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">reverse</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="loadCode()">
+<div style="display: table; width: 100px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">load code</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="getCode()">
+<div style="display: table; width: 90px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">get code</div>
+</div>
+</div>
+<br />
+<div style="display: inline-block;" onclick="importRLE(WlAntCode)">
+<div style="display: table; width: 100px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">import RLE</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="exportRLE()">
+<div style="display: table; width: 100px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">export RLE</div>
+</div>
+</div>
+<br />
+<textarea id="code" rows="20" cols="80"></textarea>
+</center>
+<script type="text/javascript">
+//<![CDATA[
+var WlAntCode = document.getElementById("code");
+var can = document.getElementById("WlAntCanvas");
+var ctx = can.getContext("2d");
+ctx.fillStyle = "#FFFFFF";
+ctx.fillRect(0,0,640,640);
+var selectState = [0, 1], editState = true;
+
+var frames = 0, nextFrameSpeed = 10;
+var currOffset = 0,
+    prevOffset = 16384, /* 128 ^ 2 */
+    array = new Int8Array(32768); /* 2 * 128 ^ 2 */
+
+var WlAntColor = ["#FFFFFF", "#FF0000", "#80FF00", "#0000FF"];
+var checkNeighbors = function (a) { /* a: 8 numbers/booleans */
+  /* N, E, S, W, NE, SE, SW, NW */
+  var nns = 0;
+  for (var i = 0; i < 8; ++i) {
+    nns += a[i];
+  }
+  return nns % 2
+}
+
+var nextGeneration = function () {
+  var yp, yn, xp, xn
+  for (var y = 0; y < 128; ++y) {
+    yp = (y + 1) % 128 * 128, yn = (y + 127) % 128 * 128, y1 = y * 128;
+    for (var x = 0; x < 128; ++x) {
+      xp = (x + 1) % 128, xn = (x + 127) % 128;
+      array[prevOffset+x+y1] ^= checkNeighbors([array[currOffset+yn+x], array[currOffset+y1+xp], array[currOffset+yp+x], array[currOffset+y1+xn], array[currOffset+yn+xp], array[currOffset+yp+xp], array[currOffset+yp+xn], array[currOffset+yn+xn]]);
+    }
+  }
+  var temp = prevOffset;
+  prevOffset = currOffset;
+  currOffset = temp;
+}
+
+var rerender = function () {
+  for (var y = 0; y < 128; ++y) {
+    for (var x = 0; x < 128; ++x) {
+      var o = y*128+x;
+      ctx.fillStyle = WlAntColor[array[prevOffset+o] * 2 + array[currOffset+o]];
+      ctx.fillRect(x*5, y*5, 5, 5);
+    }
+  }
+}
+
+var setPixel = function (x, y) {
+  if (!editState) { return false; }
+  var x1 = (x / 5) | 0;
+  var y1 = (y / 5) | 0;
+  x1 > 127 && (x1 = 127);
+  y1 > 127 && (y1 = 127);
+  array[currOffset + y1 * 128 + x1] = selectState[1];
+  array[prevOffset + y1 * 128 + x1] = selectState[0];
+  ctx.fillStyle = WlAntColor[selectState[0] * 2 + selectState[1]];
+  ctx.fillRect(x1*5, y1*5, 5, 5);
+  return true;
+}
+
+var createRunInterval = function () {
+  if (!frames) {
+    nextGeneration(); rerender();
+  }
+  frames = (frames + 1) % nextFrameSpeed
+  editState ? (frames = 0) : requestAnimationFrame(createRunInterval);
+}
+var getCode = function () {
+  var code = "";
+  for (var i = 0; i < 5461; ++i) {
+    code += String.fromCharCode(33 + array[i*6]*32 + array[i*6+1]*16 + array[i*6+2]*8 + array[i*6+3]*4 + array[i*6+4]*2 + array[i*6+5])
+  }
+  WlAntCode.value = code + String.fromCharCode(33 + array[32766]*32 + array[32767]*16);
+}
+var loadCode = function () {
+  var code = WlAntCode.value, cc = code.charCodeAt(i) - 33;
+  array[i*6  ] = (cc & 32) >> 5;
+  array[i*6+1] = (cc & 16) >> 4;
+  for (var i = 5461; i >= 0; i--) {
+    cc = code.charCodeAt(i) - 33;
+    array[i*6  ] = (cc & 32) >> 5;
+    array[i*6+1] = (cc & 16) >> 4;
+    array[i*6+2] = (cc &  8) >> 3;
+    array[i*6+3] = (cc &  4) >> 2;
+    array[i*6+4] = (cc &  2) >> 1;
+    array[i*6+5] =  cc &  1;
+  }
+  rerender();
+}
+var reverse = function () {
+  var temp = prevOffset;
+  prevOffset = currOffset;
+  currOffset = temp;
+  rerender();
+}
+var crule = "B13/S13VR";
+//]]>
+</script>
+<script src="WlAnt-RLE-pattern.min.js" type="text/javascript"></script>
+<script type="text/javascript">window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</body>
+</html>
