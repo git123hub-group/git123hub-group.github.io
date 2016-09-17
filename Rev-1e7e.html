@@ -80,7 +80,7 @@ var checkNeighbors = function (a) { /* a: 8 numbers/booleans */
 	cns += a[i+4];
   }
   if (nns === 1 && !cns) { return 1; }
-  if (nns & 3 && cns === 4) { return 1; }
+  if (nns === 3 && cns === 4) { return 1; }
   return 0;
 }
 
