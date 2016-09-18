@@ -20,12 +20,12 @@ a:active {text-decoration: none; color: #FFFF20}
 <canvas id="CACanvas" width="640" height="640" onclick="setPixel(event.offsetX, event.offsetY)"></canvas>
 <br />
 
-<div style="display: inline-block;" onclick="(runDir === 0 || editState) && (editState ^= 1); runDir = 0; editState || createRunInterval()">
+<div style="display: inline-block;" onclick="(runDir === 0 || editState) &amp;&amp; (editState ^= 1); runDir = 0; editState || createRunInterval()">
 <div style="display: table; width: 120px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
 <div style="display: table-cell; vertical-align: middle; text-align: center">run / pause</div>
 </div>
 </div>
-<div style="display: inline-block;" onclick="(runDir === 1 || editState) && (editState ^= 1); runDir = 1; editState || createRewindInterval()">
+<div style="display: inline-block;" onclick="(runDir === 1 || editState) &amp;&amp; (editState ^= 1); runDir = 1; editState || createRewindInterval()">
 <div style="display: table; width: 150px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
 <div style="display: table-cell; vertical-align: middle; text-align: center">rewind / pause</div>
 </div>
@@ -48,12 +48,12 @@ var nextGeneration = function () {
   var tmpDX = antDX, tmpDY = antDY, currSq;
   switch (array[currSq = antX+antY*128]) {
     case 0:
-      antDX = tmpDY, antDY = -tmpDX;
+      antDX = -tmpDY, antDY = tmpDX; // turn right
 	  array[currSq] = 1;
 	  ctx.fillStyle = cellColor[1];
 	break;
     case 1:
-      antDX = -tmpDY, antDY = tmpDX;
+      antDX = tmpDY, antDY = -tmpDX; // turn left
 	  array[currSq] = 0;
 	  ctx.fillStyle = cellColor[0];
 	break;	
@@ -69,12 +69,12 @@ var prevGeneration = function () {
     case 0:
 	  array[currSq] = 1;
 	  ctx.fillStyle = cellColor[1];
-	  antDX = tmpDY, antDY = -tmpDX;
+	  antDX = -tmpDY, antDY = tmpDX;
 	break;	
 	case 1:
 	  array[currSq] = 0;
 	  ctx.fillStyle = cellColor[0];
-	  antDX = -tmpDY, antDY = tmpDX;
+	  antDX = tmpDY, antDY = -tmpDX;
 	break;
   }
   ctx.fillRect(antX*5, antY*5, 5, 5);
