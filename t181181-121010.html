@@ -25,9 +25,9 @@ a:active {text-decoration: none; color: #FFFF20}
 <div style="display: table-cell; vertical-align: middle; text-align: center">run / pause</div>
 </div>
 </div>
-<div style="display: inline-block;" onclick="(runDir === 1 || editState) && (editState ^= 1); runDir = 1; editState || createRewindInterval()">
-<div style="display: table; width: 150px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
-<div style="display: table-cell; vertical-align: middle; text-align: center">rewind / pause</div>
+<div style="display: inline-block;" onclick="editState = 1; createRunInterval()">
+<div style="display: table; width: 60px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">step</div>
 </div>
 </div>
 <br />
