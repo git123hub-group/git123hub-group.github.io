@@ -60,14 +60,16 @@ var parsePartRule = function (pstr) {
   return table;
 }
 return (function (rstr) {
-  rstr = rstr.replace(/_/g, "/");
+  rstr = rstr.replace(/\//g, "_");
+  var params = rstr.split("_");
+  if (params.length === 1) {params[1] = "";}
+  if (params[0].charAt(0).toUpperCase() === "B" || params[1].charAt(0).toUpperCase() === "S") {
+    syntax = [params[0], params[1]];
+  } else {
+    syntax = [params[1], params[0]];
+  }
   var m2, arr, syntax;
-  if (m2 = rstr.match(/^\s*B([^\/]*)\/S?([^\/]*)\s*$/)) { syntax = [m2[1], m2[2]]; } else
-  if (m2 = rstr.match(/^\s*([^\/]*)\/S([^\/]*)\s*$/)) { syntax = [m2[1], m2[2]]; } else
-  if (m2 = rstr.match(/^\s*([^\/]*)\/([^\/]*)\s*$/)) { syntax = [m2[2], m2[1]]; } else
-  if (m2 = rstr.match(/^\s*B([^\/]*)\s*$/)) { syntax = [m2[1], ""]; } else
-  if (m2 = rstr.match(/^\s*S([^\/]*)\s*$/)) { syntax = ["", m2[2]]; }
-  parsePartRule(syntax[1]); arr = table.slice();
-  parsePartRule(syntax[2]); return [arr, table];
+  parsePartRule(syntax[0]); arr = table.slice();
+  parsePartRule(syntax[1]); return [arr, table];
 })(rule_str);
 }
