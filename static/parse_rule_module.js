@@ -60,6 +60,7 @@ var parsePartRule = function (pstr) {
   return table;
 }
 return (function (rstr) {
+  rstr = rstr.replace(/_/g, "/");
   var m2, arr, syntax;
   if (m2 = rstr.match(/^\s*B([^\/]*)\/S?([^\/]*)\s*$/)) { syntax = [m2[1], m2[2]]; } else
   if (m2 = rstr.match(/^\s*([^\/]*)\/S([^\/]*)\s*$/)) { syntax = [m2[1], m2[2]]; } else
