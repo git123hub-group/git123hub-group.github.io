@@ -60,8 +60,13 @@ var parsePartRule = function (pstr) {
   return table;
 }
 return (function (rstr) {
-  var m2 = rstr.match(/^\s*B([^\/]*)\/S([^\/]*)\s*$/), arr;
-  parsePartRule(m2[1]); arr = table.slice();
-  parsePartRule(m2[2]); return [arr, table];
+  var m2, arr, syntax;
+  if (m2 = rstr.match(/^\s*B([^\/]*)\/S?([^\/]*)\s*$/)) { syntax = [m2[1], m2[2]]; } else
+  if (m2 = rstr.match(/^\s*([^\/]*)\/S([^\/]*)\s*$/)) { syntax = [m2[1], m2[2]]; } else
+  if (m2 = rstr.match(/^\s*([^\/]*)\/([^\/]*)\s*$/)) { syntax = [m2[2], m2[1]]; } else
+  if (m2 = rstr.match(/^\s*B([^\/]*)\s*$/)) { syntax = [m2[1], ""]; } else
+  if (m2 = rstr.match(/^\s*S([^\/]*)\s*$/)) { syntax = ["", m2[2]]; }
+  parsePartRule(syntax[1]); arr = table.slice();
+  parsePartRule(syntax[2]); return [arr, table];
 })(rule_str);
 }
