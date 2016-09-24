@@ -72,7 +72,7 @@ var selectState = [0, 1], editState = true;
 var frames = 0, nextFrameSpeed = 10;
 var currOffset = 0,
     prevOffset = 16384, /* 128 ^ 2 */
-    array = new Int8Array(32768); /* 2 * 128 ^ 2 */
+    array = new Uint8Array(32768); /* 2 * 128 ^ 2 */
 
 var WlAntColor = ["#FFFFFF", "#FF0000", "#80FF00", "#0000FF"];
 var checkNeighbors = function (a) { /* a: 8 numbers/booleans */
