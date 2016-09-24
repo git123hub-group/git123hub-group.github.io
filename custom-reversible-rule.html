@@ -86,7 +86,7 @@ var nextGeneration = function () {
     yp = (y + 1) % 128 * 128, yn = (y + 127) % 128 * 128, y1 = y * 128;
     for (var x = 0; x < 128; ++x) {
       xp = (x + 1) % 128, xn = (x + 127) % 128;
-      array[prevOffset+x+y1] ^= checkNeighbors([array[currOffset+y1+x], array[currOffset+yn+x], array[currOffset+y1+xp], array[currOffset+yp+x], array[currOffset+y1+xn], array[currOffset+yn+xp], array[currOffset+yp+xp], array[currOffset+yp+xn], array[currOffset+yn+xn]]);
+      array[prevOffset+x+y1] = renewalTransform(2, array[prevOffset+x+y1], checkNeighbors([array[currOffset+y1+x], array[currOffset+yn+x], array[currOffset+y1+xp], array[currOffset+yp+x], array[currOffset+y1+xn], array[currOffset+yn+xp], array[currOffset+yp+xp], array[currOffset+yp+xn], array[currOffset+yn+xn]]), transf_ID);
     }
   }
   var temp = prevOffset;
@@ -150,6 +150,7 @@ var reverse = function () {
   var temp = prevOffset;
   prevOffset = currOffset;
   currOffset = temp;
+  transf_ID = 2 - transf_ID;
   rerender();
 }
 var loadRule = function (rstr) {
