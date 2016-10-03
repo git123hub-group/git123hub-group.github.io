@@ -18,7 +18,10 @@
 </div>
 <div>更新日期: <span id="github-timediff"></span></div>
 <br />
+<div style="width: 160px; height: 128px; display: inline-block">
+<div style="width: 128px; height: 32px">静态码</div>
 <div id="github-qrcode" style="width: 128px; height: 128px"></div>
+</div>
 <script type="text/javascript">
 var currentTime, ghLastUpdated, ghStatus, timeDiff;
 
@@ -33,7 +36,7 @@ function getApiStatus(data) {
   document.getElementById("github-timediff").innerHTML = (timeDiff|0) + " 秒之前";
 }
 jQuery(function($){
-	$('#github-qrcode').qrcode({width: 128, height: 128, text: location.href});
+  $('#github-qrcode').qrcode({width: 128, height: 128, text: location.href});
 })
 </script>
 <script src="https://status.github.com/api/status.json?callback=getApiStatus"></script>
