@@ -1,0 +1,34 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="css/github-status.css" />
+</head>
+<body>
+<pre>
+* <a href="/index/">返回到首页</a>
+* <a href="/index/subindex">返回到 "我的子目录"</a>
+</pre>
+<div>
+状态: <span id="github-status" style="width: 70px; display: inline-block"></span>
+<span style="display: inline-block; width: 150px; height: 25px; vertical-align: middle; background: #d0d0d0;">
+<span id="github-status-bar" style="display: block; height: 25px;"></span>
+</span>
+</div>
+<div>更新日期: <span id="github-timediff"></span></div>
+<script type="text/javascript">
+var currentTime, ghLastUpdated, ghStatus, timeDiff;
+
+function getApiStatus(data) {
+  currentTime = +new Date();
+  ghStatus = data.status;
+  ghLastUpdated = Date.parse(data.last_updated);
+  timeDiff = (currentTime - ghLastUpdated) / 1000;
+
+  document.getElementById("github-status").innerHTML = ghStatus;
+  document.getElementById("github-status-bar").className = ghStatus;
+  document.getElementById("github-timediff").innerHTML = (timeDiff|0) + " 秒之前";
+}
+</script>
+<script src="https://status.github.com/api/status.json?callback=getApiStatus"></script>
+</body>
+</html>

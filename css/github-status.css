@@ -1,0 +1,7 @@
+/* unofficial github status stylesheet */
+
+.good  { background-color: #40bf00; width: 100% }
+.minor { background-color: #df7f00; width: 66.666666666% }
+.major { background-color: #ff3030; width: 33.333333333% }
+
+a {text-decoration: none;}
