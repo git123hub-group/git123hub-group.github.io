@@ -2,6 +2,8 @@
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" type="text/css" href="css/github-status.css" />
+<script src="https://git123hub.github.io/jquery-static/3.1.1.min.js"></script>
+<script src="https://git123hub.github.io/jquery-static/jquery.qrcode.min.js"></script>
 </head>
 <body>
 <pre>
@@ -12,6 +14,7 @@
 状态: <span id="github-status" style="width: 70px; display: inline-block"></span>
 <span style="display: inline-block; width: 150px; height: 25px; vertical-align: middle; background: #d0d0d0;">
 <span id="github-status-bar" style="display: block; height: 25px;"></span>
+<span id="github-qrcode"></span>
 </span>
 </div>
 <div>更新日期: <span id="github-timediff"></span></div>
@@ -28,6 +31,9 @@ function getApiStatus(data) {
   document.getElementById("github-status-bar").className = ghStatus;
   document.getElementById("github-timediff").innerHTML = (timeDiff|0) + " 秒之前";
 }
+jQuery(function($){
+	$('#github-qrcode').qrcode({width: 128, height: 128, text: location.href});
+})
 </script>
 <script src="https://status.github.com/api/status.json?callback=getApiStatus"></script>
 <script type="text/javascript">window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
