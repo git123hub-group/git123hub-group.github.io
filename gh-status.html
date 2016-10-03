@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="css/github-status.css" />
 <script src="jquery-static/3.1.1.min.js"></script>
 <script src="jquery-static/jquery.qrcode.min.js"></script>
+<title>GitHub 状态 API</title>
 </head>
 <body>
 <pre>
@@ -57,7 +58,7 @@
 <script type="text/javascript">
 //<![CDATA[
 var currentTime, ghLastUpdated, ghStatus, timeDiff;
-var ghxlat = {"good": "正常", "minor": "小故障", "major": "大故障"}
+var ghxlat = {"good": "正常", "minor": "次要", "major": "重要"}
 function getApiStatus(data) {
   currentTime = +new Date();
   ghStatus = data.status;
