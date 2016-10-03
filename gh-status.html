@@ -57,14 +57,14 @@
 <script type="text/javascript">
 //<![CDATA[
 var currentTime, ghLastUpdated, ghStatus, timeDiff;
-
+var ghxlat = {"good": "正常", "minor": "minor", "major": "major"}
 function getApiStatus(data) {
   currentTime = +new Date();
   ghStatus = data.status;
   ghLastUpdated = Date.parse(data.last_updated);
   timeDiff = (currentTime - ghLastUpdated) / 1000;
 
-  document.getElementById("github-status").innerHTML = ghStatus;
+  document.getElementById("github-status").innerHTML = ghxlat[ghStatus];
   document.getElementById("github-status-bar").className = ghStatus;
   document.getElementById("github-timediff").innerHTML = (timeDiff|0) + " 秒之前";
 }
