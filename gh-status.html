@@ -68,7 +68,7 @@ var clipboard_1 = new Clipboard('.copy-ghAddress', {
    }
 });
 clipboard_1.on("success", function (e) {
-  document.getElementsByClassName("copystatus1")[0].value = "复制成功";
+  document.getElementsByClassName("copystatus1")[0].innerHTML = "复制成功";
 });
 clipboard_1.on("error", function (e) {
   alert(e);
