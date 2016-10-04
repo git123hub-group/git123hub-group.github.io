@@ -72,14 +72,19 @@ clipboard_1.on("success", function (e) {
   var el1 = document.getElementsByClassName("copystatus1")[0];
   el1.innerHTML = "复制成功";
   el1.style.display = "";
+  setTimeout(hiddenStatus, 2000);
 });
 clipboard_1.on("error", function (e) {
   var el1 = document.getElementsByClassName("copystatus1")[0];
   el1.innerHTML = "复制失败";
   el1.style.display = "";
+  setTimeout(hiddenStatus, 2000);
 });
 } catch (error) {
   alert(error);
+}
+var hiddenStatus = function () {
+  document.getElementsByClassName("copystatus1")[0].style.display = 'none';
 }
 //]]>
 </script>
