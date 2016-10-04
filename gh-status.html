@@ -82,7 +82,7 @@ clipboard_1.on("error", function (e) {
   setTimeout(hiddenStatus, 2000);
 });
 } catch (error) {
-  alert(error);
+  console.log(error);
 }
 var hiddenStatus = function () {
   document.getElementsByClassName("copystatus1")[0].style.display = 'none';
