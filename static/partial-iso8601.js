@@ -1,4 +1,4 @@
-"2016-10-04T04:56:18Z"
+// example: "2016-10-04T04:56:18Z"
 
 var partialParseISO8601 = function (i8601) {
   var y = i8601.slice(0,4),
