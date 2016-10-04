@@ -7,5 +7,5 @@ var partialParseISO8601 = function (i8601) {
       h = i8601.slice(11,13),
       i = i8601.slice(14,16),
       s = i8601.slice(17,19);
-  return new Date(+y,m-1,+d,+h,+i,+s);
+  return Date.UTC(+y,m-1,+d,+h,+i,+s);
 }
