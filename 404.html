@@ -4,7 +4,7 @@
   var href = "https://git123hub.github.io", searchurl, temp;
   var re = "^https?:\\/\\/git123hub.github.io"
   var re1 = new RegExp(re+"[\\?\\#\\/]?$")
-  var re2 = new RegExp(re+"[\\?\\#\\/]([\\s\\S]*)$")
+  var re2 = new RegExp(re+"([\\?\\#\\/][\\s\\S]*)$")
   if (re1.test(location.href)) {
     searchurl = ""
   } else if (temp = location.href.match(re2)) {
