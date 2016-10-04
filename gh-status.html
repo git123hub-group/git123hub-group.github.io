@@ -66,10 +66,10 @@ var clipboard_1 = new Clipboard('.copy-ghAddress', {
    }
 });
 clipboard_1.on("success", function (e) {
-  alert(e)
+  console.log(e)
 });
 clipboard_1.on("error", function (e) {
-  alert(e)
+  console.log(e)
 });
 var currentTime, ghLastUpdated, ghStatus, timeDiff;
 var ghxlat = {"good": "正常", "minor": "次要", "major": "重要"}
