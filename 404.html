@@ -1,9 +1,11 @@
-<h1>This is custom 404 page</h1>
+<h1>这是自定义 404</h1>
 <script>
 // <![CDATA[
+  var subpage = location.href.match(/^https?:\/\/git123hub.github.io\/([\s\S]*)$/)[1]
   document.write("<pre>");
   document.writeln(location.href);
-  document.writeln('<a href="https://git123hub.github.io/index/?prevURL=', encodeURIComponent(location.href), '" style="text-decoration: none">返回到首页/主菜单</a>');
+  document.writeln('<a href="https://git123hub.github.io/index/?prevURL=', encodeURIComponent(subpage),
+    '" style="text-decoration: none">返回到首页/主菜单</a>');
   document.write("</pre>");
 // ]]>
 </script>
