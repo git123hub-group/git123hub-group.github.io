@@ -51,6 +51,7 @@
 <br />
 <div oncontextmenu="contextM1();">
 <pre>
+* 本站网址: <input type="text" style="width: 400px" readonly="readonly" id="ghAddress" />
 * <a href="//status.github.com">查看 GitHub 的状态</a> (英文版)
 </pre>
 </div>
@@ -69,9 +70,10 @@ function getApiStatus(data) {
   document.getElementById("github-status-bar").className = ghStatus;
   document.getElementById("github-timediff").innerHTML = (timeDiff|0) + " 秒之前";
 }
+document.getElementById("ghAddress").value = location.href;
 jQuery(function($){
   $('#github-qrcode').qrcode({width: 128, height: 128, text: location.href});
-})
+});
 
 var contextM1 = function () {
   ;
