@@ -65,6 +65,12 @@ var clipboard_1 = new Clipboard('.copy-ghAddress', {
       return document.getElementById("ghAddress").value;
    }
 });
+clipboard_1.on("success", function (e) {
+  alert(e)
+});
+clipboard_1.on("error", function (e) {
+  alert(e)
+});
 var currentTime, ghLastUpdated, ghStatus, timeDiff;
 var ghxlat = {"good": "正常", "minor": "次要", "major": "重要"}
 function getApiStatus(data) {
