@@ -54,8 +54,8 @@
 <div oncontextmenu="contextM1();">
 <pre>
 * 本站网址: <input type="text" style="width: 400px" readonly="readonly" id="ghAddress" /> <input type="button"
-class="copy-ghAddress" value="复制网址" /> <span style="color: #F00; background-color: #FF0; padding: 5px;"
-class="copystatus1"></span>
+class="copy-ghAddress" value="复制网址" /> <span style="color: #F00; background-color: #FF0; padding: 5px;
+display: hidden;" class="copystatus1"></span>
 * <a href="//status.github.com">查看 GitHub 的状态</a> (英文版)
 </pre>
 </div>
@@ -69,7 +69,9 @@ var clipboard_1 = new Clipboard('.copy-ghAddress', {
    }
 });
 clipboard_1.on("success", function (e) {
-  document.getElementsByClassName("copystatus1")[0].innerHTML = "复制成功";
+  var el1 = document.getElementsByClassName("copystatus1")[0];
+  el1.innerHTML = "复制成功";
+  el1.style.display = "";
 });
 clipboard_1.on("error", function (e) {
   alert(e);
