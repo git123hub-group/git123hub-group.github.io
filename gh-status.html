@@ -62,7 +62,7 @@ class="copy-ghAddress" />
 //<![CDATA[
 var clipboard_1 = new Clipboard('.copy-ghAddress', {
    text: function() {
-      return getPatternRLE();
+      return document.getElementById("ghAddress").value;
    }
 });
 var currentTime, ghLastUpdated, ghStatus, timeDiff;
