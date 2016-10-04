@@ -1,8 +1,8 @@
 <h1>这是自定义 404</h1>
 <script>
 // <![CDATA[
-  var subpage = location.href.match(/^https?:\/\/git123hub.github.io\/([\s\S]*)$/)[1];
-  subpage || (subpage = location.href);
+  var subpage = location.href.match(/^https?:\/\/git123hub.github.io\/([\s\S]*)$/);
+  subpage = subpage ? subpage[1] : location.href;
   document.write("<pre>");
   document.writeln(location.href);
   document.writeln('<a href="https://git123hub.github.io/index/?prevURL=', encodeURIComponent(subpage),
