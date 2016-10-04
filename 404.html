@@ -8,9 +8,9 @@
   if (re1.test(location.href)) {
     searchurl = ""
   } else if (temp = location.href.match(re2)) {
-    searchurl = "psearch=" + encodeURIComponent(temp[1]);
+    searchurl = "?psearch=" + encodeURIComponent(temp[1]);
   } else {
-    searchurl = "phref=" + encodeURIComponent(location.href);
+    searchurl = "?phref=" + encodeURIComponent(location.href);
   }
   document.write("<pre>");
   document.writeln(location.href);
