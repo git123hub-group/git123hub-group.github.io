@@ -7,6 +7,7 @@
 <script src="jquery-static/3.1.1.min.js"></script>
 <script src="jquery-static/jquery.qrcode.min.js"></script>
 <script src="repo-1/clipboard.min.js"></script>
+<script src="static/partial-iso8601.min.js"></script>
 <title>GitHub 状态 API</title>
 </head>
 <body>
@@ -95,7 +96,7 @@ var ghxlat = {"good": "正常", "minor": "次要", "major": "重要"}
 function getApiStatus(data) {
   currentTime = +new Date();
   ghStatus = data.status;
-  ghLastUpdated = Date.parse(data.last_updated);
+  ghLastUpdated = partialParseISO8601(data.last_updated);
   timeDiff = (currentTime - ghLastUpdated) / 1000;
 
   document.getElementById("github-status").innerHTML = ghxlat[ghStatus];
