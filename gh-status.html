@@ -52,13 +52,19 @@
 <br />
 <div oncontextmenu="contextM1();">
 <pre>
-* 本站网址: <input type="text" style="width: 400px" readonly="readonly" id="ghAddress" />
+* 本站网址: <input type="text" style="width: 400px" readonly="readonly" id="ghAddress" /> <input type="button"
+class="copy-ghAddress" />
 * <a href="//status.github.com">查看 GitHub 的状态</a> (英文版)
 </pre>
 </div>
 
 <script type="text/javascript">
 //<![CDATA[
+var clipboard_1 = new Clipboard('.copy-ghAddress', {
+   text: function() {
+      return getPatternRLE();
+   }
+});
 var currentTime, ghLastUpdated, ghStatus, timeDiff;
 var ghxlat = {"good": "正常", "minor": "次要", "major": "重要"}
 function getApiStatus(data) {
