@@ -1,7 +1,9 @@
 <h1>This is custom 404 page</h1>
 <script>
+// <![CDATA[
   document.write("<pre>");
   document.writeln(location.href);
-  document.writeln('<a href="https://git123hub.github.io/?prevURL=', encodeURIComponent(location.href), '">返回到首页/主菜单</a>');
+  document.writeln('<a href="https://git123hub.github.io/index/?prevURL=', encodeURIComponent(location.href), '" style="text-decoration: none">返回到首页/主菜单</a>');
   document.write("</pre>");
+// ]]>
 </script>
