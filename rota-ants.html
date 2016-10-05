@@ -94,6 +94,10 @@ var reverse = function () {
   tmp = [antYR + antDYR, antYL + antDYL], antYL = tmp[0], antYR = tmp[1];
   tmp = [-antDXR, -antDXL], antDXL = tmp[0], antDXR = tmp[1];
   tmp = [-antDYR, -antDYL], antDYL = tmp[0], antDYR = tmp[1];
+  ctx.fillStyle=dirAnt[0];
+  ctx.fillRect(antXL*5, antYL*5, 5, 5);
+  ctx.fillStyle=dirAnt[1];
+  ctx.fillRect(antXR*5, antYR*5, 5, 5);
 }
 
 var createRunInterval = function () {
