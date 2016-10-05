@@ -85,10 +85,15 @@ var nextGeneration = function () {
 }
 
 var reverse = function () {
+  var tmp;
   ctx.fillStyle=cellColor[array[antXL+antYL*128]];
   ctx.fillRect(antXL*5, antYL*5, 5, 5);
   ctx.fillStyle=cellColor[array[antXR+antYR*128]];
   ctx.fillRect(antXR*5, antYR*5, 5, 5);
+  tmp = [antXR + antDXR, antXL + antDXL], antXL = tmp[0], antXR = tmp[1];
+  tmp = [antYR + antDYR, antYL + antDYL], antYL = tmp[0], antYR = tmp[1];
+  tmp = [-antDXR, -antDXL], antDXL = tmp[0], antDXR = tmp[1];
+  tmp = [-antDYR, -antDYL], antDYL = tmp[0], antDYR = tmp[1];
 }
 
 var createRunInterval = function () {
