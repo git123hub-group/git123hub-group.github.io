@@ -62,6 +62,7 @@ var nextGeneration = function () {
   ctx.fillStyle=cellColor[array[antXR+antYR*128]];
   ctx.fillRect(antXR*5, antYR*5, 5, 5);
   antXL += antDXL; antXR += antDXR; antYL += antDYL; antYR += antDYR;
+  antXL &= 127; antXR &= 127; antYL &= 127; antYR &= 127;
   ctx.fillStyle=dirAnt[0];
   ctx.fillRect(antXL*5, antYL*5, 5, 5);
   ctx.fillStyle=dirAnt[1];
@@ -90,8 +91,8 @@ var reverse = function () {
   ctx.fillRect(antXL*5, antYL*5, 5, 5);
   ctx.fillStyle=cellColor[array[antXR+antYR*128]];
   ctx.fillRect(antXR*5, antYR*5, 5, 5);
-  tmp = [antXR + antDXR, antXL + antDXL], antXL = tmp[0], antXR = tmp[1];
-  tmp = [antYR + antDYR, antYL + antDYL], antYL = tmp[0], antYR = tmp[1];
+  tmp = [antXR + antDXR, antXL + antDXL], antXL = tmp[0] & 127, antXR = tmp[1] & 127;
+  tmp = [antYR + antDYR, antYL + antDYL], antYL = tmp[0] & 127, antYR = tmp[1] & 127;
   tmp = [-antDXR, -antDXL], antDXL = tmp[0], antDXR = tmp[1];
   tmp = [-antDYR, -antDYL], antDYL = tmp[0], antDYR = tmp[1];
   ctx.fillStyle=dirAnt[0];
