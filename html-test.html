@@ -1,0 +1,28 @@
+<html>
+<body style="margin: 0;">
+<div style="width: 50%; height: 100%; position: fixed; left: 0;">
+  <div style="display: table; width: 100%;">
+    <div style="display: table-cell; vertical-align: middle; height: 20px; padding: 0 5px;">
+      编辑您的代码:
+      <div style="height: 20px; width: 80px; float: right; color: white; background-color: red; text-align: center" onclick="submitHTML();">提交代码</div>
+    </div>
+  </div>
+  <textarea id="hinp" style="box-sizing: border-box; height: calc(100% - 20px); width: 100%;"></textarea>
+</div>
+<div style="width: 50%; height: 100%; position: fixed; right: 0;">
+  <div style="display: table; width: 100%;">
+    <div style="display: table-cell; vertical-align: middle; height: 20px; padding: 0 5px;">查看结果:</div>
+  </div>
+  <iframe src="about:blank" id="HTMLResult" style="box-sizing: border-box; height: calc(100% - 20px); width: 100%;"></iframe>
+</div>
+<script>
+var hres = document.getElementById("HTMLResult");
+var cd = hres.contentWindow;
+var submitHTML = function () {
+  cd.document.open("text/html");
+  cd.document.write(document.getElementById("hinp").value);
+  cd.document.close();
+}
+</script>
+</body>
+</html>
