@@ -13,6 +13,7 @@
     <div style="display: table-cell; vertical-align: middle; height: 20px; padding: 0 5px;">
       编辑您的代码:
       <div style="height: 20px; width: 80px; float: right; color: white; background-color: red; text-align: center" onclick="submitHTML();">提交代码</div>
+      <div style="height: 20px; width: 80px; float: right; color: white; background-color: #c60; text-align: center" onclick="document.getElementById('hinp').value = decodeQuine();">实例</div>
     </div>
   </div>
   <textarea id="hinp" style="box-sizing: border-box; height: calc(100% - 20px); width: 100%;" rows="" cols=""></textarea>
@@ -52,6 +53,7 @@ var quine_list=[
 "    <div style=\"display: table-cell; vertical-align: middle; height: 20px; padding: 0 5px;\">",
 "      编辑您的代码:",
 "      <div style=\"height: 20px; width: 80px; float: right; color: white; background-color: red; text-align: center\" onclick=\"submitHTML();\">提交代码<\/div>",
+"      <div style=\"height: 20px; width: 80px; float: right; color: white; background-color: #c60; text-align: center\" onclick=\"document.getElementById('hinp').value = decodeQuine();\">实例</div>"
 "    <\/div>",
 "  <\/div>",
 "  <textarea id=\"hinp\" style=\"box-sizing: border-box; height: calc(100% - 20px); width: 100%;\" rows=\"\" cols=\"\"><\/textarea>",
@@ -99,7 +101,7 @@ var quine_list=[
 ];
 var decodeQuine = function () {
   var s = "";
-  for (var i = 0; i < 39; ++i) {
+  for (var i = 0; i < 40; ++i) {
     s += quine_list[i] + "\n";
   }
   for (var j = 0, l = quine_list.length; j < l; ++j) {
