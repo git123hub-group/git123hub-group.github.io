@@ -14,6 +14,7 @@
       编辑您的代码:
       <div style="height: 20px; width: 80px; float: right; color: white; background-color: red; text-align: center" onclick="submitHTML();">提交代码</div>
       <div style="height: 20px; width: 80px; float: right; color: white; background-color: #c60; text-align: center" onclick="document.getElementById('hinp').value = decodeQuine();">实例</div>
+	  <div style="height: 20px; width: 80px; float: right; color: black; background-color: #dd0; text-align: center" onclick="submitToKind(document.getElementById('hinp').value)">发送</div>
     </div>
   </div>
   <textarea id="hinp" style="box-sizing: border-box; height: calc(100% - 20px); width: 100%;" rows="" cols=""></textarea>
@@ -54,6 +55,7 @@ var quine_list=[
 "      编辑您的代码:",
 "      <div style=\"height: 20px; width: 80px; float: right; color: white; background-color: red; text-align: center\" onclick=\"submitHTML();\">提交代码<\/div>",
 "      <div style=\"height: 20px; width: 80px; float: right; color: white; background-color: #c60; text-align: center\" onclick=\"document.getElementById('hinp').value = decodeQuine();\">实例</div>",
+"      <div style=\"height: 20px; width: 80px; float: right; color: black; background-color: #dd0; text-align: center\" onclick=\"submitToKind(document.getElementById('hinp').value)\">发送</div>",
 "    <\/div>",
 "  <\/div>",
 "  <textarea id=\"hinp\" style=\"box-sizing: border-box; height: calc(100% - 20px); width: 100%;\" rows=\"\" cols=\"\"><\/textarea>",
@@ -81,7 +83,7 @@ var quine_list=[
 "];",
 "var decodeQuine = function () {",
 "  var s = \"\";",
-"  for (var i = 0; i < 40; ++i) {",
+"  for (var i = 0; i < 41; ++i) {",
 "    s += quine_list[i] + \"\\n\";",
 "  }",
 "  for (var j = 0, l = quine_list.length; j < l; ++j) {",
@@ -92,8 +94,11 @@ var quine_list=[
 "  }",
 "  return s;",
 "};",
+"var submitToKind = function (value) {",
+"  location.href = \"https:\/\/git123hub-group.github.io\/kind-editor\/?HTMLContent=\" + encodeURIComponent(value);",
+"};",
 "(function () {",
-"  location.href.match(\/[\\?\\&]HTMLContent=(.*?)(?:\\&|$)\/);",
+"  var match1 = location.href.match(\/[\\?\\&]HTMLContent=(.*?)(?:\\&|$)\/);",
 "  document.getElementById(\"hinp\").value = decodeURIComponent(match1 ? match1[1] : \"\");",
 "})();",
 "\/\/]\]>",
@@ -104,7 +109,7 @@ var quine_list=[
 ];
 var decodeQuine = function () {
   var s = "";
-  for (var i = 0; i < 40; ++i) {
+  for (var i = 0; i < 41; ++i) {
     s += quine_list[i] + "\n";
   }
   for (var j = 0, l = quine_list.length; j < l; ++j) {
@@ -114,6 +119,9 @@ var decodeQuine = function () {
     s += quine_list[i] + "\n";
   }
   return s;
+};
+var submitToKind = function (value) {
+  location.href = "https://git123hub-group.github.io/kind-editor/?HTMLContent=" + encodeURIComponent(value);
 };
 (function () {
   var match1 = location.href.match(/[\?\&]HTMLContent=(.*?)(?:\&|$)/);
