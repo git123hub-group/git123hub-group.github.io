@@ -94,7 +94,7 @@ var quine_list=[
 "};",
 "(function () {",
 "  location.href.match(\/[\\?\\&]HTMLContent=(.*?)(?:\\&|$)\/);",
-"  document.getElementById(\"hinp\").value =  match1 ? match1[0] : \"\";",
+"  document.getElementById(\"hinp\").value =  match1 ? match1[1] : \"\";",
 "})();",
 "\/\/]\]>",
 "<\/script>",
@@ -117,7 +117,7 @@ var decodeQuine = function () {
 };
 (function () {
   var match1 = location.href.match(/[\?\&]HTMLContent=(.*?)(?:\&|$)/);
-  document.getElementById("hinp").value = match1 ? match1[0] : "";
+  document.getElementById("hinp").value = match1 ? match1[1] : "";
 })();
 //]]>
 </script>
