@@ -116,7 +116,16 @@ function execNumExpr (input) {
 		if (/\D/.test(s.charAt(0))) {
 			return +variableList["var_"+s];
 		}
-		return +s;
+		if (s.charAt(0) === "0") {
+			if (s.charAt(1) === "x") {
+				return parseInt(s.slice(2),16)|0;
+			} else if (s.length === 1) {
+				return 0;
+			} else {
+				return parseInt(s.slice(1),8)|0;
+			}
+		}
+		return s|0;
 	};
 	function execUnary () {
 		while (oprsp && oprs[oprsp-1][0]) {
@@ -138,7 +147,7 @@ function execNumExpr (input) {
 	};
 
 	/* define part */
-	var a = input;
+	var a = String(input);
 	var b = a.match(/[A-Za-z0-9]+|<<|>>|[^A-Za-z0-9<>]/g);
 	var unary = [];
 	for (var i1 = 0, len = b.length; i1 < len; ++i1) {
