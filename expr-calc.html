@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+<script src="https://git123hub.github.io/static/exec-expr.min.js"></script>
+<meta charset="utf-8" />
+</head>
+<body>
+	<center>
+		<h1 style="font-size: 3em;">表达式计算器</h1>
+		<form>
+			<input type="text" id="varName" /> = <input type="text" id="expr" style="width: 500px;" />
+			<input type="button" value="计算" onclick="calcValue();" />
+		</form>
+	</center>
+<script type="text/javascript">
+// <![CDATA[
+function $id (id) {
+	return document.getElementById(id);
+}
+function calcValue () {
+	var result = execNumExpr($id("expr").value);
+	$id("expr").value = result;
+	if ($id("varName").value !== "") {
+		variableList["var_" + $id("varName").value] = result;
+	}
+}
+// ]]>
+</script>
+</body>
+</html>
