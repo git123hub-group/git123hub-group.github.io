@@ -25,7 +25,7 @@ function $id (id) {
 	return document.getElementById(id);
 }
 function calcValue () {
-	var result = execNumExpr($id("expr").value);
+	var result = execNumExpr($id("expr").value.replace(/\s/g,""));
 	$id("expr").value = result;
 	if ($id("varName").value !== "") {
 		variableList["var_" + $id("varName").value] = result;
