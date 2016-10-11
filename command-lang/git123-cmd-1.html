@@ -72,6 +72,7 @@ function CommandStepOver () {
 	breakpoint = false;
 	$id("COutput").innerHTML = hout;
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
+	if (rframe && callsp > prevsp) { requestAnimationFrame(CommandRun); }
 };
 function CommandRun () {
 	if (!iscompiled) return;
