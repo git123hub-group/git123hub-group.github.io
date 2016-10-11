@@ -45,6 +45,9 @@ function parseFmt1 (str) {
 		if (search = $1p2.match(/^(-?\d+),(-?\d+)$/)) {
 			return $1r.slice(search[1], search[2]);
 		};
+		if (search = $1p2.match(/^rev(erse)?$/)) {
+			return esrever.reverse($1r);
+		};
 		return $1r;
 	});
 }
