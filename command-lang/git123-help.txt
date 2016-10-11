@@ -45,7 +45,7 @@ writeln:format   格式输出并换行
 $~date$          当前日期
 $~line$          换行符
 $~random$        随机数
-$~rdate$         主程序的运行时间 (单位: 毫秒)
+$~rdate$         主程序的运行时间 (单位: 毫秒)
 $~space$         空格
 $~tab$           制表符
 $~time$          当前时间
