@@ -1,4 +1,5 @@
 /* git123-core.js */
+var firstTime = new Date();
 function parseFmt1 (str) {
 	var cdate = new Date();
 	return str.replace(/\$((?:\\[\s\S]|[^\\\$])*)\$/g, function /* template */ ($0,$1) {
