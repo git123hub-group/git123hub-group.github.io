@@ -32,13 +32,13 @@ function parseFmt1 (str) {
 			case "~random":
 				$1p2 = "" + ((Math.random() * 4294967296) | 0);
 			break;
-			case "~line":
+			case "~line": // 换行符
 				return "\n";
 			break;
-			case "~space":
+			case "~space": // 空格
 				return "\ ";
 			break;
-			case "~tab":
+			case "~tab": // 制表符
 				return "\t";
 			break;
 		}
