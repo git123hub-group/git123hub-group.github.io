@@ -78,10 +78,10 @@ function CommandRun () {
 	do {
 		KernelStep(compiled[lineNum]);
 	} while (!breakpoint);
-	if (rframe) { requestAnimationFrame(CommandRun); }
 	breakpoint = false;
 	$id("COutput").innerHTML = hout;
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
+	if (rframe) { requestAnimationFrame(CommandRun); }
 };
 // ]]>
 </script>
