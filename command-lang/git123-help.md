@@ -3,6 +3,7 @@
 ## 命令
 ```
 break            断点
+terminate        终止
 
 call             子程序调用
 call:abs         绝对调用
