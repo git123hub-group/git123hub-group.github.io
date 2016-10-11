@@ -48,6 +48,9 @@ function parseFmt1 (str) {
 		if (search = $1p2.match(/^rev(erse)?$/)) {
 			return esrever.reverse($1r);
 		};
+		if (search = $1p2.match(/^len(gth)?$/)) {
+			return $1r.length;
+		};
 		return $1r;
 	});
 }
