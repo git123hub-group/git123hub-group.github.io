@@ -82,7 +82,7 @@ function KernelStep (cmd) {
 			}
 		break;
 		case "loop":
-			var tmp = content.match(/([^=]*)\s*=([\s\S]*)/);
+			var tmp = content.match(/(\S*)\s*([\s\S]*)/);
 			var nextL = variableList["tag_" + tmp[2]];
 			switch (cmdnl[1]) {
 				case "inc":
