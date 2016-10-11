@@ -19,10 +19,10 @@ function parseFmt1 (str) {
 			$1r = variableList["var_" + $1p1];
 		} else switch ($1p1) {
 			case "~date":
-				return cdate.getFullYear() + "/" + cdate.getMonth() + "/" + cdate.getDate();
+				return cdate.getFullYear() + "/" + zpadd2(cdate.getMonth()) + "/" + zpadd2(cdate.getDate());
 			break;
 			case "~time":
-				return cdate.getHours() + ":" + cdate.getMinutes() + ":" + cdate.getSeconds();
+				return zpadd2(cdate.getHours()) + ":" + zpadd2(cdate.getMinutes()) + ":" + zpadd2(cdate.getSeconds());
 			break;
 		}
 		var $1p2 = $1.slice($1p1.length+1);
