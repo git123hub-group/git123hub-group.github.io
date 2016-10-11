@@ -24,10 +24,10 @@
 				<textarea id="CInput"></textarea>
 			</div>
 			<div style="padding-bottom: 3px;">
-				<input type="button" value="编译" onclick="ParseCode();" />
+				<input type="button" value="编译" onclick="ParseCode(stillRunning=false);" />
 				<input type="button" value="单步执行并进入子函数" onclick="CommandStepInto();" />
-				<input type="button" value="单步执行并越过子函数" onclick="CommandStepOver();" />
-				<input type="button" value="执行" onclick="CommandRun();" />
+				<input type="button" value="单步执行并越过子函数" onclick="CommandStepOver(stillRunning=true);" />
+				<input type="button" value="执行" onclick="CommandRun(stillRunning=true);" />
 			</div>
 			<div style="padding-bottom: 3px;">
 				输出区 (Output area)<br/>
@@ -48,7 +48,7 @@ function $id (id) {
 };
 var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false, rframe;
 function ParseCode () {
-	iscompiled = true, rframe = false;
+	iscompiled = true;
 	variableList = {}, hout = "", lineNum = 0, calls = [], callsp = -1, breakpoint = false;
 	compiled = $id("CInput").value.split(/\r?\n|\r/);
 	for (var i = 0, len = compiled.length, cstr; i < len; i++) {
@@ -74,7 +74,9 @@ function CommandStepOver () {
 	breakpoint = false;
 	$id("COutput").innerHTML = hout;
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
-	if (rframe && callsp > prevsp) { requestAnimationFrame(CommandRun); }
+	if (rframe && callsp > prevsp && stillRunning) {
+		requestAnimationFrame(CommandRun);
+	} else { stillRunning = false; }
 };
 function CommandRun () {
 	if (!iscompiled) return;
@@ -84,7 +86,9 @@ function CommandRun () {
 	breakpoint = false;
 	$id("COutput").innerHTML = hout;
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
-	if (rframe) { requestAnimationFrame(CommandRun); }
+	if (rframe && stillRunning) {
+		requestAnimationFrame(CommandRun);
+	} else { stillRunning = false; }
 };
 // ]]>
 </script>
