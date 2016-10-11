@@ -1,0 +1,11 @@
+break     断点
+call      子程序调用
+call:ret  从调用返回
+clear     清除屏幕
+execf     运行命令
+goto      转移
+if        条件执行 (数字)
+if_str    条件执行 (字符串)
+set       设置变量
+write     输出
+writeln   输出并换行

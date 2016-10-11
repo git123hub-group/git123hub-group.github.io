@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<script src="https://git123hub.github.io/static/exec-expr.min.js"></script>
+<script src="git123-core.js"></script>
+<style>
+	a {text-decoration: none;}
+	#CInput, #COutput {width: 800px; height: 500px;}
+	#CIText, #CDebug {width: 800px; height: 20px;}
+</style>
+<title>git123hub command language (1)</title>
+<meta charset="utf-8" />
+</head>
+<body>
+	<pre>
+* <a href="https://git123hub.github.io/index/">返回到首页</a>
+	</pre>
+	<center>
+		<form>
+			<div>
+				代码区<br/>
+				<textarea id="CInput"></textarea>
+			</div>
+			<div style="padding-bottom: 3px;">
+				<input type="button" value="编译" onclick="ParseCode();" />
+				<input type="button" value="单步执行并进入子函数" onclick="CommandStepInto();" />
+				<input type="button" value="单步执行并越过子函数" onclick="CommandStepOver();" />
+				<input type="button" value="执行" onclick="CommandRun();" />
+			</div>
+			<div style="padding-bottom: 3px;">
+				输出区<br/>
+				<pre id="COutput" style="border: 1px solid #555; padding: 2px; margin: 0; text-align: left;"></pre>
+			</div>
+			<div>
+				调试行<br/>
+				<div style="display: table;">
+					<pre id="CDebug" style="border: 1px solid #555; padding: 2px; margin: 0; text-align: left; display: table-cell; vertical-align: middle"></pre>
+				</div>
+			</div>
+		</form>
+	</center>
+<script type="text/javascript">
+// <![CDATA[
+function $id (id) {
+	return document.getElementById(id);
+};
+var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false;
+function ParseCode () {
+	iscompiled = true;
+	variableList = {}, hout = "", lineNum = 0, calls = [], callsp = -1, breakpoint = false;
+	compiled = $id("CInput").value.split(/\r?\n|\r/);
+	for (var i = 0, len = compiled.length, cstr; i < len; i++) {
+		cstr = compiled[i];
+		cstr.charAt(0) === ":" && (variableList["tag_" + cstr.slice(1)] = i);
+	}
+	$id("COutput").innerHTML = hout;
+	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
+};
+function CommandStepInto () {
+	if (!iscompiled) return;
+	KernelStep(compiled[lineNum]);
+	breakpoint = false;
+	$id("COutput").innerHTML = hout;
+	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
+};
+function CommandStepOver () {
+	if (!iscompiled) return;
+	var prevsp = callsp;
+	do {
+		KernelStep(compiled[lineNum]);
+	} while (!breakpoint && callsp > prevsp);
+	breakpoint = false;
+	$id("COutput").innerHTML = hout;
+	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
+};
+function CommandRun () {
+	if (!iscompiled) return;
+	do {
+		KernelStep(compiled[lineNum]);
+	} while (!breakpoint);
+	breakpoint = false;
+	$id("COutput").innerHTML = hout;
+	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
+};
+// ]]>
+</script>
+<script type="text/javascript">window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</body>
+</html>
