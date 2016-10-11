@@ -102,6 +102,9 @@ function KernelStep (cmd) {
 		case "break":
 			++lineNum; breakpoint = true;
 		break;
+		case "nextf":
+			++lineNum; breakpoint = true;
+		break;
 		case "execf":
 			KernelStep(parseFmt1(content));
 		break;
