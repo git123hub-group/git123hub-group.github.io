@@ -1,3 +1,4 @@
+命令
 break      断点
 call       子程序调用
 call:ret   从调用返回
@@ -12,3 +13,13 @@ nextf      下一帧动画
 set        设置变量
 write      输出
 writeln    输出并换行
+
+内置变量
+$~date$      当前日期
+$~line$      换行符
+$~random$    随机数
+$~rdate$     主程序的运行时间 (单位: 毫秒)
+$~space$     空格
+$~tab$       制表符
+$~time$      当前时间
+$$           $ 符号
