@@ -1,14 +1,14 @@
 /* git123-core.js */
 function parseFmt1 (str) {
+	var cdate = new Date();
 	return str.replace(/\$((?:\\[\s\S]|[^\\\$])*)\$/g, function /* template */ ($0,$1) {
 		if ($1 === "") return "$";
 		var search;
 		var $1p1 = $1.match(/(.*?)(?::|$)/)[1], $1r;
 		if ($1p1.charAt(0) !== "~") {
 			$1r = variableList["var_" + $1p1];
-		} else if ($1p1 === "~time") {
-			var d = new Date();
-			return d.getTime();
+		} else if ($1p1 === "~date") {
+			return cdate.getFullYear() + "/" + cdate.getMonth() + "/" + cdate.getDate();
 		}
 		var $1p2 = $1.slice($1p1.length+1);
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
