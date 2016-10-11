@@ -8,8 +8,13 @@ function parseFmt1 (str) {
 		var $1p1 = $1.match(/(.*?)(?::|$)/)[1], $1r;
 		if ($1p1.charAt(0) !== "~") {
 			$1r = variableList["var_" + $1p1];
-		} else if ($1p1 === "~date") {
-			return cdate.getFullYear() + "/" + cdate.getMonth() + "/" + cdate.getDate();
+		} else switch ($1p1) {
+			case "~date":
+				return cdate.getFullYear() + "/" + cdate.getMonth() + "/" + cdate.getDate();
+			break;
+			case "~time":
+				return cdate.getHours() + ":" + cdate.getMinutes() + ":" + cdate.getSeconds();
+			break;
 		}
 		var $1p2 = $1.slice($1p1.length+1);
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
