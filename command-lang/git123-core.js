@@ -1,12 +1,12 @@
 /* git123-core.js */
 var firstTime = new Date();
 var zpadd2 = function (num) {
-	if (z < 10) return "0" + num;
+	if (num < 10) return "0" + num;
 	return num;
 }
 var zpadd3 = function (num) {
-	if (z < 10) return "00" + num;
-	if (z < 100) return "0" + num;
+	if (num < 10) return "00" + num;
+	if (num < 100) return "0" + num;
 	return num;
 }
 function parseFmt1 (str) {
