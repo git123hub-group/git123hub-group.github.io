@@ -27,10 +27,10 @@ function parseFmt1 (str) {
 				return ctm;
 			break;
 			case "~rtime":
-				return cdate.getTime() - firstTime.getTime();
+				return cdate.getTime() - firstTime.getTime() + "";
 			break;
 			case "~random":
-				return (Math.random() * 4294967296) | 0;
+				$1p2 = "" + ((Math.random() * 4294967296) | 0);
 			break;
 			case "~line":
 				return "\n";
