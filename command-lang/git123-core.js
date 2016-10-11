@@ -100,10 +100,10 @@ function KernelStep (cmd) {
 			}
 		break;
 		case "break":
-			++lineNum; breakpoint = true;
+			++lineNum; breakpoint = true; rframe = false;
 		break;
 		case "nextf":
-			++lineNum; breakpoint = true;
+			++lineNum; breakpoint = true; rframe = true
 		break;
 		case "execf":
 			KernelStep(parseFmt1(content));
@@ -132,7 +132,7 @@ function KernelStep (cmd) {
 			++lineNum;
 		break;
 		case "terminate":
-			breakpoint = true;
+			breakpoint = true; rframe = false;
 		break;
 		case "if":
 			var tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
