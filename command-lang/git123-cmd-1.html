@@ -46,9 +46,9 @@
 function $id (id) {
 	return document.getElementById(id);
 };
-var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false;
+var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false, rframe;
 function ParseCode () {
-	iscompiled = true;
+	iscompiled = true, rframe = false;
 	variableList = {}, hout = "", lineNum = 0, calls = [], callsp = -1, breakpoint = false;
 	compiled = $id("CInput").value.split(/\r?\n|\r/);
 	for (var i = 0, len = compiled.length, cstr; i < len; i++) {
