@@ -94,6 +94,7 @@ function KernelStep (cmd) {
 				break;
 			}
 			variableList["var_" + tmp[1]] ? (lineNum = nextL) : ++lineNum;
+			variableList["var_" + tmp[1]] = "" + variableList["var_" + tmp[1]];
 		break;
 		case "call":
 			switch (cmdnl[1]) {
