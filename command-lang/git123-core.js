@@ -21,13 +21,13 @@ function parseFmt1 (str) {
 			$1r = variableList["var_" + $1p1];
 		} else switch ($1p1) {
 			case "~date":
-				return cdt;
+				$1p2 = cdt;
 			break;
 			case "~time":
-				return ctm;
+				r$1p2 = ctm;
 			break;
 			case "~rtime":
-				return cdate.getTime() - firstTime.getTime() + "";
+				$1p2 = cdate.getTime() - firstTime.getTime() + "";
 			break;
 			case "~random":
 				$1p2 = "" + ((Math.random() * 4294967296) | 0);
