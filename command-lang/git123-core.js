@@ -27,7 +27,7 @@ function parseFmt1 (str) {
 				return ctm;
 			break;
 			case "~rtime":
-				return cdate.getTime() - firstTime.getDate();
+				return cdate.getTime() - firstTime.getTime();
 			break;
 			case "~random":
 				return (Math.random() * 4294967296) | 0;
