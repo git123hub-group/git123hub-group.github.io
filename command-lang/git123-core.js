@@ -6,8 +6,9 @@ function parseFmt1 (str) {
 		var $1p1 = $1.match(/(.*?)(?::|$)/)[1], $1r;
 		if ($1p1.charAt(0) !== "~") {
 			$1r = variableList["var_" + $1p1];
-		} else {
-			
+		} else if ($1p1 === "~time") {
+			var d = new Date();
+			return d.getTime();
 		}
 		var $1p2 = $1.slice($1p1.length+1);
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
