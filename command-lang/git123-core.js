@@ -11,6 +11,8 @@ var zpadd3 = function (num) {
 }
 function parseFmt1 (str) {
 	var cdate = new Date();
+	var cdt = cdate.getFullYear() + "/" + zpadd2(cdate.getMonth()) + "/" + zpadd2(cdate.getDate());
+	var ctm = zpadd2(cdate.getHours()) + ":" + zpadd2(cdate.getMinutes()) + ":" + zpadd2(cdate.getSeconds()) + "." + zpadd3(cdate.getMilliseconds());
 	return str.replace(/\$((?:\\[\s\S]|[^\\\$])*)\$/g, function /* template */ ($0,$1) {
 		if ($1 === "") return "$";
 		var search;
@@ -19,11 +21,15 @@ function parseFmt1 (str) {
 			$1r = variableList["var_" + $1p1];
 		} else switch ($1p1) {
 			case "~date":
-				return cdate.getFullYear() + "/" + zpadd2(cdate.getMonth()) + "/" + zpadd2(cdate.getDate());
+				return cdt;
 			break;
 			case "~time":
-				return zpadd2(cdate.getHours()) + ":" + zpadd2(cdate.getMinutes()) + ":" + zpadd2(cdate.getSeconds()) + "." + zpadd3(cdate.getMilliseconds());
+				return ctm;
 			break;
+			case "~rtime":
+				return cdate.getTime() - firstTime.getDate();
+			break;
+			case "~random":
 		}
 		var $1p2 = $1.slice($1p1.length+1);
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
