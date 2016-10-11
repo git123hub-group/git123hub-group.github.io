@@ -30,6 +30,8 @@ function parseFmt1 (str) {
 				return cdate.getTime() - firstTime.getDate();
 			break;
 			case "~random":
+				return (Math.random() * 4294967296) | 0;
+			break;
 		}
 		var $1p2 = $1.slice($1p1.length+1);
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
