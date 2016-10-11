@@ -22,7 +22,7 @@ function parseFmt1 (str) {
 				return cdate.getFullYear() + "/" + zpadd2(cdate.getMonth()) + "/" + zpadd2(cdate.getDate());
 			break;
 			case "~time":
-				return zpadd2(cdate.getHours()) + ":" + zpadd2(cdate.getMinutes()) + ":" + zpadd2(cdate.getSeconds());
+				return zpadd2(cdate.getHours()) + ":" + zpadd2(cdate.getMinutes()) + ":" + zpadd2(cdate.getSeconds()) + "." + zpadd3(cdate.getMilliseconds());
 			break;
 		}
 		var $1p2 = $1.slice($1p1.length+1);
