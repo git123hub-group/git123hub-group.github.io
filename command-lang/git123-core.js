@@ -81,6 +81,20 @@ function KernelStep (cmd) {
 					lineNum = variableList["tag_" + content];
 			}
 		break;
+		case "loop":
+			var tmp = content.match(/([^=]*)\s*=([\s\S]*)/);
+			var nextL = variableList["tag_" + tmp[2]];
+			switch (cmdnl[1]) {
+				case "inc":
+					variableList["var_" + tmp[1]]++;
+				break;
+				case "dec":
+				default:
+					variableList["var_" + tmp[1]]--;
+				break;
+			}
+			variableList["var_" + tmp[1]] ? (lineNum = nextL) : ++lineNum;
+		break;
 		case "call":
 			switch (cmdnl[1]) {
 				case "abs":
