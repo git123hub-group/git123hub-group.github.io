@@ -32,6 +32,15 @@ function parseFmt1 (str) {
 			case "~random":
 				return (Math.random() * 4294967296) | 0;
 			break;
+			case "~line":
+				return "\n";
+			break;
+			case "~space":
+				return "\ ";
+			break;
+			case "~tab":
+				return "\t";
+			break;
 		}
 		var $1p2 = $1.slice($1p1.length+1);
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
