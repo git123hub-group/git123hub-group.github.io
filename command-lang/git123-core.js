@@ -21,16 +21,16 @@ function parseFmt1 (str) {
 			$1r = variableList["var_" + $1p1];
 		} else switch ($1p1) {
 			case "~date":
-				$1p2 = cdt;
+				$1r = cdt;
 			break;
 			case "~time":
-				r$1p2 = ctm;
+				$1r = ctm;
 			break;
 			case "~rtime":
-				$1p2 = cdate.getTime() - firstTime.getTime() + "";
+				$1r = cdate.getTime() - firstTime.getTime() + "";
 			break;
 			case "~random":
-				$1p2 = "" + ((Math.random() * 4294967296) | 0);
+				$1r = "" + ((Math.random() * 4294967296) | 0);
 			break;
 			case "~line": // 换行符
 				return "\n";
