@@ -3,8 +3,12 @@ function parseFmt1 (str) {
 	return str.replace(/\$((?:\\[\s\S]|[^\\\$])*)\$/g, function /* template */ ($0,$1) {
 		if ($1 === "") return "$";
 		var search;
-		var $1p1 = $1.match(/(.*?)(?::|$)/)[1];
-		var $1r = variableList["var_" + $1p1];
+		var $1p1 = $1.match(/(.*?)(?::|$)/)[1], $1r;
+		if ($1p1.charAt(0) !== "~") {
+			$1r = variableList["var_" + $1p1];
+		} else {
+			
+		}
 		var $1p2 = $1.slice($1p1.length+1);
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
 			var s$1 = search[1].replace(/\\([\s\S])/g, "$1");
