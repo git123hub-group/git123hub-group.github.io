@@ -1,5 +1,14 @@
 /* git123-core.js */
 var firstTime = new Date();
+var zpadd2 = function (num) {
+	if (z < 10) return "0" + num;
+	return num;
+}
+var zpadd3 = function (num) {
+	if (z < 10) return "00" + num;
+	if (z < 100) return "0" + num;
+	return num;
+}
 function parseFmt1 (str) {
 	var cdate = new Date();
 	return str.replace(/\$((?:\\[\s\S]|[^\\\$])*)\$/g, function /* template */ ($0,$1) {
