@@ -83,7 +83,7 @@ function KernelStep (cmd) {
 	var cmdn = cmd.match(/[A-Za-z0-9\-\_$]+(:[A-Za-z0-9\-\_$]*)?/)[0];
 	var cmdnl = cmdn.split(":");
 	cmdnl.length < 2 && (cmdnl[1] = "");
-	var content = cmd.slice(cmdn.length+1);
+	var content = cmd.slice(cmdn.length).replace(/\s/,"");
 	switch (cmdnl[0]) {
 		case "write":
 			switch (cmdnl[1]) {
