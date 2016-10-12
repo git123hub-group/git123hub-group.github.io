@@ -184,6 +184,9 @@ function KernelStep (cmd) {
 				case "pf":
 					variableList["var_" + tmp[1]] = "" + prompt(parseFmt1(tmp[2]));
 				break;
+				case "del":
+					delete variableList["var_" + tmp[1]];
+				break;
 				default:
 					variableList["var_" + tmp[1]] = tmp[2];
 			}
