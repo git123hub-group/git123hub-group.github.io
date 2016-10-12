@@ -35,7 +35,7 @@
 			</div>
 			<div style="padding-bottom: 3px;">
 				输出区 (Output area)<br/>
-				<pre id="COutput" style="border: 1px solid #555; padding: 2px; margin: 0; text-align: left; white-space: pre-wrap; word-break: break-all;"></pre>
+				<pre id="COutput" style="border: 1px solid #555; padding: 2px; margin: 0; text-align: left; white-space: pre-wrap; word-break: break-all; overflow-y: scroll;"></pre>
 			</div>
 			<div>
 				调试行 (Debug row)<br/>
@@ -59,6 +59,7 @@ function ParseCode () {
 		cstr = compiled[i];
 		cstr.charAt(0) === ":" && (variableList["tag_" + cstr.slice(1)] = i);
 	}
+	compiled[len] = "terminate";
 	$id("COutput").innerHTML = hout;
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 };
