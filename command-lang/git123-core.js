@@ -173,10 +173,10 @@ function KernelStep (cmd) {
 					variableList["var_" + tmp[1]] = parseFmt1(tmp[2]);
 				break;
 				case "a": // 表达式 
-					variableList["var_" + tmp[1]] = "" + execNumExpr(tmp[2]);
+					variableList["var_" + tmp[1]] = "" + execNumExpr(tmp[2].replace(/\s/g,""));
 				break;
 				case "af":
-					variableList["var_" + tmp[1]] = "" + execNumExpr(parseFmt1(tmp[2]));
+					variableList["var_" + tmp[1]] = "" + execNumExpr(parseFmt1(tmp[2]).replace(/\s/g,""));
 				break;
 				case "p": // 输入
 					variableList["var_" + tmp[1]] = "" + prompt(tmp[2]);
