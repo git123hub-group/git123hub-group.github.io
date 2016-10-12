@@ -6,14 +6,16 @@ break            断点
 terminate        终止
 
 call             子程序调用
-call:abs         绝对调用
+call:abs         绝对调用 (从上到下)
+call:abs-last    绝对调用 (从下到上)
 call:rel         相对调用
 call:ret         从调用返回
 
 execf            运行命令
 
 goto             转移
-goto:abs         绝对转移
+goto:abs         绝对转移 (从上到下)
+goto:abs-last    绝对转移 (从下到上)
 goto:rel         相对转移
 
 if               条件执行 (数字)
