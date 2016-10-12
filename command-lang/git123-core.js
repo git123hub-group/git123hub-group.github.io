@@ -17,11 +17,15 @@ function parseFmt1 (str) {
 		if ($1 === "") return "$";
 		var search;
 		var $1p1 = $1.match(/(.*?)(?::|$)/)[1], $1r;
+		var $1p2 = $1.slice($1p1.length+1);
 		if ($1p1.charAt(0) !== "~") {
 			$1r = variableList["var_" + $1p1];
 		} else switch ($1p1) {
 			case "~date":
 				$1r = cdt;
+			break;
+			case "~expr":
+				return execNumExpr($1p2.replace(/\s/g,""));
 			break;
 			case "~time":
 				$1r = ctm;
@@ -42,7 +46,6 @@ function parseFmt1 (str) {
 				return "\t";
 			break;
 		}
-		var $1p2 = $1.slice($1p1.length+1);
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
 			var s$1 = search[1].replace(/\\([\s\S])/g, "$1");
 			var s$2 = search[2].replace(/\\([\s\S])/g, "$1");
