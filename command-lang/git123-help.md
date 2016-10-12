@@ -10,8 +10,6 @@ call:abs         绝对调用
 call:rel         相对调用
 call:ret         从调用返回
 
-clear            清除屏幕
-
 execf            运行命令
 
 goto             转移
@@ -33,12 +31,14 @@ set:a            设置变量 (评估表达式)
 set:af           格式设置变量 (评估表达式)
 set:p            设置变量 (输入)
 set:pf           格式设置变量 (输入)
+set:del          删除变量
 
 write            输出
 write:var        输出变量值
 write:format     格式输出
 writeln          输出并换行
 writeln:format   格式输出并换行
+clear            清除屏幕
 ```
 
 ## 内置变量
