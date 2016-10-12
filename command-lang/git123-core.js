@@ -208,6 +208,12 @@ function KernelStep (cmd) {
 				case "del": // 删除变量
 					delete variableList["var_" + tmp[1]];
 				break;
+				case "push":
+					st0[++st0p] = variableList["var_" + tmp[1]];
+				break;
+				case "pop":
+					variableList["var_" + tmp[1]] = st0[st0p--];
+				break;
 				default:
 					variableList["var_" + tmp[1]] = tmp[2];
 			}
