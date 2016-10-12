@@ -57,11 +57,15 @@ function parseFmt1 (str) {
 		if (search = $1p2.match(/^(-?\d+),(-?\d+)$/)) {
 			return $1r.slice(search[1], search[2]);
 		};
-		if (search = $1p2.match(/^rev(erse)?$/)) {
-			return esrever.reverse($1r);
-		};
-		if (search = $1p2.match(/^len(gth)?$/)) {
-			return $1r.length;
+		switch($1p2) {
+			case "rev": case "reverse": return esrever.reverse($1r); break;
+			case "len": case "length":  return $1r.length; break;
+			case "bin": return (+$1r).toString(2); break;
+			case "oct": return (+$1r).toString(8); break;
+			case "hex": return (+$1r).toString(16); break;
+			case "fbin": return parseInt($1r,2); break;
+			case "foct": return parseInt($1r,8); break;
+			case "fhex": return parseInt($1r,16); break;
 		};
 		return $1r;
 	});
