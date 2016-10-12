@@ -74,4 +74,6 @@ $~expr$          评估表达式
 :fhex            16 进制转换到 10 进制
 :chr             Unicode 值转换到字符
 :ord             字符转换到 Unicode 值
+:var             变量值
+:fmt             变量的格式
 ```
