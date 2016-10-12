@@ -50,7 +50,7 @@
 function $id (id) {
 	return document.getElementById(id);
 };
-var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false, rframe;
+var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false, rframe, significantLines = 0;
 function ParseCode () {
 	iscompiled = true;
 	variableList = {}, hout = "", lineNum = 0, calls = [], callsp = -1, breakpoint = false;
@@ -59,7 +59,7 @@ function ParseCode () {
 		cstr = compiled[i];
 		cstr.charAt(0) === ":" && (variableList["tag_" + cstr.slice(1)] = i);
 	}
-	compiled[len] = "terminate";
+	compiled[significantLines = len] = "terminate";
 	$id("COutput").innerHTML = hout;
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 };
