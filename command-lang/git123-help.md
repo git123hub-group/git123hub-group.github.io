@@ -34,6 +34,8 @@ set:af           格式设置变量 (评估表达式)
 set:p            设置变量 (输入)
 set:pf           格式设置变量 (输入)
 set:del          删除变量
+set:push         变量值存储
+set:pop          变量值取出
 
 write            输出
 write:var        输出变量值
