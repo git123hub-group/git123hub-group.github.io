@@ -61,9 +61,11 @@ function parseFmt1 (str) {
 			case "rev": case "reverse": return esrever.reverse($1r); break;
 			case "len": case "length":  return $1r.length; break;
 			case "bin": return (+$1r).toString(2); break;
+			case "chr": return String.fromCharCode($1r); break;
 			case "oct": return (+$1r).toString(8); break;
 			case "hex": return (+$1r).toString(16); break;
 			case "fbin": return parseInt($1r,2); break;
+			case "ord": return $1r.charCodeAt(0); break;
 			case "foct": return parseInt($1r,8); break;
 			case "fhex": return parseInt($1r,16); break;
 		};
