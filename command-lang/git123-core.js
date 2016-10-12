@@ -117,6 +117,9 @@ function KernelStep (cmd) {
 				case "abs":
 					lineNum  = +content;
 				break;
+				case "abs-last":
+					lineNum  = significantLines-content;
+				break;
 				case "rel":
 					lineNum += +content;
 				break;
@@ -144,6 +147,9 @@ function KernelStep (cmd) {
 				case "abs":
 					calls[callsp++] = ++lineNum;
 					lineNum  = +content;
+				break;
+				case "abs-last":
+					lineNum  = significantLines-content;
 				break;
 				case "rel":
 					calls[callsp++] = ++lineNum;
