@@ -149,7 +149,7 @@ function KernelStep (cmd) {
 					calls[callsp++] = ++lineNum;
 					lineNum += +content;
 				break;
-				case "ret":
+				case "ret": // 返回
 					lineNum = calls[--callsp];
 				break;
 				default:
@@ -157,17 +157,17 @@ function KernelStep (cmd) {
 					lineNum = variableList["tag_" + content];
 			}
 		break;
-		case "break":
+		case "break": // 断点 
 			++lineNum; breakpoint = true; rframe = false;
 		break;
-		case "nextf":
+		case "nextf": // 下一帧
 			++lineNum; breakpoint = true; rframe = true
 		break;
 		case "execf":
 			KernelStep(parseFmt1(content));
 		break;
 		case "set":
-			var tmp = content.match(/([^=]*)\s*=([\s\S]*)/);
+			var tmp = content.match(/^\s*([^=]*)\s*=([\s\S]*)$/) || [content, content, ""];
 			switch (cmdnl[1]) {
 				case "f":
 					variableList["var_" + tmp[1]] = parseFmt1(tmp[2]);
@@ -184,7 +184,7 @@ function KernelStep (cmd) {
 				case "pf":
 					variableList["var_" + tmp[1]] = "" + prompt(parseFmt1(tmp[2]));
 				break;
-				case "del":
+				case "del": // 删除变量
 					delete variableList["var_" + tmp[1]];
 				break;
 				default:
