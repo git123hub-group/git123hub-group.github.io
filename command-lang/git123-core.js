@@ -37,8 +37,8 @@ function parseFmt1 (str) {
 				$1r = "" + ((Math.random() * 4294967296) | 0);
 			break;
 			case "~randr":
-				var spl = $1p2.split(",");
-				return +spl[0] + (Math.random() * (spl[1] - spl[0] + 1)) | 0;
+				var sp1 = $1p2.split(",");
+				return +sp1[0] + (Math.random() * (sp1[1] - sp1[0] + 1)) | 0;
 			break;
 			case "~line": // 换行符
 				return "\n";
