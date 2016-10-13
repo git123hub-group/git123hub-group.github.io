@@ -93,15 +93,20 @@ function HTMLEscape (str) {
 	return (""+str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 function KernelStep (cmd) {
-	cmd = String(cmd).replace(/[\s\t\xa0\u3000]*/, "")
+	cmd = String(cmd).replace(/[\s\t\xa0\u3000]*/, "");
 	if (cmd.charAt(0) === ":" || cmd.charAt(0) === "#" || cmd === "") {++lineNum; return;}
 	var cmdn = cmd.match(/[A-Za-z0-9\-\_$]+(:[A-Za-z0-9\-\_$]*)?/)[0];
 	var cmdnl = cmdn.split(":");
 	cmdnl.length < 2 && (cmdnl[1] = "");
-	var content = cmd.slice(cmdn.length).replace(/\s/,"");
+	var content = cmd.slice(cmdn.length).replace(/\s/,""), tmp;
 	switch (cmdnl[0]) {
 		case "write":
 			switch (cmdnl[1]) {
+				case "css":
+					hout += '<span style="' + content + '">';
+					KernelStep(compiled[++lineNum]);
+					hout += '</span>';
+				break;
 				case "var":
 					hout += HTMLEscape(variableList["var_" + content]);
 				break;
@@ -223,13 +228,13 @@ function KernelStep (cmd) {
 			breakpoint = true; rframe = false;
 		break;
 		case "if":
-			var tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
+			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
 			var compare1 = cmpF(tmp[2],+parseFmt1(tmp[1]),+parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
 			if (compare1) {KernelStep(tmp[4])} else ++lineNum;
 		break;
 		case "if_str":
-			var tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
+			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
 			var compare1 = cmpF(tmp[2],parseFmt1(tmp[1]),parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
 			if (compare1) {KernelStep(tmp[4])} else ++lineNum;
