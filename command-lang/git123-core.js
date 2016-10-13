@@ -252,7 +252,7 @@ function KernelStep (cmd) {
 			if (compare1) {KernelStep(tmp[4])} else ++lineNum;
 		break;
 		case "confirm":
-			tmp = content.match(/("?)(.*?)\1\s+([\s\S]*)/);
+			tmp = content.match(/("?)(.*?)\1(?:\s+([\s\S]*))?/);
 			var confirmed = confirm(tmp[2]);
 			cmdnl[2] === "not" && (confirmed = !confirmed);
 			if (confirmed) {KernelStep(tmp[3])} else ++lineNum;
