@@ -130,6 +130,16 @@ function KernelStep (cmd) {
 			}
 			++lineNum;
 		break;
+		case "alert":
+			switch (cmdnl[1]) {
+				case "format":
+					alert(parseFmt1(content));
+				break;
+				default:
+					alert(content);
+			}
+			++lineNum;
+		break;
 		case "clear":
 			hout = "";
 			++lineNum;
@@ -150,7 +160,7 @@ function KernelStep (cmd) {
 			}
 		break;
 		case "loop":
-			var tmp = content.match(/(\S*)\s*([\s\S]*)/);
+			tmp = content.match(/(\S*)\s*([\s\S]*)/);
 			var nextL = variableList["tag_" + tmp[2]];
 			switch (cmdnl[1]) {
 				case "inc":
@@ -240,6 +250,12 @@ function KernelStep (cmd) {
 			var compare1 = cmpF(tmp[2],parseFmt1(tmp[1]),parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
 			if (compare1) {KernelStep(tmp[4])} else ++lineNum;
+		break;
+		case "confirm":
+			tmp = content.match(/(\S*)\s*([\s\S]*)/);
+			var confirmed = confirm(tmp[1]);
+			cmdnl[1] === "not" && (confirmed = !confirmed);
+			if (confirmed) {KernelStep(tmp[2])} else ++lineNum;
 		break;
 	}
 }
