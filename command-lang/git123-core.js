@@ -104,7 +104,7 @@ function KernelStep (cmd) {
 			switch (cmdnl[1]) {
 				case "css":
 					hout += '<span style="' + content + '">';
-					KernelStep(compiled[++lineNum]);
+					KernelStep(compiled[lineNum+1]);
 					hout += '</span>';
 				break;
 				case "var":
