@@ -102,8 +102,10 @@ function KernelStep (cmd) {
 	switch (cmdnl[0]) {
 		case "write":
 			switch (cmdnl[1]) {
-				case "css":
-					hout += '<span style="' + content + '">';
+				case "cssf":
+					content = parseFmt1("var_" + content);
+				case "css"
+					hout += '<span style="' + HTMLEscape(content) + '">';
 					KernelStep(compiled[lineNum+1]);
 					hout += '</span>';
 				break;
