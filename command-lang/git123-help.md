@@ -20,6 +20,7 @@ goto:rel         相对转移
 
 if               条件执行 (数字)
 if_str           条件执行 (字符串)
+confirm          提示框执行
 
 loop             递减后条件转移
 loop:inc         递增后条件转移
@@ -42,6 +43,7 @@ write:var        输出变量值
 write:format     格式输出
 writeln          输出并换行
 writeln:format   格式输出并换行
+alert            警告框
 clear            清除屏幕
 ```
 
