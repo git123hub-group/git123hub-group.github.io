@@ -1,0 +1,42 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+/* <![CDATA[ */
+	.origS, .hoverS {
+		background-image: url("stars.png"); width:16px; height:16px; float:left; background-position: -16px 0; margin-left: 1px;
+	}
+	.hoverS {
+		background-position: 0 0;
+	}
+/* ]]> */
+</style>
+</head>
+<body>
+<!-- begin content -->
+<div style="text-align:center">评分:
+	<div style="display: inline-block;" id="stars_gh">
+		<div class="origS" onmouseover="hover_s(1);" onmouseout="hover_s(0);"></div>
+		<div class="origS" onmouseover="hover_s(2);" onmouseout="hover_s(0);"></div>
+		<div class="origS" onmouseover="hover_s(3);" onmouseout="hover_s(0);"></div>
+		<div class="origS" onmouseover="hover_s(4);" onmouseout="hover_s(0);"></div>
+		<div class="origS" onmouseover="hover_s(5);" onmouseout="hover_s(0);"></div>
+		<br />
+	</div>
+	<div id="rate" style="display: inline-block; background: #ffa; width: 124px; padding: 2px 0; border: 1px solid #cc8"><br /></div>
+</div>
+<!-- end content -->
+<script type="text/javascript">
+// <![CDATA[
+	var rate_content = ["<br />","非常不满意","不满意","一般","满意","非常满意"];
+	var stars = document.getElementById("stars_gh");
+	function hover_s (n) {
+		for (var i = 0; i < 5; i++) {
+			stars.children[i].className = i < n ? "hoverS" : "origS";
+		}
+		document.getElementById("rate").innerHTML = rate_content[n];
+	}
+// ]]>
+</script>
+</body>
+</html>
