@@ -24,20 +24,28 @@
 		<br />
 	</div>
 	<div id="rate" style="display: inline-block; background: #ffa; width: 124px; padding: 2px 0; border: 1px solid #cc8"><br /></div>
-	<div style="display: inline-block; background: #ccc; width: 124px; padding: 2px 0; border: 1px solid #888" onclick="">提交</div>
+	<div style="display: inline-block; background: #ccc; width: 50px; padding: 2px 0; border: 1px solid #888" onclick="submit_vote()">提交</div>
 </div>
 <!-- end content -->
 <script type="text/javascript">
 // <![CDATA[
-	var rate_content = ["<br />","非常不满意","不满意","一般","满意","非常满意"];
+	var loadedvote = localStorage._localVote;
+	var rate_content = [decodeURIComponent("%3Cbr%20%2F%3E"), "非常不满意", "不满意", "一般", "满意", "非常满意"];
 	var stars = document.getElementById("stars_gh"), Dvote = 0;
 	function hover_s (n) {
+		if (loadedvote != null) { n = +loadedvote; }
 		n > 0 || (n = Dvote);
 		for (var i = 0; i < 5; i++) {
 			stars.children[i].className = i < n ? "hoverS" : "origS";
 		}
 		document.getElementById("rate").innerHTML = rate_content[n];
 	}
+	function submit_vote () {
+		if (Dvote === 0) { return; }
+		loadedvote == null && alert("感谢您的评价!");
+		localStorage._localVote = loadedvote = Dvote;
+	}
+	hover_s(0);
 // ]]>
 </script>
 </body>
