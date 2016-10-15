@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+Program: <input id="f1" type="text" style="font-family: monospace" size="50" /><br />
+<input type="button" onclick="initialize()" value="Initialize" />
+<input type="button" onclick="next()" value="Run" /><br />
+Output: <pre id="f2"></pre>
+<script>
+// <![CDATA[
+var qc = " [+.}{,-]*", pptr, dptr, sdata, changing = false;
+function $ (id) { return document.getElementById(id); };
+function initialize () {
+   pptr = 0, dptr = 0, sdata = $("f1").value.split(""), changing = false;
+};
+function next () {
+  while (!changing && pptr < sdata.length) {
+    switch (sdata[pptr]) {
+      case "[":
+        if (qc.indexOf(sdata[dptr]) <= 0) {
+          var nestl = 1; ++pptr;
+          while (nestl) {
+            ++pptr;
+            if (sdata[pptr] === "[") ++nestl;
+            if (sdata[pptr] === "]") --nestl;
+          }
+          // --pptr;
+        }
+      break;
+      case "+": sdata[dptr] = qc.charAt((qc.indexOf(sdata[dptr]) + 1) % 10); changing = true; break;
+      case ".": f2.innerHTML += sdata[dptr]; changing = true; break;
+      case "}":
+        dptr++;
+        if (sdata[dptr] == null) {sdata[dptr] = " "};
+      break;
+      case "{":
+        dptr--;
+        if (sdata[dptr] == null) {sdata[dptr] = " "};
+      break;
+      case ",":
+        var input = qc.indexOf(prompt("Enter a command:"));
+        sdata[dptr] = qc.charAt(input < 0 ? 0 : input);
+        changing = true;
+      break;
+      case "-": sdata[dptr] = qc.charAt((qc.indexOf(sdata[dptr]) + 9) % 10); changing = true; break;
+      case "]":
+        if (qc.indexOf(sdata[dptr]) > 0) {
+          var nestl = 1; --pptr;
+          while (nestl) {
+            --pptr;
+            if (sdata[pptr] === "]") ++nestl;
+            if (sdata[pptr] === "[") --nestl;
+          }
+          // ++pptr;
+        }
+      break;
+      case "*": sdata[dptr] = qc.charAt(9 - qc.indexOf(sdata[dptr])); changing = true; break;
+    }
+    ++pptr;
+  }
+  $("f1").value = sdata.join("");
+  changing = false;
+  setTimeout(next, 200)
+};
+// ]]>
+</script>
+</body>
+</html>
