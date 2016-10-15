@@ -115,6 +115,9 @@ function KernelStep (cmd) {
 				case "format":
 					hout += HTMLEscape(parseFmt1(content));
 				break;
+				case "readln":
+					hout += HTMLEscape(compiled[content]);
+				break;
 				default:
 					hout += HTMLEscape(content);
 			}
@@ -124,6 +127,9 @@ function KernelStep (cmd) {
 			switch (cmdnl[1]) {
 				case "format":
 					hout += HTMLEscape(parseFmt1(content)) + "\n";
+				break;
+				case "readln":
+					hout += HTMLEscape(compiled[content]) + "\n";
 				break;
 				default:
 					hout += HTMLEscape(content) + "\n";
@@ -221,6 +227,13 @@ function KernelStep (cmd) {
 				break;
 				case "pf":
 					variableList["var_" + tmp[1]] = "" + prompt(parseFmt1(tmp[2]));
+				break;
+				case "ln":
+					if (/^\s*\d\s*$/.test(tmp[1])) {
+						compiled[+tmp[1]] = variableList["var_" + tmp[2]];
+					} else {
+						variableList["var_" + tmp[1]] = compiled[+tmp[2]];
+					}
 				break;
 				case "del": // 删除变量
 					delete variableList["var_" + tmp[1]];
