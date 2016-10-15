@@ -41,7 +41,7 @@
 		document.getElementById("rate").innerHTML = rate_content[n];
 	}
 	function submit_vote () {
-		if (Dvote === 0) { return; }
+		if (Dvote === 0 || /git123hub.github.io\/vote/.test(location.href)) { return; }
 		loadedvote == null && alert("感谢您的评价!");
 		localStorage._localVote = loadedvote = Dvote;
 	}
