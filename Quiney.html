@@ -27,7 +27,7 @@ function next () {
         }
       break;
       case "+": sdata[dptr] = qc.charAt((qc.indexOf(sdata[dptr]) + 1) % 10); changing = true; break;
-      case ".": f2.innerHTML += sdata[dptr]; changing = true; break;
+      case ".": $("f2").innerHTML += sdata[dptr]; changing = true; break;
       case "}":
         dptr++;
         if (sdata[dptr] == null) {sdata[dptr] = " "};
