@@ -25,6 +25,7 @@ function next () {
             ++pptr;
             if (sdata[pptr] === "[") ++nestl;
             if (sdata[pptr] === "]") --nestl;
+            if (!sdata[pptr]) { nestl = 0; console.log("Go to end") };
           }
           // --pptr;
         }
@@ -52,6 +53,7 @@ function next () {
             --pptr;
             if (sdata[pptr] === "]") ++nestl;
             if (sdata[pptr] === "[") --nestl;
+            if (!sdata[pptr]) { nestl = 0; console.log("Go to begin") };
           }
           // ++pptr;
         }
