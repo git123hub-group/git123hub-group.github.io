@@ -49,6 +49,9 @@ function parseFmt1 (str) {
 			case "~tab": // 制表符
 				return "\t";
 			break;
+			case "~tline": // 总行数
+				return +significantLines + +$1p2;
+			break;
 		}
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
 			var s$1 = search[1].replace(/\\([\s\S])/g, "$1");
