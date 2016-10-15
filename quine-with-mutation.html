@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1 style="text-align:center" id="iter-tag"></h1>
+<pre>* <a href="https://git123hub.github.io/index/">返回到首页</a></pre>
 <textarea id="input" rows="30" cols="100"></textarea><br />
 <input type="button" onclick="submitHTML();" value="提交代码" />
 <script type="text/javascript">
@@ -20,6 +21,7 @@ var quine_list = [
 "<\/head>",
 "<body>",
 "<h1 style=\"text-align:center\" id=\"iter-tag\"></h1>",
+"<pre>* <a href=\"https:\/\/git123hub.github.io\/index\/\">返回到首页<\/a><\/pre>",
 "<textarea id=\"input\" rows=\"30\" cols=\"100\"><\/textarea><br \/>",
 "<input type=\"button\" onclick=\"submitHTML();\" value=\"提交代码\" \/>",
 "<script type=\"text\/javascript\">",
@@ -33,11 +35,11 @@ var quine_list = [
 "};",
 "var decodeQuine = function () {",
 "  var s = \"\";",
-"  for (var i = 0; i < 12; ++i) {",
+"  for (var i = 0; i < 13; ++i) {",
 "    s += quine_list[i] + \"\\n\";",
 "  }",
 "  s += \"var progIter = \" + (progIter + 1) + \";\\n\";",
-"  for (; i < 13; ++i) {",
+"  for (; i < 14; ++i) {",
 "    s += quine_list[i] + \"\\n\";",
 "  }",
 "  for (var j = 0, l = quine_list.length; j < l; ++j) {",
@@ -63,11 +65,11 @@ function submitHTML () {
 };
 var decodeQuine = function () {
   var s = "";
-  for (var i = 0; i < 12; ++i) {
+  for (var i = 0; i < 13; ++i) {
     s += quine_list[i] + "\n";
   }
   s += "var progIter = " + (progIter + 1) + ";\n";
-  for (; i < 13; ++i) {
+  for (; i < 14; ++i) {
     s += quine_list[i] + "\n";
   }
   for (var j = 0, l = quine_list.length; j < l; ++j) {
