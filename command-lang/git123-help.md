@@ -34,14 +34,17 @@ set:a            设置变量 (评估表达式)
 set:af           格式设置变量 (评估表达式)
 set:p            设置变量 (输入)
 set:pf           格式设置变量 (输入)
+set:ln           设置变量 (代码行)
 set:del          删除变量
 set:push         变量值存储
 set:pop          变量值取出
 
 write            输出
 write:var        输出变量值
+write:readln     读取后输出
 write:format     格式输出
 writeln          输出并换行
+writeln:readln   读取后输出并换行
 writeln:format   格式输出并换行
 alert            警告框
 clear            清除屏幕
