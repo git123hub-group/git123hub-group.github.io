@@ -178,6 +178,7 @@ function KernelStep (cmd) {
 				case "call": // 循环调用
 					if (!elseCon) { // 不是否则
 						calls[++callsp] = lastIF;
+						calls[++callsp] = lastIF;
 						calls[++callsp] = false;
 						lineNum = variableList["tag_" + content];
 					} else lineNum++;
@@ -193,25 +194,30 @@ function KernelStep (cmd) {
 			switch (cmdnl[1]) {
 				case "abs": // 绝对
 					calls[++callsp] = ++lineNum;
+					calls[++callsp] = lastIF;
 					calls[++callsp] = elseCon;
 					lineNum  = +content;
 				break;
 				case "abs-last":
 					calls[++callsp] = ++lineNum;
+					calls[++callsp] = lastIF;
 					calls[++callsp] = elseCon;
 					lineNum  = significantLines-content;
 				break;
 				case "rel": // 相对
 					calls[++callsp] = ++lineNum;
+					calls[++callsp] = lastIF;
 					calls[++callsp] = elseCon;
 					lineNum += +content;
 				break;
 				case "ret": // 返回
 					elseCon = calls[callsp--];
+					lastIF  = calls[callsp--];
 					lineNum = calls[callsp--];
 				break;
 				default: // 标记
 					calls[++callsp] = ++lineNum;
+					calls[++callsp] = lastIF;
 					calls[++callsp] = elseCon;
 					lineNum = variableList["tag_" + content];
 			}
