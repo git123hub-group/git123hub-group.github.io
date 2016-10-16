@@ -20,13 +20,13 @@ function parseFmt1 (str) {
 		var $1p2 = $1.slice($1p1.length+1);
 		if ($1p1.charAt(0) !== "~") {
 			$1r = variableList["var_" + $1p1];
-		} else switch ($1p1) {
+		} else switch ($1p1) { // return 之后不应该是 break
 			case "~date":
 				$1r = cdt;
 			break;
 			case "~expr":
 				return execNumExpr($1p2.replace(/\s/g,""));
-			break;
+			// break;
 			case "~time":
 				$1r = ctm;
 			break;
@@ -39,19 +39,19 @@ function parseFmt1 (str) {
 			case "~randr":
 				var sp1 = $1p2.split(",");
 				return +sp1[0] + (Math.random() * (sp1[1] - sp1[0] + 1)) | 0;
-			break;
+			// break;
 			case "~line": // 换行符
 				return "\n";
-			break;
+			// break;
 			case "~space": // 空格
 				return "\ ";
-			break;
+			// break;
 			case "~tab": // 制表符
 				return "\t";
-			break;
+			// break;
 			case "~tline": // 总行数
 				return +significantLines + +$1p2;
-			break;
+			// break;
 		}
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
 			var s$1 = search[1].replace(/\\([\s\S])/g, "$1");
@@ -283,7 +283,7 @@ function KernelStep (cmd) {
 			elseCon = !compare1;
 			if (compare1) KernelStep(tmp[4]); else ++lineNum;
 		break;
-		case "confirm":
+		case "confirm": // 条件是确认
 			tmp = content.match(/("?)(.*?)\1(?:\s+([\s\S]*))?/);
 			var confirmed = confirm(tmp[2]);
 			cmdnl[2] === "not" && (confirmed = !confirmed);
