@@ -291,7 +291,7 @@ function KernelStep (cmd) {
 			if (confirmed) KernelStep(tmp[3]); else ++lineNum;
 		break;
 		case "else": // 其他条件
-			if (elseCon) {KernelStep(content); elseCon = false;} else ++lineNum;
+			if (elseCon) {elseCon = false; KernelStep(content);} else ++lineNum;
 		break;
 		default:
 			alert("找不到 " + cmdnl[0] + " 指令");
