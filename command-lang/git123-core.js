@@ -175,7 +175,12 @@ function KernelStep (cmd) {
 				case "inc":
 					variableList["var_" + tmp[1]]++;
 				break;
-				case "dec":
+				case "call": // 循环调用
+					if (!elseCon) { // 不是否则
+						calls[callsp++] = lineNum;
+						calls[callsp++] = false;
+					} else lineNum++;
+				break;
 				default:
 					variableList["var_" + tmp[1]]--;
 				break;
@@ -185,7 +190,7 @@ function KernelStep (cmd) {
 		break;
 		case "call":
 			switch (cmdnl[1]) {
-				case "abs":
+				case "abs": // 绝对
 					calls[callsp++] = ++lineNum;
 					calls[callsp++] = elseCon;
 					lineNum  = +content;
@@ -195,7 +200,7 @@ function KernelStep (cmd) {
 					calls[callsp++] = elseCon;
 					lineNum  = significantLines-content;
 				break;
-				case "rel":
+				case "rel": // 相对
 					calls[callsp++] = ++lineNum;
 					calls[callsp++] = elseCon;
 					lineNum += +content;
@@ -204,14 +209,16 @@ function KernelStep (cmd) {
 					elseCon = calls[--callsp];
 					lineNum = calls[--callsp];
 				break;
-				default:
+				default: // 标记
 					calls[callsp++] = ++lineNum;
 					calls[callsp++] = elseCon;
 					lineNum = variableList["tag_" + content];
 			}
 		break;
 		case "break": // 断点 
-			++lineNum; breakpoint = true; rframe = false;
+			++lineNum; 
+		case "terminate": // 程序终结
+			breakpoint = true; rframe = false;
 		break;
 		case "nextf": // 下一帧
 			++lineNum; breakpoint = true; rframe = true
@@ -266,24 +273,24 @@ function KernelStep (cmd) {
 			var compare1 = cmpF(tmp[2],+parseFmt1(tmp[1]),+parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
 			elseCon = !compare1;
-			if (compare1) {KernelStep(tmp[4])} else ++lineNum;
+			if (compare1) KernelStep(tmp[4]); else ++lineNum;
 		break;
 		case "if_str": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
 			var compare1 = cmpF(tmp[2],parseFmt1(tmp[1]),parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
 			elseCon = !compare1;
-			if (compare1) {KernelStep(tmp[4])} else ++lineNum;
+			if (compare1) KernelStep(tmp[4]); else ++lineNum;
 		break;
 		case "confirm":
 			tmp = content.match(/("?)(.*?)\1(?:\s+([\s\S]*))?/);
 			var confirmed = confirm(tmp[2]);
 			cmdnl[2] === "not" && (confirmed = !confirmed);
 			elseCon = !confirmed;
-			if (confirmed) {KernelStep(tmp[3])} else ++lineNum;
+			if (confirmed) KernelStep(tmp[3]); else ++lineNum;
 		break;
 		case "else": // 其他条件
-			if (elseCon) {KernelStep(content)} else ++lineNum;
+			if (elseCon) {KernelStep(content)} else ++lineNum; elseCon = !elseCon;
 		break;
 		default:
 			alert("找不到 " + cmdnl[0] + " 指令");
