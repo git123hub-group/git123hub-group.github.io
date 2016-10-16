@@ -179,6 +179,7 @@ function KernelStep (cmd) {
 					if (!elseCon) { // 不是否则
 						calls[callsp++] = lineNum;
 						calls[callsp++] = false;
+						lineNum = variableList["tag_" + content];
 					} else lineNum++;
 				break;
 				default:
