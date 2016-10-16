@@ -1,5 +1,5 @@
 /* git123-core.js */
-var firstTime = new Date(), elseCon;
+var firstTime = new Date(), elseCon = false;
 var zpadd2 = function (num) { // 补零到 2 个字符
 	if (num < 10) return "0" + num;
 	return num;
@@ -187,20 +187,26 @@ function KernelStep (cmd) {
 			switch (cmdnl[1]) {
 				case "abs":
 					calls[callsp++] = ++lineNum;
+					calls[callsp++] = elseCon;
 					lineNum  = +content;
 				break;
 				case "abs-last":
+					calls[callsp++] = ++lineNum;
+					calls[callsp++] = elseCon;
 					lineNum  = significantLines-content;
 				break;
 				case "rel":
 					calls[callsp++] = ++lineNum;
+					calls[callsp++] = elseCon;
 					lineNum += +content;
 				break;
 				case "ret": // 返回
+					elseCon = calls[--callsp];
 					lineNum = calls[--callsp];
 				break;
 				default:
 					calls[callsp++] = ++lineNum;
+					calls[callsp++] = elseCon;
 					lineNum = variableList["tag_" + content];
 			}
 		break;
