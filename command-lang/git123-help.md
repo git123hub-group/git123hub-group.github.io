@@ -26,6 +26,7 @@ else             其他的条件执行
 loop             递减后条件转移
 loop:inc         递增后条件转移
 loop:dec         递减后条件转移
+loop:call        循环调用
 
 nextf            下一帧动画
 
