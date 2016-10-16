@@ -1,5 +1,5 @@
 /* git123-core.js */
-var firstTime = new Date();
+var firstTime = new Date(), elseCon;
 var zpadd2 = function (num) {
 	if (num < 10) return "0" + num;
 	return num;
@@ -259,19 +259,29 @@ function KernelStep (cmd) {
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
 			var compare1 = cmpF(tmp[2],+parseFmt1(tmp[1]),+parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
+			elseCon = !compare1;
 			if (compare1) {KernelStep(tmp[4])} else ++lineNum;
 		break;
 		case "if_str":
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
 			var compare1 = cmpF(tmp[2],parseFmt1(tmp[1]),parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
+			elseCon = !compare1;
 			if (compare1) {KernelStep(tmp[4])} else ++lineNum;
 		break;
 		case "confirm":
 			tmp = content.match(/("?)(.*?)\1(?:\s+([\s\S]*))?/);
 			var confirmed = confirm(tmp[2]);
 			cmdnl[2] === "not" && (confirmed = !confirmed);
+			elseCon = !confirmed;
 			if (confirmed) {KernelStep(tmp[3])} else ++lineNum;
 		break;
+		case "else":
+			if (elseCon) {KernelStep(content)} else ++lineNum;
+		break;
+		default:
+			alert("找不到 " + cmdnl[0] + " 指令");
+			console.error("找不到 " + cmdnl[0] + " 指令");
+			breakpoint = true; rframe = false;
 	}
 }
