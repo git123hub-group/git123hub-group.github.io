@@ -1,0 +1,44 @@
+<textarea rows="40" cols="100" id="prog"></textarea><br />
+<input type="button" onclick="document.getElementById('prog').value = SKIStep(document.getElementById('prog').value)" value="ÏÂÒ»²½" />
+<script type="text/javascript">
+var splitarg = function (str) {
+  str = str.replace(/\s+/g, " ").trim();
+  var arr = [], outs = "", nlev = 0, tmp, l2 = 0;
+  for (var i = 0, len = str.length; i < len; ++i) {
+    if (str.charAt(i) === "(") nlev++;
+    if (str.charAt(i) === ")") nlev--;
+    if ((tmp = str.charAt(i)) !== " " || nlev > 0) {
+      outs += tmp;
+    } else {
+      arr[l2++] = outs;
+      outs = "";
+    }
+  }
+  arr[l2++] = outs;
+  return arr;
+}
+var SKIStep = function (str) {
+  var arr = splitarg(str), tmp, tmp2, tmp3;
+  if (arr[0].charAt(0) === "(") {
+    arr[0] = arr[0].slice(1,-1);
+  } else switch (arr[0]) {
+    case "I":
+      arr.shift();
+    break;
+    case "K":
+      tmp = arr[1];
+      arr = arr.slice(2);
+      arr[0] = tmp
+    break;
+    case "S":
+      tmp  = arr[1];
+      tmp2 = arr[2];
+      tmp3 = arr[3];
+      arr = arr.slice(2);
+      arr[0] = tmp + " " + tmp3;
+      arr[1] = "(" + tmp2 + " " + tmp3 + ")"
+    break;
+  }
+  return arr.join(" ");
+}
+</script>
