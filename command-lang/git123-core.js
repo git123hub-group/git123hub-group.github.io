@@ -1,5 +1,5 @@
 /* git123-core.js */
-var firstTime = new Date(), elseCon = false;
+var firstTime = new Date(), elseCon = false, lastIF;
 var zpadd2 = function (num) { // 补零到 2 个字符
 	if (num < 10) return "0" + num;
 	return num;
@@ -177,7 +177,7 @@ function KernelStep (cmd) {
 				break;
 				case "call": // 循环调用
 					if (!elseCon) { // 不是否则
-						calls[++callsp] = lineNum;
+						calls[++callsp] = lastIF;
 						calls[++callsp] = false;
 						lineNum = variableList["tag_" + content];
 					} else lineNum++;
@@ -273,25 +273,25 @@ function KernelStep (cmd) {
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
 			var compare1 = cmpF(tmp[2],+parseFmt1(tmp[1]),+parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
-			elseCon = !compare1;
+			elseCon = !compare1; lastIF = lineNum;
 			if (compare1) KernelStep(tmp[4]); else ++lineNum;
 		break;
 		case "if_str": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
 			var compare1 = cmpF(tmp[2],parseFmt1(tmp[1]),parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
-			elseCon = !compare1;
+			elseCon = !compare1; lastIF = lineNum;
 			if (compare1) KernelStep(tmp[4]); else ++lineNum;
 		break;
 		case "confirm": // 条件是确认
 			tmp = content.match(/("?)(.*?)\1(?:\s+([\s\S]*))?/);
 			var confirmed = confirm(tmp[2]);
 			cmdnl[2] === "not" && (confirmed = !confirmed);
-			elseCon = !confirmed;
+			elseCon = !confirmed; lastIF = lineNum;
 			if (confirmed) KernelStep(tmp[3]); else ++lineNum;
 		break;
 		case "else": // 其他条件
-			if (elseCon) {KernelStep(content)} else ++lineNum; elseCon = !elseCon;
+			elseCon = !elseCon; if (elseCon) {KernelStep(content)} else ++lineNum;
 		break;
 		default:
 			alert("找不到 " + cmdnl[0] + " 指令");
