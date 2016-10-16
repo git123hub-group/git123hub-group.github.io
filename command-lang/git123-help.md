@@ -21,6 +21,7 @@ goto:rel         相对转移
 if               条件执行 (数字)
 if_str           条件执行 (字符串)
 confirm          提示框执行
+else             其他的条件执行
 
 loop             递减后条件转移
 loop:inc         递增后条件转移
