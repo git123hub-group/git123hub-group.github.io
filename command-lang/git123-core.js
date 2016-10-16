@@ -1,10 +1,10 @@
 /* git123-core.js */
 var firstTime = new Date(), elseCon;
-var zpadd2 = function (num) {
+var zpadd2 = function (num) { // 补零到 2 个字符
 	if (num < 10) return "0" + num;
 	return num;
 }
-var zpadd3 = function (num) {
+var zpadd3 = function (num) { // 补零到 3 个字符
 	if (num < 10) return "00" + num;
 	if (num < 100) return "0" + num;
 	return num;
@@ -252,17 +252,17 @@ function KernelStep (cmd) {
 			}
 			++lineNum;
 		break;
-		case "terminate":
+		case "terminate": // 程序终结
 			breakpoint = true; rframe = false;
 		break;
-		case "if":
+		case "if": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
 			var compare1 = cmpF(tmp[2],+parseFmt1(tmp[1]),+parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
 			elseCon = !compare1;
 			if (compare1) {KernelStep(tmp[4])} else ++lineNum;
 		break;
-		case "if_str":
+		case "if_str": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
 			var compare1 = cmpF(tmp[2],parseFmt1(tmp[1]),parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
@@ -276,7 +276,7 @@ function KernelStep (cmd) {
 			elseCon = !confirmed;
 			if (confirmed) {KernelStep(tmp[3])} else ++lineNum;
 		break;
-		case "else":
+		case "else": // 其他条件
 			if (elseCon) {KernelStep(content)} else ++lineNum;
 		break;
 		default:
