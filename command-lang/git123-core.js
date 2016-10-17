@@ -9,7 +9,7 @@ var zpadd3 = function (num) { // 补零到 3 个字符
 	if (num < 100) return "0" + num;
 	return num;
 }
-function parseFmt1 (str) {
+function parseFmt1 (str) { // 格式变量
 	var cdate = new Date();
 	var cdt = cdate.getFullYear() + "/" + zpadd2(cdate.getMonth()) + "/" + zpadd2(cdate.getDate());
 	var ctm = zpadd2(cdate.getHours()) + ":" + zpadd2(cdate.getMinutes()) + ":" + zpadd2(cdate.getSeconds()) + "." + zpadd3(cdate.getMilliseconds());
@@ -64,7 +64,7 @@ function parseFmt1 (str) {
 		if (search = $1p2.match(/^(-?\d+),(-?\d+)$/)) {
 			return $1r.slice(search[1], search[2]);
 		};
-		switch($1p2) {
+		switch($1p2) { // 字符串操作
 			case "rev": case "reverse": return esrever.reverse($1r);
 			case "len": case "length":  return $1r.length;
 			case "bin": return (+$1r>>>0).toString(2);
@@ -81,7 +81,7 @@ function parseFmt1 (str) {
 		return $1r;
 	});
 }
-function cmpF (opr, str1, str2) {
+function cmpF (opr, str1, str2) { // 比较函数
 	opr = opr.toLowerCase();
 	switch (opr) {
 		case "==": case "equ": return str1 === str2; break;
@@ -92,7 +92,7 @@ function cmpF (opr, str1, str2) {
 		case ">=": case "geq": return str1 >= str2; break;
 	}
 }
-function HTMLEscape (str) {
+function HTMLEscape (str) { // HTML 转义
 	return (""+str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 function KernelStep (cmd) {
@@ -103,11 +103,11 @@ function KernelStep (cmd) {
 	cmdnl.length < 2 && (cmdnl[1] = "");
 	var content = cmd.slice(cmdn.length).replace(/\s/,""), tmp;
 	switch (cmdnl[0]) {
-		case "write":
+		case "write": // 写
 			switch (cmdnl[1]) {
 				case "cssf":
 					content = parseFmt1("var_" + content);
-				case "css":
+				case "css": // CSS 样式
 					hout += '<span style="' + HTMLEscape(content) + '">';
 					KernelStep(compiled[lineNum+1]);
 					hout += '</span>';
@@ -126,7 +126,7 @@ function KernelStep (cmd) {
 			}
 			++lineNum;
 		break;
-		case "writeln":
+		case "writeln": // 写
 			switch (cmdnl[1]) {
 				case "format":
 					hout += HTMLEscape(parseFmt1(content)) + "\n";
@@ -139,7 +139,7 @@ function KernelStep (cmd) {
 			}
 			++lineNum;
 		break;
-		case "alert":
+		case "alert": // 提示文字
 			switch (cmdnl[1]) {
 				case "format":
 					alert(parseFmt1(content));
@@ -149,7 +149,8 @@ function KernelStep (cmd) {
 			}
 			++lineNum;
 		break;
-		case "clear":
+		case "rem": ++lineNum; break; // 注释 (remark)
+		case "clear": // 清除输出
 			hout = "";
 			++lineNum;
 		break;
@@ -172,7 +173,7 @@ function KernelStep (cmd) {
 			tmp = content.match(/(\S*)\s*([\s\S]*)/);
 			var nextL = variableList["tag_" + tmp[2]];
 			switch (cmdnl[1]) {
-				case "inc":
+				case "inc": // 递增
 					variableList["var_" + tmp[1]]++;
 				break;
 				case "call": // 循环调用
@@ -183,7 +184,7 @@ function KernelStep (cmd) {
 						lineNum = variableList["tag_" + content];
 					} else lineNum++;
 				return;
-				default:
+				default: // 递减
 					variableList["var_" + tmp[1]]--;
 				break;
 			}
@@ -261,10 +262,10 @@ function KernelStep (cmd) {
 				case "del": // 删除变量
 					delete variableList["var_" + tmp[1]];
 				break;
-				case "push":
+				case "push": // 变量传送到堆栈
 					st0[++st0p] = variableList["var_" + tmp[1]];
 				break;
-				case "pop":
+				case "pop": // 从堆栈取出来
 					variableList["var_" + tmp[1]] = st0[st0p--];
 				break;
 				default:
