@@ -113,14 +113,14 @@ goto tag2
 :tag2
 ```
 
-# do-while 循环
+# do ... while 循环
 ```
 :tag  (do)
    code
 if[_str] var1 op var2 goto tag  (while)
 ```
 
-# repeat-until 循环
+# repeat ... until 循环
 ```
 :tag  (repeat)
    code
