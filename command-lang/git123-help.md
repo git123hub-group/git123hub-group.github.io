@@ -97,3 +97,20 @@ $~randr:a,b$     返回一个指定范围内的随机整数 (a - b)
 :var             变量值
 :fmt             变量的格式
 ```
+
+# while 循环
+```
+if[_str] var1 op var2 loop:call tag1
+goto tag2
+:tag1
+   code
+   call:ret
+:tag2
+```
+
+# do-while 循环
+```
+:tag
+   code
+goto tag
+```
