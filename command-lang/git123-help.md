@@ -94,6 +94,8 @@ $~randr:a,b$     返回一个指定范围内的随机整数 (a - b)
 :fhex            16 进制转换到 10 进制
 :chr             Unicode 值转换到字符
 :ord             字符转换到 Unicode 值
+:upper           转换到大写
+:lower           转换到小写
 :var             变量值
 :fmt             变量的格式
 ```
