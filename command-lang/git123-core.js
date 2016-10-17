@@ -67,6 +67,8 @@ function parseFmt1 (str) { // 格式变量
 		switch($1p2) { // 字符串操作
 			case "rev": case "reverse": return esrever.reverse($1r);
 			case "len": case "length":  return $1r.length;
+			case "lower": return $1r.toLowerCase();
+			case "upper": return $1r.toUpperCase();
 			case "bin": return (+$1r>>>0).toString(2);
 			case "chr": return String.fromCharCode($1r);
 			case "oct": return (+$1r>>>0).toString(8);
