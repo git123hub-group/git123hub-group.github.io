@@ -100,7 +100,7 @@ $~randr:a,b$     返回一个指定范围内的随机整数 (a - b)
 
 # while 循环
 ```
-if[_str] var1 op var2 loop:call tag1
+if[_str] var1 op var2 loop:call tag1  (while)
 goto tag2
 :tag1
    code
@@ -110,7 +110,14 @@ goto tag2
 
 # do-while 循环
 ```
-:tag
+:tag  (do)
    code
-goto tag
+if[_str] var1 op var2 goto tag  (while)
+```
+
+# repeat-until 循环
+```
+:tag  (repeat)
+   code
+if[_str]:not var1 op var2 goto tag  (until)
 ```
