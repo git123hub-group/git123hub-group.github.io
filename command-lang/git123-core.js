@@ -15,7 +15,7 @@ function parseFmt1 (str) { // 格式变量
 	var ctm = zpadd2(cdate.getHours()) + ":" + zpadd2(cdate.getMinutes()) + ":" + zpadd2(cdate.getSeconds()) + "." + zpadd3(cdate.getMilliseconds());
 	return str.replace(/\$((?:\\[\s\S]|[^\\\$])*)\$/g, function /* template */ ($0,$1) {
 		if ($1 === "") return "$";
-		var search;
+		var search, s$1, s$2;
 		var $1p1 = $1.match(/(.*?)(?::|$)/)[1], $1r;
 		var $1p2 = $1.slice($1p1.length+1);
 		if ($1p1.charAt(0) !== "~") {
@@ -54,9 +54,20 @@ function parseFmt1 (str) { // 格式变量
 			// break;
 		}
 		if (search = $1p2.match(/^((?:\\[\s\S]|[^\\\=])*)=((?:\\[\s\S]|[^\\\=])*)$/)) {
-			var s$1 = search[1].replace(/\\([\s\S])/g, "$1");
-			var s$2 = search[2].replace(/\\([\s\S])/g, "$1");
+			s$1 = search[1].replace(/\\([\s\S])/g, "$1");
+			s$2 = search[2].replace(/\\([\s\S])/g, "$1");
 			return $1r.split(s$1).join(s$2);
+		};
+		if (search = $1p2.match(/^(\w+):([\s\S]*)$/)) {
+			s$1 = search[1], s$2 = search[2].replace(/\\([\s\S])/g, "$1");
+			switch (true) {
+				case /\bfirst\b/.test(s$1): // 第一个
+					return $1r.indexOf(s$2);
+				break;
+				case /\blast\b/.test(s$1): // 最后一个
+					return $1r.lastIndexOf(s$2);
+				break;
+			}
 		};
 		if (search = $1p2.match(/^(-?\d+)$/)) {
 			return $1r.slice(search[1]);
@@ -135,6 +146,13 @@ function KernelStep (cmd) {
 				break;
 				case "readln":
 					hout += HTMLEscape(compiled[content]) + "\n";
+				break;
+				case "multi":
+					var rlines = parseInt(content);
+					while (rlines) {
+						hout += HTMLEscape(compiled[++lineNum]) + "\n";
+						--rlines;
+					}
 				break;
 				default:
 					hout += HTMLEscape(content) + "\n";
