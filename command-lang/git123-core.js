@@ -125,6 +125,14 @@ function KernelStep (cmd) {
 					KernelStep(compiled[lineNum+1]);
 					hout += '</span>';
 				break;
+				case "multi": // 多行字符串
+					var rlines = parseInt(content);
+					while (rlines) {
+						if (lineNum + 1 >= significantLines) {break;}
+						hout += HTMLEscape(compiled[++lineNum]);
+						--rlines; // 剩余行数递减
+					}
+				break;
 				case "var":
 					hout += HTMLEscape(variableList["var_" + content]);
 				break;
@@ -147,7 +155,7 @@ function KernelStep (cmd) {
 				case "readln":
 					hout += HTMLEscape(compiled[content]) + "\n";
 				break;
-				case "multi": // 多行字符串
+				case "multi": // 多行字符串带换行
 					var rlines = parseInt(content);
 					while (rlines) {
 						if (lineNum + 1 >= significantLines) {break;}
