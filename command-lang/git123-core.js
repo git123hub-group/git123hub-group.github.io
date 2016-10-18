@@ -263,6 +263,8 @@ function KernelStep (cmd) {
 				case "compl": flag = ~flag; break;
 				case "push":  st1[++st1p] = flag; break;
 				case "pop":   flag = st1[st1p--]; break;
+				default: // 比较后设置条件标志
+					tmp = content.split(" "); flag = cmpF(tmp[1], tmp[0], tmp[2]);
 			}
 		break;
 		case "break": // 断点 
