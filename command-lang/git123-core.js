@@ -63,10 +63,10 @@ function parseFmt1 (str) { // 格式变量
 			switch (true) {
 				case /\bfirst\b/.test(s$1): // 第一个
 					return $1r.indexOf(s$2);
-				break;
+				// break;
 				case /\blast\b/.test(s$1): // 最后一个
 					return $1r.lastIndexOf(s$2);
-				break;
+				// break;
 			}
 		};
 		if (search = $1p2.match(/^(-?\d+)$/)) {
