@@ -118,8 +118,12 @@ function KernelStep (cmd) {
 	switch (cmdnl[0]) {
 		case "write": // 写
 			switch (cmdnl[1]) {
-				case "cssf":
+				case "cssf": // CSS 样式 + 格式
 					content = parseFmt1("var_" + content);
+					hout += '<span style="' + HTMLEscape(content) + '">';
+					KernelStep(compiled[lineNum+1]);
+					hout += '</span>';
+				break;
 				case "css": // CSS 样式
 					hout += '<span style="' + HTMLEscape(content) + '">';
 					KernelStep(compiled[lineNum+1]);
@@ -253,7 +257,8 @@ function KernelStep (cmd) {
 			}
 		break;
 		case "break": // 断点 
-			++lineNum; 
+			++lineNum; breakpoint = true; rframe = false;
+		break;
 		case "terminate": // 程序终结
 			breakpoint = true; rframe = false;
 		break;
