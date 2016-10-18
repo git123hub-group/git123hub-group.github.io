@@ -147,12 +147,12 @@ function KernelStep (cmd) {
 				case "readln":
 					hout += HTMLEscape(compiled[content]) + "\n";
 				break;
-				case "multi":
+				case "multi": // 多行字符串
 					var rlines = parseInt(content);
 					while (rlines) {
 						if (lineNum + 1 >= significantLines) {break;}
 						hout += HTMLEscape(compiled[++lineNum]) + "\n";
-						--rlines;
+						--rlines; // 剩余行数递减
 					}
 				break;
 				default:
