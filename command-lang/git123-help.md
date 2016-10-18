@@ -3,56 +3,58 @@
 
 ## 命令
 ```
-break            断点
-terminate        终止
+break              断点
+terminate          终止
 
-call             子程序调用
-call:abs         绝对调用 (从上到下)
-call:abs-last    绝对调用 (从下到上)
-call:rel         相对调用
-call:ret         从调用返回
+call               子程序调用
+call:abs           绝对调用 (从上到下)
+call:abs-last      绝对调用 (从下到上)
+call:rel           相对调用
+call:ret           从调用返回
 
-execf            运行命令
+execf              运行命令
 
-goto             转移
-goto:abs         绝对转移 (从上到下)
-goto:abs-last    绝对转移 (从下到上)
-goto:rel         相对转移
+goto               转移
+goto:abs           绝对转移 (从上到下)
+goto:abs-last      绝对转移 (从下到上)
+goto:rel           相对转移
 
-if               条件执行 (数字)
-if_str           条件执行 (字符串)
-confirm          提示框执行
-else             其他的条件执行
+if                 条件执行 (数字)
+if_str             条件执行 (字符串)
+confirm            提示框执行
+else               其他的条件执行
 
-loop             递减后条件转移
-loop:inc         递增后条件转移
-loop:dec         递减后条件转移
-loop:call        循环调用
+loop               递减后条件转移
+loop:inc           递增后条件转移
+loop:dec           递减后条件转移
+loop:call          循环调用
 
-nextf            下一帧动画
+nextf              下一帧动画
 
-rem              单行注释 (同 `#`)
+rem                单行注释 (同 `#`)
 
-set              设置变量
-set:f            格式设置变量
-set:a            设置变量 (评估表达式)
-set:af           格式设置变量 (评估表达式)
-set:p            设置变量 (输入)
-set:pf           格式设置变量 (输入)
-set:ln           设置变量 (代码行)
-set:del          删除变量
-set:push         变量值存储
-set:pop          变量值取出
+set                设置变量
+set:f              格式设置变量
+set:a              设置变量 (评估表达式)
+set:af             格式设置变量 (评估表达式)
+set:p              设置变量 (输入)
+set:pf             格式设置变量 (输入)
+set:ln             设置变量 (代码行)
+set:del            删除变量
+set:push           变量值存储
+set:pop            变量值取出
 
-write            输出
-write:var        输出变量值
-write:readln     读取后输出
-write:format     格式输出
-writeln          输出并换行
-writeln:readln   读取后输出并换行
-writeln:format   格式输出并换行
-alert            警告框
-clear            清除屏幕
+write              输出
+write:var          输出变量值
+write:readln       读取后输出
+write:format       格式输出
+write:multi        多行字符串 (无换行)
+writeln            输出并换行
+writeln:readln     读取后输出并换行
+writeln:format     格式输出并换行
+writeln:multi      多行字符串 (带换行)
+alert              警告框
+clear              清除屏幕
 ```
 
 ## 前缀符号
