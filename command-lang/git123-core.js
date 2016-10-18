@@ -150,6 +150,7 @@ function KernelStep (cmd) {
 				case "multi":
 					var rlines = parseInt(content);
 					while (rlines) {
+						if (lineNum + 1 >= significantLines) {break;}
 						hout += HTMLEscape(compiled[++lineNum]) + "\n";
 						--rlines;
 					}
