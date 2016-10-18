@@ -1,5 +1,5 @@
 /* git123-core.js */
-var firstTime = new Date(), elseCon = false, lastIF;
+var firstTime = new Date(), elseCon = false, lastIF, st1, st1p, flag;
 var zpadd2 = function (num) { // 补零到 2 个字符
 	if (num < 10) return "0" + num;
 	return num;
@@ -254,6 +254,13 @@ function KernelStep (cmd) {
 					calls[++callsp] = lastIF;
 					calls[++callsp] = elseCon;
 					lineNum = variableList["tag_" + content];
+			}
+		break;
+		case "flag":
+			switch (cmdnl[1]) {
+				case "set":   flag = true;  break;
+				case "clear": flag = false; break;
+				case "compl": flag = ~flag; break;
 			}
 		break;
 		case "break": // 断点 
