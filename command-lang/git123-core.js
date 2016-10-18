@@ -112,7 +112,7 @@ function KernelStep (cmd) {
 	cmd = String(cmd).replace(/[\s\t\xa0\u3000]*/, "");
 	if (cmd.charAt(0) === ":" || cmd.charAt(0) === "#" || cmd === "") {++lineNum; return;}
 	var cmdn = cmd.match(/[A-Za-z0-9\-\_$]+(:[A-Za-z0-9\-\_$]*)?/)[0];
-	var cmdnl = cmdn.split(":");
+	var cmdnl = cmdn.split(":"), compare1;
 	cmdnl.length < 2 && (cmdnl[1] = "");
 	var content = cmd.slice(cmdn.length).replace(/\s/,""), tmp;
 	switch (cmdnl[0]) {
@@ -256,11 +256,13 @@ function KernelStep (cmd) {
 					lineNum = variableList["tag_" + content];
 			}
 		break;
-		case "flag":
+		case "cflag": // 条件标志
 			switch (cmdnl[1]) {
-				case "set":   flag = true;  break;
-				case "clear": flag = false; break;
+				case "set":   flag = true;  break; // 设置条件标志
+				case "clear": flag = false; break; // 清除条件标志
 				case "compl": flag = ~flag; break;
+				case "push":  st1[++st1p] = flag; break;
+				case "pop":   flag = st1[st1p--]; break;
 			}
 		break;
 		case "break": // 断点 
@@ -319,17 +321,22 @@ function KernelStep (cmd) {
 		break;
 		case "if": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
-			var compare1 = cmpF(tmp[2],+parseFmt1(tmp[1]),+parseFmt1(tmp[3]));
+			compare1 = cmpF(tmp[2],+parseFmt1(tmp[1]),+parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
 			elseCon = !compare1; lastIF = lineNum;
 			if (compare1) KernelStep(tmp[4]); else ++lineNum;
 		break;
 		case "if_str": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
-			var compare1 = cmpF(tmp[2],parseFmt1(tmp[1]),parseFmt1(tmp[3]));
+			compare1 = cmpF(tmp[2],parseFmt1(tmp[1]),parseFmt1(tmp[3]));
 			cmdnl[1] === "not" && (compare1 = !compare1);
 			elseCon = !compare1; lastIF = lineNum;
 			if (compare1) KernelStep(tmp[4]); else ++lineNum;
+		break;
+		case "if_flag": // 条件
+			compare1 = cmdnl[1] === "not" ? !flag : flag;
+			elseCon = !compare1; lastIF = lineNum;
+			if (compare1) KernelStep(content); else ++lineNum;
 		break;
 		case "confirm": // 条件是确认
 			tmp = content.match(/("?)(.*?)\1(?:\s+([\s\S]*))?/);
