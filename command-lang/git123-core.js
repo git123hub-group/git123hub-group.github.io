@@ -97,12 +97,12 @@ function parseFmt1 (str) { // 格式变量
 function cmpF (opr, str1, str2) { // 比较函数
 	opr = opr.toLowerCase();
 	switch (opr) {
-		case "==": case "equ": return str1 === str2; break;
-		case "!=": case "neq": return str1 !== str2; break;
-		case "<":  case "lss": return str1 < str2; break;
-		case "<=": case "leq": return str1 <= str2; break;
-		case ">":  case "gtr": return str1 > str2; break;
-		case ">=": case "geq": return str1 >= str2; break;
+		case "==": case "equ": return str1 === str2; // break;
+		case "!=": case "neq": return str1 !== str2; // break;
+		case "<":  case "lss": return str1 < str2; // break;
+		case "<=": case "leq": return str1 <= str2; // break;
+		case ">":  case "gtr": return str1 > str2; // break;
+		case ">=": case "geq": return str1 >= str2; // break;
 	}
 }
 function HTMLEscape (str) { // HTML 转义
