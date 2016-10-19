@@ -51,7 +51,7 @@ function parseFmt1 (str) { // 格式变量
 			// break;
 			case "~cline": // 当前行号
 				return +lineNum + +$1p2;
-			// break
+			// break;
 			case "~tline": // 总行数
 				return +significantLines + +$1p2;
 			// break;
