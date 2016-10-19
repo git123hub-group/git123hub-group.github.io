@@ -18,13 +18,15 @@ function _cprompt (title, value) {
 	document.getElementById("_dialogs").appendChild(e);
 }
 function continueF (n) {
-	if (n === 1) return CommandStepOverC();
+	if (n === 1) {
+		if (!breakpoint && callsp > prevsp) return;
+		return CommandStepOverC();
+	}
 	if (n === 2) return CommandRun();
 }
 function CommandStepOverC () {
 	if (!iscompiled || !stillRunning) return;
 	// prevsp = callsp; stepO1 = 1;
-	if (!breakpoint && callsp > prevsp) return;
 	do {
 		KernelStep(compiled[lineNum]);
 	} while (!breakpoint && callsp > prevsp);
