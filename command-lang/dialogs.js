@@ -1,12 +1,14 @@
 // <![CDATA[
 function _pOK (that) {
 	var p1 = that.parentElement;
-	// alert(p1.getElementsByTagName("input")[0].value);
+	variableList["var_" + vnam1] = p1.getElementsByTagName("input")[0].value);
 	p1.parentElement.remove();
+	continueF(stepO1);
 }
 function _pCan (that) {
-	// alert("");
+	variableList["var_" + vnam1] = "";
 	that.parentElement.parentElement.remove();
+	continueF(stepO1);
 }
 function _cprompt (title, value) {
 	var e = document.createElement("div");
