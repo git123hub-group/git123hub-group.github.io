@@ -279,8 +279,12 @@ function KernelStep (cmd) {
 			++lineNum; breakpoint = true; rframe = false;
 		break;
 		case "terminate": // 程序终结
-			breakpoint = true; rframe = false;
+			for (var i = 1; i <= 4; ++i) $id("rb" + i).disabled = true;
+			breakpoint = true; rframe = false; // 设置断点, 不执行下一帧。
 		break;
+		// case "terminate": // 程序终结
+		// 	breakpoint = true; rframe = false;
+		// break;
 		case "nextf": // 下一帧
 			++lineNum; breakpoint = true; rframe = true
 		break;
@@ -327,10 +331,6 @@ function KernelStep (cmd) {
 					variableList["var_" + tmp[1]] = tmp[2];
 			}
 			++lineNum;
-		break;
-		case "terminate": // 程序终结
-			for (var i = 1; i <= 4; ++i) $id("rb" + i).disabled = true;
-			breakpoint = true; rframe = false; // 设置断点, 不执行下一帧。
 		break;
 		case "if": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
