@@ -70,6 +70,7 @@ function ParseCode () {
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 };
 function CommandStepInto () {
+	stepO1 = 0;
 	if (!iscompiled) return;
 	KernelStep(compiled[lineNum]);
 	breakpoint = false;
@@ -91,10 +92,11 @@ function CommandStepOver () {
 };
 function CommandRun () {
 	if (!iscompiled || !stillRunning) return;
+	stepO1 = 2;
 	do {
 		KernelStep(compiled[lineNum]);
 	} while (!breakpoint);
-	breakpoint = false; stepO1 = 2;
+	breakpoint = false;
 	$id("COutput").innerHTML = hout;
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 	if (rframe) {
