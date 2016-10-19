@@ -354,7 +354,7 @@ function KernelStep (cmd) {
 		case "confirm": // 条件是确认
 			tmp = content.match(/("?)(.*?)\1(?:\s+([\s\S]*))?/);
 			var confirmed = confirm(tmp[2]);
-			cmdnl[2] === "not" && (confirmed = !confirmed);
+			cmdnl[1] === "not" && (confirmed = !confirmed);
 			elseCon = !confirmed; lastIF = lineNum;
 			if (confirmed) KernelStep(tmp[3]); else ++lineNum;
 		break;
