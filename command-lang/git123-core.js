@@ -330,7 +330,7 @@ function KernelStep (cmd) {
 		break;
 		case "terminate": // 程序终结
 			for (var i = 1; i <= 4; ++i) $id("rb" + i).disabled = true;
-			breakpoint = true; rframe = false; // 设置断点, 不执行下一帧
+			breakpoint = true; rframe = false; // 设置断点, 不执行下一帧。
 		break;
 		case "if": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
