@@ -1,7 +1,7 @@
 // <![CDATA[
 function _pOK (that) {
-	// var p1 = that.parentElement;
-	alert(p1.getElementsByTagName("input")[0].value);
+	var p1 = that.parentElement;
+	// alert(p1.getElementsByTagName("input")[0].value);
 	p1.parentElement.remove();
 }
 function _pCan (that) {
