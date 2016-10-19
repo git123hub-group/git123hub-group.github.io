@@ -1,5 +1,5 @@
 /* git123-core.js */
-var firstTime = new Date(), elseCon = false, lastIF, st1, st1p, flag;
+var firstTime = new Date(), elseCon = false, lastIF, st1, st1p, flag, vnam1;
 var zpadd2 = function (num) { // 补零到 2 个字符
 	if (num < 10) return "0" + num;
 	return num;
@@ -292,10 +292,10 @@ function KernelStep (cmd) {
 					variableList["var_" + tmp[1]] = "" + execNumExpr(parseFmt1(tmp[2]).replace(/\s/g,""));
 				break;
 				case "p": // 输入
-					variableList["var_" + tmp[1]] = "" + prompt(tmp[2]);
+					_cprompt(tmp[2]); breakpoint = true; rframe = false;
 				break;
 				case "pf":
-					variableList["var_" + tmp[1]] = "" + prompt(parseFmt1(tmp[2]));
+					_cprompt(parseFmt1(tmp[2])); breakpoint = true; rframe = false;
 				break;
 				case "ln":
 					if (/^\s*\d\s*$/.test(tmp[1])) {
