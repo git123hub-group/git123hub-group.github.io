@@ -13,7 +13,7 @@ call:abs-last      绝对调用 (从下到上)
 call:rel           相对调用
 call:ret           从调用返回
 
-cflag              先比较, 再把条件标志位设置为比较结果.
+cflag              先比较, 再把条件标志位设置为比较后的结果.
 cflag:clear        条件标志位设置为 0
 cflag:compl        条件标志位取反
 cflag:pop          条件标志位出栈
