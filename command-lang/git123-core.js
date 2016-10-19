@@ -203,8 +203,13 @@ function KernelStep (cmd) {
 			}
 		break;
 		case "loop":
-			tmp = content.match(/(\S*)\s*([\s\S]*)/);
-			var nextL = variableList["tag_" + tmp[2]];
+			tmp = content.match(/(\S*)\s*([\+\-]?)\s*([\s\S]*)/); var nextL;
+			switch (tmp[2]) {
+				case "+": nextL = lineNum + +tmp[3]; break;
+				case "-": nextL = lineNum -  tmp[3]; break;
+				default:
+					nextL = variableList["tag_" + tmp[3]];
+			}
 			switch (cmdnl[1]) {
 				case "inc": // 递增
 					variableList["var_" + tmp[1]]++;
