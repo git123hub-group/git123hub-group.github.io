@@ -50,6 +50,9 @@ function parseFmt1 (str) { // 格式变量
 				return "\t";
 			// break;
 			case "~tline": // 总行数
+				return +lineNum + +$1p2;
+			// break
+			case "~tline": // 总行数
 				return +significantLines + +$1p2;
 			// break;
 		}
