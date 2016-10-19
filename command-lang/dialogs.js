@@ -19,8 +19,7 @@ function _cprompt (title, value) {
 }
 function continueF (n) {
 	if (n === 1) {
-		if (!breakpoint && callsp > prevsp) return;
-		return CommandStepOverC();
+		if (!breakpoint && callsp > prevsp) return CommandStepOverC();
 	}
 	if (n === 2) return CommandRun();
 }
