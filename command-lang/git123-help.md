@@ -4,6 +4,7 @@
 ## 命令
 ```
 break              断点
+nextf              下一帧动画
 terminate          终止
 
 call               子程序调用
@@ -12,10 +13,12 @@ call:abs-last      绝对调用 (从下到上)
 call:rel           相对调用
 call:ret           从调用返回
 
-cflag              先比较, 再标志位设置为比较结果
-cflag:clear        标志位设置为 0
-cflag:compl        标志位取反
-cflag:set          标志位设置为 1
+cflag              先比较, 再把条件标志位设置为比较结果.
+cflag:clear        条件标志位设置为 0
+cflag:compl        条件标志位取反
+cflag:pop          条件标志位出栈
+cflag:push         条件标志位入栈
+cflag:set          条件标志位设置为 1
 
 execf              运行命令
 
@@ -34,8 +37,6 @@ loop               递减后条件转移
 loop:inc           递增后条件转移
 loop:dec           递减后条件转移
 loop:call          循环调用
-
-nextf              下一帧动画
 
 rem                单行注释 (同 `#`)
 
