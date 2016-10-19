@@ -28,11 +28,11 @@
 				<textarea id="CInput"></textarea>
 			</div>
 			<div style="padding-bottom: 3px;">
-				<input type="button" value="编译" onclick="ParseCode(stillRunning=false);" />
-				<input type="button" value="单步执行并进入子函数" onclick="CommandStepInto();" />
-				<input type="button" value="单步执行并越过子函数" onclick="CommandStepOver(stillRunning=true);" />
-				<input type="button" value="执行" onclick="CommandRun(stillRunning=true);" />
-				<input type="button" value="暂停" onclick="stillRunning=false;" />
+				<input type="button" value="初始化" onclick="ParseCode(stillRunning=false);" />
+				<input disabled="disabled" id="rb1" type="button" value="单步执行并进入子函数" onclick="CommandStepInto();" />
+				<input disabled="disabled" id="rb2" type="button" value="单步执行并越过子函数" onclick="CommandStepOver(stillRunning=true);" />
+				<input disabled="disabled" id="rb3" type="button" value="执行" onclick="CommandRun(stillRunning=true);" />
+				<input disabled="disabled" id="rb4" type="button" value="暂停" onclick="stillRunning=false;" />
 			</div>
 			<div style="padding-bottom: 3px;">
 				<input type="button" value="&quot;~rtime&quot; 复位" onclick="firstTime=new Date();" />
@@ -58,6 +58,7 @@ function $id (id) {
 var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false, rframe, prevsp,
     significantLines = 0, st0, st0p, stepO1;
 function ParseCode () {
+	for (var i = 1; i <= 4; ++i) $("rb" + i).disabled = false;
 	iscompiled = true, elseCon = false, st1 = [], st1p = -1, flag = false;
 	variableList = {}, hout = "", lineNum = 0, calls = [], callsp = -1, breakpoint = false, st0 = [], st0p = -1;
 	compiled = $id("CInput").value.split(/\r?\n|\r/);
