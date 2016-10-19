@@ -18,7 +18,7 @@ function _cprompt (title, value) {
 	document.getElementById("_dialogs").appendChild(e);
 }
 function continueF (n) {
-	if (n === 1) {
+	if (n === 1) { // 继续执行
 		if (!breakpoint && callsp > prevsp) return CommandStepOverC();
 	}
 	if (n === 2) return CommandRun();
