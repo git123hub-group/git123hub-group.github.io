@@ -55,8 +55,8 @@
 function $id (id) {
 	return document.getElementById(id);
 };
-var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false, rframe,
-    significantLines = 0, st0, st0p;
+var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false, rframe, prevsp,
+    significantLines = 0, st0, st0p, stepO1;
 function ParseCode () {
 	iscompiled = true, elseCon = false, st1 = [], st1p = -1, flag = false;
 	variableList = {}, hout = "", lineNum = 0, calls = [], callsp = -1, breakpoint = false, st0 = [], st0p = -1;
@@ -78,7 +78,7 @@ function CommandStepInto () {
 };
 function CommandStepOver () {
 	if (!iscompiled || !stillRunning) return;
-	var prevsp = callsp;
+	prevsp = callsp; stepO1 = 1;
 	do {
 		KernelStep(compiled[lineNum]);
 	} while (!breakpoint && callsp > prevsp);
@@ -94,7 +94,7 @@ function CommandRun () {
 	do {
 		KernelStep(compiled[lineNum]);
 	} while (!breakpoint);
-	breakpoint = false;
+	breakpoint = false; stepO1 = 2;
 	$id("COutput").innerHTML = hout;
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 	if (rframe) {
