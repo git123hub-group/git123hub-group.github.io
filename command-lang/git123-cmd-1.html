@@ -58,7 +58,7 @@ function $id (id) {
 var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false, rframe, prevsp,
     significantLines = 0, st0, st0p, stepO1;
 function ParseCode () {
-	for (var i = 1; i <= 4; ++i) $("rb" + i).disabled = false;
+	for (var i = 1; i <= 4; ++i) $id("rb" + i).disabled = false;
 	iscompiled = true, elseCon = false, st1 = [], st1p = -1, flag = false;
 	variableList = {}, hout = "", lineNum = 0, calls = [], callsp = -1, breakpoint = false, st0 = [], st0p = -1;
 	compiled = $id("CInput").value.split(/\r?\n|\r/);
