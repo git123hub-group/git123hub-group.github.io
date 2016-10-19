@@ -78,17 +78,8 @@ function CommandStepInto () {
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 };
 function CommandStepOver () {
-	if (!iscompiled || !stillRunning) return;
 	prevsp = callsp; stepO1 = 1;
-	do {
-		KernelStep(compiled[lineNum]);
-	} while (!breakpoint && callsp > prevsp);
-	breakpoint = false;
-	$id("COutput").innerHTML = hout;
-	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
-	if (rframe && callsp > prevsp) {
-		requestAnimationFrame(CommandRun);
-	}
+	CommandStepOverC();
 };
 function CommandRun () {
 	if (!iscompiled || !stillRunning) return;
