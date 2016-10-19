@@ -1,7 +1,7 @@
 // <![CDATA[
 function _pOK (that) {
 	var p1 = that.parentElement;
-	variableList["var_" + vnam1] = p1.getElementsByTagName("input")[0].value);
+	variableList["var_" + vnam1] = p1.getElementsByTagName("input")[0].value;
 	p1.parentElement.remove();
 	continueF(stepO1);
 }
