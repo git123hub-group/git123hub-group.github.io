@@ -292,10 +292,12 @@ function KernelStep (cmd) {
 					variableList["var_" + tmp[1]] = "" + execNumExpr(parseFmt1(tmp[2]).replace(/\s/g,""));
 				break;
 				case "p": // 输入
-					_cprompt(tmp[2]); breakpoint = true; rframe = false;
+					vnam1 = tmp[1]; _cprompt(tmp[2]);
+					breakpoint = true; rframe = false;
 				break;
 				case "pf":
-					_cprompt(parseFmt1(tmp[2])); breakpoint = true; rframe = false;
+					vnam1 = tmp[1]; _cprompt(parseFmt1(tmp[2]));
+					breakpoint = true; rframe = false;
 				break;
 				case "ln":
 					if (/^\s*\d\s*$/.test(tmp[1])) {
