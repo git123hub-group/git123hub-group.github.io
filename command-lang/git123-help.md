@@ -14,12 +14,16 @@ call:ret           从调用返回
 
 execf              运行命令
 
+cflag              先比较, 再标志位设置为结果
+cflag:clear        标志位设置为 0
+
 goto               转移
 goto:abs           绝对转移 (从上到下)
 goto:abs-last      绝对转移 (从下到上)
 goto:rel           相对转移
 
 if                 条件执行 (数字)
+if_flag            条件执行 (标志位)
 if_str             条件执行 (字符串)
 confirm            提示框执行
 else               其他的条件执行
