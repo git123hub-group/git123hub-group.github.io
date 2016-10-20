@@ -312,9 +312,6 @@ function KernelStep (cmd) {
 					vnam1 = tmp[1]; _cprompt(ptitle,"text",parseFmt1(tmp[2]));
 					breakpoint = true; rframe = false;
 				break;
-				case "title":
-					ptitle = content;
-				break;
 				case "pw": // 输入密码
 					vnam1 = tmp[1]; _cprompt(ptitle,"password",tmp[2]);
 					breakpoint = true; rframe = false;
@@ -343,6 +340,23 @@ function KernelStep (cmd) {
 					variableList["var_" + tmp[1]] = tmp[2];
 			}
 			++lineNum;
+		break;
+		case "title": // 设置标题
+			switch (cmdnl[1]) {
+				case "": // 同 default
+				case "set":
+					ptitle = content;
+				break;
+				case "push":
+					st0[++st0p] = ptitle;
+				break;
+				case "pop":
+					ptitle = st0[st0p--];
+				break;
+				default:
+					ptitle = content;
+				break;
+			}
 		break;
 		case "if": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
