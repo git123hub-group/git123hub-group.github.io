@@ -1,5 +1,5 @@
 /* git123-core.js */
-var firstTime = new Date(), elseCon = false, lastIF, st1, st1p, flag, vnam1, vnam2;
+var firstTime = new Date(), elseCon = false, lastIF, st1, st1p, flag, vnam1, vnam2, ptitle;
 var zpadd2 = function (num) { // 补零到 2 个字符
 	if (num < 10) return "0" + num;
 	return num;
@@ -179,10 +179,10 @@ function KernelStep (cmd) {
 			breakpoint = true; rframe = false;
 			switch (cmdnl[1]) {
 				case "format":
-					_calert("来自程序的提示",parseFmt1(content));
+					_calert(ptitle,parseFmt1(content));
 				break;
 				default:
-					_calert("来自程序的提示",content);
+					_calert(ptitle,content);
 			}
 			++lineNum;
 		break;
@@ -305,19 +305,19 @@ function KernelStep (cmd) {
 					variableList["var_" + tmp[1]] = "" + execNumExpr(parseFmt1(tmp[2]).replace(/\s/g,""));
 				break;
 				case "p": // 输入
-					vnam1 = tmp[1]; _cprompt("来自程序的提示","text",tmp[2]);
+					vnam1 = tmp[1]; _cprompt(ptitle,"text",tmp[2]);
 					breakpoint = true; rframe = false;
 				break;
 				case "pf":
-					vnam1 = tmp[1]; _cprompt("来自程序的提示","text",parseFmt1(tmp[2]));
+					vnam1 = tmp[1]; _cprompt(ptitle,"text",parseFmt1(tmp[2]));
 					breakpoint = true; rframe = false;
 				break;
 				case "pw": // 输入密码
-					vnam1 = tmp[1]; _cprompt("来自程序的提示","password",tmp[2]);
+					vnam1 = tmp[1]; _cprompt(ptitle,"password",tmp[2]);
 					breakpoint = true; rframe = false;
 				break;
 				case "pwf":
-					vnam1 = tmp[1]; _cprompt("来自程序的提示","password",parseFmt1(tmp[2]));
+					vnam1 = tmp[1]; _cprompt(ptitle,"password",parseFmt1(tmp[2]));
 					breakpoint = true; rframe = false;
 				break;
 				case "ln":
@@ -364,7 +364,7 @@ function KernelStep (cmd) {
 			tmp = content.match(/("?)(.*?)\1(?:\s+([\s\S]*))?/);
 			breakpoint = true; rframe = false; lastIF = lineNum;
 			vnam1 = cmdnl[1] === "not"; vnam2 = tmp[3];
-			_cconfirm("来自程序的提示",tmp[2]);
+			_cconfirm(ptitle,tmp[2]);
 		break;
 		case "else": // 其他条件
 			if (elseCon) {elseCon = false; KernelStep(content);} else ++lineNum;
