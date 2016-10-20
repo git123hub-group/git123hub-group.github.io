@@ -30,6 +30,17 @@ function _pCan2 (that) { // 取消键
 	$id("COutput").innerHTML = hout;
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 }
+function _pNop (that) { // 取消键
+	that.parentElement.parentElement.remove();
+	continueF(stepO1);
+}
+function _calert (title, content) {
+	var e = document.createElement("div");
+	content == null && (content = "");
+	e.className = "o0";
+	e.innerHTML = "<div class=\"o1\"><\/div><div class=\"o2c\"><div class=\"o3\">" + HTMLEscape(title) + "<\/div><div class=\"o6\">" + HTMLEscape(content) + "<\/div><div class=\"o8\" onclick=\"_pNop(this)\">确认<\/div><\/div>";
+	document.getElementById("_dialogs").appendChild(e);
+}
 function _cconfirm (title, content) {
 	var e = document.createElement("div");
 	content == null && (content = "");
