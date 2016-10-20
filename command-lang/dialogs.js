@@ -3,13 +3,25 @@ function _pOK (that) { // 确认键
 	var p1 = that.parentElement;
 	variableList["var_" + vnam1] = p1.getElementsByTagName("input")[0].value;
 	p1.parentElement.remove();
-	flag = true
+	flag = true;
 	continueF(stepO1);
 }
 function _pCan (that) { // 取消键
 	variableList["var_" + vnam1] = "";
 	that.parentElement.parentElement.remove();
-	flag = false
+	flag = false;
+	continueF(stepO1);
+}
+function _pOK (that) { // 确认键
+	elseCon = vnam1;
+	vnam1 ? ++lineNum : KernelStep(tmp[3]);
+	that.parentElement.parentElement.remove();
+	continueF(stepO1);
+}
+function _pCan2 (that) { // 取消键
+	elseCon = !vnam1;
+	vnam1 ? KernelStep(tmp[3]) : ++lineNum;
+	that.parentElement.parentElement.remove();
 	continueF(stepO1);
 }
 function _cconfirm (title, content) {
