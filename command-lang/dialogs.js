@@ -14,9 +14,11 @@ function _pCan (that) { // 取消键
 }
 function _cprompt (title, _type, content, value) {
 	var e = document.createElement("div");
+	_type == null && (_type = "");
+	content == null && (content = "");
 	value == null && (value = "");
 	e.className = "o0";
-	e.innerHTML = "<div class=\"o1\"><\/div><div class=\"o2\"><div class=\"o3\">" + HTMLEscape(title) + "<\/div><div class=\"o6\">" + HTMLEscape(content) + "<br /><input type=\"" + HTMLEscape(_type) + "\" class=\"o7\" value=\"" + HTMLEscape(value) + "\" /><\/div><div class=\"o4\" onclick=\"_pCan(this)\">取消<\/div><div class=\"o5\" onclick=\"_pOK(this)\">确认<\/div><\/div>"
+	e.innerHTML = "<div class=\"o1\"><\/div><div class=\"o2\"><div class=\"o3\">" + HTMLEscape(title) + "<\/div><div class=\"o6\">" + HTMLEscape(content) + "<br /><input type=\"" + HTMLEscape(_type) + "\" class=\"o7\" value=\"" + HTMLEscape(value) + "\" /><\/div><div class=\"o4\" onclick=\"_pCan(this)\">取消<\/div><div class=\"o5\" onclick=\"_pOK(this)\">确认<\/div><\/div>";
 	document.getElementById("_dialogs").appendChild(e);
 }
 function continueF (n) {
