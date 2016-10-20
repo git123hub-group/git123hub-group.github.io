@@ -176,12 +176,13 @@ function KernelStep (cmd) {
 			++lineNum;
 		break;
 		case "alert": // 提示文字
+			breakpoint = true; rframe = false;
 			switch (cmdnl[1]) {
 				case "format":
-					alert(parseFmt1(content));
+					_calert("来自程序的提示",parseFmt1(content));
 				break;
 				default:
-					alert(content);
+					_calert("来自程序的提示",content);
 			}
 			++lineNum;
 		break;
