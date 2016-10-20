@@ -12,7 +12,7 @@ function _pCan (that) { // 取消键
 	flag = false;
 	continueF(stepO1);
 }
-function _pOK (that) { // 确认键
+function _pOK2 (that) { // 确认键
 	elseCon = vnam1;
 	vnam1 ? ++lineNum : KernelStep(tmp[3]);
 	that.parentElement.parentElement.remove();
