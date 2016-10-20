@@ -12,6 +12,13 @@ function _pCan (that) { // 取消键
 	flag = false
 	continueF(stepO1);
 }
+function _cconfirm (title, content) {
+	var e = document.createElement("div");
+	content == null && (content = "");
+	e.className = "o0";
+	e.innerHTML = "<div class=\"o1\"><\/div><div class=\"o2c\"><div class=\"o3\">" + HTMLEscape(title) + "<\/div><div class=\"o6\">" + HTMLEscape(content) + "<\/div><div class=\"o4\" onclick=\"_pCan2(this)\">取消<\/div><div class=\"o5\" onclick=\"_pOK2(this)\">确认<\/div><\/div>";
+	document.getElementById("_dialogs").appendChild(e);
+}
 function _cprompt (title, _type, content, value) {
 	var e = document.createElement("div");
 	_type == null && (_type = "");
