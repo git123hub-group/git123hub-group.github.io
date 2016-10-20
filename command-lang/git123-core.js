@@ -312,6 +312,9 @@ function KernelStep (cmd) {
 					vnam1 = tmp[1]; _cprompt(ptitle,"text",parseFmt1(tmp[2]));
 					breakpoint = true; rframe = false;
 				break;
+				case "title":
+					ptitle = content;
+				break;
 				case "pw": // 输入密码
 					vnam1 = tmp[1]; _cprompt(ptitle,"password",tmp[2]);
 					breakpoint = true; rframe = false;
