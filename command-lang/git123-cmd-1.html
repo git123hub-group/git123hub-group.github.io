@@ -64,7 +64,7 @@ function $id (id) {
 var lineNum, calls = [], callsp, compiled = [], hout = "", breakpoint, iscompiled = false, rframe, prevsp,
     significantLines = 0, st0, st0p, stepO1;
 function ParseCode () {
-	for (var i = 1; i <= 4; ++i) $id("rb" + i).disabled = false;
+	for (var i = 1; i <= 4; ++i) $id("rb" + i).disabled = false, ptitle = "来自程序的提示";
 	iscompiled = true, elseCon = false, st1 = [], st1p = -1, flag = false;
 	compiled = $id("CInput").value.split(/\r?\n|\r/), variableList = {}, hout = "", lineNum = 0;
 	// 最近的行号和条件存储到堆栈中
