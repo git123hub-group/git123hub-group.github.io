@@ -304,11 +304,19 @@ function KernelStep (cmd) {
 					variableList["var_" + tmp[1]] = "" + execNumExpr(parseFmt1(tmp[2]).replace(/\s/g,""));
 				break;
 				case "p": // 输入
-					vnam1 = tmp[1]; _cprompt(tmp[2]);
+					vnam1 = tmp[1]; _cprompt("来自程序的提示","text",tmp[2]);
 					breakpoint = true; rframe = false;
 				break;
 				case "pf":
-					vnam1 = tmp[1]; _cprompt(parseFmt1(tmp[2]));
+					vnam1 = tmp[1]; _cprompt("来自程序的提示","text",parseFmt1(tmp[2]));
+					breakpoint = true; rframe = false;
+				break;
+				case "pw": // 输入密码
+					vnam1 = tmp[1]; _cprompt("来自程序的提示","password",tmp[2]);
+					breakpoint = true; rframe = false;
+				break;
+				case "pwf":
+					vnam1 = tmp[1]; _cprompt("来自程序的提示","password",parseFmt1(tmp[2]));
 					breakpoint = true; rframe = false;
 				break;
 				case "ln":
