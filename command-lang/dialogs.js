@@ -14,13 +14,13 @@ function _pCan (that) { // 取消键
 }
 function _pOK2 (that) { // 确认键
 	elseCon = vnam1;
-	vnam1 ? ++lineNum : KernelStep(tmp[3]);
+	vnam1 ? ++lineNum : KernelStep(vnam2);
 	that.parentElement.parentElement.remove();
 	continueF(stepO1);
 }
 function _pCan2 (that) { // 取消键
 	elseCon = !vnam1;
-	vnam1 ? KernelStep(tmp[3]) : ++lineNum;
+	vnam1 ? KernelStep(vnam2) : ++lineNum;
 	that.parentElement.parentElement.remove();
 	continueF(stepO1);
 }
