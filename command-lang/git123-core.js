@@ -353,10 +353,11 @@ function KernelStep (cmd) {
 				case "pop":
 					ptitle = st0[st0p--];
 				break;
-				default:
+				default: // 默认值
 					ptitle = content;
 				break;
 			}
+			++lineNum;
 		break;
 		case "if": // 条件
 			tmp = content.match(/(\S*)\s*(\S*)\s*(\S*)\s*([\s\S]*)/);
