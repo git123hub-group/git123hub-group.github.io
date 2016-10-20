@@ -17,12 +17,18 @@ function _pOK2 (that) { // 确认键
 	vnam1 ? ++lineNum : KernelStep(vnam2);
 	that.parentElement.parentElement.remove();
 	continueF(stepO1);
+	breakpoint = false;
+	$id("COutput").innerHTML = hout;
+	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 }
 function _pCan2 (that) { // 取消键
 	elseCon = !vnam1;
 	vnam1 ? KernelStep(vnam2) : ++lineNum;
 	that.parentElement.parentElement.remove();
 	continueF(stepO1);
+	breakpoint = false;
+	$id("COutput").innerHTML = hout;
+	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 }
 function _cconfirm (title, content) {
 	var e = document.createElement("div");
