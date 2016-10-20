@@ -1,5 +1,5 @@
 /* git123-core.js */
-var firstTime = new Date(), elseCon = false, lastIF, st1, st1p, flag, vnam1;
+var firstTime = new Date(), elseCon = false, lastIF, st1, st1p, flag, vnam1, vnam2;
 var zpadd2 = function (num) { // 补零到 2 个字符
 	if (num < 10) return "0" + num;
 	return num;
@@ -361,10 +361,9 @@ function KernelStep (cmd) {
 		break;
 		case "confirm": // 条件是确认
 			tmp = content.match(/("?)(.*?)\1(?:\s+([\s\S]*))?/);
-			var confirmed = confirm(tmp[2]);
-			cmdnl[1] === "not" && (confirmed = !confirmed);
-			elseCon = !confirmed; lastIF = lineNum;
-			if (confirmed) KernelStep(tmp[3]); else ++lineNum;
+			breakpoint = true; rframe = false; lastIF = lineNum;
+			vnam1 = cmdnl[1] === "not"; vnam2 = tmp[3];
+			_cconfirm("来自程序的提示",tmp[2]);
 		break;
 		case "else": // 其他条件
 			if (elseCon) {elseCon = false; KernelStep(content);} else ++lineNum;
