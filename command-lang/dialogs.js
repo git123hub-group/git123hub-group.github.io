@@ -76,7 +76,7 @@ function CommandStepOverC () {
 		requestAnimationFrame(CommandRun);
 	}
 };
-function insertText(myField, myValue) {
+function insertText(myField, myValue) { // 插入
     if (document.selection) { //IE support
         myField.focus();
         sel = document.selection.createRange();
