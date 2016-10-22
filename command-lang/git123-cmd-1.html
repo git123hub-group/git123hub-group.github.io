@@ -23,6 +23,8 @@
 	.kbd1,.kbd2{display:none;box-sizing:border-box}.o9>.kbd1{display:block;width:100%;height:-webkit-calc(30% - 20px);
 	background:#CF7;bottom:20px;left:0;position:absolute;overflow-y:auto;text-align:left;padding:8px}.o9>.kbd2{
 	bottom:0;left:0;position:absolute;line-height:20px;height:20px;width:100%;color:#fff;background:#c45;display:block;}
+	.o9>.kbd1>.i10{width:60px;height:30px;text-align:center;line-height:30px;background:#ac5;color:#000;border:1px solid black;
+	float:left}
 </style>
 <title>git123hub command language (1)</title>
 <meta charset="utf-8" />
@@ -38,7 +40,66 @@
 				代码区 (Code area)<br/>
 				<div class="CInpbox1">
 					<textarea id="CInput"></textarea>
-					<div class="kbd1">
+					<div class="kbd1" onselectstart="return false;">
+						<div class="i10" onclick="insertC(0)">`</div>
+						<div class="i10" onclick="insertC(1)">1</div>
+						<div class="i10" onclick="insertC(2)">2</div>
+						<div class="i10" onclick="insertC(3)">3</div>
+						<div class="i10" onclick="insertC(4)">4</div>
+						<div class="i10" onclick="insertC(5)">5</div>
+						<div class="i10" onclick="insertC(6)">6</div>
+						<div class="i10" onclick="insertC(7)">7</div>
+						<div class="i10" onclick="insertC(8)">8</div>
+						<div class="i10" onclick="insertC(9)">9</div>
+						<div class="i10" onclick="insertC(10)">0</div>
+						<div class="i10" onclick="insertC(11)">-</div>
+						<div class="i10" onclick="insertC(12)">=</div>
+						<div class="i10" onclick="deleteC()">Back</div>
+						<div style="clear:both"></div>
+						<div class="i10" onclick="insertC(13)">TAB</div>
+						<div class="i10" onclick="insertC(14)">Q</div>
+						<div class="i10" onclick="insertC(15)">W</div>
+						<div class="i10" onclick="insertC(16)">E</div>
+						<div class="i10" onclick="insertC(17)">R</div>
+						<div class="i10" onclick="insertC(18)">T</div>
+						<div class="i10" onclick="insertC(19)">Y</div>
+						<div class="i10" onclick="insertC(20)">U</div>
+						<div class="i10" onclick="insertC(21)">I</div>
+						<div class="i10" onclick="insertC(22)">O</div>
+						<div class="i10" onclick="insertC(23)">P</div>
+						<div class="i10" onclick="insertC(24)">[</div>
+						<div class="i10" onclick="insertC(25)">]</div>
+						<div class="i10" onclick="insertC(26)">Enter</div>
+						<div style="clear:both"></div>
+						<div class="i10" onclick="altern()">Shift</div>
+						<div class="i10" onclick="insertC(27)">A</div>
+						<div class="i10" onclick="insertC(28)">S</div>
+						<div class="i10" onclick="insertC(29)">D</div>
+						<div class="i10" onclick="insertC(30)">F</div>
+						<div class="i10" onclick="insertC(31)">G</div>
+						<div class="i10" onclick="insertC(32)">H</div>
+						<div class="i10" onclick="insertC(33)">J</div>
+						<div class="i10" onclick="insertC(34)">K</div>
+						<div class="i10" onclick="insertC(35)">L</div>
+						<div class="i10" onclick="insertC(36)">;</div>
+						<div class="i10" onclick="insertC(37)">'</div>
+						<div class="i10" onclick="insertC(38)">\</div>
+						<div class="i10" onclick="altern()">Shift</div>
+						<div style="clear:both"></div>
+						<div class="i10" onclick="alternL()">Left</div>
+						<div class="i10" onclick="insertC(39)">Z</div>
+						<div class="i10" onclick="insertC(40)">X</div>
+						<div class="i10" onclick="insertC(41)">C</div>
+						<div class="i10" onclick="insertC(42)">V</div>
+						<div class="i10" onclick="insertC(43)">B</div>
+						<div class="i10" onclick="insertC(44)">N</div>
+						<div class="i10" onclick="insertC(45)">M</div>
+						<div class="i10" onclick="insertC(46)">,</div>
+						<div class="i10" onclick="insertC(47)">.</div>
+						<div class="i10" onclick="insertC(48)">/</div>
+						<div class="i10" onclick="insertC(49)">Space</div>
+						<div class="i10" onclick="altern2()">Alt</div>
+						<div class="i10" onclick="alternR()">Right</div>
 					</div>
 					<div class="kbd2" onclick="cib1.classList.remove('o9');">退出全屏</div>
 				</div>
@@ -114,6 +175,45 @@ function CommandRun () {
 	}
 };
 var cib1 = document.getElementsByClassName("CInpbox1")[0];
+
+var char_table = [
+"`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-",  "=", "\t", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\n",
+"a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "\\", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", " ",
+"~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_",  "+", "\t", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "{", "}", "\n",
+"A", "S", "D", "F", "G", "H", "J", "K", "L", ":", '"', "|",  "Z", "X", "C", "V", "B", "N", "M", "<", ">", "?", " "];
+
+var char_name  = [
+"`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Back", "TAB", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "Enter",
+"Shift", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'", "\\", "Shift", "Left", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space", "Alt", "Right",
+"~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "Back", "TAB", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "{", "}", "Enter",
+"Shift", "A", "S", "D", "F", "G", "H", "J", "K", "L", ":", '"', "|",  "Shift", "Left", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "?", "Space", "Alt", "Right"];
+
+var offset2 = 0, offset3 = 0;
+function insertC (id) {
+	insertText(cib1.getElementsByTagName("textarea")[0], char_table[offset2 + id]);
+}
+function deleteC () {
+	var cib11 = cib1.getElementsByTagName("textarea")[0];
+	var startPos = cib11.selectionStart;
+	var endPos = cib11.selectionEnd;
+	if (startPos === endPos) {startPos--}
+	cib11.value = cib11.value.substring(0, startPos) + cib11.value.substring(endPos, cib11.value.length);
+	cib11.selectionStart = cib11.selectionEnd = startPos;
+	cib11.focus();
+}
+var shiftingK = 0;
+var o2s = [0, 50];
+var o3s = [0, 56];
+function altern () {
+	shiftingK ^= 1
+	offset2 = o2s[shiftingK];
+	offset3 = o3s[shiftingK];
+	var k = cib1.getElementsByClassName("i10")
+	for (var i = 0; i < 56; ++i) {
+		k[i].innerHTML = HTMLEscape(char_name[offset3+i])
+	}
+	cib1.getElementsByTagName("textarea")[0].focus();
+}
 // ]]>
 </script>
 <!-- JS 源码: https://git123hub.github.io/command-lang/dialogs.js -->
