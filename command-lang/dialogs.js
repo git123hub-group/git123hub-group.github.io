@@ -102,7 +102,7 @@ function alternL () { // 左键
 		else if (cib11.selectionDirection === "forward") cib11.selectionEnd--;
 		else cib11.selectionStart--;
 	} else {
-		if (startPos === endPos) {--endPos}
+		if (startPos === endPos) {--startPos}
 		cib11.selectionStart = cib11.selectionEnd = startPos;
 	}
 	cib11.focus();
