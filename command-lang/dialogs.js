@@ -93,4 +93,31 @@ function insertText(myField, myValue) {
     }
     myField.focus();
 };
+function alternL () {
+	var cib11 = cib1.getElementsByTagName("textarea")[0];
+	var startPos = cib11.selectionStart;
+	var endPos = cib11.selectionEnd;
+	if (shiftingK & 1) {
+		if (startPos === endPos) cib11.selectionStart--, cib11.selectionDirection = "backward";
+		else if (cib11.selectionDirection === "forward") cib11.selectionEnd--;
+		else cib11.selectionStart--;
+	} else {
+		cib11.selectionStart = cib11.selectionEnd = startPos;
+	}
+	cib11.focus();
+}
+function alternR () {
+	var cib11 = cib1.getElementsByTagName("textarea")[0];
+	var startPos = cib11.selectionStart;
+	var endPos = cib11.selectionEnd;
+	if (shiftingK & 1) {
+		if (startPos === endPos) cib11.selectionEnd++, cib11.selectionDirection = "forward";
+		else if (cib11.selectionDirection === "forward") cib11.selectionEnd++;
+		else cib11.selectionStart++;
+	} else {
+		if (startPos === endPos) {++endPos}
+		cib11.selectionStart = cib11.selectionEnd = endPos;
+	}
+	cib11.focus();
+}
 // ]]>
