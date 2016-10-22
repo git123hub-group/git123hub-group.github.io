@@ -76,4 +76,21 @@ function CommandStepOverC () {
 		requestAnimationFrame(CommandRun);
 	}
 };
+function insertText(myField, myValue) {
+    if (document.selection) { //IE support
+        myField.focus();
+        sel = document.selection.createRange();
+        sel.text = myValue;
+    } else if (myField.selectionStart || myField.selectionStart == 0) { //MOZILLA/NETSCAPE support
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos) + myValue
+        + myField.value.substring(endPos, myField.value.length);
+        startPos += myValue.length;
+        myField.selectionStart = myField.selectionEnd = startPos;
+    } else {
+        myField.value += myValue;
+    }
+    myField.focus();
+};
 // ]]>
