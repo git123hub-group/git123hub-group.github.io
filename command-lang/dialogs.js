@@ -93,7 +93,7 @@ function insertText(myField, myValue) {
     }
     myField.focus();
 };
-function alternL () {
+function alternL () { // 左键
 	var cib11 = cib1.getElementsByTagName("textarea")[0];
 	var startPos = cib11.selectionStart;
 	var endPos = cib11.selectionEnd;
@@ -107,7 +107,7 @@ function alternL () {
 	}
 	cib11.focus();
 }
-function alternR () {
+function alternR () { // 右键
 	var cib11 = cib1.getElementsByTagName("textarea")[0];
 	var startPos = cib11.selectionStart;
 	var endPos = cib11.selectionEnd;
