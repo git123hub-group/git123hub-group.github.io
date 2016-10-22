@@ -100,6 +100,9 @@
 						<div class="i10" onclick="insertC(49)">Space</div>
 						<div class="i10" onclick="altern2()">Alt</div>
 						<div class="i10" onclick="alternR()">Right</div>
+						<div style="clear:both"></div>
+						<div style="background:#da5;width:866px;height:30px;text-align:center;line-height:30px;border:1px solid black;"
+							onclick="insertSpace(cib1.getElementsByTagName('textarea')[0]);"></div>
 					</div>
 					<div class="kbd2" onclick="cib1.classList.remove('o9');">退出全屏</div>
 				</div>
@@ -213,6 +216,9 @@ function altern () {
 		k[i].innerHTML = HTMLEscape(char_name[offset3+i])
 	}
 	cib1.getElementsByTagName("textarea")[0].focus();
+}
+function insertSpace (el) {
+	insertText(el, " "); el.focus();
 }
 // ]]>
 </script>
