@@ -23,8 +23,8 @@
 	.kbd1,.kbd2{display:none;box-sizing:border-box}.o9>.kbd1{display:block;width:100%;height:-webkit-calc(30% - 20px);
 	background:#CF7;bottom:20px;left:0;position:absolute;overflow-y:auto;text-align:left;padding:8px}.o9>.kbd2{
 	bottom:0;left:0;position:absolute;line-height:20px;height:20px;width:100%;color:#fff;background:#c45;display:block;}
-	.o9>.kbd1>.i10{width:60px;height:30px;text-align:center;line-height:30px;background:#ac5;color:#000;border:1px solid black;
-	float:left}
+	.o9>.kbd1>.i10{width:calc(50%/7 - 2px);height:30px;text-align:center;line-height:30px;background:#ac5;color:#000;
+	border:1px solid black;float:left}
 </style>
 <title>git123hub command language (1)</title>
 <meta charset="utf-8" />
@@ -101,7 +101,7 @@
 						<div class="i10" onclick="altern2()">Alt</div>
 						<div class="i10" onclick="alternR()">Right</div>
 						<div style="clear:both"></div>
-						<div style="background:#da5;width:866px;height:30px;text-align:center;line-height:30px;border:1px solid black;"
+						<div style="background:#da5;width:calc(100% - 2px);height:30px;text-align:center;line-height:30px;border:1px solid black;"
 							onclick="insertSpace(cib1.getElementsByTagName('textarea')[0]);"></div>
 					</div>
 					<div class="kbd2" onclick="cib1.classList.remove('o9');">退出全屏</div>
