@@ -248,7 +248,7 @@ function KernelStep (cmd) {
 					lineNum  = significantLines-content;
 				break;
 				case "rel": // 相对
-					calls[++callsp] = ++lineNum;
+					calls[++callsp] = lineNum + 1;
 					calls[++callsp] = lastIF;
 					calls[++callsp] = elseCon;
 					lineNum += +content;
