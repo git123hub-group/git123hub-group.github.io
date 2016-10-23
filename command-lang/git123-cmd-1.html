@@ -23,8 +23,7 @@
 	height:calc(100% - 196px)}.kbd1,.kbd2{display:none;box-sizing:border-box}.o9>.kbd1{display:block;width:100%;height:156px;
 	background:#CF7;bottom:20px;left:0;position:absolute;overflow-y:auto;text-align:left;padding:8px}.o9>.kbd1>.i10{
 	width:calc(50%/7 - 2px);height:30px;text-align:center;line-height:30px;background:#ac5;color:#000;border:1px solid black;
-	float:left;overflow:hidden}.i11 {width:calc(50% - 2px);height:30px;text-align:center;line-height:30px;border:1px solid black;
-	float:lefy}
+	float:left;overflow:hidden}.i11 {height:30px;text-align:center;line-height:30px;border:1px solid black;float:left}
 </style>
 <title>git123hub command language (1)</title>
 <meta charset="utf-8" />
@@ -101,8 +100,10 @@
 						<div class="i10" onclick="altern2()">Alt</div>
 						<div class="i10" onclick="alternR()">Right</div>
 						<div style="clear:both"></div>
-						<div class="i11" style="background:#da5;" onclick="cib1.classList.remove('o9');">退出全屏</div>
-						<div class="i11" style="background:#d67;" onclick="insertSpace(cib1.getElementsByTagName('textarea')[0]);">空格</div>
+						<div class="i11" style="background:#d67; width:calc(30% - 2px);"
+							onclick="cib1.classList.remove('o9');">退出全屏</div>
+						<div class="i11" style="background:#da5; width:calc(70% - 2px);"
+							onclick="insertSpace(cib1.getElementsByTagName('textarea')[0]);">空格</div>
 					</div>
 				</div>
 			</div>
