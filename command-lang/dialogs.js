@@ -37,10 +37,10 @@ function _pNopOrig (that) { // 取消键
 	that.parentElement.parentElement.remove();
 }
 function _pkStep (that) { // 调试键
-	var tmp = lineNum;
+	var tmp = lineNum; // 存储行号
 	KernelStep(that.parentElement.getElementsByTagName("input")[0].value);
 	that.parentElement.parentElement.remove();
-	lineNum = tmp;
+	lineNum = tmp; // 取出行号
 	$id("COutput").innerHTML = hout;
 }
 function _calert (title, content) {
