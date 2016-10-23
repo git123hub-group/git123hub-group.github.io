@@ -38,9 +38,10 @@ function _pNopOrig (that) { // 取消键
 }
 function _pkStep (that) { // 调试键
 	var tmp = lineNum;
-	KernelStep(p1.getElementsByTagName("input")[0].value);
+	KernelStep(that.parentElement.getElementsByTagName("input")[0].value);
 	that.parentElement.parentElement.remove();
 	lineNum = tmp;
+	$id("COutput").innerHTML = hout;
 }
 function _calert (title, content) {
 	var e = document.createElement("div");
