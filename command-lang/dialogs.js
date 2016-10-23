@@ -31,8 +31,16 @@ function _pCan2 (that) { // 取消键
 	$id("CDebug").innerHTML = "Line " + (lineNum + 1) + ": " + compiled[lineNum];
 }
 function _pNop (that) { // 取消键
+	_pNopOrig(that); continueF(stepO1);
+}
+function _pNopOrig (that) { // 取消键
 	that.parentElement.parentElement.remove();
-	continueF(stepO1);
+}
+function _pkStep (that) { // 调试键
+	var tmp = lineNum;
+	KernelStep(p1.getElementsByTagName("input")[0].value);
+	that.parentElement.parentElement.remove();
+	lineNum = tmp;
 }
 function _calert (title, content) {
 	var e = document.createElement("div");
@@ -55,6 +63,15 @@ function _cprompt (title, _type, content, value) {
 	value == null && (value = "");
 	e.className = "o0";
 	e.innerHTML = "<div class=\"o1\"><\/div><div class=\"o2\"><div class=\"o3\">" + HTMLEscape(title) + "<\/div><div class=\"o6\">" + HTMLEscape(content) + "<br /><input type=\"" + HTMLEscape(_type) + "\" class=\"o7\" value=\"" + HTMLEscape(value) + "\" /><\/div><div class=\"o4\" onclick=\"_pCan(this)\">取消<\/div><div class=\"o5\" onclick=\"_pOK(this)\">确认<\/div><\/div>";
+	document.getElementById("_dialogs").appendChild(e);
+}
+function _cpDebug (title, _type, content, value) {
+	var e = document.createElement("div");
+	_type == null && (_type = "");
+	content == null && (content = "");
+	value == null && (value = "");
+	e.className = "o0";
+	e.innerHTML = "<div class=\"o1\"><\/div><div class=\"o2\"><div class=\"o3\">" + HTMLEscape(title) + "<\/div><div class=\"o6\">" + HTMLEscape(content) + "<br /><input type=\"" + HTMLEscape(_type) + "\" class=\"o7\" value=\"" + HTMLEscape(value) + "\" /><\/div><div class=\"o4\" onclick=\"_pNop(this)\">取消<\/div><div class=\"o5\" onclick=\"_pkStep(this)\">确认<\/div><\/div>";
 	document.getElementById("_dialogs").appendChild(e);
 }
 function continueF (n) {
