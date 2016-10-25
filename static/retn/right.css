@@ -1,5 +1,5 @@
 .linkh {
 	background-image: url(https://git123hub.github.io/images/ret-r0.png);
 	position: fixed; top: 158px; right: 0;
-	width: 24px; height: 88px;
+	width: 24px; height: 88px; cursor: pointer
 }
