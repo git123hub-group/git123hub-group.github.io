@@ -34,7 +34,7 @@ function movec (num) { // moving function
 	crafcc.fillStyle = crcol[crafa[ux + uy*100]];
 	crafcc.fillRect(ux*9, uy*10, 9, 10);
 	if (!iswall[crafa[tx + uy*100]]) ux = tx;
-	if (iswall[crafa[tx + uy*100]] && crafa[ux + ty*100] === 0 && crafa[tx + ty*100] === 0) ux = tx, uy = ty;
+	if (iswall[crafa[tx + uy*100]] && crafa[ux + ty*100] === 0 && fall1[crafa[tx + ty*100]]) ux = tx, uy = ty;
 	crafcc.fillStyle = "#ee3333";
 	crafcc.fillRect(ux*9, uy*10, 9, 10);
 };
