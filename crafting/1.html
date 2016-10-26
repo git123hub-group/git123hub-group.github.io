@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+</head>
+<body style="background-color:#000;color:#fff;" onkeyup="_keyup(event)">
+<center>
+<canvas width="900" height="400" id="craft1"></canvas>
+<br />
+<table>
+<tr>
+<td></td>
+<td><input type="button" value="位置 1" onclick="craftn(ud,-1)" /></td>
+<td></td>
+</tr>
+<tr>
+<td><input type="button" value="左移" onclick="movec(-1)" /></td>
+<td><input type="button" value="位置 2" onclick="craftn(ud,0)" /></td>
+<td><input type="button" value="右移" onclick="movec(+1)" /></td>
+</tr>
+<tr>
+<td></td>
+<td><input type="button" value="位置 3" onclick="craftn(ud,+1)" /></td>
+<td></td>
+</tr>
+</table>
+方块状态：
+	<input type="button" value="1" onclick="blockID = 1" />
+	<input type="button" value="2" onclick="blockID = 2" />
+	<br />
+电梯：
+	<input type="button" value="上" onclick="elev_move(-1)" />
+	<input type="button" value="下" onclick="elev_move(+1)" />
+</center>
+<script type="text/javascript" src="craft1.min.js"></script>
+</body>
+</html>
