@@ -2,7 +2,7 @@
 var crafc = document.getElementById("craft1"); // craft canvas
 var crafcc = crafc.getContext("2d"); // craft canvas context
 var crafa = new Uint8Array(100*40); // craft array
-var crcol = ["#000000", "#bfbfbf", "#404040"]; // craft color
+var crcol = ["#000000", "#bfbfbf", "#404040", "#664422"]; // craft color
 for (var y = 39; y >= 0; --y) { // initialize function
 	for (var x = 99; x >= 0; --x) {
 		crafa[x+y*100] = y > 38;
@@ -14,9 +14,10 @@ for (var y = 39; y >= 0; --y) { // initialize function
 var ux = 49; uy = 19, ud = 1;
 crafcc.fillStyle = "#ee3333";
 crafcc.fillRect(441, 190, 9, 10);
-var iswall = [0,1,0]; // this/that is wall?
-var iselev = [0,0,1]; // this/that is elevator?
-var fall1  = [1,0,1]
+var iswall = [0,1,0,1]; // this/that is wall?
+var iselev = [0,0,1,0]; // this/that is elevator?
+var fall1  = [1,0,1,0];
+var swit1  = [0,1,3,2]; // switch transform
 function falldown () { // fall down function
 	var ty = (uy + 1) % 40;
 	if (fall1[crafa[ux + ty*100]] && !iselev[crafa[ux + uy*100]]) {
@@ -71,6 +72,12 @@ function elev_move (num) { // elevator moving
 		crafcc.fillStyle = "#ee3333";
 		crafcc.fillRect(ux*9, uy*10, 9, 10)
 	}
+}
+function switchp (num) {
+	var nx = (ux + num + 100) % 100;
+	crafa[nx + uy*100] = swit[crafa[nx + uy*100]];
+	crafcc.fillStyle = crcol[crafa[nx + uy*100]];
+	crafcc.fillRect(nx*9, uy*10, 9, 10)
 }
 !function () {
 	var fnum = 0;
