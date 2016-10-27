@@ -52,9 +52,12 @@ function _keyup (e) {
 		case 38: elev_move(-1); break;
 		case 39: movec(1); break;
 		case 40: elev_move(1); break;
-		case 97:  craftn(ud,+1); break;
-		case 100: craftn(ud, 0); break;
-		case 103: craftn(ud,-1); break;
+		case 97:  craftn(-1,+1); break;
+		case 99:  craftn(+1,+1); break;
+		case 100: craftn(-1, 0); break;
+		case 102: craftn(+1, 0); break;
+		case 103: craftn(-1,-1); break;
+		case 105: craftn(+1,-1); break;
 	}
 };
 function elev_move (num) { // elevator moving
