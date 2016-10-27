@@ -75,7 +75,7 @@ function elev_move (num) { // elevator moving
 }
 function switchp (num) {
 	var nx = (ux + num + 100) % 100;
-	crafa[nx + uy*100] = swit[crafa[nx + uy*100]];
+	crafa[nx + uy*100] = swit1[crafa[nx + uy*100]];
 	crafcc.fillStyle = crcol[crafa[nx + uy*100]];
 	crafcc.fillRect(nx*9, uy*10, 9, 10)
 }
