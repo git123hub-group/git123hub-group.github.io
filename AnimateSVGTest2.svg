@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 254 510" id="top">
+   <circle cx="127" cy="383" r="125" stroke-width="2" stroke="#000" fill="none" />
+   <circle cx="127" cy="383" r="5" fill="#000" />
+   <polyline id="rot1" stroke-width="2" stroke="#000" fill="none" stroke-miterlimit="1.5" />
+   <line id="rot2" stroke-width="2" stroke="#000" fill="none" x1="0" y1="161.887" x2="254" y2="161.887" />
+   <script type="text/javascript">
+   // <![CDATA[
+      var svgtop = document.getElementById("top");
+      var rot1a = document.getElementById("rot1");
+      var rot1b = rot1a.points;
+      var rot2a = document.getElementById("rot2");
+      var svgpt1, svgpt2, svgpt3;
+      svgpt1 = svgtop.createSVGPoint();
+      svgpt1.x = 127; svgpt1.y = 383; rot1b.appendItem(svgpt1);
+      svgpt2 = svgtop.createSVGPoint();
+      svgpt2.x = 127+125; svgpt2.y = 383; rot1b.appendItem(svgpt2);
+      svgpt3 = svgtop.createSVGPoint();
+      svgpt3.x = 127; svgpt3.y = 161.887; rot1b.appendItem(svgpt3);
+      var angle = 0, twopi = 2 * Math.PI, currT = new Date().getTime();
+      !function nextA () {
+         var nextT = new Date().getTime(), diffT = nextT - currT;
+         angle = (angle + diffT / 796) % twopi;
+         svgpt2.x = 127+Math.cos(angle)*125; svgpt2.y = 383-Math.sin(angle)*125;
+         svgpt3.x = 127;
+         // 56703.5 = 254 ^ 2 - 125 ^ 2 / 2
+         rot2a.y1.baseVal.value = rot2a.y2.baseVal.value = svgpt3.y = svgpt2.y-Math.sqrt(56703.5-Math.cos(2*angle)*7812.5);
+         currT = nextT;
+         requestAnimationFrame(nextA);
+      } ();
+   // ]]>
+   </script>
+</svg>
