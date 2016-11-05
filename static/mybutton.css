@@ -1,7 +1,7 @@
 .btn {display:none}
 .btn * {background-image:url(https://git123hub.github.io/images/btn-ascii-20161105a.png);height:27px;width:8px;background-position-y:0;float:left;display:inline-block}
 .btn .ul {background-position-y:-27px} .btn .bef {background-position-x:0;width:4px} .btn .aft {background-position-x:-764px;width:4px}
-.btn.active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20161105b.png)}
+.btn:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20161105b.png)}
 .c0 {background-position-x:-4px}
 .c1 {background-position-x:-12px}
 .c2 {background-position-x:-20px}
