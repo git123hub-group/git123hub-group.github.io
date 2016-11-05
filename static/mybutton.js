@@ -67,12 +67,12 @@
 		}
 		buttons[btnid].innerHTML = toBtn(buttons[btnid].innerHTML);
 		buttons[btnid].style.display = "inline-block";
-		buttons[btnid].onmousedown = function (event) {
-			this.classList.add("active");
-		}
-		buttons[btnid].onmouseup = function (event) {
-			this.classList.remove("active");
-		}
+		// buttons[btnid].onmousedown = function (event) {
+		// 	this.classList.add("active");
+		// }
+		// buttons[btnid].onmouseup = function (event) {
+		// 	this.classList.remove("active");
+		// }
 	}
 	var head = document.head || document.getElementsByTagName("head")[0];
 	var icss = document.createElement("link");
