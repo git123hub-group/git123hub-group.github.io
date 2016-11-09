@@ -7,7 +7,7 @@
 .frac>* { display:table-row; }
 .frac>*:first-child { border-bottom:thin solid; }
 .top-border { border-top:solid thin; }
-.no-underline { text-decoration:none; }
+a { text-decoration:none; }
 </style>
 </head>
 <body>
@@ -18,10 +18,13 @@
    <input type="button" onclick="decrPos(40)" value="递减" />
    <br />
    <span>&phi;进制 (英文名:
-      <a href="https://en.wikipedia.org/wiki/Golden_ratio_base" class="no-underline">Golden ratio base</a>
+      <a href="https://en.wikipedia.org/wiki/Golden_ratio_base">Golden ratio base</a>
    或 phinary), 使用 &phi; = <span class="frac"><span>&radic;<span class="top-border">5</span> + 1</span><span>2</span></span>
    = 1.6180… 作为底数</span>
-</span>
+</div>
+<pre>
+* 参考 <a href="http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/phigits.html">"Using Powers of Phi to represent Integers (Base Phi)"</a>
+</pre>
 <script type="text/javascript">
 // <![CDATA[
 var ctx = document.getElementById("base_phi").getContext("2d");
