@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>no title</title>
+</head>
+<body style="text-align: center">
+<canvas id="base_phi" width="810" height="30"></canvas>
+<br />
+<input type="button" onclick="incrPos(40)" value="increment" />
+<input type="button" onclick="decrPos(40)" value="decrement" />
+<script type="text/javascript">
+// <![CDATA[
+var ctx = document.getElementById("base_phi").getContext("2d");
+var arr = new Int8Array(81);
+ctx.fillStyle = "#FFFFFF";
+ctx.fillRect(0,0,810,30);
+
+function incrPos (offset) {
+   arr[offset]++;
+   updateFunc(offset);
+}
+function decrPos (offset) {
+   arr[offset]--;
+   updateFunc(offset);
+}
+function updateFunc (offset) {
+   while (offset >= 0 && 81 > offset) {
+      switch (true) {
+         case arr[offset] >= 2:
+            arr[offset-1] ++;
+            arr[offset  ] -= 2;
+            arr[offset+2] ++;
+            offset--;
+         break;
+         case arr[offset] === 1 && arr[offset-1] === 1:
+            arr[offset-2] ++;
+            arr[offset-1] --;
+            arr[offset  ] --;
+            offset -= 2;
+         break;
+         case arr[offset] < 0:
+            arr[offset-1] --;
+            arr[offset  ] ++;
+            arr[offset+1] ++;
+            offset--;
+         break;
+         default:
+            offset++;
+      }
+   }
+   render();
+}
+function render () {
+   ctx.fillStyle = "#FFFFFF";
+   ctx.fillRect(0,0,810,30);
+   ctx.fillStyle = "#000000";
+   for (var i = 0; 81 > i; ++i) {
+      arr[i] && ctx.fillRect(i * 10,0,10,30);
+   }
+}
+// ]]>
+</script>
+</body>
+</html>
