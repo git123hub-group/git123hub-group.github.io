@@ -6,8 +6,7 @@
 .frac { display:inline-table;vertical-align:middle;border-collapse:collapse; }
 .frac>* { display:table-row; }
 .frac>*:first-child { border-bottom:thin solid; }
-.sqrt { border-top:solid thin;vertical-align:middle;margin-left: .5em;display: inline-flex; }
-.sqrt:before { margin-left:-.5em; content:"\221A"; }
+.top-border { border-top:solid thin;vertical-align:middle;display: inline-flex; }
 </style>
 </head>
 <body style="text-align: center">
@@ -16,7 +15,7 @@
 <input type="button" onclick="incrPos(40)" value="递增" />
 <input type="button" onclick="decrPos(40)" value="递减" />
 <br />
-&phi;进制 (英文名: Golden ratio base 或 phinary), 使用 &phi; = <span class="frac"><span><span class="sqrt">5</span> + 1</span><span>2</span></span> = 1.6180… 作为底数
+&phi;进制 (英文名: Golden ratio base 或 phinary), 使用 &phi; = <span class="frac"><span>&radic;<span class="top-border">5</span> + 1</span><span>2</span></span> = 1.6180… 作为底数
 <script type="text/javascript">
 // <![CDATA[
 var ctx = document.getElementById("base_phi").getContext("2d");
