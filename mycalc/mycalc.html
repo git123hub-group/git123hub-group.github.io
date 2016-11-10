@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+.tab1, .tab1 tr td{border:3px solid #000; border-collapse:collapse;}
+.tab1 tr td { width: 110px; height: 90px; text-align: center; }
+.tab1 tr:first-child td { height: 120px; }
+</style>
+<title>计算器</title>
+</head>
+<body>
+<div style="text-align: center;">
+<table style="font-size: 70px; margin-left: auto; margin-right: auto;" class="tab1">
+<tr>
+<td onclick="" colspan="5">
+<input type="text" style="text-align: right; font-size: inherit; width: 540px" id="display1" value="0" readonly="readonly" />
+</td>
+</tr>
+<tr>
+<td onclick="memory = 0;">MC</td>
+<td onclick="negateb()" style="font-size: 0.75em">+/-</td>
+<td onclick="sqrtkey()"><img src="sqrt.png" /></td>
+<td onclick="backsp()">&larr;</td>
+<td onclick="allclear()" style="color:#FFF; background:#F00">AC</td>
+</tr>
+<tr>
+<td onclick="memory += +ival">M+</td>
+<td onclick="memory -= +ival">M-</td>
+<td onclick="memory = +ival">MS</td>
+<td onclick="mrecall()">MR</td>
+<td onclick="clear1()">CE</td>
+</tr>
+<tr>
+<td onclick="addparen()">(</td>
+<td onclick="entern('7')">7</td>
+<td onclick="entern('8')">8</td>
+<td onclick="entern('9')">9</td>
+<td onclick="addop(OP_DIV)">&divide;</td>
+</tr>
+<tr>
+<td onclick="nestParens &gt; 0 &amp;&amp; evalparen()">)</td>
+<td onclick="entern('4')">4</td>
+<td onclick="entern('5')">5</td>
+<td onclick="entern('6')">6</td>
+<td onclick="addop(OP_MUL)">&times;</td>
+</tr>
+<tr>
+<td onclick=""><span style="border-bottom: 4px solid">&uarr;</span></td>
+<td onclick="entern('1')">1</td>
+<td onclick="entern('2')">2</td>
+<td onclick="entern('3')">3</td>
+<td onclick="addop(OP_SUB)">-</td>
+</tr>
+<tr>
+<td onclick=""><span style="border-bottom: 4px solid">&darr;</span></td>
+<td onclick="entern('0')">0</td>
+<td onclick="enterdp()">.</td>
+<td onclick="evexpr()">=</td>
+<td onclick="addop(OP_ADD)">+</td>
+</tr>
+</table>
+</div>
+<script src="calcwithshare.min.js"></script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>
