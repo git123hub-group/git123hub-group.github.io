@@ -7,7 +7,7 @@
 	function popmem () {
 		inputting = "0"
 		document.getElementById("display1").value = ival = memory
-		memory = memstk.length === 0 ? 0 : memstk.pop;
+		memory = memstk.length === 0 ? 0 : memstk.pop();
 	}
 	var inputting = "0", ival = 0, havingDP = false;
 	var OP_ADD = 0, OP_SUB = 1, OP_MUL = 2, OP_DIV = 3;
