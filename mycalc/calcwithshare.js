@@ -127,7 +127,7 @@
 		document.getElementById("display1").value = ival;
 	}
 	function allclear () {
-		numstk = [], oprsstk = [], havingDP = isoprsmode = false, ival = 0,
+		numstk = [], oprsstk = [], havingDP = isoprsmode = false, nestParens = ival = 0,
 		document.getElementById("display1").value = inputting = "0";
 	}
 	function clear1 () {
