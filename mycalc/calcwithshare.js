@@ -1,4 +1,8 @@
 // <![CDATA[
+	var accAdd, accSub, accMul, accDiv;
+	var acccalc = document.createElement("script");
+	acccalc.src = "acccalc.js";
+	document.body.appendChild(acccalc);
 	var memory = 0, memstk = [];
 	function pushmem () {
 		memstk.push(memory);
@@ -28,16 +32,16 @@
 				var last1 = numstk.length - 1;
 				switch (lastOp) {
 					case OP_ADD:
-						numstk[last1] += tmp;
+						numstk[last1] = accAdd(numstk[last1], tmp);
 					break;
 					case OP_SUB:
-						numstk[last1] -= tmp;
+						numstk[last1] = accSub(numstk[last1], tmp);
 					break;
 					case OP_MUL:
-						numstk[last1] *= tmp;
+						numstk[last1] = accMul(numstk[last1], tmp);
 					break;
 					case OP_DIV:
-						numstk[last1] /= tmp;
+						numstk[last1] = accDiv(numstk[last1], tmp);
 					break;
 				}
 				// OPR2 = lastOp;
@@ -64,16 +68,16 @@
 			var last1 = numstk.length - 1;
 			switch (lastOp) {
 				case OP_ADD:
-					numstk[last1] += tmp;
+					numstk[last1] = accAdd(numstk[last1], tmp);
 				break;
 				case OP_SUB:
-					numstk[last1] -= tmp;
+					numstk[last1] = accSub(numstk[last1], tmp);
 				break;
 				case OP_MUL:
-					numstk[last1] *= tmp;
+					numstk[last1] = accMul(numstk[last1], tmp);
 				break;
 				case OP_DIV:
-					numstk[last1] /= tmp;
+					numstk[last1] = accDiv(numstk[last1], tmp);
 				break;
 			}
 			// OPR2 = lastOp;
