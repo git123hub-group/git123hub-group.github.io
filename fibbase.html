@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>无标题</title>
+<style>
+a { text-decoration:none; }
+</style>
+</head>
+<body>
+<div style="text-align: center">
+   <canvas id="base_phi" width="810" height="30"></canvas>
+   <br />
+   <input type="button" onclick="incrPos()" value="递增" />
+   <input type="button" onclick="decrPos()" value="递减" />
+   <br />
+</div>
+<pre>
+* <a href="base-phi-sim.html">&phi;进制递增递减</a>
+* 参考 <a href="http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibrep.html">"Using the Fibonacci numbers to represent whole numbers"</a>
+</pre>
+<script type="text/javascript">
+// <![CDATA[
+var ctx = document.getElementById("base_phi").getContext("2d");
+var arr = new Int8Array(81);
+ctx.fillStyle = "#FFFFFF";
+ctx.fillRect(0,0,810,30);
+
+function incrPos () {
+   var offset = 80;
+   if (arr[offset] < 1) {
+      arr[offset]++;
+   } else {
+      arr[offset]--;
+      arr[--offset]++;
+   }
+   while (arr[offset] >= 1 && arr[offset-1] >= 1) {
+      arr[offset--]--;
+	  arr[offset--]--;
+	  arr[offset]++;
+   }
+   render();
+}
+function decrPos () {
+   var offset = 80;
+   if (arr[offset] >= 1) {
+      arr[offset]--;
+   } else {
+      for (;arr[offset] < 1;offset--) ;
+	  arr[offset--]--;
+	  while (offset < 81) {
+	    arr[offset += 2]++;
+	  }
+   }
+   render();
+}
+function render () {
+   ctx.fillStyle = "#FFFFFF";
+   ctx.fillRect(0,0,810,30);
+   ctx.fillStyle = "#000000";
+   for (var i = 0; 81 > i; ++i) {
+      arr[i] && ctx.fillRect(i * 10,0,10,30);
+   }
+}
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+// ]]>
+</script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>
