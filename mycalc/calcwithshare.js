@@ -1,5 +1,5 @@
 // <![CDATA[
-	var BigNumber;
+	var BigNumber, pinit = true;
 	var acccalc = document.createElement("script");
 	acccalc.src = "bignumber.min.js";
 	document.body.appendChild(acccalc);
@@ -56,6 +56,7 @@
 		oprsstk.push(OPR);
 	}
 	function addparen () {
+		if (!pinit) { alert ("Syntax Error."); return; }
 		havingDP = false;
 		isoprsmode && (oprsstk.push(OPR), isoprsmode = false);
 		oprsstk.push(4);
