@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+	a {text-decoration: none;}
+</style>
+<title>二元一次方程组求解</title>
+</head>
+<body>
+<div style="text-align: center">
+<input type="text" id="_a11" /> x +
+<input type="text" id="_a12" /> y =
+<input type="text" id="_b1" />
+<br />
+<input type="text" id="_a21" /> x +
+<input type="text" id="_a22" /> y =
+<input type="text" id="_b2" />
+<br />
+<input type="button" value="解二元一次方程组" onclick="solveeq2b()" />
+<br />
+x = <input type="text" id="eqx" />,
+y = <input type="text" id="eqy" />
+<br />
+<div style="margin-top:5px">
+	源代码地址 (百度网盘): <a href="http://pan.baidu.com/s/1pLPd8H9">http://pan.baidu.com/s/1pLPd8H9</a><br />
+	<a href="/index/">返回到首页</a>
+</div>
+</div>
+<script>
+function solveeq2 (a11, a12, b1, a21, a22, b2) {
+	var tmp;
+	if (a11/a21 === a12/a22) { return ["未定义", "未定义"] }
+	if (a11 === 0) {
+		a11 = a21; a21 = 0;
+		tmp = a22; a22 = a12; a12 = tmp;
+		tmp = b1; b1 = b2; b2 = tmp;
+	}
+	var s1 = a12 / a11, s2 = b1 / a11;
+	var s3 = a22 - a21 * s1, s4 = b2 - a21 * s2;
+	var s5 = s4 / s3;
+	var s6 = s2 - s1 * s5;
+	return [s6, s5];
+}
+function solveeq2b () {
+	var $ = function (id) {
+		return document.getElementById(id);
+	}
+	var tmp = solveeq2(+$("_a11").value,+$("_a12").value,+$("_b1").value,+$("_a21").value,+$("_a22").value,+$("_b2").value);
+	$("eqx").value = tmp[0];
+	$("eqy").value = tmp[1];
+}
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"share":{"bdSize":16},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+</body>
+</html>
