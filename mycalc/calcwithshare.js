@@ -17,7 +17,7 @@
 	function popmem () {
 		inputting = "0"; evopr(); ival = memory;
 		document.getElementById("display1").value = ival.toDigits(12);
-		memory = memstk.length === 0 ? 0 : memstk.pop();
+		memory = memstk.length === 0 ? new BigNumber(0) : memstk.pop();
 		m_st0s(); m_stks();
 		inputting = '0'; havingDP = false;
 	}
