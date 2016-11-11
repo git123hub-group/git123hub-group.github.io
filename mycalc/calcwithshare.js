@@ -170,6 +170,9 @@
 		for (var i = 1; i <= len && i <= 4; ++i) {
 			document.getElementById("m_st" + i).innerHTML = memstk[len - i].toDigits(12);
 		}
+		while (i <= 4) {
+			document.getElementById("m_st" + i).innerHTML = "空";
+		}
 	}
 	function recallMstk (i) {
 		var len = memstk.length;
