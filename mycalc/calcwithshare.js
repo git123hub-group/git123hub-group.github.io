@@ -12,14 +12,14 @@
 		memstk.push(memory);
 		memory = ival;
 		m_st0s(); m_stks();
-		inputting = '0'; havingDP = false
+		inputting = '0'; havingDP = false;
 	}
 	function popmem () {
 		inputting = "0"; evopr(); ival = memory;
 		document.getElementById("display1").value = ival.toDigits(12);
 		memory = memstk.length === 0 ? 0 : memstk.pop();
 		m_st0s(); m_stks();
-		inputting = '0'; havingDP = false
+		inputting = '0'; havingDP = false;
 	}
 	var inputting = "0", ival, havingDP = false;
 	var OP_ADD = 0, OP_SUB = 1, OP_MUL = 2, OP_DIV = 3;
@@ -139,6 +139,7 @@
 		havingDP = false;
 	}
 	function sqrtkey () {
+		inputting = '0'; havingDP = false;
 		ival = ival.sqrt();
 		document.getElementById("display1").value = ival.toDigits(12);
 	}
