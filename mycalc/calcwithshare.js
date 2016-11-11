@@ -65,7 +65,7 @@
 	function evalparen () {
 		havingDP = false;
 		var lastOp = oprsstk.slice(-1)[0], tmp, tmp2;
-		isoprsmode || (numstk.push(ival), inputting = "" + ival);
+		isoprsmode || (numstk.push(ival), isoprsmode = false, inputting = "" + ival);
 		(tmp2 = nestParens > 0) && --nestParens;
 		while (oplevel[lastOp] >= 0) {
 			tmp = numstk.pop();
