@@ -18,16 +18,16 @@
 </td>
 </tr>
 <tr>
-<td onclick="pinit = false; memory = 0; inputting = '0'; havingDP = false">MC</td>
+<td onclick="pinit = false; memclear(); inputting = '0'; havingDP = false">MC</td>
 <td onclick="pinit = false; negateb()" style="font-size: 0.75em">+/-</td>
 <td onclick="pinit = false; sqrtkey()" style="position: relative;"><img src="sqrt.png" style="top: 16px; left: 19.5px; position: absolute;" /></td>
 <td onclick="pinit = false; backsp()">&larr;</td>
 <td onclick="pinit = true; allclear()" style="color:#FFF; background:#F00">AC</td>
 </tr>
 <tr>
-<td onclick="pinit = false; memory = memory.add(ival); inputting = '0'; havingDP = false">M+</td>
-<td onclick="pinit = false; memory = memory.sub(ival); inputting = '0'; havingDP = false">M-</td>
-<td onclick="pinit = false; memory = new BigNumber(ival); inputting = '0'; havingDP = false">MS</td>
+<td onclick="pinit = false; memplus(); inputting = '0'; havingDP = false">M+</td>
+<td onclick="pinit = false; memminus(); inputting = '0'; havingDP = false">M-</td>
+<td onclick="pinit = false; mstore(); inputting = '0'; havingDP = false">MS</td>
 <td onclick="pinit = false; mrecall(); inputting = '0'; havingDP = false">MR</td>
 <td onclick="pinit = false; clear1()">CE</td>
 </tr>
