@@ -15,8 +15,8 @@
 		inputting = '0'; havingDP = false
 	}
 	function popmem () {
-		inputting = "0"; evopr();
-		document.getElementById("display1").value = ival = memory;
+		inputting = "0"; evopr(); ival = memory;
+		document.getElementById("display1").value = ival.toDigits(12);
 		memory = memstk.length === 0 ? 0 : memstk.pop();
 		m_st0s(); m_stks();
 		inputting = '0'; havingDP = false
@@ -125,8 +125,8 @@
 		document.getElementById("display1").value = inputting;
 	}
 	function mrecall () {
-		evopr(); inputting = "0";
-		document.getElementById("display1").value = ival = memory;
+		evopr(); inputting = "0"; ival = memory;
+		document.getElementById("display1").value = ival.toDigits(12);
 	}
 	var numstk = [], oprsstk = [], isoprsmode = false, OPR;
 	function addop(op) {
