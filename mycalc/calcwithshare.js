@@ -4,7 +4,8 @@
 	acccalc.src = "bignumber.min.js";
 	document.body.appendChild(acccalc);
 	acccalc.onload = function () {
-		memory = ival = new BigNumber(0)
+		BigNumber.set({ DECIMAL_PLACES: 25 });
+		memory = ival = new BigNumber(0);
 	}
 	var memory, memstk = [];
 	function pushmem () {
