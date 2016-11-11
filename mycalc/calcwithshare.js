@@ -171,7 +171,7 @@
 			document.getElementById("m_st" + i).innerHTML = memstk[len - i].toDigits(12);
 		}
 		while (i <= 4) {
-			document.getElementById("m_st" + i).innerHTML = "空";
+			document.getElementById("m_st" + i++).innerHTML = "空";
 		}
 	}
 	function recallMstk (i) {
