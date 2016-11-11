@@ -10,12 +10,16 @@
 	var memory, memstk = [];
 	function pushmem () {
 		memstk.push(memory);
-		memory = ival
+		memory = ival;
+		m_st0s(); m_stks();
+		inputting = '0'; havingDP = false
 	}
 	function popmem () {
-		inputting = "0"
-		document.getElementById("display1").value = ival = memory
+		inputting = "0"; evopr();
+		document.getElementById("display1").value = ival = memory;
 		memory = memstk.length === 0 ? 0 : memstk.pop();
+		m_st0s(); m_stks();
+		inputting = '0'; havingDP = false
 	}
 	var inputting = "0", ival, havingDP = false;
 	var OP_ADD = 0, OP_SUB = 1, OP_MUL = 2, OP_DIV = 3;
@@ -90,7 +94,8 @@
 			oprsstk.pop();
 			lastOp = oprsstk.slice(-1)[0];
 		}
-		document.getElementById("display1").value = ival = numstk.pop();
+		ival = numstk.pop();
+		document.getElementById("display1").value = ival.toDigits(12);
 		oprsstk.pop();
 		return tmp2;
 	}
@@ -135,7 +140,7 @@
 	}
 	function sqrtkey () {
 		ival = ival.sqrt();
-		document.getElementById("display1").value = ival;
+		document.getElementById("display1").value = ival.toDigits(12);
 	}
 	function allclear () {
 		numstk = [], oprsstk = [], havingDP = isoprsmode = false, nestParens = ival = new BigNumber(0),
@@ -143,6 +148,32 @@
 	}
 	function clear1 () {
 		ival = new BigNumber(0), document.getElementById("display1").value = inputting = "0"; havingDP = false;
+	}
+	function memplus () {
+		memory = memory.add(ival); m_st0s();
+	}
+	function memminus () {
+		memory = memory.sub(ival); m_st0s();
+	}
+	function mstore () {
+		memory = new BigNumber(ival); m_st0s();
+	}
+	function memclear () {
+		memory = new BigNumber(0); m_st0s();
+	}
+	function m_st0s () {
+		document.getElementById("m_st0").innerHTML = memory.toDigits(12);
+	}
+	function m_stks () {
+		var len = memstk.length;
+		for (var i = 1; i <= len && i <= 4; ++i) {
+			document.getElementById("m_st" + i).innerHTML = memstk[len - i].toDigits(12);
+		}
+	}
+	function recallMstk (i) {
+		var len = memstk.length;
+		evopr(); inputting = "0"; ival = memstk[len - i];
+		document.getElementById("display1").value = ival.toDigits(12);
 	}
 	window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 // ]]>
