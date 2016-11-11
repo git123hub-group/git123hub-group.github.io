@@ -96,6 +96,7 @@
 	}
 	function evexpr () {
 		while (evalparen()) ;
+		inputting = "0";
 	}
 	function entern (str) {
 		evopr();
