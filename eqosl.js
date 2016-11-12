@@ -59,8 +59,20 @@ var changePoints = function () {
 		ctx2.globalAlpha = 1;
 		ctx2.fillStyle = "#000000";
 		ctx2.font="13px sans-serif";
-		ctx2.fillText("(" + x1 + "," + y1 + ")", 433 + x1*40, 420.5 - y1*40);
-		ctx2.fillText("(" + x2 + "," + y2 + ")", 433 + x2*40, 420.5 - y2*40);
+		if (x1 < 8) {
+			ctx2.textAlign = "left";
+			ctx2.fillText("(" + x1 + "," + y1 + ")", 433 + x1*40, 420.5 - y1*40);
+		} else {
+			ctx2.textAlign = "right";
+			ctx2.fillText("(" + x1 + "," + y1 + ")", 408 + x1*40, 420.5 - y1*40);
+		}
+		if (x2 < 8) {
+			ctx2.textAlign = "left";
+			ctx2.fillText("(" + x2 + "," + y2 + ")", 433 + x2*40, 420.5 - y2*40);
+		} else {
+			ctx2.textAlign = "right";
+			ctx2.fillText("(" + x2 + "," + y2 + ")", 408 + x2*40, 420.5 - y2*40);
+		}
 	}
 	ctx1.fillStyle = "#0000FF";
 	ctx1.font="16px sans-serif";
