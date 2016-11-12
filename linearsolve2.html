@@ -28,19 +28,18 @@ y = <input type="text" id="eqy" />
 </div>
 </div>
 <script>
-function solveeq2 (a11, a12, b1, a21, a22, b2) {
+function solveeq2 (a, b, c, d, e, f) {
 	var tmp;
-	if (a11/a21 === a12/a22) { return ["未定义", "未定义"] }
-	if (a11 === 0) {
-		a11 = a21; a21 = 0;
-		tmp = a22; a22 = a12; a12 = tmp;
-		tmp = b1; b1 = b2; b2 = tmp;
-	}
-	var s1 = a12 / a11, s2 = b1 / a11;
-	var s3 = a22 - a21 * s1, s4 = b2 - a21 * s2;
-	var s5 = s4 / s3;
-	var s6 = s2 - s1 * s5;
-	return [s6, s5];
+	if (a * e === b * d) { return ["未定义", "未定义"] }
+	// ax + by = c
+	// dx + ey = f
+
+	g  = a * e - d * b
+	g1 = c * e - f * b
+	g2 = a * f - d * c
+
+	return [g1/g, g2/g];
+
 }
 function solveeq2b () {
 	var $ = function (id) {
