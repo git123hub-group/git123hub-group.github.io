@@ -165,7 +165,8 @@ var changePoints = function () {
 		__mode = 0;
 	}
 	changePoints.set = function(id) {
-		points[id] = prompt("请输入数值:") * 40;
+		var prompting = prompt("请输入数值:") 
+		prompting && points[id] = prompting * 40;
 		ctx2.clearRect(0,0,841,841);
 		drawLine(points.x1/40,points.y1/40,points.x2/40,points.y2/40);
 		drawTwoPoints(points.x1/40,points.y1/40,points.x2/40,points.y2/40);
