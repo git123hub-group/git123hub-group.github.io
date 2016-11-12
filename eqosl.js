@@ -16,15 +16,15 @@ var changePoints = function () {
 	var ctx1 = canvases[0].getContext("2d");
 	var ctx2 = canvases[1].getContext("2d");
 
-	ctx1.globalAlpha = 0.5;
 	ctx1.strokeStyle = "#0000FF";
-	for (var i = -10; 10 >= i; ++i) {
+	for (var i = -52; 52 >= i; ++i) {
 		if (i === 0) { continue; }
+		ctx1.globalAlpha = i % 5 ? 0.1 : 0.3;
 		ctx1.beginPath();
-		ctx1.moveTo(0,420.5+40*i);
-		ctx1.lineTo(841,420.5+40*i);
-		ctx1.moveTo(420.5+40*i,0);
-		ctx1.lineTo(420.5+40*i,841);
+		ctx1.moveTo(0,420.5+8*i);
+		ctx1.lineTo(841,420.5+8*i);
+		ctx1.moveTo(420.5+8*i,0);
+		ctx1.lineTo(420.5+8*i,841);
 		ctx1.stroke();
 	}
 	ctx1.globalAlpha = 1;
@@ -39,6 +39,7 @@ var changePoints = function () {
 	ctx1.moveTo(420.5,0);
 	ctx1.lineTo(420.5,841);
 	ctx1.stroke();
+	ctx2.textBaseline = "middle";
 	function drawTwoPoints (x1, y1, x2, y2) {
 		var twopi = 2 * Math.PI;
 		ctx2.globalAlpha = 0.3;
@@ -55,6 +56,24 @@ var changePoints = function () {
 		ctx2.beginPath();
 		ctx2.arc(420.5 + x1*40, 420.5 - y1*40, 5, 0, twopi);
 		ctx2.fill();
+		ctx2.globalAlpha = 1;
+		ctx2.fillStyle = "#000000";
+		ctx2.font="13px sans-serif";
+		ctx2.fillText("(" + x1 + "," + y1 + ")", 433 + x1*40, 420.5 - y1*40);
+		ctx2.fillText("(" + x2 + "," + y2 + ")", 433 + x2*40, 420.5 - y2*40);
+	}
+	ctx1.fillStyle = "#0000FF";
+	ctx1.font="16px sans-serif";
+	ctx1.textAlign = "center";
+	ctx1.textBaseline = "top";
+	for (var i = -10; 10 >= i; ++i) {
+		ctx1.fillText(i, 420.5-40*i, 425);
+	}
+	ctx1.fillStyle = "#FF0000";
+	ctx1.textAlign = "right";
+	ctx1.textBaseline = "middle";
+	for (var i = -10; 10 >= i; ++i) {
+		ctx1.fillText(i, 414, 420.5-40*i);
 	}
 	function drawLine (x1, y1, x2, y2) {
 		var leqe = document.getElementById("linear_equation_1"), tmp, tmp2;
