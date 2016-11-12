@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+.canvas1 { top: 0; left: 0; position: absolute }
+</style>
+<title>直线方程图像</title>
+</head>
+<body onmousedown="trace = true; changePoints.begin(event.offsetX-420.5, 420.5-event.offsetY)" onmouseup="trace = false">
+<div style="text-align: center; width: 841px; height: 841px; margin: 0 auto; position: relative">
+	<canvas width="841" height="841" class="canvas1" style="z-index:-2"></canvas>
+	<canvas width="841" height="841" class="canvas1" style="z-index: 1" onmousemove="trace &amp;&amp; changePoints(event.offsetX-420.5,420.5-event.offsetY)"></canvas>
+</div>
+<div style="text-align: center; font-size: 28px" id="linear_equation_1"></div>
+<div style="text-align: center;">
+	<button type="button" onclick="changePoints.set('x1')">设置 x<sub>1</sub></button>
+	<button type="button" onclick="changePoints.set('x2')">设置 x<sub>2</sub></button>
+	<button type="button" onclick="changePoints.set('y1')">设置 y<sub>1</sub></button>
+	<button type="button" onclick="changePoints.set('y2')">设置 y<sub>2</sub></button>
+</div>
+<script src="eqosl.min.js"></script>
+</body>
+</html>
