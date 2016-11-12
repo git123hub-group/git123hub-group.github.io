@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+	a {text-decoration: none;}
+	#_a,#_b,#_c {width: 100px;}
+</style>
+<title>一元二次方程求解</title>
+</head>
+<body>
+<div style="text-align: center">
+<input type="text" id="_a" /> x<sup>2</sup> +
+<input type="text" id="_b" /> x +
+<input type="text" id="_c" /> = 0
+<br />
+<input type="button" value="解一元二次方程" onclick="qsolve()" />
+<br />
+x<sub>1</sub> = <input type="text" id="_d1" />, x<sub>2</sub> = <input type="text" id="_d2" />
+<br />
+<div style="margin-top:5px">
+	<a href="/index/">返回到首页</a>
+</div>
+</div>
+<script type="text/javascript">
+// (-b +/- sqrt(b*b - 4*a*c)) / 2*a
+function qsolve () {
+	var $ = function (id) {
+		return document.getElementById(id);
+	}
+	var x2 = $("_a").value;
+	var x1 = $("_b").value;
+	var x0 = $("_c").value;
+	var d = x1*x1 - 4*x0*x2
+	if (d === 0) {
+		$("_d1").value = -x1 / (2 * x0);
+		$("_d2").value = "";
+	} else if (d > 0) {
+		$("_d1").value = (Math.sqrt(d) - x1) / (2 * x0);
+		$("_d2").value = -(Math.sqrt(d) + x1) / (2 * x0);
+	} else {
+		$("_d1").value = "此方程没有实解";
+		$("_d2").value = "";
+	}
+}
+
+</script>
+</body>
+</html>
