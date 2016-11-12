@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+	a {text-decoration: none;}
+</style>
+<title>一元一次方程求解</title>
+</head>
+<body>
+<div style="text-align: center">
+<input type="text" id="_a" /> x +
+<input type="text" id="_b" /> =
+<input type="text" id="_c" />
+<br />
+<input type="button" value="解一元一次方程" onclick="solveeq1b()" />
+<br />
+x = <input type="text" id="_d" style="width: 400px" />,
+<br />
+<div style="margin-top:5px">
+	<a href="/index/">返回到首页</a>
+</div>
+</div>
+<script type="text/javascript">
+function solveeq1b () {
+	var $ = function (id) {
+		return document.getElementById(id);
+	}
+	$("_d").value = ($("_c").value - $("_b").value) / $("_a").value
+}
+</script>
+</body>
+</html>
