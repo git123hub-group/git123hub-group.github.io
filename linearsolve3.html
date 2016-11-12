@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+	a {text-decoration: none;}
+	input[type="text"] {width: 100px;}
+</style>
+<title>三元一次方程组求解</title>
+</head>
+<body>
+<div style="text-align: center">
+<input type="text" id="_a11" /> x +
+<input type="text" id="_a12" /> y +
+<input type="text" id="_a13" /> z =
+<input type="text" id="_b1" />
+<br />
+<input type="text" id="_a21" /> x +
+<input type="text" id="_a22" /> y +
+<input type="text" id="_a23" /> z =
+<input type="text" id="_b2" />
+<br />
+<input type="text" id="_a31" /> x +
+<input type="text" id="_a32" /> y +
+<input type="text" id="_a33" /> z =
+<input type="text" id="_b3" />
+<br />
+<input type="button" value="解三元一次方程组" onclick="solveeq3b()" />
+<br />
+x = <input type="text" id="eqx" />,
+y = <input type="text" id="eqy" />,
+z = <input type="text" id="eqz" />
+<br />
+<div style="margin-top:5px">
+	<a href="/index/">返回到首页</a>
+</div>
+</div>
+<script type="text/javascript">
+function solveeq3 (a,b,c,d,e,f,g,h,i,j,k,l) { // 可能是三元一次方程组求解的优化方案
+	var q1, q2, q3, q4;
+	var delta = a*(q1 = g*j-f*k) + b*(q2 = e*k-g*i) + c*(q3 = f*i-e*j);
+	if (delta === 0) { return ["未定义", "未定义", "未定义"] }
+	var dx    = d*q1 + b*(q4 = h*k-g*l) + c*(q1 = f*l-h*j);
+	var dy    = d*q2 + c*(q2 = h*i-e*l) - a*q4;
+	var dz    = d*q3 - a*q1 - b*q2;
+	return [dx/delta, dy/delta, dz/delta]
+}
+function solveeq3b () {
+	var $ = function (id) {
+		return document.getElementById(id);
+	}
+	var tmp = solveeq3(+$("_a11").value,+$("_a12").value,+$("_a13").value,+$("_b1").value,+$("_a21").value,+$("_a22").value,+$("_a23").value,+$("_b2").value,+$("_a31").value,+$("_a32").value,+$("_a33").value,+$("_b3").value);
+	$("eqx").value = tmp[0];
+	$("eqy").value = tmp[1];
+	$("eqz").value = tmp[2];
+}
+</script>
+</body>
+</html>
