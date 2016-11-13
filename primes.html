@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<style>
+		a { text-decoration: none }
+	</style>
+	<title>质数检查器</title>
+</head>
+<body>
+	<div style="text-align: center">
+		<h1>质数检查器</h1>
+		请输入整数: <input type="text" id="pparam" />
+		<input type="button" onclick="isprime(document.getElementById('pparam').value)" value="检查是否为质数" />
+		<br />
+		<a href="/index/">返回到首页</a>
+	</div>
+<script>
+// <![CDATA[
+
+// modmult(a,b,N) finds a*b (mod N) where a, b, and N can be
+// up to (2^53-1)/2. Might up this to 2^53-1 eventually...
+function modadd(a,b,N) {
+// When the integers a, b satisfy a+b > 2^53-1, then (a+b)%N is wrong
+// so we add this routine to allow us to reach a, b = 2^53-1.
+if (a+b > 9007199254740991) {
+// Could reduce a and b (mod N) here, but assuming that has already been done
+// won't hurt if not... subtract 2^52 from one, 2^52-1 from the other and the
+// add it back modulo N (MaxInt+1)
+var t = ( (a-4503599627370496) + (b-4503599627370495) )%N;
+return ( t + (9007199254740991 % N) );
+}
+// Usual case: a + b is not too large:
+return ( (a+b)%N );
+}
+function modmult(a,b,N) {
+if (a > N) a = a%N;
+if (b > N) b = b%N;
+if (a*b <= 9007199254740991) {
+return ((a*b)%N);
+} else {
+if (b > a) return modmult(b,a,N);
+// Right to left binary multiplication
+var t = 0;
+var f = a;
+while (b > 1) {
+if ((b & 1) == 1) t = modadd(t,f,N);
+b = Math.floor(b/2);
+f = modadd(f,f,N);
+};
+t = modadd(t,f,N);
+return t;
+}
+}
+// modpow(a,exp,N) finds a^exp (mod N) where a, b, and N are
+// limited by modmult
+function modpow(a,exp,N) {
+if (exp == 0) return 1;
+// Right to left binary exponentiation
+var t = 1;
+var f = a;
+while (exp > 1) {
+if ((exp & 1) == 1) { // if exponent is odd
+t = modmult(t,f,N);
+}
+exp = Math.floor(exp/2);
+f = modmult(f,f,N);
+};
+t = modmult(t,f,N);
+return t;
+}
+// SPRP(N,a) checks if N (odd!) is a strong probable prime base a
+// (returns true or false)
+function SPRP(N,a) {
+var d = N-1; s = 1; // Assumes N is odd!
+while ( ((d=d/2) & 1) == 0) s++;	// Using d>>1 changed the sign of d!
+// Now N-1 = d*2^s with d odd
+var b = modpow(a,d,N);
+if (b == 1) return true;
+if (b+1 == N) return true;
+while (s-- > 1) {
+b = modmult(b,b,N);
+if (b+1 == N) return true;
+}
+return false;
+}
+
+// Primality Test
+function isprime (N) {
+	N = Math.floor(+N); // parseInt(N)
+	var max = 9007199254740991;
+	var isprimelist = [0,0,1,1,0,1,0,1,0,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1];
+	if (!(N <= max && N > 1)) return alert("无法判断是否为质数");
+	if (N < 24 && isprimelist[N] || SPRP(N,2) && SPRP(N,3) && SPRP(N,5) && SPRP(N,7) && SPRP(N,11) && SPRP(N,13) && SPRP(N,17) && SPRP(N,19) && SPRP(N,23)) {
+		return alert(N + " 是质数");
+    } else {
+        return alert(N + " 是合数");
+    }
+};
+// isprime(2);
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"share":{"bdSize":16},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+// ]]>
+</script>
+</body>
+</html>
