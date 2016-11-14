@@ -5,13 +5,16 @@
 	<style>
 		a { text-decoration: none }
 	</style>
-	<title>质数检查器</title>
+	<title>质数生成和检查器</title>
 </head>
 <body>
 	<div style="text-align: center">
-		<h1>质数检查器</h1>
-		请输入整数: <input type="text" id="pparam" />
-		<input type="button" onclick="isprime(document.getElementById('pparam').value)" value="检查是否为质数" />
+		<h1>质数生成和检查器</h1>
+		请输入整数: <input type="text" id="pparam" style="width: 400px" />
+		<br />
+		<input type="button" onclick="__isprime(document.getElementById('pparam').value)" value="检查是否为质数" />
+		<input type="button" onclick="findprev(document.getElementById('pparam'))" value="查找上一个质数" />
+		<input type="button" onclick="findnext(document.getElementById('pparam'))" value="查找下一个质数" />
 		<br />
 		<a href="/index/">返回到首页</a>
 	</div>
@@ -86,17 +89,43 @@ return false;
 }
 
 // Primality Test
+
 function isprime (N) {
 	N = Math.floor(+N); // parseInt(N)
 	var max = 9007199254740991;
 	var isprimelist = [0,0,1,1,0,1,0,1,0,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1];
-	if (!(N <= max && N > 1)) return alert("无法判断是否为质数");
+	if (!(N <= max && N > 1)) return -1;
 	if (N < 24 && isprimelist[N] || SPRP(N,2) && SPRP(N,3) && SPRP(N,5) && SPRP(N,7) && SPRP(N,11) && SPRP(N,13) && SPRP(N,17) && SPRP(N,19) && SPRP(N,23)) {
-		return alert(N + " 是质数");
-    } else {
-        return alert(N + " 是合数");
-    }
+		return 0;
+	} else {
+		return 1;
+	}
 };
+function __isprime (N) {
+	switch (isprime (N)) {
+		case 1: alert(N + " 是合数"); break;
+		case 0: alert(N + " 是质数"); break;
+		default: alert("无法判断是否为质数");
+	}
+}
+function findprev (el) {
+	var elv = Math.floor(+el.value); // parseInt(el.value)
+	if (!(elv >= 3 && elv <= 9007199254740991)) return alert("找不到上一个质数");
+	if (elv > 3) {
+		elv = elv - (elv % 2 + 1);
+		while (isprime(elv)) elv -= 2;
+		return el.value = elv;
+	}
+	el.value = 2
+}
+function findnext (el) {
+	var elv = Math.floor(+el.value);
+	if (elv >= 9007199254740881) return alert("找不到下一个质数");
+	if (!(elv >= 2)) return el.value = 2;
+	elv = elv + elv % 2 + 1;
+	while (isprime(elv)) elv += 2;
+	el.value = elv;
+}
 // isprime(2);
 window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"share":{"bdSize":16},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 // ]]>
