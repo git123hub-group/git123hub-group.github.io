@@ -95,17 +95,37 @@ return false;
 
 // Primality Test
 
+function getPow (n) {
+	var base;
+	for (var e = function (a) {
+		var b = 0;
+		a >= 134217728 && (a /= 134217728, b += 27);
+		a >= 16384 && (a /= 16384, b += 14);
+		a >= 128 && (a /= 128, b += 7);
+		a >= 16 && (a /= 16, b += 4);
+		a >= 4 && (a /= 4, b += 2);
+		return b + (a >> 1);
+	} (n); e >= 1; --e) {
+		if (Math.pow(base = Math.round(Math.pow(n, 1/e)), e) === n) break;
+	}
+	return [base, e];
+}
+	
 function decompfactor (n) {
-	var oldn = n;
 	function trialDivide (m) {
 		while(n % m === 0 && n !== m) factors.push(m), n /= m;
 	}
+	var j = getPow(+n);
+	var oldn = n;
+	n = j[0];
 	var factors = [];
 	trialDivide(2);
 	trialDivide(3);
 	for (var i = 5, add = 2; i * i <= n; i += add, add = 6 - add) trialDivide(i);
 	factors.push(n);
-	return oldn + " = " + factors.join(" &times; ");
+	var dc = factors.join(" &times; ");
+	j[1] !== 1 && factors.length > 1 && (dc = "(" + dc + ")");
+	return oldn + " = " + dc + (j[1] === 1 ? "" : "<sup>" + j[1] + "</sup>");
 }
 function isprime (N) {
 	N = Math.floor(+N); // parseInt(N)
