@@ -2,17 +2,19 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>广义的Fibonacci数列</title>
+<style> a { text-decoration: none } </style>
+<title>广义的Fibonacci数列计算器</title>
 </head>
 <body>
 <div style="text-align: center">
-<h1>广义的 Fibonacci 数列</h1>
+<h1>广义的 Fibonacci 数列计算器</h1>
 A = <input type="text" id="t1" /><br />
 B = <input type="text" id="t2" /><br />
 N = <input type="text" id="t3" /><br />
 <input type="button" value="求广义的扩展 Fibonacci 数列的第 N 项 (A, B)" onclick="$('t4').value = fib($('t2').value)*fib($('t3').value) + fib($('t1').value)*fib($('t3').value-1)" />
 <br />
-结果: <input type="text" id="t4" />
+结果: <input type="text" id="t4" /><br />
+  <a href="http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibCalcX.html">广义的Fibonacci数列计算器扩展版 (英文)</a>
 </div>
 <script src="fibonacci.min.js"></script>
 <script src="https://git123hub.github.io/static/retn/left.js"></script>
