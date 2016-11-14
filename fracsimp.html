@@ -19,6 +19,7 @@
 <span><input type="text" id="p2" /></span>
 </span>
 <input type="button" onclick="convfrac()" value="化简" />
+</div>
 <script>
 // <![CDATA[
 function $(id) { // 不是 jQuery
@@ -36,7 +37,7 @@ function gcd (x, y) { // 这个“GCD”不是“共产党”，而是“最大�
 }
 function convfrac () {
 	var a = $("p1"), b = $("p2");
-	var av = +a.value, bv = +b.value;
+	var av = parseInt(a.value), bv = parseInt(b.value);
 	if (bv === 0) return alert("分母为零错误");
 	if (av === 0) return a.value = 0, b.value = 1;
 	var c = gcd(av, bv);
