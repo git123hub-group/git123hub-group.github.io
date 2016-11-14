@@ -10,13 +10,18 @@
 <body>
 	<div style="text-align: center">
 		<h1>质数生成和检查器</h1>
-		请输入整数: <input type="text" id="pparam" style="width: 400px" />
-		<br />
-		<input type="button" onclick="__isprime(document.getElementById('pparam').value)" value="检查是否为质数" />
-		<input type="button" onclick="findprev(document.getElementById('pparam'))" value="查找上一个质数" />
-		<input type="button" onclick="findnext(document.getElementById('pparam'))" value="查找下一个质数" />
-		<br />
-		<a href="/index/">返回到首页</a>
+		<div>
+			请输入整数: <input type="text" id="pparam" style="width: 400px" />
+		</div>
+		<div>
+			<input type="button" onclick="__isprime(document.getElementById('pparam').value)" value="检查是否为质数" />
+			<input type="button" onclick="findprev(document.getElementById('pparam'))" value="查找上一个质数" />
+			<input type="button" onclick="findnext(document.getElementById('pparam'))" value="查找下一个质数" />
+		</div>
+		<div id="_factors" style="margin: 6px 0"></div>
+		<div>
+			<a href="/index/">返回到首页</a>
+		</div>
 	</div>
 <script>
 // <![CDATA[
@@ -90,6 +95,18 @@ return false;
 
 // Primality Test
 
+function decompfactor (n) {
+	var oldn = n;
+	function trialDivide (m) {
+		while(n % m === 0 && n !== m) factors.push(m), n /= m;
+	}
+	var factors = [];
+	trialDivide(2);
+	trialDivide(3);
+	for (var i = 5, add = 2; i * i <= n; i += add, add = 6 - add) trialDivide(i);
+	factors.push(n);
+	return oldn + " = " + factors.join(" &times; ");
+}
 function isprime (N) {
 	N = Math.floor(+N); // parseInt(N)
 	var max = 9007199254740991;
@@ -102,8 +119,12 @@ function isprime (N) {
 	}
 };
 function __isprime (N) {
+	var factorlist = document.getElementById('_factors');
+	factorlist.innerHTML = "";
 	switch (isprime (N)) {
-		case 1: alert(N + " 是合数"); break;
+		case 1:
+			confirm(N + " 是合数, 点击 \"确定\" 键进行分解质因数") && (factorlist.innerHTML = decompfactor(N));
+		break;
 		case 0: alert(N + " 是质数"); break;
 		default: alert("无法判断是否为质数");
 	}
