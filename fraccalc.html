@@ -59,7 +59,7 @@ function abslcm (x, y) {
 var i1 = $("p1"), i2 = $("p2"), i3 = $("p3"), i4 = $("p4"), i5 = $("p5"), i6 = $("p6");
 
 function fracadd (factor1) {
-	if (i2.value * i4.value === 0) {
+	if (+i2.value === 0 || +i4.value === 0) {
 		return alert("分母为零错误")
 	}
 	var comult = abslcm(+i2.value, +i4.value);
@@ -70,6 +70,13 @@ function fracadd (factor1) {
 	i6.value = a;
 }
 function fracmul (a, b) {
+	if (+i2.value === 0 || b === 0) {
+		return alert("分母为零错误")
+	}
+	if (+i1.value === 0 || a === 0) {
+		i5.value = 0;
+		return i6.value = 1;
+	}
 	var c = gcd(i1.value, b) * gcd(i2.value, a);
 	i5.value = i1.value * a / c;
 	i6.value = i2.value * b / c;
