@@ -59,6 +59,9 @@ function abslcm (x, y) {
 var i1 = $("p1"), i2 = $("p2"), i3 = $("p3"), i4 = $("p4"), i5 = $("p5"), i6 = $("p6");
 
 function fracadd (factor1) {
+	if (i2.value * i4.value === 0) {
+		return alert("分母为零错误")
+	}
 	var comult = abslcm(+i2.value, +i4.value);
 	var sum1 = comult / +i2.value * +i1.value + factor1 * (comult / +i4.value * +i3.value);
 	var a = comult / gcd(sum1, comult);
