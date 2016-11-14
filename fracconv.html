@@ -30,7 +30,7 @@ function convfrac () {
 	if ($("p1").value === "") {
 		b =  $("p2").value % $("p3").value;
 		a = ($("p2").value - b) / $("p3").value;
-		$("p1").value = (a > 0 ? a : ""), $("p2").value = (b > 0 ? b : $("p3").value = "", "");
+		$("p1").value = (a > 0 ? a : ""), $("p2").value = (b > 0 ? b : ($("p3").value = "", ""));
 	} else {
 		$("p3").value === "" && ($("p3").value = 0, $("p3").value = 1)
 		$("p2").value = +$("p2").value + $("p1").value * $("p3").value;
