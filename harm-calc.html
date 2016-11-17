@@ -4,16 +4,19 @@
 <meta charset="utf-8" />
 <title>调和数 (Harmonic number) 计算器</title>
 <style>
-.frac { display:inline-table;vertical-align:middle;border-collapse:collapse; }
-.frac>* { display:table-row; }
+.frac, .ou { display:inline-table;vertical-align:middle;border-collapse:collapse; }
+.frac>*, .ou>*:not(:nth-child(2)) { font-size:smaller; }
+.frac>*, .ou>* { display:table-row; }
 .frac>*:first-child { border-bottom:thin solid; }
-.frac input { text-align: center; width: 150px; margin: 4px }
 </style>
 </head>
 <body>
 <div style="text-align: center"><h1>调和数 (Harmonic number) 计算器</h1>
 请输入一个非负整数: <input type="text" id="p" /><input type="button" onclick="Hbtn()" value="计算" /><br />
-<br /><span id="o1"></span>
+<br />第 <i>n</i> 个调和数的公式: H<sub><i>n</i></sub> = 1 + <span class="frac"><span>1</span><span>2</span></span> +
+<span class="frac"><span>1</span><span>3</span></span> + &hellip; + <span class="frac"><span>1</span><span><i>n</i></span></span> =
+<span class="ou"><span><i>n</i></span><span>&sum;</span><span><i>k</i> = 1</span></span> <span class="frac"><span>1</span>
+<span><i>k</i></span></span><br /><span id="o1"></span>
 </div>
 <script>
 // <![CDATA[
