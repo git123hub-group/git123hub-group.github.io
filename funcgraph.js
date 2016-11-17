@@ -16,18 +16,18 @@ function functiongraphMain() {
 	s += '<input type="text" id="f0" style="position:absolute; left:90px; top:6px; color:' + clrs[0] + '; background-color: #eeffee; text-align:center; font: bold 20px Arial; width:420px; border-radius: 10px;  z-index: 2;" value="" onKeyUp="doGraph()" />';
 	s += '<div style="position:absolute; left:50px; top:36px; color:' + clrs[1] + '; font: bold 20px Arial; width:96%; z-index: 2;">y =</div>';
 	s += '<input type="text" id="f1" style="position:absolute; left:90px; top:36px; color:' + clrs[1] + '; background-color: #eeffee; text-align:center; font: bold 20px Arial; width:420px; border-radius: 10px;  z-index: 2;" value="" onKeyUp="doGraph()" />';
-	s += '<div style="position:absolute; left:135px; top:68px; color:black; font: 13px Arial; z-index: 2;">Zoom:</div>';
+	s += '<div style="position:absolute; left:135px; top:68px; color:black; font: 13px Arial; z-index: 2;">缩放:</div>';
 	s += '<input type="range" id="r1"  value="0.5" min="0" max="1" step=".01"  style="z-index:2; position:absolute; top:66px; left:170px; width:200px; height:17px; border: none; " oninput="onZoomChg(0,this.value)" onchange="onZoomChg(1,this.value)" />';
-	s += '<button style="font: 12px Arial; position:absolute; left:380px; top:66px;" class="togglebtn"  onclick="zoomReset()" >Reset</button>';
+	s += '<button style="font: 12px Arial; position:absolute; left:380px; top:66px;" class="togglebtn"  onclick="zoomReset()" >重置</button>';
 	s += '<canvas id="canvasId" width="' + canvasWd + '" height="' + canvasHt + '" style="position:absolute; left:5px; top:22px; z-index:1; margin-top: 70px; margin-left: 5px; background-color: #ffffff; border: 1px solid black;"></canvas>';
-	s += '<button id="polarBtn" style="font: 16px Arial; position:absolute; left:3px; bottom:23px;" class="togglebtn lo"  onclick="polarClick()" >Polar</button>';
+	s += '<button id="polarBtn" style="font: 16px Arial; position:absolute; left:3px; bottom:23px;" class="togglebtn lo"  onclick="polarClick()" >极坐标</button>';
 	s += '<div id="aval" style="position:absolute; left:265px; bottom:39px; color:black; font: bold 17px Arial; z-index: 2; text-align: : center;">1</div>';
 	s += '<div style="position:absolute; left:160px; bottom:25px; color:black; font: bold 13px Arial; z-index: 2;">a:</div>';
 	s += '<input type="range" id="ra" value="1" min="0" max="2" step=".001"  style="z-index:2; position:absolute; left:170px; bottom:23px; width:200px; height:17px; border: none; " oninput="onaChg(0,this.value)" onchange="onaChg(1,this.value)" />';
-	s += '<button style="font: 16px Arial; position:absolute; right:120px; bottom:33px;" class="togglebtn"  onclick="linkPop()" >Link</button>';
-	s += '<button style="font: 16px Arial; position:absolute; right:64px; bottom:33px;" class="togglebtn"  onclick="printCanvas()" >Print</button>';
-	s += '<button style="font: 16px Arial; position:absolute; right:3px; bottom:33px;" class="togglebtn"  onclick="saveCanvas()" >Save</button>';
-	s += '<button style="font: 16px Arial; position:absolute; right:3px; bottom:3px;" class="togglebtn"  onclick="doExample()" >Example</button>';
+	s += '<button style="font: 16px Arial; position:absolute; right:120px; bottom:33px;" class="togglebtn"  onclick="linkPop()" >链接</button>';
+	s += '<button style="font: 16px Arial; position:absolute; right:64px; bottom:33px;" class="togglebtn"  onclick="printCanvas()" >打印</button>';
+	s += '<button style="font: 16px Arial; position:absolute; right:3px; bottom:33px;" class="togglebtn"  onclick="saveCanvas()" >保存</button>';
+	s += '<button style="font: 16px Arial; position:absolute; right:3px; bottom:3px;" class="togglebtn"  onclick="doExample()" >例子</button>';
 	s += '<div id="linkpop" style="position:absolute; left:-450px; top:240px; padding: 5px; border: 1px solid red; border-radius: 9px; background-color: #88aaff; box-shadow: 10px 10px 5px 0px rgba(40,40,40,0.75); z-index:1; transition: all linear 0.3s; opacity:0; ">';
 	s += '<textarea  id="linkbox" value="ddd" style="width: 400px; height: 120px; font: 16px Arial; border: 1px solid red; border-radius: 9px; background-color: #eeeeff; display: block;">';
 	s += '</textarea >';
@@ -1437,7 +1437,7 @@ function printCanvas() {
 	var dataUrl = document.getElementById('canvasId').toDataURL();
 	var s = '<!DOCTYPE html>';
 	s += '<html>';
-	s += '<head><title>Print canvas</title></head>';
+	s += '<head><title>打印画布</title></head>';
 	s += '<body>';
 	s += '<img src="' + dataUrl + '">';
 	s += '</body>';
@@ -1454,4 +1454,5 @@ function printCanvas() {
 function dist(dx, dy) {
 	return (Math.sqrt(dx * dx + dy * dy));
 }
+
 functiongraphMain();
