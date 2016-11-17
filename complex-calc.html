@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>复数计算器</title>
+<style>
+a { text-decoration: none; }
+</style>
+</head>
+<body>
+<div style="text-align: center">
+<h1>复数计算器</h1>
+第一个复数: <input type="text" id="p1" /> + <input type="text" id="p2" /> i
+<br />
+第二个复数: <input type="text" id="p3" /> + <input type="text" id="p4" /> i
+<br />
+<input type="button" onclick="cmplx_add(q1,q2,q3,q4,q5,q6)" value="加" />
+<input type="button" onclick="cmplx_sub(q1,q2,q3,q4,q5,q6)" value="减" />
+<input type="button" onclick="cmplx_mul(q1,q2,q3,q4,q5,q6)" value="乘" />
+<input type="button" onclick="cmplx_div(q1,q2,q3,q4,q5,q6)" value="除" />
+<input type="button" onclick="cmplx_recip(q1,q2,q5,q6)" value="求倒数" />
+<input type="button" onclick="cmplx_pow(q1,q2,q3,q4,q5,q6)" value="求乘幂" />
+<input type="button" onclick="cmplx_sqr(q1,q2,q5,q6)" value="平方" />
+<input type="button" onclick="cmplx_sqrt(q1,q2,q5,q6)" value="开平方" />
+<input type="button" onclick="cmplx_ident(q1,q2,q5,q6)" value="f(x) = x" />
+<input type="button" onclick="q5.value = +q1.value, q6.value = -q2.value" value="共轭" />
+<br />
+<input type="button" onclick="to_cis(q1,q2,q5,q6)" value="直角坐标转极坐标" />
+<input type="button" onclick="to_cis2(q1,q2,q5,q6)" value="求自然对数" />
+<input type="button" onclick="from_cis(q1,q2,q5,q6)" value="极坐标转直角坐标" />
+<input type="button" onclick="from_cis2(q1,q2,q5,q6)" value="求以 e 为底的指数" />
+<br />
+<input type="button" onclick="alert(+q1.value === +q3.value &amp;&amp; +q2.value === +q4.value ? '相等' : '不相等')" value="判断两个复数是否相等" />
+<br />
+计算结果: <input type="text" id="p5" /> + <input type="text" id="p6" /> i
+</div>
+<script src="complexnum.min.js"></script>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>
