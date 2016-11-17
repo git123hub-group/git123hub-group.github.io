@@ -616,12 +616,13 @@ Coords.prototype.getTicks = function(stt, span, ratio) {
 	var inter = this.tickInterval(span / ratio, false);
 	var tickStt = Math.ceil(stt / inter) * inter;
 	var i = 0;
+	var end = stt + span;
 	do {
 		var tick = tickStt + i * inter;
 		tick = Number(tick.toPrecision(8));
 		ticks.push([tick, 1]);
 		i++;
-	} while (tick < span);
+	} while (tick < end);
 	inter = this.tickInterval(span / ratio, true);
 	for (i = 0; i < ticks.length; i++) {
 		var t = ticks[i][0];
