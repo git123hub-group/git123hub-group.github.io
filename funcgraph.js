@@ -818,7 +818,7 @@ Parser.prototype.getVal = function() {
 Parser.prototype.newParse = function(s) {
 	this.reset();
 	s = s.split(" ").join("");
-	s = s.split("�").join("/");
+	s = s.split("÷").join("/");
 	s = s.split("[").join("(");
 	s = s.split("]").join(")");
 	s = s.replace(/\u2212/g, '-');
@@ -826,7 +826,7 @@ Parser.prototype.newParse = function(s) {
 	s = s.replace(/\u00D7/g, '*');
 	s = s.replace(/\u00B2/g, '^2');
 	s = s.replace(/\u00B3/g, '^3');
-	s = s.replace(/\u221a/g, 'sqrt');
+	s = s.replace(/\u221A/g, 'sqrt');
 	s = this.fixParentheses(s);
 	s = this.fixUnaryMinus(s);
 	s = this.fixImplicitMultply(s);
