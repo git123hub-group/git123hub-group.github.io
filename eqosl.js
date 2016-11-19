@@ -1,4 +1,17 @@
 var trace = false;
+
+function getOffsetSum(elem) {
+  var top=0, left=0
+
+  while(elem) {
+    top = top + parseInt(elem.offsetTop)
+    left = left + parseInt(elem.offsetLeft)
+    elem = elem.offsetParent       
+  }
+
+  return {top: top, left: left}
+}
+
 var changePoints = function () {
 	function points2line (x0, y0, x1, y1) {
 		var m, b, minv, binv;

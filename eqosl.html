@@ -8,10 +8,13 @@ a { text-decoration: none }
 </style>
 <title>直线方程图像</title>
 </head>
-<body onmousedown="trace = true; changePoints.begin(event.offsetX-420.5, 420.5-event.offsetY)" onmouseup="trace = false">
+<body onmousedown="trace || (trace = true, changePoints.begin(event.offsetX-420.5, 420.5-event.offsetY))" onmouseup="trace = false" ontouchend="trace = false"
+ontouchstart="trace = true; changePoints.begin(event.touches[0].pageX-420.5-getOffsetSum(document.getElementById('__canvas')).left, 420.5-event.touches[0].pageY+getOffsetSum(document.getElementById('__canvas')).top)">
 <div style="text-align: center; width: 841px; height: 841px; margin: 0 auto; position: relative">
-	<canvas width="841" height="841" class="canvas1" style="z-index:-2"></canvas>
-	<canvas width="841" height="841" class="canvas1" style="z-index: 1" onmousemove="trace &amp;&amp; changePoints(event.offsetX-420.5,420.5-event.offsetY)"></canvas>
+	<canvas width="841" height="841" class="canvas1" style="z-index: 0"></canvas>
+	<canvas width="841" height="841" class="canvas1" style="z-index: 1" id="__canvas"
+	onmousemove="trace &amp;&amp; changePoints(event.offsetX-420.5,420.5-event.offsetY)"
+	ontouchmove="event.preventDefault(); changePoints(event.touches[0].pageX-420.5-getOffsetSum(document.getElementById('__canvas')).left, 420.5-event.touches[0].pageY+getOffsetSum(document.getElementById('__canvas')).top)"></canvas>
 </div>
 <div style="text-align: center; font-size: 28px" id="linear_equation_1"></div>
 <div style="text-align: center;">
