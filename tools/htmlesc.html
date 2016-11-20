@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			a { text-decoration: none; }
+			.\_input { color: #00aa00; }
+			.\_error { color: #ff0000; }
+			.jsinput, .jsoutput { font-family: monospace; }
+		</style>
+		<title>HTML 转义/反转义工具</title>
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' https://git123hub.github.io; object-src 'none'" />
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<div style="text-align: center">
+			<h1>HTML 转义/反转义工具</h1>
+			<textarea id="input1" style="width: 70%; height: 500px;"></textarea><br />
+			<input type="button" value="HTML 转义" onclick="$('input1').value = escapeHTML($('input1').value)" />
+			<input type="button" value="HTML 反转义" onclick="$('input1').value = unescapeHTML($('input1').value)" />
+		</div>
+		<script src="htmlesc.min.js"></script>
+	</body>
+</html>
