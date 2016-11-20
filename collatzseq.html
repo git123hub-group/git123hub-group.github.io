@@ -18,7 +18,7 @@ function calc3xplus1(_in, _out) {
 	var array = [];
 	for (var i = 0; n > 1; i++) {
 		array[i] = n;
-		if (n > 9007199254740992) { return alert("计算 3x+1 数列溢出"); }
+		if (n > 9007199254740992) { return alert("计算 3x+1 路径溢出"); }
 		if (n % 2 === 0) { n /= 2; }
 		else { n += (n + 1) / 2;}
 	}
