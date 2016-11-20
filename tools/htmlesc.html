@@ -3,9 +3,6 @@
 	<head>
 		<style type="text/css">
 			a { text-decoration: none; }
-			.\_input { color: #00aa00; }
-			.\_error { color: #ff0000; }
-			.jsinput, .jsoutput { font-family: monospace; }
 		</style>
 		<title>HTML 转义/反转义工具</title>
 		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' https://git123hub.github.io; object-src 'none'" />
@@ -17,6 +14,9 @@
 			<textarea id="input1" style="width: 70%; height: 500px;"></textarea><br />
 			<input type="button" value="HTML 转义" onclick="$('input1').value = escapeHTML($('input1').value)" />
 			<input type="button" value="HTML 反转义" onclick="$('input1').value = unescapeHTML($('input1').value)" />
+			<br /><br />
+			<a href="http://tool.oschina.net/">开源中国社区的在线工具</a><br />
+			<a href="https://javascript-evaluator.github.io/">JavaScript 表达式评估器</a>
 		</div>
 		<script src="htmlesc.min.js"></script>
 		<script src="https://git123hub.github.io/static/retn/left.js"></script>
