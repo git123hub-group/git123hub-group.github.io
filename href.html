@@ -3,8 +3,11 @@
 <body>
 <script type="text/javascript">
 var index$3F = location.href.indexOf("?");
-if (index$3F >= 0) {
-  location.href = location.href.slice(index$3F + 1);
+var index$23 = location.href.indexOf("#");
+  
+switch(true) {
+  case (index$3F >= 0): location.href = location.href.slice(index$3F + 1); break;
+  case (index$23 >= 0): location.href = location.href.slice(index$23 + 1); break;
 }
 </script>
 </body>
