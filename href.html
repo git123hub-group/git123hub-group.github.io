@@ -4,7 +4,7 @@
 <script type="text/javascript">
 var index$q = location.href.indexOf("?");
 var index$h = location.href.indexOf("#");
-(index$h < 0 || index$h > index$q) && (index$h = index$q);
+(index$h < 0 || index$q >= 0 && index$h > index$q) && (index$h = index$q);
 index$h >= 0 && (location.href = location.href.slice(index$h + 1));
 </script>
 </body>
