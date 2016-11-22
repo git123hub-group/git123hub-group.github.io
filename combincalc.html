@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>组合数计算器</title>
+<style>
+
+</style>
+</head>
+<body>
+<div style="text-align: center"><h1>组合数计算器</h1>
+组合数计算方法，选择M项中的N项.<br />
+选出的项目是否具有顺序? <input type="checkbox" id="isord" /><br />
+元素是否可以选择一次以上? <input type="checkbox" id="isrep" /><br /><br />
+N = <input type="text" id="pn" />, M = <input type="text" id="pm" /><br />
+<input type="button" value="计算" onclick="calccombin()" /><br />
+计算结果: <input type="text" id="pr1" />
+</div>
+<script>
+// <![CDATA[
+function $(id) { // 不是 jQuery
+  return document.getElementById(id);
+};
+function combin(n, k) {
+  var c = 1, i, mod;
+  if (k > n-k) k = n-k;
+  /* take advantage of symmetry */
+  for (i = 1; k >= i; i++, n--) {
+    mod = c%i;
+    c = (c - mod)/i * n + mod * n / i; 
+    /* split c*n/i into (c/i*i + c%i)*n/i */
+  }
+  return c;
+};
+function permute (n, k) {
+  var c = 1;
+  for (var i = n - k + 1; n >= i; i++) c *= i;
+  return c;
+};
+function calccombin () {
+  switch($("isord").checked * 2 + $("isrep").checked) {
+    case 0: $("pr1").value = combin(+$("pn").value, +$("pm").value); break;
+    case 1: $("pr1").value = combin(+$("pn").value + +$("pm").value - 1, $("pm").value); break;
+    case 2: $("pr1").value = permute(+$("pn").value, +$("pm").value); break;
+    case 3: $("pr1").value = Math.pow(+$("pn").value, +$("pm").value); break;
+  }
+};
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+// ]]>
+</script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script></body>
+</html>
