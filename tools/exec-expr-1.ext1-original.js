@@ -9,9 +9,9 @@ function click1() {
 		} else {
 			result = __expr_eval__(str);
 		}
-		$('outexpr').innerHTML = escapeHTML(result);
+		$('outexpr').innerHTML = "<span class='error'>" + escapeHTML(result) + "</span>";
 	} catch (err) {
-		$('outexpr').innerHTML = "错误: " + escapeHTML(err);
+		$('outexpr').innerHTML = "<span class='error'>错误: " + escapeHTML(err) + "</span>";
 	}
 	changed && ($('outdoc').innerHTML = Ostr);
 }
