@@ -91,3 +91,7 @@ __variables__.lss = function(a, b) { return a <  b; };
 __variables__.leq = function(a, b) { return a <= b; };
 __variables__.gtr = function(a, b) { return a >  b; };
 __variables__.geq = function(a, b) { return a >= b; };
+
+__variables__.pi = Math.PI;
+__variables__.e = Math.E;
+__variables__.phi = (Math.sqrt(5) + 1) / 2;
