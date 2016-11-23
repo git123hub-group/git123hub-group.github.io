@@ -52,7 +52,7 @@ __variables__.sqrt = Math.sqrt;
 __variables__.ln = Math.log;
 __variables__.log = function (x, b) { b || (b = 10); return Math.log(x) / Math.log(b); }
 __variables__.log1p = Math.log1p || function(x) { return Math.log(x) + 1; };
-__variables__.log2 = Math.log10 || function(x) { return Math.log(x) * Math.LOG10E; };
+__variables__.log2 = Math.log10 || function(x) { return Math.log(x) * Math.LOG2E; };
 __variables__.lg = __variables__.log10 = Math.log10 || function(x) { return Math.log(x) * Math.LOG10E; };
 __variables__.exp = Math.exp;
 __variables__.expm1 = Math.expm1 || function(x) { return Math.exp(x) - 1; };
@@ -122,3 +122,10 @@ __variables__.alert = function(a) { alert(a); };
 __variables__.confirm = function(a) { confirm(a); };
 __variables__.prompt = function(a, b) { prompt(a, b); };
 __variables__.href = function(a) { location.href = a; };
+
+__variables__.len = function(a) { return ("" + a).length; };
+__variables__.replaceall = function(a, b, c) { return ("" + a).split(b).join(c); };
+__variables__.chr = function (a) { String.fronCharCode(a); }
+__variables__.ord = function (a) { return ("" + a).charCodeAt(0); }
+__variables__.index = function (a, b) { return a.indexOf(b); }
+__variables__.lastindex = function (a, b) { return a.lastIndexOf(b); }
