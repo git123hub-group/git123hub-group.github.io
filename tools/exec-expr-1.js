@@ -1,5 +1,5 @@
 function __expr_eval__ (expr) {
-	expr = expr.split("");
+	expr = ("" + expr).split("");
 
 	var StringParser = function (str) {
 		var str2 = str.split(""), pstr = "", tmp;

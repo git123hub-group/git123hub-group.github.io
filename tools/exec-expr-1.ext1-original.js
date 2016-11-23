@@ -1,6 +1,18 @@
 /* exec-expr-1.ext1.js */
 function click1() {
-	$('outexpr').innerHTML = escapeHTML(__expr_eval__($('inexpr').value));
+	var str = $('inexpr').value, vn;
+	var eqpos = str.indexOf("="), result;
+	try {
+		if (eqpos >= 0) {
+			vn = str.slice(0, eqpos).trim().replace(/[^\w\$]/);
+			__variables__[vn] = result = __expr_eval__(str.slice(eqpos+1));
+		} else {
+			result = __expr_eval__(str);
+		}
+		$('outexpr').innerHTML = escapeHTML(result);
+	} catch (err) {
+		$('outexpr').innerHTML = "错误: " + escapeHTML(error);
+	}
 	changed && ($('outdoc').innerHTML = Ostr);
 }
 var changed = false, Ostr = "";
