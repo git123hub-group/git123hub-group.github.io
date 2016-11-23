@@ -121,13 +121,14 @@ function __expr_eval__ (expr) {
 			case "(":
 				omode || (ostk[++optr] = 8);
 				ostk[++optr] = 0;
+				pastk[++paptr] = 1;
 				omode = true;
 			break;
 			case ")":
 				omode && pastk[paptr]--;
 				calcpow(); calcsign(); calcmul(); calcplus(); concat();
 				optr--; 
-				nptr -= ((tmp = pastk[paptr]) - 1);
+				nptr -= ((tmp = pastk[paptr--]) - 1);
 				applyfunc(tmp);
 				omode = false;
 			break;
