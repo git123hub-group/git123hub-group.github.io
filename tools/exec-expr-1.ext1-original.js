@@ -84,6 +84,11 @@ __variables__.bit_or = function(a, b) { return a | b; };
 __variables__.not = function(x) { return !x; };
 __variables__.bit_not = function(x) { return ~x; };
 __variables__.bit_xor = function(a, b) { return a ^ b; };
+__variables__["if"] = function(a, b, c) { return a ? b : c; };
+__variables__.bit_sal =
+__variables__.bit_shl = function(a, b) { return a << b; };
+__variables__.bit_sar = function(a, b) { return a >>> b; };
+__variables__.bit_shr = function(a, b) { return a >> b; };
 
 __variables__.equ = function(a, b) { return a === b; };
 __variables__.neq = function(a, b) { return a !== b; };
@@ -95,3 +100,4 @@ __variables__.geq = function(a, b) { return a >= b; };
 __variables__.pi = Math.PI;
 __variables__.e = Math.E;
 __variables__.phi = (Math.sqrt(5) + 1) / 2;
+__variables__.random = Math.random;
