@@ -125,11 +125,7 @@ function __expr_eval__ (expr) {
 			break;
 			case ")":
 				omode && pastk[paptr]--;
-				calcsign();
-				calcplus();
-				calcmul();
-				calcpow();
-				concat();
+				calcpow(); calcsign(); calcmul(); calcplus(); concat();
 				optr--; 
 				nptr -= ((tmp = pastk[paptr]) - 1);
 				applyfunc(tmp);
@@ -143,8 +139,7 @@ function __expr_eval__ (expr) {
 				if (omode) {
 					ostk[++optr] = 5;
 				} else {
-					calcsign();
-					calcplus();
+					calcpow(); calcsign(); calcmul(); calcplus();
 					ostk[++optr] = 1;
 					omode = true;
 				}
@@ -153,45 +148,33 @@ function __expr_eval__ (expr) {
 				if (omode) {
 					ostk[++optr] = 6;
 				} else {
-					calcsign();
-					calcplus();
+					calcpow(); calcsign(); calcmul(); calcplus();
 					ostk[++optr] = 2;
 					omode = true;
 				}
 			break;
 			case "*":
-				calcsign();
-				calcplus();
-				calcmul();
+				calcpow(); calcsign(); calcmul();
 				ostk[++optr] = 3;
 				omode = true;
 			break;
 			case "/":
-				calcsign();
-				calcplus();
-				calcmul();
+				calcpow(); calcsign(); calcmul();
 				ostk[++optr] = 4;
 				omode = true;
 			break;
 			case "&":
-				calcsign();
-				calcplus();
-				calcmul();
-				calcpow();
-				concat();
+				calcpow(); calcsign(); calcmul(); calcplus(); concat();
 				ostk[++optr] = 9;
 				omode = true;
 			break;
 			case "^":
-				calcsign();
-				calcplus();
-				calcmul();
 				ostk[++optr] = 7;
 				omode = true;
 			break;
 			case ",":
 				omode && (nstk[++nptr] = null);
-				calcsign(); calcplus(); calcmul(); calcpow();
+				calcpow(); calcsign(); calcmul(); calcplus(); concat();
 				pastk[paptr]++;
 				omode = true;
 			break;
@@ -223,7 +206,7 @@ function __expr_eval__ (expr) {
 				omode = false;
 		}
 	}
-	calcsign(); calcplus(); calcmul(); calcpow(); concat();
+	calcpow(); calcsign(); calcmul(); calcplus(); concat();
 	return nstk[0];
 }
 	
