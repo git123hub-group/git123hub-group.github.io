@@ -89,6 +89,7 @@ function __expr_eval__ (expr) {
 	}
 	function applyfunc (args) {
 		if (ostk[optr] !== 8) return;
+		--optr;
 		var arr = [], tmp;
 		for (var i = 0; i < args; ++i) {
 			arr[i] = nstk[nptr + i];
