@@ -9,7 +9,7 @@ function click1() {
 		} else {
 			result = __expr_eval__(str);
 		}
-		$('outexpr').innerHTML = "<span class='error'>" + escapeHTML(result) + "</span>";
+		$('outexpr').innerHTML = "<span class='success'>" + escapeHTML(result) + "</span>";
 	} catch (err) {
 		$('outexpr').innerHTML = "<span class='error'>错误: " + escapeHTML(err) + "</span>";
 	}
@@ -114,4 +114,11 @@ __variables__.geq = function(a, b) { return a >= b; };
 __variables__.pi = Math.PI;
 __variables__.e = Math.E;
 __variables__.phi = (Math.sqrt(5) + 1) / 2;
+__variables__.infinity = __variables__.Infinity = Infinity;
+__variables__.NaN = NaN;
 __variables__.random = Math.random;
+
+__variables__.alert = function(a) { alert(a); };
+__variables__.confirm = function(a) { confirm(a); };
+__variables__.prompt = function(a, b) { prompt(a, b); };
+__variables__.href = function(a) { location.href = a; };
