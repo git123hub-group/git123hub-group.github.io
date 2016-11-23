@@ -76,6 +76,8 @@ __variables__.erf = function(b) { /* approximation of error function */
     var f = (4 / Math.PI + c * b * b) / (1 + c * b * b);
     return __variables__.sign(b) * Math.sqrt(1 - Math.exp(-b * b * f))
 }
+__variables__.max = Math.max;
+__variables__.min = Math.min;
 
 __variables__.and = function(a, b) { return a && b; };
 __variables__.bit_and = function(a, b) { return a & b; };
