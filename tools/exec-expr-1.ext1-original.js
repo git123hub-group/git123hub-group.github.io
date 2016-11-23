@@ -11,7 +11,7 @@ function click1() {
 		}
 		$('outexpr').innerHTML = escapeHTML(result);
 	} catch (err) {
-		$('outexpr').innerHTML = "错误: " + escapeHTML(error);
+		$('outexpr').innerHTML = "错误: " + escapeHTML(err);
 	}
 	changed && ($('outdoc').innerHTML = Ostr);
 }
