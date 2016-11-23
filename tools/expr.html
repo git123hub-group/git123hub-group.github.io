@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			a { text-decoration: none; }
+			.input, .output { font-family: monospace; }
+			.output { white-space: pre; }
+		</style>
+		<title>Console (git123hub)</title>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<div style="text-align: center">
+			<input class="input" id="inexpr" type="text" style="width:820px" placeholder="请输入表达式" />
+			<input type="button" onclick="click1()" value="计算" />
+		</div>
+		<div class="output" id="outexpr" style="width:840px; height: 20px; margin: 5px auto; border: 1px solid #999; padding: 5px; line-height: 20px; overflow: hidden"></div>
+		<div class="output" id="outdoc" style="width:840px; height: 500px; margin: 5px auto; border: 1px solid #999; padding: 5px; overflow: auto"></div>
+		<div style="margin-top:5px; text-align: center">
+			<a href="https://git123hub.github.io/index/">返回到首页</a>
+		</div>
+		<script type="text/javascript">
+			function $(id) {return document.getElementById(id);} function escapeHTML(e){return(""+e).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/'/g,"&#39;").replace(/</g,"&lt;").replace(/>/g,"&gt;")};
+			window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"share":{"bdSize":16},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+		</script>
+		<script type="text/javascript" src="exec-expr-1.min.js"></script>
+		<script type="text/javascript" src="exec-expr-1.ext1.js"></script>
+	</body>
+</html>
