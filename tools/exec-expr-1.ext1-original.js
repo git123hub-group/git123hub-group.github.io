@@ -52,14 +52,14 @@ __variables__.sqrt = Math.sqrt;
 __variables__.ln = Math.log;
 __variables__.log = function (x, b) { b || (b = 10); return Math.log(x) / Math.log(b); }
 __variables__.log1p = Math.log1p || function(x) { return Math.log(x) + 1; };
-__variables__.log2 = Math.log10 || function(x) { return Math.log(x) * Math.LOG2E; };
+__variables__.log2 = Math.log2 || function(x) { return Math.log(x) * Math.LOG2E; };
 __variables__.lg = __variables__.log10 = Math.log10 || function(x) { return Math.log(x) * Math.LOG10E; };
 __variables__.exp = Math.exp;
 __variables__.expm1 = Math.expm1 || function(x) { return Math.exp(x) - 1; };
 __variables__.pow = Math.pow;
-__variables__.mod = function(x, y) { x % y; };
-__variables__.quotient = function(x, y) { (x - x % y) / y; };
-__variables__.abs = function(x) { x < 0 ? x : -x; };
+__variables__.mod = function(x, y) { return x % y; };
+__variables__.quotient = function(x, y) { return (x - x % y) / y; };
+__variables__.abs = function(x) { return x < 0 ? x : -x; };
 __variables__.sign = Math.sign || function(x) { x = +x; /* convert to a number */ if (x === 0 || isNaN(x)) { return Number(x); } return x > 0 ? 1 : -1; };
 __variables__.ident = function(x) { return x; };
 __variables__.neg = function(x) { return -x; };
@@ -85,8 +85,8 @@ __variables__.hypot = Math.hypot || function() {
 __variables__.erf = function(b) { /* approximation of error function */
     var c = 0.140012;
     var d = b * b;
-    var f = (4 / Math.PI + c * b * b) / (1 + c * b * b);
-    return __variables__.sign(b) * Math.sqrt(1 - Math.exp(-b * b * f))
+    var f = (4 / Math.PI + c * d) / (1 + c * d);
+    return __variables__.sign(b) * Math.sqrt(1 - Math.exp(-d * f))
 }
 __variables__.max = Math.max;
 __variables__.min = Math.min;
