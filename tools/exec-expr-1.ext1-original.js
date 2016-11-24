@@ -350,11 +350,11 @@ __variables__.isnegzero = function(a) {
 };
 
 __variables__.isposinf = function(a) {
-    return a > 0 && 1 / a === 0;
+    return typeof a === "number" && a > 0 && 1 / a === 0;
 };
 
 __variables__.isneginf = function(a) {
-    return a < 0 && 1 / a === 0;
+    return typeof a === "number" && a < 0 && 1 / a === 0;
 };
 
 __variables__.isNaN = function(a) {
@@ -389,6 +389,10 @@ __variables__.arglen = function() {
     return arguments.length;
 };
 
+__variables__.argjoin = function(sep) {
+    return Array.prototype.slice.call(arguments, 1).join(sep);
+};
+
 __variables__.noop = function() {};
 
 __variables__.now = Date.now || function() {
@@ -398,4 +402,36 @@ __variables__.now = Date.now || function() {
 __variables__["delete"] = function(a) {
     if (a !== "raw" && a !== "eval" && a !== "delete") return delete __variables__[a];
     return false;
+};
+
+__variables__.tostr = function(a) {
+    return "" + a;
+};
+
+__variables__.tonum = function(a) {
+    return +a;
+};
+ 
+__variables__.tobool = function(a) {
+    return !!a;
+};
+
+__variables__.array = Array.of || function() {
+    return Array.prototype.slice.call(arguments);
+};
+
+__variables__.split = function(str, sep, lim) {
+    return ("" + str).split(sep);
+};
+
+__variables__.join = function(arr, sep) {
+    return arr.join(sep);
+};
+
+__variables__.call = function(func, arg) {
+    return func.apply(arg, Array.prototype.slice.call(arguments, 2));
+};
+
+__variables__.apply = function(func, arg, arg2) {
+    return func.apply(arg, arg2);
 };
