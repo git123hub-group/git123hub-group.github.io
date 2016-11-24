@@ -133,7 +133,7 @@ __variables__.quotient = function(x, y) {
 };
 
 __variables__.abs = function(x) {
-    return x < 0 ? x : -x;
+    return x >= 0 ? x : -x;
 };
 
 __variables__.sign = Math.sign || function(x) {
