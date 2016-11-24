@@ -116,6 +116,10 @@ __variables__.e = Math.E;
 __variables__.phi = (Math.sqrt(5) + 1) / 2;
 __variables__.infinity = __variables__.Infinity = Infinity;
 __variables__.NaN = NaN;
+__variables__["true"] = true;
+__variables__["false"] = false;
+__variables__["null"] = null;
+__variables__["undefined"] = undefined;
 __variables__.random = Math.random;
 
 __variables__.alert = function(a) { alert(a); };
@@ -127,5 +131,18 @@ __variables__.len = function(a) { return ("" + a).length; };
 __variables__.replaceall = function(a, b, c) { return ("" + a).split(b).join(c); };
 __variables__.chr = function (a) { String.fronCharCode(a); }
 __variables__.ord = function (a) { return ("" + a).charCodeAt(0); }
-__variables__.index = function (a, b) { return a.indexOf(b); }
-__variables__.lastindex = function (a, b) { return a.lastIndexOf(b); }
+__variables__.index = function (a, b, c) { return ("" + a).indexOf(b, c); }
+__variables__.lastindex = function (a, b, c) { return ("" + a).lastIndexOf(b, c); }
+__variables__.reverse = function (a, b) { return ("" + a).split(b).reverse().join(b); }
+__variables__.substr = function (a, b, c) { return ("" + a).slice(b, c); }
+__variables__.toupper = function (a) { return ("" + a).toUpperCase(); }
+__variables__.tolower = function (a) { return ("" + a).toLowerCase(); }
+
+__variables__.isposzero = function (a) { return a === 0 && 1/a > 0; }
+__variables__.isnegzero = function (a) { return a === 0 && 1/a < 0; }
+
+__variables__.choose = function (n) { return n > 0 ? arguments[n] : null; }
+__variables__.indirect = function (a) { return __variables__[a]; }
+__variables__["typeof"] = function (a) { return typeof a; }
+
+__variables__.noop = function () {}
