@@ -2,22 +2,22 @@ function __expr_eval__ (expr) {
 	expr = ("" + expr).split("");
 
 	var StringParser = function (str) {
-		var str2 = str.split(""), pstr = "", tmp;
-		var len = str2.length;
+		var str = str.split(""), pstr = "", tmp;
+		var len = str.length;
 		for (var i = 0; i < len; i++) {
-			if (str2[i] !== "\\") {
-				pstr += str2[i];
+			if (str[i] !== "\\") {
+				pstr += str[i];
 			} else {
 				i++;
-				switch (tmp = str2[i]) {
-					case "0": str2 += "\x00"; break;
-					case "a": str2 += "\x07"; break;
-					case "b": str2 += "\x08"; break;
-					case "e": str2 += "\x1b"; break;
-					case "f": str2 += "\x0c"; break;
-					case "n": str2 += "\x0a"; break;
-					case "r": str2 += "\x0d"; break;
-					case "t": str2 += "\x09"; break;
+				switch (tmp = str[i]) {
+					case "0": pstr += "\x00"; break;
+					case "a": pstr += "\x07"; break;
+					case "b": pstr += "\x08"; break;
+					case "e": pstr += "\x1b"; break;
+					case "f": pstr += "\x0c"; break;
+					case "n": pstr += "\x0a"; break;
+					case "r": pstr += "\x0d"; break;
+					case "t": pstr += "\x09"; break;
 					case "u":
 						pstr += String.fromCharCode(parseInt(str2[++i] + str2[++i] + str2[++i] + str2[++i], 16));
 					break;
@@ -30,10 +30,7 @@ function __expr_eval__ (expr) {
 				}
 			}
 		}
-		return {
-			raw: str,
-			toString: function () {return pstr}
-		};
+		return pstr;
 	}
 	function factorial (n) {
 		var m = 1;
@@ -104,7 +101,7 @@ function __expr_eval__ (expr) {
 		nptr = j;
 	}
 
-	var nstk = [], ostk = [], pastk = [1], nptr = -1, optr = -1, paptr = 0, omode = true, numstr, ii, tmp, tmp2, terminator;
+	var nstk = [], ostk = [], pastk = [1], nptr = -1, optr = -1, paptr = 0, omode = true, numstr, ii, tmp, tmp2, terminator, rawflag, rtmp;
 	// main:
 	for (var i = 0, len = expr.length; i < len; ++i) {
 		switch (expr[i]) {
@@ -117,11 +114,11 @@ function __expr_eval__ (expr) {
 					tmp += expr[i];
 					++i;
 				}
-				nstk[++nptr] = StringParser(tmp);
+				nstk[++nptr] = rawflag ? tmp : StringParser(tmp);
 				omode = false;
 			break;
 			case "(":
-				omode || (ostk[++optr] = 8);
+				omode || (rawflag || (nstk[nptr].rawf && (rawflag = true, rtmp = paptr)), ostk[++optr] = 8);
 				ostk[++optr] = 0;
 				pastk[++paptr] = 1;
 				omode = true;
@@ -132,6 +129,7 @@ function __expr_eval__ (expr) {
 				optr--; 
 				nptr -= ((tmp = pastk[paptr--]) - 1);
 				applyfunc(tmp);
+				paptr === rtmp && (rawflag = false);
 				omode = false;
 			break;
 			case "!":
@@ -215,7 +213,8 @@ function __expr_eval__ (expr) {
 	
 var __variables__ = {
 	raw: function (str) {
-		return str.raw;
+		return str;
 	},
 	eval: __expr_eval__
 };
+__variables__.raw.rawf = true
