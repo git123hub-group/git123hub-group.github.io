@@ -5,7 +5,7 @@ function click1() {
         if (eqpos >= 0) {
             vn = str.slice(0, eqpos).trim().replace(/[^\w\$]/);
             result = __expr_eval__(str.slice(eqpos + 1));
-            if (a !== "raw" && a !== "eval" && a !== "delete") __variables__[vn] = result;
+            if (vn !== "raw" && vn !== "eval" && vn !== "delete") __variables__[vn] = result;
         } else {
             result = __expr_eval__(str);
         }
