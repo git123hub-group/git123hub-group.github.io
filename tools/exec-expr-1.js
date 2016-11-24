@@ -83,6 +83,7 @@ function __expr_eval__ (expr) {
 		}
 	}
 	function concat () {
+		calcpow(); calcsign(); calcmul(); calcplus();
 		if (ostk[optr] !== 9) return;
 		--nptr;--optr;
 		return nstk[nptr] = "" + nstk[nptr] + nstk[nptr + 1];
@@ -104,7 +105,7 @@ function __expr_eval__ (expr) {
 	}
 
 	var nstk = [], ostk = [], pastk = [1], nptr = -1, optr = -1, paptr = 0, omode = true, numstr, ii, tmp, tmp2, terminator;
-	main:
+	// main:
 	for (var i = 0, len = expr.length; i < len; ++i) {
 		switch (expr[i]) {
 			case '"': case "'":
@@ -127,7 +128,7 @@ function __expr_eval__ (expr) {
 			break;
 			case ")":
 				omode && pastk[paptr]--;
-				calcpow(); calcsign(); calcmul(); calcplus(); concat();
+				concat();
 				optr--; 
 				nptr -= ((tmp = pastk[paptr--]) - 1);
 				applyfunc(tmp);
@@ -166,7 +167,7 @@ function __expr_eval__ (expr) {
 				omode = true;
 			break;
 			case "&":
-				calcpow(); calcsign(); calcmul(); calcplus(); concat();
+				 concat();
 				ostk[++optr] = 9;
 				omode = true;
 			break;
@@ -176,7 +177,7 @@ function __expr_eval__ (expr) {
 			break;
 			case ",":
 				omode && (nstk[++nptr] = null);
-				calcpow(); calcsign(); calcmul(); calcplus(); concat();
+				concat();
 				pastk[paptr]++;
 				omode = true;
 			break;
@@ -208,7 +209,7 @@ function __expr_eval__ (expr) {
 				omode = false;
 		}
 	}
-	calcpow(); calcsign(); calcmul(); calcplus(); concat();
+	concat();
 	return nstk[0];
 }
 	
