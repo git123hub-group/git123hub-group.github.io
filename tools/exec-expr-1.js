@@ -22,11 +22,11 @@ function __expr_eval__ (iexpr) {
 					case "r": pstr += "\x0d"; break;
 					case "t": pstr += "\x09"; break;
 					case "u":
-						pstr += String.fromCharCode(parseInt(str2[++i] + str2[++i] + str2[++i] + str2[++i], 16));
+						pstr += String.fromCharCode(parseInt(str[++i] + str[++i] + str[++i] + str[++i], 16));
 					break;
-					case "v": str2 += "\x0b"; break;
+					case "v": pstr += "\x0b"; break;
 					case "x":
-						pstr += String.fromCharCode(parseInt(str2[++i] + str2[++i], 16));
+						pstr += String.fromCharCode(parseInt(str[++i] + str[++i], 16));
 					break;
 					default:
 						pstr += tmp;
