@@ -1,7 +1,7 @@
 function __expr_eval__ (iexpr) {
 	iexpr = "" + iexpr;
 	var assigno = iexpr.indexOf("="), variname;
-	expr = iexpr.slice(assigno < 0 ? 0 : assigno + 1).split("");
+	var expr = iexpr.slice(assigno < 0 ? 0 : assigno + 1).split("");
 	assigno && (variname = iexpr.slice(0, assigno).trim());
 
 	var StringParser = function (str) {
