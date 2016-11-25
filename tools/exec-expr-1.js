@@ -1,5 +1,8 @@
-function __expr_eval__ (expr) {
-	expr = ("" + expr).split("");
+function __expr_eval__ (iexpr) {
+	iexpr = "" + iexpr;
+	var assigno = iexpr.indexOf("="), variname;
+	expr = iexpr.slice(assigno < 0 ? 0 : assigno + 1).split("");
+	assigno && (variname = iexpr.slice(0, assigno).trim());
 
 	var StringParser = function (str) {
 		var str = str.split(""), pstr = "", tmp;
@@ -203,14 +206,17 @@ function __expr_eval__ (expr) {
 					numstr += expr[i];
 				}
 				--i;
-				nstk[++nptr] = __variables__[numstr];
+				nstk[++nptr] = (tmp2 = __user_vars__["x" + numstr]) == null ? __variables__[numstr] : tmp2;
 				omode = false;
 		}
 	}
 	concat();
+
+	variname != null && /^[A-Za-z\_\$][\w\$]*$/.test(variname) && (__user_vars__["x" + variname] = nstk[0]);
 	return nstk[0];
 }
 	
+var __user_vars__ = {};
 var __variables__ = {
 	raw: function (str) {
 		return str;
