@@ -13,6 +13,10 @@ function __expr_eval__ (iexpr) {
 			} else {
 				i++;
 				switch (tmp = str[i]) {
+					case "\r": // Line continuation
+						if (str[i + 1] === "\n") ++i;
+					break;
+					case "\n": break; // Line continuation
 					case "0": pstr += "\x00"; break;
 					case "a": pstr += "\x07"; break;
 					case "b": pstr += "\x08"; break;
@@ -182,7 +186,9 @@ function __expr_eval__ (iexpr) {
 				pastk[paptr]++;
 				omode = true;
 			break;
-			case " ": case "\t": case "\n": break;
+			case " ": case "\t": case "\r": case "\n": // spaces
+			case "\\": // line continuation
+			break;
 			case "0": case "1": case "2": case "3": case "4": case "5":
 			case "6": case "7": case "8": case "9": case ".":
 				omode = false;
