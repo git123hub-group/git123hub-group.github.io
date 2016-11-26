@@ -428,6 +428,18 @@ __variables__.array = Array.of || function() {
 	return Array.prototype.slice.call(arguments);
 };
 
+__variables__.regex = RegExp;
+
+__variables__.chr = String.fromCharCode(a);
+
+__variables__.ord = function(a, b) {
+	return ("" + a).charCodeAt(b);
+};
+
+__variables__.baseconvert = function (int_, f, t) {
+	return parseInt(int_, f).toString(t);
+}
+
 __variables__.method = function(obj, mthd) {
 	if (obj == null || obj[mthd] === Function) return; // Function.prototype.constructor.call(Function.prototype, string) ==> Function(string) 出现漏洞
 	return obj[mthd].apply(obj,Array.prototype.slice.call(arguments, 2));
