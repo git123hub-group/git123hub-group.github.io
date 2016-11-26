@@ -407,7 +407,7 @@ function stepinto () {
 	__variables__.multiline0 = function (l) {
 		var str = "";
 		for (var i = l; i > 0; i--, ++tmpnl) {
-			str += mainprog[tmpnl] + ((l2 || i > 1) ? "\n" : "");
+			str += mainprog[tmpnl] + (i > 1 ? "\n" : "");
 		}
 		return str;
 	}
