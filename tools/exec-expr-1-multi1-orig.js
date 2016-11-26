@@ -424,6 +424,14 @@ function stepinto () {
 		return (tmp2 = __user_vars__["x" + a]) == null ? __variables__[a] : tmp2;
 	};
 
+	__variables__.index = function(obj, num) {
+		return obj[+num];
+	};
+	
+	__variables__.len = function(obj) {
+		return obj.length;
+	};
+	
 	__variables__.arglen = function() {
 		return arguments.length;
 	};
