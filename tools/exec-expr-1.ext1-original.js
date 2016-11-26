@@ -304,7 +304,7 @@ __variables__.replaceall = function(a, b, c) {
 };
 
 __variables__.chr = function(a) {
-	String.fronCharCode(a);
+	return String.fromCharCode(a);
 };
 
 __variables__.ord = function(a) {
