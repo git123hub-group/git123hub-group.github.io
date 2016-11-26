@@ -1,7 +1,8 @@
 function __expr_eval__ (iexpr) {
 	iexpr = "" + iexpr;
-	var assigno = iexpr.indexOf("="), variname, tmp3 = iexpr.slice(0, assigno).trim();
-	/^[A-Za-z\_\$][\w\$]*$/.test(tmp3) || (assigno = -1);
+	var assigno = iexpr.indexOf("="), variname, // 要赋值的变量名
+	tmp3 = iexpr.slice(0, assigno).trim();
+	/^[A-Za-z\_\$][\w\$]*$/.test(tmp3) || (assigno = -1); // 遇到运算符就计算, 不赋值
 	assigno > 0 && (variname = tmp3);
 	var expr = iexpr.slice(assigno < 0 ? 0 : assigno + 1).split("");
 
@@ -14,23 +15,23 @@ function __expr_eval__ (iexpr) {
 			} else {
 				i++;
 				switch (tmp = str[i]) {
-					case "\r": // Line continuation
+					case "\r": // 续行符 (Line continuation)
 						if (str[i + 1] === "\n") ++i;
 					break;
-					case "\n": break; // Line continuation
-					case "0": pstr += "\x00"; break;
+					case "\n": break; // 续行符 (Line continuation)
+					case "0": pstr += "\x00"; break; // null
 					case "a": pstr += "\x07"; break;
 					case "b": pstr += "\x08"; break;
 					case "e": pstr += "\x1b"; break;
 					case "f": pstr += "\x0c"; break;
-					case "n": pstr += "\x0a"; break;
+					case "n": pstr += "\x0a"; break; // 换行符
 					case "r": pstr += "\x0d"; break;
-					case "t": pstr += "\x09"; break;
+					case "t": pstr += "\x09"; break; // Unicode 字符
 					case "u":
 						pstr += String.fromCharCode(parseInt(str[++i] + str[++i] + str[++i] + str[++i], 16));
 					break;
 					case "v": pstr += "\x0b"; break;
-					case "x":
+					case "x": // 二进制字符
 						pstr += String.fromCharCode(parseInt(str[++i] + str[++i], 16));
 					break;
 					default:
@@ -40,7 +41,7 @@ function __expr_eval__ (iexpr) {
 		}
 		return pstr;
 	}
-	function factorial (n) {
+	function factorial (n) { // 阶乘函数
 		var m = 1;
 		for (var i = 2; i <= n; i++) m *= i;
 		return m;
