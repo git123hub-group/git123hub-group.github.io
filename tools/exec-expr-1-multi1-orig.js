@@ -54,7 +54,7 @@ function stepinto () {
 		__expr_eval__(prog);
 		clinenum = tmpnl;
 	} catch(error) {
-		console.error(error);
+		console.error(error); parsed = false; breakpt = true; delayf = false;
 	}
 }
 
