@@ -431,7 +431,7 @@ function stepinto () {
 
 	__variables__.regex = RegExp;
 
-	__variables__.chr = String.fromCharCode(a);
+	__variables__.chr = String.fromCharCode;
 
 	__variables__.ord = function(a, b) {
 		return ("" + a).charCodeAt(b);
