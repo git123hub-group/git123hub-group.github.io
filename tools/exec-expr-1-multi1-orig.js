@@ -397,10 +397,17 @@ function stepinto () {
 	__variables__.endCSS = function () {
 		outHtml += '</span>';
 	}
-	__variables__.multiline = function (l, l2) {
+	__variables__.multiline = function (l) {
 		var str = "";
 		for (var i = l; i > 0; i--, ++tmpnl) {
-			str += mainprog[tmpnl] + ((l2 || i > 1) && "\n");
+			str += mainprog[tmpnl] + "\n";
+		}
+		return str;
+	}
+	__variables__.multiline0 = function (l) {
+		var str = "";
+		for (var i = l; i > 0; i--, ++tmpnl) {
+			str += mainprog[tmpnl] + ((l2 || i > 1) ? "\n" : "");
 		}
 		return str;
 	}
