@@ -30,7 +30,7 @@ function $(id) {
 }
 function tofracbase (num, a, b) { // a = 分子, b = 分母
 	var z = "", c;
-	if (num < 0 || 1 / num || a <= b || b <= 0) { throw "您输入的是错误的参数" }
+	if (num < 0 || !(1 / num) || a <= b || b <= 0) { throw "您输入的是错误的参数" }
 	while (num !== 0) {
 		c = num % a;
 		num = (num - c) / a * b;
