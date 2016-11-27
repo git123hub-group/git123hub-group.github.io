@@ -30,7 +30,7 @@ function $(id) {
 }
 function tofracbase (num, a, b) { // a = 分子, b = 分母
 	var z = "", c;
-	if (num < 0 || a <= b || b <= 0) { throw "您输入的是错误的参数" }
+	if (num < 0 || 1 / num || a <= b || b <= 0) { throw "您输入的是错误的参数" }
 	while (num !== 0) {
 		c = num % a;
 		num = (num - c) / a * b;
@@ -46,11 +46,11 @@ function fromfracbase (str, a, b) { // a = 分子, b = 分母
 	}
 	return n;
 }
-function conv1 () {
-	try { $("p1").value = fromfracbase(+$("p1").value,$("p2").value,$("p3").value); } catch (err) { alert(err); }
+function conv2 () {
+	try { $("p1").value = fromfracbase($("p1").value,$("p2").value,$("p3").value); } catch (err) { alert(err); }
 }
 function conv1 () {
-	try { $("p1").value = tofracbase($("p1").value,$("p2").value,$("p3").value); } catch (err) { alert(err); }
+	try { $("p1").value = tofracbase(+$("p1").value,$("p2").value,$("p3").value); } catch (err) { alert(err); }
 }
 </script>
 </body>
