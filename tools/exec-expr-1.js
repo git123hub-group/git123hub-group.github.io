@@ -1,3 +1,39 @@
+var StringParser = function (str) {
+	var str = str.split(""), pstr = "", tmp;
+	var len = str.length;
+	for (var i = 0; i < len; i++) {
+		if (str[i] !== "\\") {
+			pstr += str[i];
+		} else {
+			i++;
+			switch (tmp = str[i]) {
+				case "\r": // 续行符 (Line continuation)
+					if (str[i + 1] === "\n") ++i;
+				break;
+				case "\n": break; // 续行符 (Line continuation)
+				case "0": pstr += "\x00"; break; // null
+				case "a": pstr += "\x07"; break;
+				case "b": pstr += "\x08"; break;
+				case "e": pstr += "\x1b"; break;
+				case "f": pstr += "\x0c"; break;
+				case "n": pstr += "\x0a"; break; // 换行符
+				case "r": pstr += "\x0d"; break;
+				case "t": pstr += "\x09"; break; // Unicode 字符
+				case "u":
+					pstr += String.fromCharCode(parseInt(str[++i] + str[++i] + str[++i] + str[++i], 16));
+				break;
+				case "v": pstr += "\x0b"; break;
+				case "x": // 二进制字符
+					pstr += String.fromCharCode(parseInt(str[++i] + str[++i], 16));
+				break;
+				default:
+					pstr += tmp;
+			}
+		}
+	}
+	return pstr;
+}
+
 function __expr_eval__ (iexpr) {
 	iexpr = "" + iexpr;
 	var assigno = iexpr.indexOf("="), variname, // 要赋值的变量名
@@ -6,41 +42,6 @@ function __expr_eval__ (iexpr) {
 	assigno > 0 && (variname = tmp3);
 	var expr = iexpr.slice(assigno < 0 ? 0 : assigno + 1).split("");
 
-	var StringParser = function (str) {
-		var str = str.split(""), pstr = "", tmp;
-		var len = str.length;
-		for (var i = 0; i < len; i++) {
-			if (str[i] !== "\\") {
-				pstr += str[i];
-			} else {
-				i++;
-				switch (tmp = str[i]) {
-					case "\r": // 续行符 (Line continuation)
-						if (str[i + 1] === "\n") ++i;
-					break;
-					case "\n": break; // 续行符 (Line continuation)
-					case "0": pstr += "\x00"; break; // null
-					case "a": pstr += "\x07"; break;
-					case "b": pstr += "\x08"; break;
-					case "e": pstr += "\x1b"; break;
-					case "f": pstr += "\x0c"; break;
-					case "n": pstr += "\x0a"; break; // 换行符
-					case "r": pstr += "\x0d"; break;
-					case "t": pstr += "\x09"; break; // Unicode 字符
-					case "u":
-						pstr += String.fromCharCode(parseInt(str[++i] + str[++i] + str[++i] + str[++i], 16));
-					break;
-					case "v": pstr += "\x0b"; break;
-					case "x": // 二进制字符
-						pstr += String.fromCharCode(parseInt(str[++i] + str[++i], 16));
-					break;
-					default:
-						pstr += tmp;
-				}
-			}
-		}
-		return pstr;
-	}
 	function factorial (n) { // 阶乘函数
 		var m = 1;
 		for (var i = 2; i <= n; i++) m *= i;
