@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>分数进制转换器</title>
+<style>
+.frac { display:inline-table;vertical-align:middle;border-collapse:collapse; }
+.frac>* { display:table-row; }
+.frac>*:first-child { border-bottom:thin solid; }
+.frac input, #p1 { text-align: center; width: 150px; margin: 4px }
+</style>
+</head>
+<body>
+<div style="text-align: center">
+<h1>分数进制转换器</h1>
+输入要转换的数值: <input type="text" id="p1" style="width: 300px" />
+<br />
+输入底数 (base):
+<span class="frac">
+<span><input type="text" id="p2" /></span>
+<span><input type="text" id="p3" /></span>
+</span>
+<br />
+<input type="button" onclick="conv1()" value="10 进制转换到分数进制" />
+<input type="button" onclick="conv2()" value="分数进制转换到 10 进制" />
+</div>
+<script>
+function $(id) {
+	return document.getElementById(id);
+}
+function tofracbase (num, a, b) { // a = 分子, b = 分母
+	var z = "", c;
+	if (num < 0 || a <= b || b <= 0) { throw "您输入的是错误的参数" }
+	while (num !== 0) {
+		c = num % a;
+		num = (num - c) / a * b;
+		z = c.toString(a) + z
+	}
+	return z;
+}
+function fromfracbase (str, a, b) { // a = 分子, b = 分母
+	var n = 0;
+	if (a <= b || b <= 0) { throw "您输入的是错误的参数" }
+	for (var l = str.length, i = 0; i < l; i++) {
+		n = n / b * a + parseInt(str.charAt(i), a);
+	}
+	return n;
+}
+function conv1 () {
+	try { $("p1").value = fromfracbase(+$("p1").value,$("p2").value,$("p3").value); } catch (err) { alert(err); }
+}
+function conv1 () {
+	try { $("p1").value = tofracbase($("p1").value,$("p2").value,$("p3").value); } catch (err) { alert(err); }
+}
+</script>
+</body>
+</html>
