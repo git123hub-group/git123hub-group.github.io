@@ -391,6 +391,19 @@ function stepinto () {
 
 	__variables__.unescape = function(e){var t={amp:"&",lt:"<",gt:">",quot:'"'};return(""+e).replace(/&([^;]+);/g,function(e,n){return"#"!==n.charAt(0)?t[n]:"x"!==n.charAt(1).toLowerCase()?String.fromCharCode(n.slice(1)):String.fromCharCode(parseInt(n.slice(2),16))})};
 
+	__variables__.sescape = function (str) {
+		var tmp = "0______abtnvfr_____________e".split("");
+		return str.replace(/[\\"]/g, "\\$&").replace(/[\0\x07-\x0d\x1b]/g, function (s) {
+			return "\\" + tmp[s.charCodeAt(0)];
+		}).replace(/[\x01-\x1f\x7f-\xff]/g, function (s) {
+			return "\\x" + ("0" + s.charCodeAt(0).toString(16)).slice(-2);
+		}).replace(/[\u0100-\uffff]/g, function (s) {
+			return "\\u" + ("0" + s.charCodeAt(0).toString(16)).slice(-4);
+		})
+	};
+	
+	__variables__.sunescape = StringParser;
+
 	__variables__.beginCSS = function (str) {
 		outHtml += '<span style="' + escapeHTML(str) + '">';
 	}
