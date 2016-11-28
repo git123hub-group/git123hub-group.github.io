@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,22 +31,25 @@ function $(id) {
 	return document.getElementById(id);
 }
 function tofracbase (num, a, b) { // a = 分子, b = 分母
-	var z = "", c;
-	if (num < 0 || !(1 / num) || a <= b || b <= 0) { throw "您输入的是错误的参数" }
-	while (num !== 0) {
-		c = num % a;
+	var z = "", c, sgn = "";
+	a < 0 && (a = -a, b = -b);
+	if (num < 0 && b > 0) sgn = "-", num = -num;
+	while (num !== 0 && (1 / num)) {
+		c = (num % a + a) % a;
 		num = (num - c) / a * b;
 		z = c.toString(a) + z
 	}
-	return z;
+	return sgn + z;
 }
 function fromfracbase (str, a, b) { // a = 分子, b = 分母
+	var sgn = 1, k = 0;
+	a < 0 && (a = -a, b = -b);
+	if (str.charAt(0) === "-") sgn = -1, k = 1;
 	var n = 0;
-	if (a <= b || b <= 0) { throw "您输入的是错误的参数" }
-	for (var l = str.length, i = 0; i < l; i++) {
+	for (var l = str.length, i = k; i < l; i++) {
 		n = n / b * a + parseInt(str.charAt(i), a);
 	}
-	return n;
+	return sgn * n;
 }
 function conv1 () {
 	try { $("p1").value = tofracbase(+$("p1").value,+$("p2").value,+$("p3").value); } catch (err) { alert(err); }
