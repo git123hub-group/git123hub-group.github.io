@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,17 +36,17 @@ function tofracbase (num, a, b) { // a = 分子, b = 分母
 	while (num !== 0 && (1 / num)) {
 		c = (num % a + a) % a;
 		num = (num - c) / a * b;
-		z = c.toString(a) + z
+		z = (c === 36 ? "_" : c.toString(36)) + z
 	}
 	return sgn + z;
 }
 function fromfracbase (str, a, b) { // a = 分子, b = 分母
-	var sgn = 1, k = 0;
+	var sgn = 1, k = 0, tmp;
 	a < 0 && (a = -a, b = -b);
 	if (str.charAt(0) === "-") sgn = -1, k = 1;
 	var n = 0;
 	for (var l = str.length, i = k; i < l; i++) {
-		n = n / b * a + parseInt(str.charAt(i), a);
+		n = n / b * a + ((tmp = str.charAt(i)) === "_" ? 36 : parseInt(str.charAt(i), 36));
 	}
 	return sgn * n;
 }
