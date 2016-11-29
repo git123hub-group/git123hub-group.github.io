@@ -182,7 +182,16 @@ function stepinto () {
 	};
 
 	__variables__.sqrt = Math.sqrt;
+	
+	__variables__.cube = function(x) {
+		return x * x * x;
+	};
 
+	__variables__.cbrt = Math.cbrt || function(x) {
+		var y = Math.pow(Math.abs(x), 1/3);
+		return x < 0 ? -y : y;
+	};
+	
 	__variables__.ln = Math.log;
 
 	__variables__.log = function(x, b) {
@@ -325,6 +334,21 @@ function stepinto () {
 
 	__variables__.bit_shr = function(a, b) {
 		return a >> b;
+	};
+	
+	__variables__.clz32 = Math.clz32 || function(value) {
+		var value = Number(value) >>> 0;
+		return value ? 32 - value.toString(2).length : 32;
+	}
+	
+	__variables__.imul = Math.imul || function(a, b) {
+		var ah = (a >>> 16) & 0xffff;
+		var al = a & 0xffff;
+		var bh = (b >>> 16) & 0xffff;
+		var bl = b & 0xffff;
+		// the shift by 0 fixes the sign on the high part
+		// the final |0 converts the unsigned value into a signed value
+		return ((al * bl) + (((ah * bl + al * bh) << 16) >>> 0)|0);
 	};
 
 	__variables__.equ = function(a, b) {
