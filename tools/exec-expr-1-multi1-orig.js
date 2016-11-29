@@ -39,13 +39,34 @@ function click3 () { // 运行 (直到断点)
 	running && delayf && requestAnimationFrame(click3);
 }
 
+function jumpblock () {
+	var tmp;
+	switch (mainprog[clinenum]) {
+		case ":\x7b:":
+			tmp = 1; ++clinenum;
+			while (clinenum < tlines && tmp) {
+				switch (mainprog[clinenum]) {
+					case ":\x7b:": ++tmp; break;
+					case ":\x7d:": --tmp; break;
+				}
+				++clinenum;
+			}
+		break;
+		default:
+			++clinenum;
+	}
+}
+
 function stepinto () {
 	try {
 		var tmp;
 		if ((tmpline = clinenum) >= tlines) { parsed = false; breakpt = true; delayf = false; return; }
 		tmpnl = clinenum + 1;
-		if ((tmp = mainprog[clinenum].charAt(0)) === "#" || tmp === ":") {
+		if ((tmp = mainprog[clinenum].charAt(0)) === "#") {
 			++clinenum; return;
+		}
+		if (tmp === ":") {
+			mainprog[clinenum].slice(-1) === ":" ? jumpblock() : ++clinenum; return;
 		}
 		var prog = mainprog[clinenum];
 		while ((tmp = mainprog[clinenum].match(/\\*$/)) && tmp[0].length % 2 === 1) { // repeat if contain line-continuation
@@ -95,6 +116,10 @@ function stepinto () {
 		}
 	};
 
+	__variables__.absjump = function(obj) {
+		tmpnl = obj;
+	};
+
 	__variables__.jumpc = function(obj, cond) {
 		cond && __variables__.jump(obj)
 	};
@@ -106,6 +131,11 @@ function stepinto () {
 		} else if (typeof obj === "number") {
 			tmpnl = tmpline + obj;
 		}
+	};
+	
+	__variables__.abscall = function(obj) {
+		callstack[callptr++] = tmpnl;
+		tmpnl = obj;
 	};
 
 	__variables__["return"] = function() {
