@@ -1,0 +1,4 @@
+println(raw("direct raw function"))
+println((raw, 0)("indirect raw function using (raw, 0)"))
+println(indirect("raw")("indirect raw function using indirect('raw')"))
+println(eval("raw")("indirect raw function using eval('raw')"))
