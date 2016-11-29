@@ -506,13 +506,13 @@ function stepinto () {
 	
 	__variables__.pushv = function () {
 		for (var i = 0, len = arguments.length; i < len; i++) {
-			stack.push(__variables__[arguments[i]]);
+			stack.push(__user_vars__["x" + a]);
 		}
 	};
 	
 	__variables__.popv = function () {
 		for (var i = 0, len = arguments.length; i < len; i++) {
-			__variables__[arguments[i]] = stack.pop();
+			__user_vars__["x" + a] = stack.pop();
 		}
 	};
 	
