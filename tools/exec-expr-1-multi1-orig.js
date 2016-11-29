@@ -473,4 +473,23 @@ function stepinto () {
 		if (obj == null || obj[mthd] === Function) return; // Function.prototype.constructor.call(Function.prototype, string) ==> Function(string) 出现漏洞
 		return obj[mthd].apply(obj,Array.prototype.slice.call(arguments, 2));
 	};
+	
+	__variables__.pushobj = function () {
+		for (var i = 0, len = arguments.length; i < len; i++) {
+			stack.push(arguments[i]);
+		}
+	};
+	
+	__variables__.pushv = function () {
+		for (var i = 0, len = arguments.length; i < len; i++) {
+			stack.push(__variables__[arguments[i]]);
+		}
+	};
+	
+	__variables__.popv = function () {
+		for (var i = 0, len = arguments.length; i < len; i++) {
+			__variables__[arguments[i]] = stack.pop();
+		}
+	};
+	
 }(__variables__);
