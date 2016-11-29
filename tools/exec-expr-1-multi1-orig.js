@@ -460,6 +460,14 @@ function stepinto () {
 	__variables__.indirect = function(a) { // usage: indirect("variable name") or (variable name)
 		return (tmp2 = __user_vars__["x" + a]) == null ? __variables__[a] : tmp2;
 	};
+		
+	__variables__.builtinvar = function(a) {
+		return __variables__[a];
+	};
+	
+	__variables__.uservar = function(a) {
+		return __user_vars__["x" + a];
+	};
 
 	__variables__.index = function(obj, num) {
 		return obj[+num];
