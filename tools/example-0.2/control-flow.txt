@@ -1,4 +1,4 @@
-# if Óï¾ä
+# if è¯­å¥
 :if condition_1:
    code_1
 :elseif condition_2:
@@ -7,12 +7,12 @@
    code_3
 :endif:
 
-# while Ñ­»·
+# while å¾ªç¯
 :while condition:
    code
 :endwhile:
 
-# repeat Ñ­»·
+# repeat å¾ªç¯
 :repeat:
    code
 :until condition:
