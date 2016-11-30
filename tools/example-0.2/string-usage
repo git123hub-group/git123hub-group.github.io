@@ -1,0 +1,14 @@
+println('single quote')
+println("double quote")
+println('nested "quote"')
+println("nested 'quote'")
+println('nested \'quote\' with escape sequence')
+println("nested \"quote\" with escape sequence")
+println('backslash: "\\"')
+println(raw('raw string: println("test\n")'))
+println(raw('\" \\ \n \t \' \u000a'))
+println(raw("\" \\ \n \t \' \u000a"))
+println("line \
+continuation")
+println(raw("raw string with \
+line continuation"))
