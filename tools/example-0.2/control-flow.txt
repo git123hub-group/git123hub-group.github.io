@@ -1,0 +1,18 @@
+# if Óï¾ä
+:if condition_1:
+   code_1
+:elseif condition_2:
+   code_2
+:else:
+   code_3
+:endif:
+
+# while Ñ­»·
+:while condition:
+   code
+:endwhile:
+
+# repeat Ñ­»·
+:repeat:
+   code
+:until condition:
