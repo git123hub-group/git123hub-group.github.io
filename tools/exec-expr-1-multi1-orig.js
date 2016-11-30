@@ -1,6 +1,7 @@
 /* exec-expr-1-multi1.js */
 
-var mainprog, clinenum, breakpt, delayf, parsed = false, outHtml, changed, tmpnl, tlines, callstack, callptr, stack, running, tmpline;
+var mainprog, clinenum, breakpt, delayf, parsed = false, outHtml, changed, tmpnl, tlines,
+    callstack, callptr, stack, running, tmpline, condiflag;
 
 function click1 () {
 	var tmp;
@@ -40,18 +41,101 @@ function click3 () { // 运行 (直到断点)
 }
 
 function jumpblock () {
-	var tmp;
-	switch (mainprog[clinenum]) {
-		case ":\x7b:":
+	var tmp, cdp, level;
+	function jendif () {
+		level = 1;
+		while (level > 0) {
+			if (mainprog[clinenum] === ":endif:") {
+				level--;
+			} else if (mainprog[clinenum].slice(0,3) === ":if") {
+				level++;
+			}
+			clinenum++;
+		}
+	}
+	switch ((cdp = mainprog[clinenum].match(/^:(\w+|[^\w\s])\s*(.*):$/))[1]) {
+		case "\x7b":
 			tmp = 1; ++clinenum;
 			while (clinenum < tlines && tmp) {
 				switch (mainprog[clinenum]) {
 					case ":\x7b:": ++tmp; break;
 					case ":\x7d:": --tmp; break;
 				}
-				++clinenum;
+				clinenum++;
 			}
 		break;
+		case "if": 
+		case "elseif": // likes "if"
+			if ((cdp[1] === "if" && (condiflag = true)) || condiflag) {
+				if (__expr_eval__(cdp[2])) {
+					condiflag = false;
+					clinenum++; // execute code
+				} else {
+					// jump to next "elseX" or "endif"
+					level = 0; clinenum++;
+					while (level >= 0) {
+						if (mainprog[clinenum] === ":endif:") {
+							level--;
+						} else if (mainprog[clinenum].slice(0,5) === ":else") {
+							if (level <= 0) break;
+						} else if (mainprog[clinenum].slice(0,3) === ":if") {
+							level++;
+						}
+						clinenum++;
+					}
+				}
+			} else {
+				jendif(); // jump to "endif"
+			}
+		break;
+		case "else":
+			// jump to "endif" if condition flag is false
+			if (condiflag) {
+				clinenum++;
+			} else {
+				jendif();
+			}
+			condiflag = false;
+		break;
+		case "while":
+			clinenum++; 
+			if (!__expr_eval__(cdp[2])) { // go to "endwhile"
+				level = 1;
+				while (level > 0) {
+					if (mainprog[clinenum] === ":endwhile:") {
+						level--;
+					} else if (mainprog[clinenum].slice(0,6) === ":while") {
+						level++;
+					}
+					clinenum++;
+				}
+			}
+		break;
+		case "endwhile": // go back to "while"
+			level = 1;
+			do { // repeat match
+				clinenum--;
+				if (mainprog[clinenum] === ":endwhile:") {
+					level++;
+				} else if (mainprog[clinenum].slice(0,6) === ":while") {
+					level--;
+				}
+			} while (level > 0); // until matched "while"
+		break;
+		case "until":
+			if (__expr_eval__(cdp[2])) { ++clinenum; break; }
+			level = 1;
+			do { // repeat match
+				clinenum--;
+				if (mainprog[clinenum].slice(0,6) === ":until") {
+					level++;
+				} else if (mainprog[clinenum] === ":repeat:") {
+					level--;
+				}
+			} while (level > 0); // until matched "repeat"
+		break;
+		// case "endif":
+		// case "repeat":
 		default:
 			++clinenum;
 	}
