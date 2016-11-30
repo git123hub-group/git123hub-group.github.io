@@ -1,0 +1,13 @@
+# single-line comment
+
+:{:
+multi-line comment
+:}:
+
+:{:
+multi-line comment level 1
+:{:
+multi-line comment level 2
+:}:
+multi-line comment can nested
+:}:
