@@ -5,3 +5,4 @@ indirect-calls.txt
 qmutation.txt
 quine.txt
 string-usage.txt
+wrong-nested.txt
