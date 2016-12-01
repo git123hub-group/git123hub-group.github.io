@@ -41,11 +41,12 @@ function click3 () { // 运行 (直到断点)
 }
 
 function jumpblock () {
-	var tmp, cdp, level;
+	var cdp, level;
 	function jendif () {
 		level = 1;
 		while (level > 0) {
-			if (mainprog[clinenum] === ":endif:") {
+			if (mainprog[clinenum] === ":\x7b:") skipforward();
+			else if (mainprog[clinenum] === ":endif:") {
 				level--;
 			} else if (mainprog[clinenum].slice(0,3) === ":if") {
 				level++;
@@ -53,16 +54,29 @@ function jumpblock () {
 			clinenum++;
 		}
 	}
+	function skipforward () {
+		var tmp = 1; ++clinenum;
+		while (clinenum < tlines && tmp) {
+			switch (mainprog[clinenum]) {
+				case ":\x7b:": ++tmp; break;
+				case ":\x7d:": --tmp; break;
+			}
+			clinenum++;
+		}
+	}
+	function skipbackward () {
+		var tmp = 1; --clinenum;
+		while (clinenum > 0 && tmp) {
+			switch (mainprog[clinenum]) {
+				case ":\x7b:": ++tmp; break;
+				case ":\x7d:": --tmp; break;
+			}
+			clinenum--;
+		}
+	}
 	switch ((cdp = mainprog[clinenum].match(/^:(\w+|[^\w\s])\s*(.*):$/))[1]) {
 		case "\x7b":
-			tmp = 1; ++clinenum;
-			while (clinenum < tlines && tmp) {
-				switch (mainprog[clinenum]) {
-					case ":\x7b:": ++tmp; break;
-					case ":\x7d:": --tmp; break;
-				}
-				clinenum++;
-			}
+			skipforward();
 		break;
 		case "if": 
 		case "elseif": // likes "if"
@@ -74,10 +88,11 @@ function jumpblock () {
 					// jump to next "elseX" or "endif"
 					level = 0; clinenum++;
 					while (level >= 0) {
-						if (mainprog[clinenum] === ":endif:") {
-							level--;
-						} else if (mainprog[clinenum].slice(0,5) === ":else") {
+						if (mainprog[clinenum] === ":\x7b:") skipforward();
+						else if (mainprog[clinenum].slice(0,5) === ":else") {
 							if (level <= 0) break;
+						} else if (mainprog[clinenum] === ":endif:") {
+							level--;
 						} else if (mainprog[clinenum].slice(0,3) === ":if") {
 							level++;
 						}
@@ -102,7 +117,8 @@ function jumpblock () {
 			if (!__expr_eval__(cdp[2])) { // go to "endwhile"
 				level = 1;
 				while (level > 0) {
-					if (mainprog[clinenum] === ":endwhile:") {
+					if (mainprog[clinenum] === ":\x7b:") skipforward();
+					else if (mainprog[clinenum] === ":endwhile:") {
 						level--;
 					} else if (mainprog[clinenum].slice(0,6) === ":while") {
 						level++;
@@ -115,7 +131,8 @@ function jumpblock () {
 			level = 1;
 			do { // repeat match
 				clinenum--;
-				if (mainprog[clinenum] === ":endwhile:") {
+				if (mainprog[clinenum] === ":\x7d:") skipbackward();
+				else if (mainprog[clinenum] === ":endwhile:") {
 					level++;
 				} else if (mainprog[clinenum].slice(0,6) === ":while") {
 					level--;
@@ -127,7 +144,8 @@ function jumpblock () {
 			level = 1;
 			do { // repeat match
 				clinenum--;
-				if (mainprog[clinenum].slice(0,6) === ":until") {
+				if (mainprog[clinenum] === ":\x7d:") skipbackward();
+				else if (mainprog[clinenum].slice(0,6) === ":until") {
 					level++;
 				} else if (mainprog[clinenum] === ":repeat:") {
 					level--;
