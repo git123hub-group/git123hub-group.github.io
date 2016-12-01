@@ -2,7 +2,8 @@ comment-usage.txt
 control-flow.txt
 hello.txt
 indirect-calls.txt
+nested-test-1.txt
+nested-test-2.txt
 qmutation.txt
 quine.txt
 string-usage.txt
-wrong-nested.txt
