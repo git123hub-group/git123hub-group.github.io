@@ -68,8 +68,8 @@ function jumpblock () {
 		var tmp = 1; --clinenum;
 		while (clinenum > 0 && tmp) {
 			switch (mainprog[clinenum]) {
-				case ":\x7b:": ++tmp; break;
-				case ":\x7d:": --tmp; break;
+				case ":\x7b:": --tmp; break;
+				case ":\x7d:": ++tmp; break;
 			}
 			clinenum--;
 		}
