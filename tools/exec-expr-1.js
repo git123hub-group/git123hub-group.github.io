@@ -229,21 +229,33 @@ function __expr_eval__ (iexpr) {
 				}
 			break;
 			case "*":
+				if (omode) {
+					throw "语法错误 (unexcepted *)";
+				}
 				calcpow(); calcsign(); calcmul();
 				ostk[++optr] = 3;
 				omode = true;
 			break;
 			case "/":
+				if (omode) {
+					throw "语法错误 (unexcepted /)";
+				}
 				calcpow(); calcsign(); calcmul();
 				ostk[++optr] = 4;
 				omode = true;
 			break;
 			case "&":
-				 concat();
+				if (omode) {
+					throw "语法错误 (unexcepted &)";
+				}
+				concat();
 				ostk[++optr] = 9;
 				omode = true;
 			break;
 			case "^":
+				if (omode) {
+					throw "语法错误 (unexcepted ^)";
+				}
 				ostk[++optr] = 7;
 				omode = true;
 			break;
@@ -258,6 +270,9 @@ function __expr_eval__ (iexpr) {
 			break;
 			case "0": case "1": case "2": case "3": case "4": case "5":
 			case "6": case "7": case "8": case "9": case ".":
+				if (!omode) {
+					throw "语法错误 (unexcepted number)";
+				}
 				omode = false;
 				numstr = expr[i];
 				for (;;) {
@@ -275,6 +290,9 @@ function __expr_eval__ (iexpr) {
 			default:
 				numstr = "";
 				if (!/[0-9A-Za-z\_\$]/.test(expr[i])) throw "不存在的运算符";
+				if (!omode) {
+					throw "语法错误 (unexpected identifier)";
+				}
 				for (; i < expr.length && /[0-9A-Za-z\_\$]/.test(expr[i]); i++) {
 					numstr += expr[i];
 				}
