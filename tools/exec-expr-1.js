@@ -181,7 +181,7 @@ function __expr_eval__ (iexpr) {
 		switch (expr[i]) {
 			case '"': case "'":
 				if (!omode) {
-					throw "语法错误 (unexcepted string)";
+					throw "语法错误 (unexpected string)";
 				}
 				tmp = "";
 				terminator = expr[i];
@@ -202,7 +202,7 @@ function __expr_eval__ (iexpr) {
 			break;
 			case ")":
 				if (paptr <= 0) {
-					throw "语法错误 (unexcepted parenthesis)";
+					throw "语法错误 (unexpected parenthesis)";
 				}
 				omode && pastk[paptr]--;
 				concat();
@@ -236,7 +236,7 @@ function __expr_eval__ (iexpr) {
 			break;
 			case "*":
 				if (omode) {
-					throw "语法错误 (unexcepted *)";
+					throw "语法错误 (unexpected *)";
 				}
 				calcpow(); calcsign(); calcmul();
 				ostk[++optr] = 3;
@@ -244,7 +244,7 @@ function __expr_eval__ (iexpr) {
 			break;
 			case "/":
 				if (omode) {
-					throw "语法错误 (unexcepted /)";
+					throw "语法错误 (unexpected /)";
 				}
 				calcpow(); calcsign(); calcmul();
 				ostk[++optr] = 4;
@@ -252,7 +252,7 @@ function __expr_eval__ (iexpr) {
 			break;
 			case "&":
 				if (omode) {
-					throw "语法错误 (unexcepted &)";
+					throw "语法错误 (unexpected &)";
 				}
 				concat();
 				ostk[++optr] = 9;
@@ -260,7 +260,7 @@ function __expr_eval__ (iexpr) {
 			break;
 			case "^":
 				if (omode) {
-					throw "语法错误 (unexcepted ^)";
+					throw "语法错误 (unexpected ^)";
 				}
 				ostk[++optr] = 7;
 				omode = true;
@@ -277,7 +277,7 @@ function __expr_eval__ (iexpr) {
 			case "0": case "1": case "2": case "3": case "4": case "5":
 			case "6": case "7": case "8": case "9": case ".":
 				if (!omode) {
-					throw "语法错误 (unexcepted number)";
+					throw "语法错误 (unexpected number)";
 				}
 				omode = false;
 				numstr = expr[i];
