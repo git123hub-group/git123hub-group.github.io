@@ -180,6 +180,9 @@ function __expr_eval__ (iexpr) {
 	for (var i = 0, len = expr.length; i < len; ++i) {
 		switch (expr[i]) {
 			case '"': case "'":
+				if (!omode) {
+					throw "语法错误 (unexcepted string)";
+				}
 				tmp = "";
 				terminator = expr[i];
 				++i;
@@ -198,6 +201,9 @@ function __expr_eval__ (iexpr) {
 				omode = true;
 			break;
 			case ")":
+				if (paptr <= 0) {
+					throw "语法错误 (unexcepted parenthesis)";
+				}
 				omode && pastk[paptr]--;
 				concat();
 				optr--; 
