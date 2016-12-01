@@ -6,3 +6,7 @@
   print(3)
 :}:
   print(4)
+  return()
+:endif:
+  print(5)
+  return()
