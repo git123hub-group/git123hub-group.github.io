@@ -1,0 +1,9 @@
+a = 0
+call(2)
+print(multiline(5))
+println("a = "&1-a)
+println("call(2)")
+return(println("print(multiline(5))"))
+println("jump(-2)")
+return()
+jump(-2)
