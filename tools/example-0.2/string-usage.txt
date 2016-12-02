@@ -1,5 +1,6 @@
 println('single quote')
 println("double quote")
+println(quote(another delimiter))
 println('nested "quote"')
 println("nested 'quote'")
 println('nested \'quote\' with escape sequence')
