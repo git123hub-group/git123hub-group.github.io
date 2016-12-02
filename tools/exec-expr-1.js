@@ -80,6 +80,7 @@ var StringParser = function (str) {
 				case "f": pstr += "\x0c"; break;
 				case "n": pstr += "\x0a"; break; // 换行符
 				case "r": pstr += "\x0d"; break;
+				case "s": pstr += "\x20"; break; // space
 				case "t": pstr += "\x09"; break; // Unicode 字符
 				case "u":
 					pstr += String.fromCharCode(parseInt(str[++i] + str[++i] + str[++i] + str[++i], 16));
@@ -292,7 +293,19 @@ function __expr_eval__ (iexpr) {
 				omode = true;
 			break;
 			case " ": case "\t": case "\r": case "\n": // spaces
+			break;
 			case "\\": // line continuation
+				if (expr[++i] === "\n") break;
+				if (!omode) {
+					throw "语法错误";
+				}
+				tmp = "";
+				for (; i < expr.length && /[0-9A-Za-z\_\$]/.test(expr[i]); i++) {
+					tmp += expr[i];
+				}
+				--i;
+				nstk[++nptr] = tmp;
+				omode = false;
 			break;
 			case "0": case "1": case "2": case "3": case "4": case "5":
 			case "6": case "7": case "8": case "9": case ".":
