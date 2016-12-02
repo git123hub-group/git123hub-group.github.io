@@ -1,6 +1,7 @@
 println('single quote')
 println("double quote")
 println(quote(another delimiter))
+println(\backslash_string)
 println('nested "quote"')
 println("nested 'quote'")
 println('nested \'quote\' with escape sequence')
