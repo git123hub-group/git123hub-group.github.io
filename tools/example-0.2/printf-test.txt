@@ -1,0 +1,3 @@
+a = 5
+b = 10
+printf(quote `Fifteen is %d and\nnot %d.\n`, a + b, 2 * a + b)
