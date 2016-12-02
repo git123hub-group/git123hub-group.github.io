@@ -201,6 +201,16 @@ function stepinto () {
 		return sprintf.apply(null, arguments);
 	};
 
+	__variables__.hash = function(str) { // my hash function
+		str += ""
+		var m = -1741611902;
+		for (var i = 0, l = str.length; i < l; i++) {
+			m = (703411 * m) | 0;
+			m = (8753 * m + str.charCodeAt(i)) | 0;
+		}
+		return m;
+	};
+	
 	__variables__.clear = function(str) {
 		outHtml = "";
 		changed = true;
@@ -472,6 +482,18 @@ function stepinto () {
 		var value = Number(value) >>> 0;
 		return value ? 32 - value.toString(2).length : 32;
 	}
+	
+	__variables__.fib = function(n) {
+		var a = 0, b = 1, tmp, sgn = n % 2 === 0 ? -1 : 1;
+		n < 0 ? (n = -n) : sgn = 1;
+		if (n < 2) return n;
+		if (n > 1476) return NaN;
+		for (; n > 1; n--) {
+			tmp = a + b;
+			a = b, b = tmp;
+		}
+		return b * sgn;
+	};
 	
 	__variables__.imul = Math.imul || function(a, b) {
 		var ah = (a >>> 16) & 0xffff;
