@@ -174,8 +174,28 @@ function __expr_eval__ (iexpr) {
 			nstk[j] = tmp * nstk[nptr];
 		nptr = j;
 	}
+	var delarr = [">", "]",, "}", ")"];
+	function matchdelim (chr) {
+		return delarr[chr.charCodeAt(0) % 6];
+	}
+	function createq () {
+		while (expr[i] === " ") { // 跳过空格
+			if (i >= len) return;
+			i++;
+		}
+		var delim = expr[i], delim2 = /[\(\[\{<]/.test(delim) ? matchdelim(delim) : delim, // 设置定界符
+		tmp = "", tmp2, lev = 1;
+		for (;;) {
+			i++;
+			delim2 === (tmp2 = expr[i]) ? lev-- : delim === tmp2 && lev++;
+			if (i >= len || lev <= 0) break;
+			if (tmp2 === "\\") (tmp += "\\", tmp2 = expr[++i]);
+			tmp += tmp2;
+		}
+		nstk[nptr] = rawflag ? tmp : StringParser(tmp);
+	}
 
-	var nstk = [], ostk = [], pastk = [1], nptr = -1, optr = -1, paptr = 0, omode = true, numstr, ii, tmp, tmp2, terminator, rawflag, rtmp;
+	var nstk = [], ostk = [], pastk = [1], nptr = -1, optr = -1, paptr = 0, omode = true, numstr, ii, tmp, tmp2, tmp3, terminator, rawflag, rtmp;
 	// main:
 	for (var i = 0, len = expr.length; i < len; ++i) {
 		switch (expr[i]) {
@@ -303,7 +323,8 @@ function __expr_eval__ (iexpr) {
 					numstr += expr[i];
 				}
 				--i;
-				nstk[++nptr] = (tmp2 = __user_vars__["x" + numstr]) == null ? __variables__[numstr] : tmp2;
+				tmp3 = nstk[++nptr] = (tmp2 = __user_vars__["x" + numstr]) == null ? __variables__[numstr] : tmp2;
+				typeof tmp3 === "function" && tmp3.quotf && createq(i++);
 				omode = false;
 		}
 	}
@@ -318,6 +339,10 @@ var __variables__ = {
 	raw: function (str) {
 		return str;
 	},
+	quote: function (str) {
+		return str;
+	},
 	eval: __expr_eval__
 };
 __variables__.raw.rawf = true
+__variables__.quote.quotf = true
