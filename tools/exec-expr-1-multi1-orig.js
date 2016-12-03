@@ -668,14 +668,29 @@ function stepinto () {
 	
 	__variables__.pushv = function () {
 		for (var i = 0, len = arguments.length; i < len; i++) {
-			stack.push(__user_vars__["x" + a]);
+			stack.push(__user_vars__["x" + arguments[i]]);
 		}
 	};
 	
 	__variables__.popv = function () {
 		for (var i = 0, len = arguments.length; i < len; i++) {
-			__user_vars__["x" + a] = stack.pop();
+			__user_vars__["x" + arguments[i]] = stack.pop();
 		}
 	};
+	
+	__variables__.lambda = function () { // lambda function
+		var args = arguments;
+		return function lambda () {
+			for (var i = 0, len = args.length - 1, tmp; i < len; i++) {
+				stack.push(__user_vars__["x" + args[i]]);
+				__user_vars__["x" + args[i]] = arguments[i];
+			}
+			tmp = __expr_eval__(args[i]);
+			for (i--; i >= 0; i--) {
+				__user_vars__["x" + args[i]] = stack.pop();
+			}
+			return tmp;
+		}
+	}
 	
 }(__variables__);
