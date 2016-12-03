@@ -8,4 +8,4 @@ printf(s,s)
 
 # -------------------------------- 分割线 -------------------------------- #
 
-printf(assign("a",quote(printf(assign("a",%s)),a)),a)
+printf(assign("a",quote(printf(assign("a",quote(%s)),a))),a)
