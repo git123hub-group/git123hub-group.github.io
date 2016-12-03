@@ -1,0 +1,2 @@
+s="s=\"%s\"\nprintf(s,sescape(s))"
+printf(s,sescape(s))
