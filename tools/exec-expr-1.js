@@ -229,7 +229,7 @@ function __expr_eval__ (iexpr) {
 				concat();
 				optr--; 
 				nptr -= ((tmp = pastk[paptr--]) - 1);
-				tmp === 0 && nstk[nptr] = undefined;
+				tmp === 0 && (nstk[nptr] = undefined);
 				applyfunc(tmp);
 				paptr === rtmp && (rawflag = false);
 				omode = false;
