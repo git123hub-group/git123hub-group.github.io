@@ -205,8 +205,8 @@ function stepinto () {
 		str += ""
 		var m = -1741611902;
 		for (var i = 0, l = str.length; i < l; i++) {
-			m = (703411 * m) | 0;
-			m = (8753 * m + str.charCodeAt(i)) | 0;
+			m = (84823 * m) | 0;
+			m = (str.charCodeAt(i) - 28683 * m) | 0;
 		}
 		return m;
 	};
