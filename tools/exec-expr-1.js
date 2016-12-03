@@ -216,7 +216,7 @@ function __expr_eval__ (iexpr) {
 				omode = false;
 			break;
 			case "(":
-				omode || (rawflag || (nstk[nptr].rawf && (rawflag = true, rtmp = paptr)), ostk[++optr] = 8);
+				omode || (rawflag || (typeof (tmp = nstk[nptr]) === "function" && tmp.rawf && (rawflag = true, rtmp = paptr)), ostk[++optr] = 8);
 				ostk[++optr] = 0;
 				pastk[++paptr] = 1;
 				omode = true;
@@ -229,6 +229,7 @@ function __expr_eval__ (iexpr) {
 				concat();
 				optr--; 
 				nptr -= ((tmp = pastk[paptr--]) - 1);
+				tmp === 0 && nstk[nptr] = undefined;
 				applyfunc(tmp);
 				paptr === rtmp && (rawflag = false);
 				omode = false;
