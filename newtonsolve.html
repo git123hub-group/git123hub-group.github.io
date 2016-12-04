@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+	a {text-decoration: none;}
+	#_a,#_b,#_c,#_d,#_e,#_f,#_g,#_h,#_i {width: 100px;}
+</style>
+<title>一元 N 次方程求解</title>
+</head>
+<body>
+<div style="text-align: center">
+<input type="text" id="_a" /> x<sup>8</sup> +
+<input type="text" id="_b" /> x<sup>7</sup> +
+<input type="text" id="_c" /> x<sup>6</sup> +<br />
+<input type="text" id="_d" /> x<sup>5</sup> +
+<input type="text" id="_e" /> x<sup>4</sup> +
+<input type="text" id="_f" /> x<sup>3</sup> +<br />
+<input type="text" id="_g" /> x<sup>2</sup> +
+<input type="text" id="_h" /> x +
+<input type="text" id="_i" /> = 0
+<br /><br />
+
+x = <input type="text" id="_z" style="width: 320px;" /> <input type="button" value="下一代 (x &rarr; x')" onclick="solve()" />
+<br />
+<div style="margin-top:5px">
+	<a href="/index/">返回到首页</a>
+</div>
+</div>
+<script type="text/javascript">
+// (-b +/- sqrt(b*b - 4*a*c)) / 2*a
+function solve () {
+	var $ = function (id) {
+		return document.getElementById(id);
+	}
+	var x8 = +$("_a").value;
+	var x7 = +$("_b").value;
+	var x6 = +$("_c").value;
+	var x5 = +$("_d").value;
+	var x4 = +$("_e").value;
+	var x3 = +$("_f").value;
+	var x2 = +$("_g").value;
+	var x1 = +$("_h").value;
+	var x0 = +$("_i").value;
+	var xp = +$("_z").value;
+	var numerator   = x0 + xp * (x1 + xp * (x2 + xp * (x3 + xp * (x4 + xp * (x5 + xp * (x6 + xp * (x7 + xp * x8)))))));
+	var denominator = x1 + xp * (2*x2 + xp * (3*x3 + xp * (4*x4 + xp * (5*x5 + xp * (6*x6 + xp * (7*x7 + xp * 8*x8))))));
+	$("_z").value = xp - numerator / denominator;
+}
+
+</script>
+</body>
+</html>
