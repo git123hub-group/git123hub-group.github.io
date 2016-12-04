@@ -1,0 +1,13 @@
+n = 2
+call(2)
+print(multiline(7))
+println("n = 2")
+println("call(2)")
+return(println("print(multiline(7))"))
+println("call(-2)")
+println("n = n - 1")
+println("jumpc(-11, n)")
+return()
+call(-2)
+n = n - 1
+jumpc(-11, n)
