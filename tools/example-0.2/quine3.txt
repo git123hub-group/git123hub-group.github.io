@@ -9,3 +9,9 @@ printf(s,s)
 # -------------------------------- 分割线 -------------------------------- #
 
 printf(assign("a",quote(printf(assign("a",quote(%s)),a))),a)
+
+# -------------------------------- 分割线 -------------------------------- #
+
+printf(assign("a","printf(assign(\"a\",%j),a)\n"),a)
+
+sprintf(assign("a","sprintf(assign(\"a\",%j),a)\n"),a)
