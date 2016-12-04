@@ -267,12 +267,21 @@ function stepinto () {
 		return (Math.exp(x) - Math.exp(-x)) / 2;
 	};
 
+	__variables__.qexp = function(x, b) {
+		return 2 * __variables__.sinh(b ? x * Math.log(b) : x);
+	};
+	
 	__variables__.asin = Math.asin;
-
+	
 	__variables__.asinh = Math.asinh || function(x) {
 		sgn = 1;
 		x < 0 && (x = -x, sgn = -1);
 		return sgn * Math.log(x + Math.sqrt(x * x + 1));
+	};
+	
+	__variables__.qlog = function(x, b) {
+		var tmp = __variables__.asinh(x / 2);
+		return b ? tmp / Math.log(b) : tmp;
 	};
 
 	__variables__.cos = Math.cos;
@@ -337,8 +346,7 @@ function stepinto () {
 	__variables__.ln = Math.log;
 
 	__variables__.log = function(x, b) {
-		b || (b = 10);
-		return Math.log(x) / Math.log(b);
+		return b ? Math.log(x) / Math.log(b) : Math.log(x);
 	};
 
 	__variables__.log1p = Math.log1p || function(x) {

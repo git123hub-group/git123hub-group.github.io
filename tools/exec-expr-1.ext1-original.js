@@ -12,6 +12,8 @@ function click1() {
 
 var changed = false, Ostr = "";
 
+!function(__variables__) {
+
 __variables__.print = function(str) {
 	Ostr += escapeHTML(str);
 	changed = true;
@@ -22,15 +24,30 @@ __variables__.println = function(str) {
 	changed = true;
 };
 
+__variables__.printf = function() {
+	outHtml += escapeHTML(sprintf.apply(null, arguments));
+	changed = true;
+};
+
+__variables__.sprintf = function() {
+	return sprintf.apply(null, arguments);
+};
+
 __variables__.clear = function(str) {
 	Ostr = "";
 	changed = true;
 };
 
+/*---------------------------------------- 数学函数区开始 ----------------------------------------*/
+
 __variables__.sin = Math.sin;
 
 __variables__.sinh = Math.sinh || function(x) {
 	return (Math.exp(x) - Math.exp(-x)) / 2;
+};
+
+__variables__.qexp = function(x, b) {
+	return 2 * __variables__.sinh(b ? x * Math.log(b) : x);
 };
 
 __variables__.asin = Math.asin;
@@ -39,6 +56,11 @@ __variables__.asinh = Math.asinh || function(x) {
 	sgn = 1;
 	x < 0 && (x = -x, sgn = -1);
 	return sgn * Math.log(x + Math.sqrt(x * x + 1));
+};
+
+__variables__.qlog = function(x, b) {
+	var tmp = __variables__.asinh(x / 2);
+	return b ? tmp / Math.log(b) : tmp;
 };
 
 __variables__.cos = Math.cos;
@@ -91,11 +113,19 @@ __variables__.sqr = function(x) {
 
 __variables__.sqrt = Math.sqrt;
 
+__variables__.cube = function(x) {
+	return x * x * x;
+};
+
+__variables__.cbrt = Math.cbrt || function(x) {
+	var y = Math.pow(Math.abs(x), 1/3);
+	return x < 0 ? -y : y;
+};
+
 __variables__.ln = Math.log;
 
 __variables__.log = function(x, b) {
-	b || (b = 10);
-	return Math.log(x) / Math.log(b);
+	return b ? Math.log(x) / Math.log(b) : Math.log(x);
 };
 
 __variables__.log1p = Math.log1p || function(x) {
@@ -138,7 +168,7 @@ __variables__.sign = Math.sign || function(x) {
 	return x > 0 ? 1 : -1;
 };
 
-__variables__.firstarg = __variables__.ident = function(x) {
+__variables__.ident = function(x) {
 	return x;
 };
 
@@ -180,7 +210,7 @@ __variables__.hypot = Math.hypot || function() {
 	return Math.sqrt(y);
 };
 
-__variables__.erf = function(b) {
+__variables__.erf = function(b) { // approximation
 	var c = .140012;
 	var d = b * b;
 	var f = (4 / Math.PI + c * d) / (1 + c * d);
@@ -235,6 +265,33 @@ __variables__.bit_shr = function(a, b) {
 	return a >> b;
 };
 
+__variables__.clz32 = Math.clz32 || function(value) {
+	var value = Number(value) >>> 0;
+	return value ? 32 - value.toString(2).length : 32;
+}
+
+__variables__.fib = function(n) {
+	var a = 0, b = 1, tmp, sgn = n % 2 === 0 ? -1 : 1;
+	n < 0 ? (n = -n) : sgn = 1;
+	if (n < 2) return n;
+	if (n > 1476) return NaN;
+	for (; n > 1; n--) {
+		tmp = a + b;
+		a = b, b = tmp;
+	}
+	return b * sgn;
+};
+
+__variables__.imul = Math.imul || function(a, b) {
+	var ah = (a >>> 16) & 0xffff;
+	var al = a & 0xffff;
+	var bh = (b >>> 16) & 0xffff;
+	var bl = b & 0xffff;
+	// the shift by 0 fixes the sign on the high part
+	// the final |0 converts the unsigned value into a signed value
+	return ((al * bl) + (((ah * bl + al * bh) << 16) >>> 0)|0);
+};
+
 __variables__.equ = function(a, b) {
 	return a === b;
 };
@@ -278,6 +335,8 @@ __variables__["null"] = null;
 __variables__["undefined"] = undefined;
 
 __variables__.random = Math.random;
+
+/*---------------------------------------- 数学函数区结束 ----------------------------------------*/
 
 __variables__.alert = function(a) {
 	alert(a);
@@ -432,3 +491,5 @@ __variables__.assign = function(varn, value) { // usage: assign("variable name",
 __variables__["delete"] = function(a) {
 	return delete __user_vars__["x" + a];
 };
+
+}(__variables__);
