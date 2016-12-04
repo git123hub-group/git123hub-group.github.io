@@ -72,7 +72,7 @@ function mybase36d (str) {
 			} else {
 				while (i < l && str[++i] !== "`") {
 					if ((num = parseInt(str[i], 36)) > 9) {
-						str2 += String.fromCodePoint(num + 118); // 128 - 10
+						str2 += String.fromCharCode(num + 118); // 128 - 10
 					} else {
 						factor = 10;
 						while (i < l && ((tmp = parseInt(str[++i], 36)) > 9)) {
@@ -80,7 +80,7 @@ function mybase36d (str) {
 							factor *= 26
 						}
 						num += tmp * factor;
-						str2 += String.fromCodePoint(num + 154); // 128 + 26
+						str2 += String.fromCharCode(num + 154); // 128 + 26
 					}
 				}
 			}
