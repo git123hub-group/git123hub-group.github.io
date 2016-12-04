@@ -12,11 +12,15 @@
 		<div style="text-align: center">
 			<h1>base36 编码器/解码器</h1>
 			<textarea id="input1" style="width: 70%; height: 500px;"></textarea><br />
-			<input type="button" value="base36 编码" onclick="$('input1').value = mybase36_btoa($('input1').value)" />
-			<input type="button" value="base36 解码" onclick="$('input1').value = mybase36_atob($('input1').value)" />
+			<input type="button" value="base36_7bit 编码" onclick="$('input1').value = mybase36_btoa($('input1').value,7)" />
+			<input type="button" value="base36_7bit 解码" onclick="$('input1').value = mybase36_atob($('input1').value,7)" /><br />
+			<input type="button" value="base36_8bit 编码" onclick="$('input1').value = mybase36_btoa($('input1').value,8)" />
+			<input type="button" value="base36_8bit 解码" onclick="$('input1').value = mybase36_atob($('input1').value,8)" /><br />
+			<input type="button" value="base36_16bit 编码" onclick="$('input1').value = mybase36_btoa($('input1').value,16)" />
+			<input type="button" value="base36_16bit 解码" onclick="$('input1').value = mybase36_atob($('input1').value,16)" /><br />
 			<input type="button" value="base36_Unicode 编码" onclick="$('input1').value = mybase36e($('input1').value)" />
-			<input type="button" value="base36_Unicode 解码" onclick="$('input1').value = mybase36d($('input1').value)" />
-			<br /><br />
+			<input type="button" value="base36_Unicode 解码" onclick="$('input1').value = mybase36d($('input1').value)" /><br />
+			<br />
 			<a href="/index/">返回到首页</a>
 		</div>
 <script>
@@ -87,10 +91,11 @@ function mybase36d (str) {
 	return str2;
 }
 
-function mybase36_btoa (str) {
+function mybase36_btoa (str, bits) {
     if (typeof str !== "string") { throw "您输入的不是字符串" }
 	var pad = [, "00000", "0000", "000", "00", "0", ""];
 	// var pow2 = [1,2,4,8,16,32,64,128];
+	var bitsexp = 1 << bits;
 	var log = [, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1];
 	function tob36 (num) {
 		var a = num.toString(36);
@@ -98,10 +103,10 @@ function mybase36_btoa (str) {
 	}
 	var b = 0, n = 0, str2 = "", tmp, tmp2;
 	for (var i = 0, l = str.length; i < l; i++) {
-		b += 8;
+		b += bits;
 		tmp = str.charCodeAt(i);
-		if (tmp > 256) throw "您输入的是非法字符串"
-		n = n * 256 + tmp;
+		if (tmp > bitsexp) throw "您输入的是非法字符串"
+		n = n * bitsexp + tmp;
 		if (b >= 31) {
 			tmp = 1 << (b -= 31);
 			str2 += tob36((n - (tmp2 = n % tmp)) / tmp);
@@ -112,16 +117,16 @@ function mybase36_btoa (str) {
 	return str2;
 }
 
-function mybase36_atob (str) {
+function mybase36_atob (str, bits) {
 	var pad = [, "zzzzz", "zzzz", "zzz", "zz", "z"];
-	var min = [, 32, 27, 22, 17, 12], minn;
+	var min = [, 24 + bits, 19 + bits, 14 + bits, 9 + bits, 4 + bits], minn;
 	if (typeof str !== "string") { throw "您输入的不是字符串" }
 	var len = str.length, num = 0, b = 0, p, tmp, tmp2, tmps;
 	var rem = len % 6, quo = (len - rem) / 6, str2 = "";
 	for (var i = 0; quo > 0; i += 6, quo--) {
 		b += 31; num = num * 2147483648 + parseInt(str.substr(i, 6), 36);
-		while (b > 7) {
-			b -= 8; p = 1 << b; tmp = num % p;
+		while (b >= bits) {
+			b -= bits; p = 1 << b; tmp = num % p;
 			tmp2 = (num - tmp) / p; num = tmp;
 			str2 += String.fromCharCode(tmp2);
 		}
@@ -131,7 +136,7 @@ function mybase36_atob (str) {
 		tmps += pad[rem]; minn = min[rem]; b += 31;
 		num = num * 2147483648 + parseInt(tmps, 36);
 		while (b > minn) {
-			b -= 8; p = 1 << b; tmp = num % p;
+			b -= bits; p = 1 << b; tmp = num % p;
 			tmp2 = (num - tmp) / p; num = tmp;
 			str2 += String.fromCharCode(tmp2);
 		}
