@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			a { text-decoration: none; }
+		</style>
+		<title>base36 编码器/解码器</title>
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' https://git123hub.github.io; object-src 'none'" />
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<div style="text-align: center">
+			<h1>base36 编码器/解码器</h1>
+			<textarea id="input1" style="width: 70%; height: 500px;"></textarea><br />
+			<input type="button" value="base36 编码" onclick="$('input1').value = mybase36_btoa($('input1').value)" />
+			<input type="button" value="base36 解码" onclick="$('input1').value = mybase36_atob($('input1').value)" />
+			<input type="button" value="base36_Unicode 编码" onclick="$('input1').value = mybase36e($('input1').value)" />
+			<input type="button" value="base36_Unicode 解码" onclick="$('input1').value = mybase36d($('input1').value)" />
+			<br /><br />
+			<a href="/index/">返回到首页</a>
+		</div>
+<script>
+// <![CDATA[
+
+function $(e) {
+	return document.getElementById(e)
+}
+
+function mybase36e (str) {
+	var alphabets = "abcdefghijklmnopqrstuvwxyz".split(""), str2 = "", tmp, nonascii = false, tmp2;
+	function encode (num) {
+		if (num < 26) return alphabets[num];
+		num = num - 26; var tmp = num % 10, tmp2, tmp3;
+		num = (num - tmp) / 10;
+		while (num > 9) {
+			tmp2 = alphabets[tmp3 = (num - 10) % 26];
+			num = (num - tmp3 - 10) / 26;
+			tmp += tmp2;
+		}
+		return "" + tmp + num;
+	}
+	for (var i = 0, l = str.length; i < l; i++) {
+		tmp = str.charCodeAt(i);
+		tmp2 = nonascii;
+		if (tmp >= 128) {
+			nonascii = true;
+		} else {
+			nonascii = false;
+		}
+		str2 += (tmp2 !== nonascii) ? "`" : "";
+		if (nonascii) {
+			str2 += encode(tmp - 128);
+		} else if (tmp !== 96) {
+			str2 += str.charAt(i);
+		} else {
+			str2 += "``"
+		}
+	}
+	return str2 + (nonascii ? "`" : "");
+}
+
+function mybase36d (str) {
+	var str2 = "", num, factor, tmp;
+	for (var i = 0, l = str.length; i < l; i++) {
+		if (str[i] === "`") {
+			if (str[i+1] === "`") {
+				str2 += "`"; i++;
+			} else {
+				while (i < l && str[++i] !== "`") {
+					if ((num = parseInt(str[i], 36)) > 9) {
+						str2 += String.fromCodePoint(num + 118); // 128 - 10
+					} else {
+						factor = 10;
+						while (i < l && ((tmp = parseInt(str[++i], 36)) > 9)) {
+							num += tmp * factor;
+							factor *= 26
+						}
+						num += tmp * factor;
+						str2 += String.fromCodePoint(num + 154); // 128 + 26
+					}
+				}
+			}
+		} else {
+			str2 += str[i];
+		}
+	}
+	return str2;
+}
+
+function mybase36_btoa (str) {
+    if (typeof str !== "string") { throw "您输入的不是字符串" }
+	var pad = [, "00000", "0000", "000", "00", "0", ""];
+	// var pow2 = [1,2,4,8,16,32,64,128];
+	var log = [, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1];
+	function tob36 (num) {
+		var a = num.toString(36);
+		return pad[a.length] + a;
+	}
+	var b = 0, n = 0, str2 = "", tmp, tmp2;
+	for (var i = 0, l = str.length; i < l; i++) {
+		b += 8;
+		tmp = str.charCodeAt(i);
+		if (tmp > 256) throw "您输入的是非法字符串"
+		n = n * 256 + tmp;
+		if (b >= 31) {
+			tmp = 1 << (b -= 31);
+			str2 += tob36((n - (tmp2 = n % tmp)) / tmp);
+			n = tmp2;
+		}
+	}
+	b !== 0 && (str2 += tob36(n << (31 - b)).substring(0, log[31 - b]));
+	return str2;
+}
+
+function mybase36_atob (str) {
+	var pad = [, "zzzzz", "zzzz", "zzz", "zz", "z"];
+	var min = [, 32, 27, 22, 17, 12], minn;
+	if (typeof str !== "string") { throw "您输入的不是字符串" }
+	var len = str.length, num = 0, b = 0, p, tmp, tmp2, tmps;
+	var rem = len % 6, quo = (len - rem) / 6, str2 = "";
+	for (var i = 0; quo > 0; i += 6, quo--) {
+		b += 31; num = num * 2147483648 + parseInt(str.substr(i, 6), 36);
+		while (b > 7) {
+			b -= 8; p = 1 << b; tmp = num % p;
+			tmp2 = (num - tmp) / p; num = tmp;
+			str2 += String.fromCharCode(tmp2);
+		}
+	}
+	tmps = str.slice(i);
+	if (rem !== 0) {
+		tmps += pad[rem]; minn = min[rem]; b += 31;
+		num = num * 2147483648 + parseInt(tmps, 36);
+		while (b > minn) {
+			b -= 8; p = 1 << b; tmp = num % p;
+			tmp2 = (num - tmp) / p; num = tmp;
+			str2 += String.fromCharCode(tmp2);
+		}
+	}
+	return str2;
+} 
+// ]]>
+</script>
+	</body>
+</html>
