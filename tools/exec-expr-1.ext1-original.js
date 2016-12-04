@@ -25,7 +25,7 @@ __variables__.println = function(str) {
 };
 
 __variables__.printf = function() {
-	outHtml += escapeHTML(sprintf.apply(null, arguments));
+	Ostr += escapeHTML(sprintf.apply(null, arguments));
 	changed = true;
 };
 
