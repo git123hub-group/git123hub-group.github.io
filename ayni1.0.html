@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
+<base href="http://www.gfredericks.com/sandbox/" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="/stylesheets/sandbox.css" media="screen" rel="stylesheet" type="text/css">
+
+
+<title>Sandbox: All You Need Is 1.0</title>
+</head>
+<body>
+<div id="head_holder">
+<a href="/sandbox" id="head">Sandbox</a>
+ |
+<a href="/sandbox">Index</a>
+ |
+<a href="/gfrlog">gfrlog</a>
+ |
+<a href="/sandbox/contact">Contact</a>
+</div>
+<div id="everything"><div><h1>All You Need Is 1.0</h1><div><!--
+<style>
+  body {
+    margin:20px;
+    font-size:150%;
+  }
+  body input {
+    font-size:100%;
+  }
+  body select {
+    font-size:100%;
+    padding:0.2em;
+    margin:0.2em;
+  }
+</style>
+-->
+<h3>(to express any floating-point number)</h3>
+<form onsubmit="event.preventDefault(); go();" style="line-height:1.5em;">
+
+For example, you can create an expression <br>
+in
+<select id="lang">
+  <option value="clj">Clojure</option>
+  <option value="java">Java</option>
+  <option value="js" selected="selected">JavaScript</option>
+  <option value="py">Python</option>
+  <option value="rb">Ruby</option>
+</select>
+
+<br>
+
+for the number
+<input type="text" id="the_input" value="1234.56789" style="font-family:monospace;width:8em;">
+
+<br>
+
+using only the number
+<input style="display:none;width:5em;font-family:monospace;" type="text" id="the_base" value="1">
+<code id="fortytwo">1.0</code>
+
+<br>
+
+and the four basic arithmetic operations.
+
+<br>
+
+<input type="submit" value="Prove it">
+
+</form>
+
+<br>
+<pre id="the_output" style="background-color:#ddd;padding:1em;">
+
+</pre>
+
+<script type="text/javascript" src="/javascripts/AYNI42.js"></script>
+<script type="text/javascript" src="/javascripts/jquery-1.7.1.js"></script>
+<script type="text/javascript">
+  function go(){
+    forty_two_doubles.ui.go($('#the_input').val(),$('#the_base').val(),$('#lang').val());
+    return true;
+  }
+  function easteregg(){
+    $("#the_base").show();
+    $("#fortytwo").hide();
+  }
+  $(function(){
+    $("#fortytwo").dblclick(easteregg);
+    $("#the_base").val("1.0");
+  });
+</script></div></div></div>
+
+
+</body></html>
