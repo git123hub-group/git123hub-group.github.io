@@ -258,6 +258,24 @@ function stepinto () {
 	__variables__.nextframe = function() {
 		breakpt = delayf = true;
 	};
+	
+	__variables__.template = function(str) {
+		// str = str.split();
+		var str2 = "", vn;
+		for (var i = 0, l = str.length; i < l; i++) {
+			if (str[i] === "%") {
+				if (str[++i] === "%") str2 += "%";
+				else {
+					vn = "";
+					do vn += str[i++]; while (str[i] !== "%");
+					str2 += __variables__.indirect(vn);
+				}
+			} else {
+				str2 += str[i];
+			}
+		}
+		return str2;
+	};
 
 	/*---------------------------------------- 数学函数区开始 ----------------------------------------*/
 
@@ -445,6 +463,15 @@ function stepinto () {
 	__variables__.and = function(a, b) {
 		return a && b;
 	};
+	
+	__variables__.str_and = function(a, b) {
+		var len = a.length, tmp, s = "";
+		(tmp = b.length) < len && (len = tmp); // min
+		for (var i = 0; i < len; i++) {
+			s += String.fromCharCode(a.charCodeAt(i) & b.charCodeAt(i));
+		}
+		return s;
+	};
 
 	__variables__.bit_and = function(a, b) {
 		return a & b;
@@ -452,6 +479,17 @@ function stepinto () {
 
 	__variables__.or = function(a, b) {
 		return a || b;
+	};
+
+	__variables__.str_or = function(a, b) {
+		var al = a.length, tmp, s = "", ac, bc, len;
+		len = (bl = b.length) > al ? bl : al; // max
+		for (var i = 0; i < len; i++) {
+			ac = i < al ? a.charCodeAt(i) : 0;
+			bc = i < bl ? b.charCodeAt(i) : 0;
+			s += String.fromCharCode(ac | bc);
+		}
+		return s;
 	};
 
 	__variables__.bit_or = function(a, b) {
@@ -462,10 +500,32 @@ function stepinto () {
 		return !x;
 	};
 
+	__variables__.str_not = function(a, bits) {
+		bits || (bits = 8);
+		var max = Math.pow(2, bits) - 1;
+		var len = a.length, s = "";
+		for (var i = 0; i < len; i++) {
+			s += String.fromCharCode(max - a.charCodeAt(i));
+		}
+		return s;
+	};
+
 	__variables__.bit_not = function(x) {
 		return ~x;
 	};
 
+	__variables__.str_xor = function(a, b) {
+		var al = a.length, tmp, s = "", ac, bc, len;
+		len = (bl = b.length) > al ? bl : al; // max
+		for (var i = 0; i < len; i++) {
+			ac = i < al ? a.charCodeAt(i) : 0;
+			bc = i < bl ? b.charCodeAt(i) : 0;
+			// if (ac === bc) break;
+			s += String.fromCharCode(ac ^ bc);
+		}
+		return s;
+	};
+	
 	__variables__.bit_xor = function(a, b) {
 		return a ^ b;
 	};
@@ -484,6 +544,24 @@ function stepinto () {
 
 	__variables__.bit_shr = function(a, b) {
 		return a >> b;
+	};
+	
+	__variables__.str_shl = function(a, bits) {
+		var max = Math.pow(2, bits) - 1;
+		var len = a.length, s = "";
+		for (var i = 0; i < len; i++) {
+			s += String.fromCharCode(a.charCodeAt(i) << bits);
+		}
+		return s;
+	};
+	
+	__variables__.str_shr = function(a, bits) {
+		var max = Math.pow(2, bits) - 1;
+		var len = a.length, s = "";
+		for (var i = 0; i < len; i++) {
+			s += String.fromCharCode(a.charCodeAt(i) >> bits);
+		}
+		return s;
 	};
 	
 	__variables__.clz32 = Math.clz32 || function(value) {
