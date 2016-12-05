@@ -758,10 +758,23 @@ function stepinto () {
 		}
 	};
 	
+	__variables__.stack_drop = function () {
+		stack.pop();
+	};
+	
 	__variables__.popv = function () {
 		for (var i = 0, len = arguments.length; i < len; i++) {
 			__user_vars__["x" + arguments[i]] = stack.pop();
 		}
+	};
+	
+	__variables__.stack_dup = function () {
+		stack.push(stack[stack.length - 1]);
+	};
+	
+	__variables__.stack_swap = function () {
+		var tmp = stack.pop(), tmp2 = stack.pop();
+		stack.push(tmp); stack.push(tmp2);
 	};
 	
 	__variables__.lambda = function () { // lambda function
