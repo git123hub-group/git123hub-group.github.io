@@ -112,9 +112,9 @@ function compileNumExpr (input) {
 		oprsp--;
 	};
 	function parseNum (s) {
-		//if (/\D/.test(s.charAt(0))) {
-		//	return +variableList["var_"+s];
-		//}
+		if (/\D/.test(s.charAt(0))) {
+			return s;
+		}
 		if (s.charAt(0) === "0") {
 			if (s.charAt(1) === "x") {
 				return parseInt(s.slice(2),16)|0;
