@@ -692,6 +692,15 @@ function stepinto () {
 	__variables__.assign = function(varn, value) { // usage: assign("variable name", value) or variable name = value
 		return __user_vars__["x" + varn] = value;
 	};
+	
+	__variables__.assign2 = function(value, varn) { // usage: assign2(value, "variable name") or variable name = value
+		return __user_vars__["x" + varn] = value;
+	};
+	
+	__variables__.q = __variables__.quote;
+	
+	__variables__.qraw = function (str) { return str; };
+	__variables__.qraw.quotf = __variables__.qraw.rawf = true;
 
 	__variables__["delete"] = function(a) {
 		return delete __user_vars__["x" + a];
