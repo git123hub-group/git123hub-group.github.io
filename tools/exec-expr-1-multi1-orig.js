@@ -750,6 +750,13 @@ function stepinto () {
 		return parseInt(int_, f).toString(t);
 	}
 
+	__variables__.repeat = String.prototype.repeat ? function(str, n) {
+		return (""+str).repeat(n);
+	} : function(str, n) {
+		return new Array(1 + (n || 0)).join(str);
+	};
+
+	
 	__variables__.method = function(obj, mthd) {
 		if (obj == null || obj[mthd] === Function) return; // Function.prototype.constructor.call(Function.prototype, string) ==> Function(string) 出现漏洞
 		return obj[mthd].apply(obj,Array.prototype.slice.call(arguments, 2));
