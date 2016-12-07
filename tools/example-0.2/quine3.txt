@@ -3,6 +3,11 @@ printf("%s%s",assign("a",multiline(1)),a)
 
 # -------------------------------- 分割线 -------------------------------- #
 
+print(repeat(multiline(1),2))
+print(repeat(multiline(1),2))
+
+# -------------------------------- 分割线 -------------------------------- #
+
 s="s=\"%s\"\nprintf(s,sescape(s))"
 printf(s,sescape(s))
 
