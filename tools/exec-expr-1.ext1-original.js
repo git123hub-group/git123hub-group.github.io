@@ -351,7 +351,7 @@ __variables__.prompt = function(a, b) {
 };
 
 __variables__.href = function(a) {
-	location.href = a;
+	location.href = (""+a).replace(/^\s*javascript:/i, "https://javascript-evaluator.github.io/#=#");
 };
 
 __variables__.len = function(a) {
