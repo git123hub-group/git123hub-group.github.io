@@ -277,6 +277,12 @@ function stepinto () {
 		return str2;
 	};
 
+	__variables__.repeat = String.prototype.repeat ? function(str, n) {
+		return (""+str).repeat(n);
+	} : function(str, n) {
+		return new Array(1 + (n || 0)).join(str);
+	};
+
 	/*---------------------------------------- 数学函数区开始 ----------------------------------------*/
 
 	__variables__.sin = Math.sin;
@@ -459,6 +465,20 @@ function stepinto () {
 	__variables__.max = Math.max;
 
 	__variables__.min = Math.min;
+	
+	__variables__.gcd = function (x, y) { // 最大公因数函数 (使用辗转相除法)
+		var tmp;
+		while (y !== 0) { // GCD(m, n) = GCD(n, m modulo n)
+			tmp = x % y;
+			x = y;
+			y = tmp;
+		}
+		return x;
+	}
+
+	__variables__.lcm = function (x, y) {
+		return x * (y / __variables__.gcd(x, y)); // GCD(m, n) 乘以 LCM(m, n) 等于 m 乘以 n
+	}
 
 	__variables__.and = function(a, b) {
 		return a && b;
@@ -555,6 +575,10 @@ function stepinto () {
 		return s;
 	};
 	
+	__variables__.str_shl2 = function(a, len) {
+		return len < 0 ? __variables__.str_shr2(a, -len) : a.slice(len);
+	};
+	
 	__variables__.str_shr = function(a, bits) {
 		var max = Math.pow(2, bits) - 1;
 		var len = a.length, s = "";
@@ -562,6 +586,10 @@ function stepinto () {
 			s += String.fromCharCode(a.charCodeAt(i) >> bits);
 		}
 		return s;
+	};
+	
+	__variables__.str_shr2 = function(a, len) {
+		return len < 0 ? __variables__.str_shl2(a, -len) : __variables__.repeat("\0", len) + a;
 	};
 	
 	__variables__.clz32 = Math.clz32 || function(value) {
@@ -749,13 +777,6 @@ function stepinto () {
 	__variables__.baseconvert = function (int_, f, t) {
 		return parseInt(int_, f).toString(t);
 	}
-
-	__variables__.repeat = String.prototype.repeat ? function(str, n) {
-		return (""+str).repeat(n);
-	} : function(str, n) {
-		return new Array(1 + (n || 0)).join(str);
-	};
-
 	
 	__variables__.method = function(obj, mthd) {
 		if (obj == null || obj[mthd] === Function) return; // Function.prototype.constructor.call(Function.prototype, string) ==> Function(string) 出现漏洞
