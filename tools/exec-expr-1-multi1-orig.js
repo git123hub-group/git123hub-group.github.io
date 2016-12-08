@@ -784,13 +784,34 @@ function stepinto () {
 		}
 	};
 	
-	__variables__.stack_dup = function () {
-		stack.push(stack[stack.length - 1]);
+	__variables__.stack_dup = function (n) {
+		n > 0 || (n = 1);
+		stack.push(stack[stack.length - n]);
 	};
 	
-	__variables__.stack_swap = function () {
-		var tmp = stack.pop(), tmp2 = stack.pop();
-		stack.push(tmp); stack.push(tmp2);
+	__variables__.stack_swap = function (n) {
+		n > 1 || (n = 2);
+		var tmp = stack[stack.length - 1];
+		stack[stack.length - 1] = stack[stack.length - n];
+		stack[stack.length - n] = tmp;
+	};
+	
+	__variables__.stack_rot = function (n) {
+		n > 1 || (n = 3);
+		var tmp = stack[id = stack.length - 1];
+		for (var i = 1; i < n; i++) {
+			stack[id] = stack[id - 1]; id--;
+		}
+		stack[id] = tmp;
+	};
+	
+	__variables__.stack_rotcc = function (n) {
+		n > 1 || (n = 3);
+		var tmp = stack[id = stack.length - n];
+		for (var i = 1; i < n; i++) {
+			stack[id] = stack[id + 1]; id++;
+		}
+		stack[id] = tmp;
 	};
 	
 	__variables__.lambda = function () { // lambda function
