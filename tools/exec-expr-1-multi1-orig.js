@@ -795,8 +795,9 @@ function stepinto () {
 		}
 	};
 	
-	__variables__.stack_drop = function () {
-		stack.pop();
+	__variables__.stack_drop = function (n) {
+		n > 0 || (n = 1);
+		while(n-- > 0) { stack.pop(); }
 	};
 	
 	__variables__.popv = function () {
