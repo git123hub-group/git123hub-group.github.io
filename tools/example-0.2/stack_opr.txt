@@ -1,0 +1,47 @@
+#-- output "C B A" --#
+pushobj(\$, \A, \B, \C)
+noop()
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
+
+#-- output "B A $" --#
+pushobj(\$, \A, \B, \C)
+stack_drop()
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
+
+#-- output "C C B" --#
+pushobj(\$, \A, \B, \C)
+stack_dup()
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
+
+#-- output "B C B" --#
+pushobj(\$, \A, \B, \C)
+stack_dup(2)
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
+
+#-- output "B C A" --#
+pushobj(\$, \A, \B, \C)
+stack_swap()
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
+
+#-- output "A B C" --#
+pushobj(\$, \A, \B, \C)
+stack_swap(3)
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
+
+#-- output "B A C" --#
+pushobj(\$, \A, \B, \C)
+stack_rot(3)
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
+
+#-- output "A C B" --#
+pushobj(\$, \A, \B, \C)
+stack_rotcc(3)
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
