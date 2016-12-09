@@ -217,7 +217,7 @@ function stepinto () {
 		for (var i = 0; i < alen; i++) {
 			buffer += arguments[i];
 		}
-		outHtml += "\n";
+		buffer += "\n";
 		changed = true;
 	};
 
