@@ -32,3 +32,6 @@ printf(assign("a","printf(assign(\"a\",%j),a)\n"),a)
 
 sprintf(assign("a","sprintf(assign(\"a\",%j),a)\n"),a)
 
+# -------------------------------- 分割线 -------------------------------- #
+
+print(template(q(print(template(q(%0%))))))
