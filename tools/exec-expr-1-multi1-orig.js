@@ -783,6 +783,9 @@ function stepinto () {
 	
 	__variables__.qw = function (str) { return str.trim().split(/\s+/); };
 	__variables__.qw.quotf = true;
+	
+	__variables__.quote2 = function (str, left, right) { return left + str + right; };
+	__variables__.quote2.quotf = true;
 
 	__variables__["delete"] = function(a) {
 		return delete __user_vars__["x" + a];
