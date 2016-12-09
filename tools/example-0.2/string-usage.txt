@@ -1,6 +1,7 @@
 println('single quote')
 println("double quote")
 println(quote(another delimiter))
+println'function call without parentheses'
 println(\backslash_string)
 println('nested "quote"')
 println("nested 'quote'")
