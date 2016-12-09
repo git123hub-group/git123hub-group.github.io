@@ -183,12 +183,19 @@ function stepinto () {
 
 !function(__variables__) {
 	__variables__.print = function(str) {
-		outHtml += escapeHTML(str);
+		var alen = arguments.length;
+		for (var i = 0; i < alen; i++) {
+			outHtml += escapeHTML(arguments[i]);
+		}
 		changed = true;
 	};
 
 	__variables__.println = function(str) {
-		outHtml += escapeHTML(str) + "\n";
+		var alen = arguments.length;
+		for (var i = 0; i < alen; i++) {
+			outHtml += escapeHTML(arguments[i]);
+		}
+		outHtml += "\n";
 		changed = true;
 	};
 
