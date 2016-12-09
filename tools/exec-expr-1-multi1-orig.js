@@ -268,7 +268,7 @@ function stepinto () {
 				else {
 					vn = "";
 					do vn += str[i++]; while (str[i] !== "%");
-					str2 += __variables__.indirect(vn);
+					str2 += (/\D/.test(vn) ? __variables__.indirect(vn) : arguments[vn]);
 				}
 			} else {
 				str2 += str[i];
