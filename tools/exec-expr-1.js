@@ -179,7 +179,7 @@ function __expr_eval__ (iexpr) {
 	function matchdelim (chr) {
 		return delarr[chr.charCodeAt(0) % 6];
 	}
-	function createq (rawf) {
+	function createq (rawf, fn) {
 		while (expr[i] === " ") { // 跳过空格
 			if (i >= len) return;
 			i++;
@@ -193,7 +193,7 @@ function __expr_eval__ (iexpr) {
 			if (tmp2 === "\\") (tmp += "\\", tmp2 = expr[++i]);
 			tmp += tmp2;
 		}
-		nstk[nptr] = (rawflag || rawf) ? tmp : StringParser(tmp);
+		nstk[nptr] = fn((rawflag || rawf) ? tmp : StringParser(tmp), delim, delim2);
 	}
 
 	var nstk = [], ostk = [], pastk = [1], nptr = -1, optr = -1, paptr = 0, omode = true, numstr, ii, tmp, tmp2, tmp3, terminator, rawflag, rtmp;
@@ -338,7 +338,7 @@ function __expr_eval__ (iexpr) {
 				}
 				--i;
 				tmp3 = nstk[++nptr] = (tmp2 = __user_vars__["x" + numstr]) == null ? __variables__[numstr] : tmp2;
-				typeof tmp3 === "function" && tmp3.quotf && createq(tmp3.rawf, i++);
+				typeof tmp3 === "function" && tmp3.quotf && createq(tmp3.rawf, tmp3, i++);
 				omode = false;
 		}
 	}
