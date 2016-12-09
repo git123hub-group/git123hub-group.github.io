@@ -201,9 +201,9 @@ function __expr_eval__ (iexpr) {
 	for (var i = 0, len = expr.length; i < len; ++i) {
 		switch (expr[i]) {
 			case '"': case "'":
-				if (!omode) {
-					throw "语法错误 (unexpected string)";
-				}
+				// if (!omode) {
+				// 	throw "语法错误 (unexpected string)";
+				// }
 				tmp = "";
 				terminator = expr[i];
 				++i;
@@ -212,7 +212,13 @@ function __expr_eval__ (iexpr) {
 					tmp += expr[i];
 					++i;
 				}
-				nstk[++nptr] = rawflag ? tmp : StringParser(tmp);
+				if (omode) {
+					nstk[++nptr] = rawflag ? tmp : StringParser(tmp);
+				} else if (typeof (tmp2 = nstk[nptr]) === "function") {
+					nstk[nptr] = tmp2((rawflag || tmp2.rawf) ? tmp : StringParser(tmp));
+				} else {
+					throw "语法错误 (unexpected string)";
+				}
 				omode = false;
 			break;
 			case "(":
