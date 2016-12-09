@@ -1,0 +1,9 @@
+# Quine program using buffer
+call(2)
+b_print(multiline(5))
+b_println("# Quine program using buffer")
+b_println("call(2)")
+return(b_println("b_print(multiline(5))"))
+b_println("jump(-2)")
+return(b_toprog())
+jump(-2)
