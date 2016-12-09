@@ -729,6 +729,9 @@ function stepinto () {
 	
 	__variables__.qraw = function (str) { return str; };
 	__variables__.qraw.quotf = __variables__.qraw.rawf = true;
+	
+	__variables__.qw = function (str) { return str.trim().split(/\s+/); };
+	__variables__.qraw.quotf = true;
 
 	__variables__["delete"] = function(a) {
 		return delete __user_vars__["x" + a];
