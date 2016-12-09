@@ -182,15 +182,32 @@ function stepinto () {
 }
 
 !function(__variables__) {
-	__variables__.print = function(str) {
+	__variables__.print = function() {
 		var alen = arguments.length;
 		for (var i = 0; i < alen; i++) {
 			outHtml += escapeHTML(arguments[i]);
 		}
 		changed = true;
 	};
+	
+	__variables__.b_print = function() {
+		var alen = arguments.length;
+		for (var i = 0; i < alen; i++) {
+			buffer += arguments[i];
+		}
+		changed = true;
+	};
+	
+	__variables__.concat = function() {
+		var str = "";
+		var alen = arguments.length;
+		for (var i = 0; i < alen; i++) {
+			str += arguments[i];
+		}
+		return str;
+	};
 
-	__variables__.println = function(str) {
+	__variables__.println = function() {
 		var alen = arguments.length;
 		for (var i = 0; i < alen; i++) {
 			outHtml += escapeHTML(arguments[i]);
@@ -198,26 +215,18 @@ function stepinto () {
 		outHtml += "\n";
 		changed = true;
 	};
-
-	__variables__.printf = function() {
-		outHtml += escapeHTML(sprintf.apply(null, arguments));
-		changed = true;
-	};
 	
-	__variables__.b_print = function(str) {
-		var alen = arguments.length;
-		for (var i = 0; i < alen; i++) {
-			buffer += arguments[i];
-		}
-		changed = true;
-	};
-
-	__variables__.b_println = function(str) {
+	__variables__.b_println = function() {
 		var alen = arguments.length;
 		for (var i = 0; i < alen; i++) {
 			buffer += arguments[i];
 		}
 		buffer += "\n";
+		changed = true;
+	};
+
+	__variables__.printf = function() {
+		outHtml += escapeHTML(sprintf.apply(null, arguments));
 		changed = true;
 	};
 
