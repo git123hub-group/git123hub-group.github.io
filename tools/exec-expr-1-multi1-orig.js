@@ -1,7 +1,7 @@
 /* exec-expr-1-multi1.js */
 
 var mainprog, clinenum, breakpt, delayf, parsed = false, outHtml, changed, tmpnl, tlines,
-    callstack, callptr, stack, running, tmpline, condiflag;
+    callstack, callptr, stack, running, tmpline, condiflag, buffer;
 
 function click1 () {
 	var tmp;
@@ -11,7 +11,7 @@ function click1 () {
 	delayf = false;
 	running = false;
 	parsed = true;
-	$("odoc1").innerHTML = outHtml = "";
+	$("odoc1").innerHTML = outHtml = buffer = "";
 	changed = false;
 	tlines = mainprog.length;
 	__user_vars__ = {};
@@ -203,6 +203,28 @@ function stepinto () {
 		outHtml += escapeHTML(sprintf.apply(null, arguments));
 		changed = true;
 	};
+	
+	__variables__.b_print = function(str) {
+		var alen = arguments.length;
+		for (var i = 0; i < alen; i++) {
+			buffer += arguments[i];
+		}
+		changed = true;
+	};
+
+	__variables__.b_println = function(str) {
+		var alen = arguments.length;
+		for (var i = 0; i < alen; i++) {
+			buffer += arguments[i];
+		}
+		outHtml += "\n";
+		changed = true;
+	};
+
+	__variables__.b_printf = function() {
+		buffer += sprintf.apply(null, arguments);
+		changed = true;
+	};
 
 	__variables__.sprintf = function() {
 		return sprintf.apply(null, arguments);
@@ -218,10 +240,23 @@ function stepinto () {
 		return m;
 	};
 	
+	__variables__.b_toprog = function(str) {
+		$("box1").value = buffer;
+	};
+	
+	__variables__.b_output = function(str) {
+		outHtml += escapeHTML(buffer);
+		changed = true; buffer = "";
+	}
+	
 	__variables__.clear = function(str) {
 		outHtml = "";
 		changed = true;
 	};
+	
+	__variables__.b_clear = function(str) {
+		buffer = "";
+	}
 
 	__variables__.breakpoint = function() {
 		breakpt = true; delayf = false;
