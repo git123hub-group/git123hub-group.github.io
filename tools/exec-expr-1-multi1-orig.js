@@ -695,7 +695,7 @@ function stepinto () {
 	};
 	
 	__variables__.succ = function(a) {
-		return a + 1;
+		return +a + 1;
 	};
 	
 	__variables__.pred = function(a) {
