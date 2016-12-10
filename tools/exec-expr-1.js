@@ -158,6 +158,7 @@ function __expr_eval__ (iexpr) {
 			--optr;
 			nstk[--nptr] = nstk[nptr](nstk[nptr + 1]);
 		}
+		paptr === rtmp && (rawflag = false);
 	}
 	function concat () {
 		calcpow(); calcsign(); calcmul(); calcplus();
@@ -201,7 +202,7 @@ function __expr_eval__ (iexpr) {
 		nstk[nptr] = fn((rawflag || rawf) ? tmp : StringParser(tmp), delim, delim2);
 	}
 
-	var nstk = [], ostk = [], pastk = [1], nptr = -1, optr = -1, paptr = 0, omode = true, numstr, ii, tmp, tmp2, tmp3, terminator, rawflag, rtmp;
+	var nstk = [], ostk = [], pastk = [1], nptr = -1, optr = -1, paptr = 0, omode = true, numstr, ii, tmp, tmp2, tmp3, tmp4, terminator, rawflag, rtmp;
 	// main:
 	for (var i = 0, len = expr.length; i < len; ++i) {
 		switch (expr[i]) {
@@ -351,13 +352,14 @@ function __expr_eval__ (iexpr) {
 			default:
 				numstr = "";
 				if (!/[0-9A-Za-z\_\$]/.test(expr[i])) throw "不存在的运算符";
-				if (!omode) {
-					ostk[++optr] = 10; // throw "语法错误 (unexpected identifier)";
-				}
 				for (; i < expr.length && /[0-9A-Za-z\_\$]/.test(expr[i]); i++) {
 					numstr += expr[i];
 				}
 				--i;
+				if (!omode) {
+					ostk[++optr] = 10; // throw "语法错误 (unexpected identifier)";
+					typeof (tmp = nstk[nptr]) === "function" && tmp.rawf && (rawflag = true, rtmp = paptr);
+				}
 				tmp3 = nstk[++nptr] = (tmp2 = __user_vars__["x" + numstr]) == null ? __variables__[numstr] : tmp2;
 				typeof tmp3 === "function" && tmp3.quotf && createq(tmp3.rawf, tmp3, i++);
 				omode = false;
