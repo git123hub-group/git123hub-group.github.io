@@ -693,6 +693,14 @@ function stepinto () {
 	__variables__.geq = function(a, b) {
 		return a >= b;
 	};
+	
+	__variables__.succ = function(a) {
+		return a + 1;
+	};
+	
+	__variables__.pred = function(a) {
+		return a - 1;
+	};
 
 	__variables__.pi = Math.PI;
 
@@ -746,6 +754,14 @@ function stepinto () {
 	};
 
 	__variables__.sunescape = StringParser;
+
+	__variables__.lc = function(a) {
+		return ("" + a).toLowerCase;
+	};
+	
+	__variables__.uc = function(a) {
+		return ("" + a).toUpperCase;
+	};
 
 	__variables__.beginCSS = function (str) {
 		outHtml += '<span style="' + escapeHTML(str) + '">';
