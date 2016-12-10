@@ -174,9 +174,9 @@
  173  ord str_not uc q erf e
  174  ord str_not uc q equ e
  175  ord str_not uc qw e pi e
- 176  pred ord str_not qw q NaN q
- 177  ord str_not qw q NaN q
- 178  succ ord str_not qw q NaN q
+ 176  pred ord str_not concat NaN
+ 177  ord str_not concat NaN
+ 178  succ ord str_not concat NaN
  179  ord str_not uc q qlog q
  180  succ ord str_not uc q qlog q
  181  pred ord str_not uc qw q if q
@@ -196,7 +196,7 @@
  195  pred sqr int expm1 e
  196  sqr int expm1 e
  197  succ sqr int expm1 e
- 198  ord str_not chr q NaN
+ 198  ord str_not q NaN
  199  pred int sqr expm1 e
  200  int sqr expm1 e
  201  ceil sqr expm1 e
