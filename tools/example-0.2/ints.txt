@@ -68,7 +68,7 @@
   67  ord uc q lc eval
   68  ord uc q ident pi
   69  ord uc q qexp q
-  70  ord uc qw e fib e
+  70  ord uc false
   71  ord uc qw q geq
   72  ord uc q chr lc
   73  ord Infinity
@@ -83,7 +83,7 @@
   82  ord uc q erf e
   83  ord uc qw q sin q
   84  ord uc qw q tan q
-  85  ord uc q num ln
+  85  ord uc noop e
   86  ord uc qw eval e
   87  ord uc q qw q
   88  ord uc q exp e
@@ -100,22 +100,22 @@
   99  ord q lc eval
  100  tobin ceil pi
  101  ord q qexp q
- 102  ord qw e fib e
+ 102  ord false
  103  ord qw q geq
  104  ord q chr lc
  105  ord qw q if q
  106  ord qw q jump q
  107  pred ord q qlog q
  108  ord q qlog q
- 109  ord qw q max q
- 110  ord lc NaN
+ 109  pred ord null
+ 110  ord null
  111  ord q tooct
  112  ord qw e pi e
  113  ord q equ e
  114  ord q erf e
  115  ord qw q sin q
  116  ord qw q tan q
- 117  ord q num ln
+ 117  ord noop e
  118  ord q eval e
  119  ord q qw q
  120  ord q exp e
@@ -123,7 +123,7 @@
  122  ord qw q zero q
  123  succ ord qw q zero q
  124  tooct ord uc qw q tan q
- 125  tooct ord uc q num ln
+ 125  tooct ord uc noop e
  126  tooct ord uc q eval e
  127  tooct ord uc q qw q
  128  succ tooct ord uc q qw q
@@ -131,7 +131,7 @@
  130  tooct ord uc q exp e
  131  fromhex ord uc qw q sin q
  132  tooct ord uc qw q zero q
- 133  fromhex ord uc q num ln
+ 133  fromhex ord uc noop e
  134  tooct ord sescape chr e
  135  fromhex ord uc q qw q
  136  fromhex ord uc q exp e
@@ -144,7 +144,7 @@
  143  tooct ord q cbrt lc
  144  tooct tobin ceil pi
  145  tooct ord q qexp q
- 146  tooct ord qw e fib e
+ 146  tooct ord false
  147  tooct ord qw q geq
  148  int exp succ ceil pi
  149  ceil exp succ ceil pi
@@ -153,8 +153,8 @@
  152  tooct ord qw q jump q
  153  tooct pred ord q qlog q
  154  tooct ord q qlog q
- 155  tooct ord qw q max q
- 156  tooct ord lc NaN
+ 155  pred tooct ord null
+ 156  tooct ord null
  157  tooct ord q tooct
  158  succ tooct ord q tooct
  159  pred tooct ord qw e pi e
@@ -163,7 +163,7 @@
  162  tooct ord q erf e
  163  tooct ord qw q sin q
  164  tooct ord qw q tan q
- 165  tooct ord q num ln
+ 165  tooct ord noop e
  166  tooct ord q eval e
  167  tooct ord q qw q
  168  succ tooct ord q qw q
@@ -183,7 +183,7 @@
  182  ord str_not uc qw q if q
  183  ord str_not uc q chr lc
  184  ord str_not uc qw q geq
- 185  ord str_not uc qw e fib e
+ 185  ord str_not uc false
  186  ord str_not uc q qexp q
  187  ord str_not uc q ident pi
  188  ord str_not uc q lc eval
@@ -220,7 +220,7 @@
  219  ord str_not chr tooct clz32 e
  220  tooct tooct tobin ceil pi
  221  tooct tooct ord q qexp q
- 222  tooct tooct ord qw e fib e
+ 222  tooct tooct ord false
  223  pred pred sqr int exp e
  224  pred sqr int exp e
  225  sqr int exp e
@@ -232,7 +232,7 @@
  231  succ ceil sqr exp e
  232  tooct tooct ord q qlog q
  233  fib pred int expm1 e
- 234  tooct tooct ord lc NaN
+ 234  tooct tooct ord null
  235  tooct tooct ord q tooct
  236  succ tooct tooct ord q tooct
  237  tooct pred tooct ord qw e pi e
@@ -243,7 +243,7 @@
  242  tooct tooct ord q erf e
  243  tooct tooct ord qw q sin q
  244  tooct tooct ord qw q tan q
- 245  tooct tooct ord q num ln
+ 245  tooct tooct ord noop e
  246  tooct tooct ord q eval e
  247  ord str_not chr ceil sqr e
  248  ord str_not chr int sqr e
