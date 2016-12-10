@@ -146,12 +146,17 @@ function __expr_eval__ (iexpr) {
 		};
 	}
 	function calcpow () {
-		for (;;) {
-			var opr = ostk[optr];
-			if (opr === 7) {
-				--nptr;--optr;
-				nstk[nptr] = Math.pow(nstk[nptr], nstk[nptr + 1]);
-			} else break;
+		applyfunc2();
+		var opr;
+		while ((opr = ostk[optr]) === 7) {
+			--optr;
+			nstk[--nptr] = Math.pow(nstk[nptr], nstk[nptr + 1]);
+		}
+	}
+	function applyfunc2 () {
+		while ((opr = ostk[optr]) === 10) {
+			--optr;
+			nstk[--nptr] = nstk[nptr](nstk[nptr + 1]);
 		}
 	}
 	function concat () {
@@ -290,6 +295,7 @@ function __expr_eval__ (iexpr) {
 				if (omode) {
 					throw "语法错误 (unexpected ^)";
 				}
+				applyfunc2();
 				ostk[++optr] = 7;
 				omode = true;
 			break;
@@ -316,9 +322,10 @@ function __expr_eval__ (iexpr) {
 			break;
 			case "0": case "1": case "2": case "3": case "4": case "5":
 			case "6": case "7": case "8": case "9": case ".":
-				if (!omode) {
-					throw "语法错误 (unexpected number)";
-				}
+				// if (!omode) {
+				//	throw "语法错误 (unexpected number)";
+				// }
+				tmp2 = omode;
 				omode = false;
 				numstr = expr[i];
 				for (;;) {
@@ -331,13 +338,17 @@ function __expr_eval__ (iexpr) {
 						i += 2;
 					} else break;
 				}
-				nstk[++nptr] = +numstr;
+				if (tmp2) {
+					nstk[++nptr] = +numstr;
+				} else if (typeof (tmp3 = nstk[nptr]) === "function"){
+					nstk[nptr] = nstk[nptr](+numstr);
+				} else throw "语法错误 (unexpected number)";
 			break;
 			default:
 				numstr = "";
 				if (!/[0-9A-Za-z\_\$]/.test(expr[i])) throw "不存在的运算符";
 				if (!omode) {
-					throw "语法错误 (unexpected identifier)";
+					ostk[++optr] = 10; // throw "语法错误 (unexpected identifier)";
 				}
 				for (; i < expr.length && /[0-9A-Za-z\_\$]/.test(expr[i]); i++) {
 					numstr += expr[i];
