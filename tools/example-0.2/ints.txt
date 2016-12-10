@@ -81,8 +81,8 @@
   80  ord uc qw e pi e
   81  ord uc q equ e
   82  ord uc q erf e
-  83  ord uc qw q sin q
-  84  ord uc qw q tan q
+  83  pred ord uc true
+  84  ord uc true
   85  ord uc noop e
   86  ord uc qw eval e
   87  ord uc q qw q
@@ -113,8 +113,8 @@
  112  ord qw e pi e
  113  ord q equ e
  114  ord q erf e
- 115  ord qw q sin q
- 116  ord qw q tan q
+ 115  pred ord true
+ 116  ord true
  117  ord noop e
  118  ord q eval e
  119  ord q qw q
@@ -122,7 +122,7 @@
  121  succ ord q exp e
  122  ord qw q zero q
  123  succ ord qw q zero q
- 124  tooct ord uc qw q tan q
+ 124  tooct ord uc true
  125  tooct ord uc noop e
  126  tooct ord uc q eval e
  127  tooct ord uc q qw q
@@ -161,8 +161,8 @@
  160  tooct ord qw e pi e
  161  tooct ord q equ e
  162  tooct ord q erf e
- 163  tooct ord qw q sin q
- 164  tooct ord qw q tan q
+ 163  pred tooct ord true
+ 164  tooct ord true
  165  tooct ord noop e
  166  tooct ord q eval e
  167  tooct ord q qw q
@@ -241,8 +241,8 @@
  240  tooct tooct ord qw e pi e
  241  tooct tooct ord q equ e
  242  tooct tooct ord q erf e
- 243  tooct tooct ord qw q sin q
- 244  tooct tooct ord qw q tan q
+ 243  pred tooct tooct ord true
+ 244  tooct tooct ord true
  245  tooct tooct ord noop e
  246  tooct tooct ord q eval e
  247  ord str_not chr ceil sqr e
