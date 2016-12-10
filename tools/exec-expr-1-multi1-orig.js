@@ -777,8 +777,7 @@ function stepinto () {
 	};
 
 	__variables__.b_tovar = function(varn) {
-		return __user_vars__["x" + varn] = buffer;
-		buffer = "";
+		__user_vars__["x" + varn] = buffer; buffer = "";
 	}
 
 	__variables__.q = __variables__.quote;
