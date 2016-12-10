@@ -71,7 +71,7 @@
   70  ord uc qw e fib e
   71  ord uc qw q geq
   72  ord uc q chr lc
-  73  ord uc qw q if q
+  73  ord Infinity
   74  int tan tan ln e
   75  ceil tan tan ln e
   76  ord uc q qlog q
