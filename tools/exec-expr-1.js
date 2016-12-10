@@ -309,15 +309,19 @@ function __expr_eval__ (iexpr) {
 			break;
 			case "\\": // line continuation
 				if (expr[++i] === "\n") break;
-				if (!omode) {
-					throw "语法错误";
-				}
+				// if (!omode) {
+				// 	throw "语法错误";
+				// }
 				tmp = "";
 				for (; i < expr.length && /[0-9A-Za-z\_\$]/.test(expr[i]); i++) {
 					tmp += expr[i];
 				}
 				--i;
-				nstk[++nptr] = tmp;
+				if (omode) {
+					nstk[++nptr] = tmp;
+				} else if (typeof (tmp2 = nstk[nptr]) === "function") {
+					tmp2 = tmp2(tmp);
+				} else throw "语法错误";
 				omode = false;
 			break;
 			case "0": case "1": case "2": case "3": case "4": case "5":
