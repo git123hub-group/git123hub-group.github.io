@@ -61,7 +61,7 @@
   60  tooct ord zero e
   61  tooct ord ln e
   62  tooct ord e
-  63  tooct ord ord e
+  63  tooct succ ord e
   64  pred ord uc q NaN
   65  ord uc q NaN
   66  ord uc q cbrt lc
@@ -84,16 +84,16 @@
   83  ord uc qw q sin q
   84  ord uc qw q tan q
   85  ord uc qw q uc q
-  86  ord uc eval e
-  87  ord uc qw q
+  86  ord uc qw eval e
+  87  ord uc q qw q
   88  ord uc q exp e
   89  succ ord uc q exp e
   90  ord uc qw q zero q
   91  pred ord sescape chr e
   92  ord sescape chr e
   93  succ ord sescape chr e
-  94  pred ord b_clear fib
-  95  ord b_clear fib
+  94  pred ord q b_clear fib
+  95  ord q b_clear fib
   96  pred ord q NaN
   97  ord q NaN
   98  ord q cbrt lc
@@ -107,7 +107,7 @@
  106  ord qw q jump q
  107  pred ord q qlog q
  108  ord q qlog q
- 109  ord q q max q
+ 109  ord qw q max q
  110  ord lc NaN
  111  ord q tooct
  112  ord qw e pi e
@@ -124,8 +124,8 @@
  123  succ ord qw q zero q
  124  tooct ord uc qw q tan q
  125  tooct ord uc qw q uc q
- 126  tooct ord uc eval e
- 127  tooct ord uc qw q
- 128  succ tooct ord uc qw q
+ 126  tooct ord uc q eval e
+ 127  tooct ord uc q qw q
+ 128  succ tooct ord uc q qw q
  129  fromhex ord uc q equ e
  130  tooct ord uc q exp e
