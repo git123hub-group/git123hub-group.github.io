@@ -488,7 +488,7 @@ function stepinto () {
 
 	__variables__.ceil = Math.ceil;
 
-	__variables__.trunc = Math.trunc || function(x) {
+	__variables__["int"] = __variables__.trunc = Math.trunc || function(x) {
 		return x - x % 1;
 	};
 
