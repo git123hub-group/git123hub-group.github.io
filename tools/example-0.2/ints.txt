@@ -1,0 +1,131 @@
+   0  zero e
+   1  ln e
+   2  int e
+   3  int pi
+   4  ceil pi
+   5  succ ceil pi
+   6  len q sinh abs
+   7  int exp int e
+   8  ceil exp int e
+   9  len q trunc alert
+  10  len q sprintf acos
+  11  len q random bit_or
+  12  len q breakpoint fib
+  13  pred int expm1 e
+  14  int expm1 e
+  15  int exp e
+  16  ceil exp e
+  17  succ ceil exp e
+  18  tohex ceil exp pi
+  19  pred tohex ord q q q
+  20  tohex ord q q q
+  21  fib exp int e
+  22  int expm1 pi
+  23  int exp pi
+  24  ceil exp pi
+  25  clz32 ord q NaN
+  26  clz32 ord e
+  27  clz32 exp pi
+  28  clz32 exp e
+  29  clz32 ceil pi
+  30  clz32 e
+  31  clz32 ln e
+  32  ord q q q
+  33  tohex ord pi
+  34  tohex ord ceil pi
+  35  tohex ord ord e
+  36  tooct clz32 e
+  37  tooct clz32 ln e
+  38  succ tooct clz32 ln e
+  39  tohex ord ord q NaN
+  40  tooct ord q q q
+  41  tohex ord uc q NaN
+  42  tooct tohex ord ceil pi
+  43  tooct tohex ord ord e
+  44  tooct tooct clz32 e
+  45  fromoct ord ord NaN
+  46  pred pred ord zero e
+  47  pred ord zero e
+  48  ord zero e
+  49  ord ln e
+  50  ord e
+  51  ord pi
+  52  ord ceil pi
+  53  ord ord e
+  54  succ ord ord e
+  55  ord ord NaN
+  56  succ ord ord NaN
+  57  ord ord q NaN
+  58  succ ord ord q NaN
+  59  pred tooct ord zero e
+  60  tooct ord zero e
+  61  tooct ord ln e
+  62  tooct ord e
+  63  tooct ord ord e
+  64  pred ord uc q NaN
+  65  ord uc q NaN
+  66  ord uc q cbrt lc
+  67  ord uc q lc eval
+  68  ord uc q ident pi
+  69  ord uc q qexp q
+  70  ord uc qw e fib e
+  71  ord uc qw q geq
+  72  ord uc q chr lc
+  73  ord uc qw q if q
+  74  ord uc qw q jump q
+  75  tohex ord qw q uc q
+  76  ord uc q qlog q
+  77  pred ord NaN
+  78  ord NaN
+  79  succ ord NaN
+  80  ord uc qw e pi e
+  81  ord uc q equ e
+  82  ord uc q erf e
+  83  ord uc qw q sin q
+  84  ord uc qw q tan q
+  85  ord uc qw q uc q
+  86  ord uc eval e
+  87  ord uc qw q
+  88  ord uc q exp e
+  89  succ ord uc q exp e
+  90  ord uc qw q zero q
+  91  pred ord sescape chr e
+  92  ord sescape chr e
+  93  succ ord sescape chr e
+  94  pred ord b_clear fib
+  95  ord b_clear fib
+  96  pred ord q NaN
+  97  ord q NaN
+  98  ord q cbrt lc
+  99  ord q lc eval
+ 100  tobin ceil pi
+ 101  ord q qexp q
+ 102  ord qw e fib e
+ 103  ord qw q geq
+ 104  ord q chr lc
+ 105  ord qw q if q
+ 106  ord qw q jump q
+ 107  pred ord q qlog q
+ 108  ord q qlog q
+ 109  ord q q max q
+ 110  ord lc NaN
+ 111  ord q tooct
+ 112  ord qw e pi e
+ 113  ord q equ e
+ 114  ord q erf e
+ 115  ord qw q sin q
+ 116  ord qw q tan q
+ 117  ord qw q uc q
+ 118  ord q eval e
+ 119  ord q qw q
+ 120  ord q exp e
+ 121  succ ord q exp e
+ 122  ord qw q zero q
+ 123  succ ord qw q zero q
+ 124  tooct ord uc qw q tan q
+ 125  tooct ord uc qw q uc q
+ 126  tooct ord uc eval e
+ 127  tooct ord uc qw q
+ 128  succ tooct ord uc qw q
+ 129  fromhex ord uc q equ e
+ 130  tooct ord uc q exp e
