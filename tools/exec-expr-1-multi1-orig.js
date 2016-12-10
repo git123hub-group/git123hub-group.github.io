@@ -835,6 +835,30 @@ function stepinto () {
 		return parseInt(int_, f).toString(t);
 	}
 	
+	__variables__.frombin = function (int_) {
+		return parseInt(int_, 2)
+	}
+	
+	__variables__.tobin = function (int_) {
+		return (+int_).toString(2)
+	}
+	
+	__variables__.fromoct = function (int_) {
+		return parseInt(int_, 8)
+	}
+	
+	__variables__.tooct = function (int_) {
+		return (+int_).toString(8)
+	}
+	
+	__variables__.fromhex = function (int_) {
+		return parseInt(int_, 16)
+	}
+	
+	__variables__.tohex = function (int_) {
+		return (+int_).toString(16)
+	}
+	
 	__variables__.method = function(obj, mthd) {
 		if (obj == null || obj[mthd] === Function) return; // Function.prototype.constructor.call(Function.prototype, string) ==> Function(string) 出现漏洞
 		return obj[mthd].apply(obj,Array.prototype.slice.call(arguments, 2));
