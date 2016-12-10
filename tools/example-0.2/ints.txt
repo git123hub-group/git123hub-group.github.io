@@ -4,10 +4,10 @@
    3  int pi
    4  ceil pi
    5  succ ceil pi
-   6  len q sinh abs
-   7  int exp int e
-   8  ceil exp int e
-   9  len q trunc alert
+   6  pred int sqr e
+   7  int sqr e
+   8  ceil sqr e
+   9  succ ceil sqr e
   10  len q sprintf acos
   11  len q random bit_or
   12  len q breakpoint fib
@@ -17,9 +17,9 @@
   16  ceil exp e
   17  succ ceil exp e
   18  tohex ceil exp pi
-  19  pred tohex ord q q q
-  20  tohex ord q q q
-  21  fib exp int e
+  19  pred int cube e
+  20  int cube e
+  21  ceil cube e
   22  int expm1 pi
   23  int exp pi
   24  ceil exp pi
@@ -72,8 +72,8 @@
   71  ord uc qw q geq
   72  ord uc q chr lc
   73  ord uc qw q if q
-  74  ord uc qw q jump q
-  75  tohex ord qw q uc q
+  74  int tan tan ln e
+  75  ceil tan tan ln e
   76  ord uc q qlog q
   77  pred ord NaN
   78  ord NaN
@@ -129,3 +129,128 @@
  128  succ tooct ord uc q qw q
  129  fromhex ord uc q equ e
  130  tooct ord uc q exp e
+ 131  fromhex ord uc qw q sin q
+ 132  tooct ord uc qw q zero q
+ 133  fromhex ord uc qw q uc q
+ 134  tooct ord sescape chr e
+ 135  fromhex ord uc q qw q
+ 136  fromhex ord uc q exp e
+ 137  tooct ord q b_clear fib
+ 138  succ tooct ord q b_clear fib
+ 139  pred tooct pred ord q NaN
+ 140  tooct pred ord q NaN
+ 141  tooct ord q NaN
+ 142  tooct ord q cbrt lc
+ 143  tooct ord q cbrt lc
+ 144  tooct tobin ceil pi
+ 145  tooct ord q qexp q
+ 146  tooct ord qw e fib e
+ 147  tooct ord qw q geq
+ 148  int exp succ ceil pi
+ 149  ceil exp succ ceil pi
+ 150  tooct ord q chr lc
+ 151  tooct ord qw q if q
+ 152  tooct ord qw q jump q
+ 153  tooct pred ord q qlog q
+ 154  tooct ord q qlog q
+ 155  tooct ord qw q max q
+ 156  tooct ord lc NaN
+ 157  tooct ord q tooct
+ 158  succ tooct ord q tooct
+ 159  pred tooct ord qw e pi e
+ 160  tooct ord qw e pi e
+ 161  tooct ord q equ e
+ 162  tooct ord q erf e
+ 163  tooct ord qw q sin q
+ 164  tooct ord qw q tan q
+ 165  tooct ord qw q uc q
+ 166  tooct ord q eval e
+ 167  tooct ord q qw q
+ 168  succ tooct ord q qw q
+ 169  sqr pred int expm1 e
+ 170  tooct ord q exp e
+ 171  tooct succ ord q exp e
+ 172  tooct ord qw q zero q
+ 173  ord str_not uc q erf e
+ 174  ord str_not uc q equ e
+ 175  ord str_not uc qw e pi e
+ 176  pred ord str_not qw q NaN q
+ 177  ord str_not qw q NaN q
+ 178  succ ord str_not qw q NaN q
+ 179  ord str_not uc q qlog q
+ 180  succ ord str_not uc q qlog q
+ 181  pred ord str_not uc qw q if q
+ 182  ord str_not uc qw q if q
+ 183  ord str_not uc q chr lc
+ 184  ord str_not uc qw q geq
+ 185  ord str_not uc qw e fib e
+ 186  ord str_not uc q qexp q
+ 187  ord str_not uc q ident pi
+ 188  ord str_not uc q lc eval
+ 189  ord str_not uc q cbrt lc
+ 190  ord str_not uc q NaN
+ 191  succ ord str_not uc q NaN
+ 192  succ succ ord str_not uc q NaN
+ 193  pred pred pred sqr int expm1 e
+ 194  pred pred sqr int expm1 e
+ 195  pred sqr int expm1 e
+ 196  sqr int expm1 e
+ 197  succ sqr int expm1 e
+ 198  ord str_not chr q NaN
+ 199  pred int sqr expm1 e
+ 200  int sqr expm1 e
+ 201  ceil sqr expm1 e
+ 202  succ ceil sqr expm1 e
+ 203  succ succ ceil sqr expm1 e
+ 204  ord str_not concat pi
+ 205  ord str_not concat e
+ 206  succ ord str_not concat e
+ 207  ord str_not concat zero e
+ 208  succ ord str_not concat zero e
+ 209  pred tooct fromhex ord uc q exp e
+ 210  tooct fromhex ord uc q exp e
+ 211  succ tooct fromhex ord uc q exp e
+ 212  tooct succ tooct ord q b_clear fib
+ 213  tooct pred tooct pred ord q NaN
+ 214  tooct tooct pred ord q NaN
+ 215  tooct tooct ord q NaN
+ 216  tooct tooct ord q NaN
+ 217  cube pred int sqr e
+ 218  succ cube pred int sqr e
+ 219  ord str_not chr tooct clz32 e
+ 220  tooct tooct tobin ceil pi
+ 221  tooct tooct ord q qexp q
+ 222  tooct tooct ord qw e fib e
+ 223  pred pred sqr int exp e
+ 224  pred sqr int exp e
+ 225  sqr int exp e
+ 226  succ sqr int exp e
+ 227  succ succ sqr int exp e
+ 228  pred int sqr exp e
+ 229  int sqr exp e
+ 230  ceil sqr exp e
+ 231  succ ceil sqr exp e
+ 232  tooct tooct ord q qlog q
+ 233  fib pred int expm1 e
+ 234  tooct tooct ord lc NaN
+ 235  tooct tooct ord q tooct
+ 236  succ tooct tooct ord q tooct
+ 237  tooct pred tooct ord qw e pi e
+ 238  ord str_not chr succ ceil exp e
+ 239  ord str_not chr ceil exp e
+ 240  tooct tooct ord qw e pi e
+ 241  tooct tooct ord q equ e
+ 242  tooct tooct ord q erf e
+ 243  tooct tooct ord qw q sin q
+ 244  tooct tooct ord qw q tan q
+ 245  tooct tooct ord qw q uc q
+ 246  tooct tooct ord q eval e
+ 247  ord str_not chr ceil sqr e
+ 248  ord str_not chr int sqr e
+ 249  ord str_not chr pred int sqr e
+ 250  tooct succ tooct ord q qw q
+ 251  ord str_not chr ceil pi
+ 252  ord str_not chr int pi
+ 253  ord str_not chr int e
+ 254  ord str_not chr ln e
+ 255  ord str_not chr zero e
