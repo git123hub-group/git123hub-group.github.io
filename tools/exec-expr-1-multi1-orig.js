@@ -756,11 +756,11 @@ function stepinto () {
 	__variables__.sunescape = StringParser;
 
 	__variables__.lc = function(a) {
-		return ("" + a).toLowerCase;
+		return ("" + a).toLowerCase();
 	};
 	
 	__variables__.uc = function(a) {
-		return ("" + a).toUpperCase;
+		return ("" + a).toUpperCase();
 	};
 
 	__variables__.beginCSS = function (str) {
