@@ -83,7 +83,7 @@
   82  ord uc q erf e
   83  ord uc qw q sin q
   84  ord uc qw q tan q
-  85  ord uc qw q uc q
+  85  ord uc q num ln
   86  ord uc qw eval e
   87  ord uc q qw q
   88  ord uc q exp e
@@ -115,7 +115,7 @@
  114  ord q erf e
  115  ord qw q sin q
  116  ord qw q tan q
- 117  ord qw q uc q
+ 117  ord q num ln
  118  ord q eval e
  119  ord q qw q
  120  ord q exp e
@@ -123,7 +123,7 @@
  122  ord qw q zero q
  123  succ ord qw q zero q
  124  tooct ord uc qw q tan q
- 125  tooct ord uc qw q uc q
+ 125  tooct ord uc q num ln
  126  tooct ord uc q eval e
  127  tooct ord uc q qw q
  128  succ tooct ord uc q qw q
@@ -131,7 +131,7 @@
  130  tooct ord uc q exp e
  131  fromhex ord uc qw q sin q
  132  tooct ord uc qw q zero q
- 133  fromhex ord uc qw q uc q
+ 133  fromhex ord uc q num ln
  134  tooct ord sescape chr e
  135  fromhex ord uc q qw q
  136  fromhex ord uc q exp e
@@ -163,7 +163,7 @@
  162  tooct ord q erf e
  163  tooct ord qw q sin q
  164  tooct ord qw q tan q
- 165  tooct ord qw q uc q
+ 165  tooct ord q num ln
  166  tooct ord q eval e
  167  tooct ord q qw q
  168  succ tooct ord q qw q
@@ -174,9 +174,9 @@
  173  ord str_not uc q erf e
  174  ord str_not uc q equ e
  175  ord str_not uc qw e pi e
- 176  pred ord str_not concat NaN
- 177  ord str_not concat NaN
- 178  succ ord str_not concat NaN
+ 176  pred ord str_not str NaN
+ 177  ord str_not str NaN
+ 178  succ ord str_not str NaN
  179  ord str_not uc q qlog q
  180  succ ord str_not uc q qlog q
  181  pred ord str_not uc qw q if q
@@ -201,13 +201,13 @@
  200  int sqr expm1 e
  201  ceil sqr expm1 e
  202  succ ceil sqr expm1 e
- 203  succ succ ceil sqr expm1 e
- 204  ord str_not concat pi
- 205  ord str_not concat e
- 206  succ ord str_not concat e
- 207  ord str_not concat zero e
- 208  succ ord str_not concat zero e
- 209  pred tooct fromhex ord uc q exp e
+ 203  pred ord str_not str pi
+ 204  ord str_not str pi
+ 205  ord str_not str e
+ 206  succ ord str_not str e
+ 207  ord str_not str zero e
+ 208  succ ord str_not str zero e
+ 209  succ succ ord str_not str zero e
  210  tooct fromhex ord uc q exp e
  211  succ tooct fromhex ord uc q exp e
  212  tooct succ tooct ord q b_clear fib
@@ -243,7 +243,7 @@
  242  tooct tooct ord q erf e
  243  tooct tooct ord qw q sin q
  244  tooct tooct ord qw q tan q
- 245  tooct tooct ord qw q uc q
+ 245  tooct tooct ord q num ln
  246  tooct tooct ord q eval e
  247  ord str_not chr ceil sqr e
  248  ord str_not chr int sqr e
