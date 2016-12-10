@@ -1,0 +1,3 @@
+print q xhellox
+print chr tohex ord uc q ident pi
+println q x worldx
