@@ -1,7 +1,7 @@
 /* exec-expr-1-multi1.js */
 
 var mainprog, clinenum, breakpt, delayf, parsed = false, outHtml, changed, tmpnl, tlines,
-    callstack, callptr, stack, running, tmpline, condiflag, buffer;
+	callstack, callptr, stack, running, tmpline, condiflag, buffer;
 
 function click1 () {
 	var tmp;
@@ -78,7 +78,7 @@ function jumpblock () {
 		case "\x7b":
 			skipforward();
 		break;
-		case "if": 
+		case "if":
 		case "elseif": // likes "if"
 			if ((cdp[1] === "if" && (condiflag = true)) || condiflag) {
 				if (__expr_eval__(cdp[2])) {
@@ -113,7 +113,7 @@ function jumpblock () {
 			condiflag = false;
 		break;
 		case "while":
-			clinenum++; 
+			clinenum++;
 			if (!__expr_eval__(cdp[2])) { // go to "endwhile"
 				level = 1;
 				while (level > 0) {
@@ -189,7 +189,7 @@ function stepinto () {
 		}
 		changed = true;
 	};
-	
+
 	__variables__.b_print = function() {
 		var alen = arguments.length;
 		for (var i = 0; i < alen; i++) {
@@ -197,7 +197,7 @@ function stepinto () {
 		}
 		changed = true;
 	};
-	
+
 	__variables__.concat = function() {
 		var str = "";
 		var alen = arguments.length;
@@ -215,7 +215,7 @@ function stepinto () {
 		outHtml += "\n";
 		changed = true;
 	};
-	
+
 	__variables__.b_println = function() {
 		var alen = arguments.length;
 		for (var i = 0; i < alen; i++) {
@@ -248,21 +248,21 @@ function stepinto () {
 		}
 		return m;
 	};
-	
+
 	__variables__.b_toprog = function(str) {
 		$("box1").value = buffer;
 	};
-	
+
 	__variables__.b_output = function(str) {
 		outHtml += escapeHTML(buffer);
 		changed = true; buffer = "";
 	}
-	
+
 	__variables__.clear = function(str) {
 		outHtml = "";
 		changed = true;
 	};
-	
+
 	__variables__.b_clear = function(str) {
 		buffer = "";
 	}
@@ -295,7 +295,7 @@ function stepinto () {
 			tmpnl = tmpline + obj;
 		}
 	};
-	
+
 	__variables__.abscall = function(obj) {
 		callstack[callptr++] = tmpnl;
 		tmpnl = obj;
@@ -309,7 +309,7 @@ function stepinto () {
 	__variables__.nextframe = function() {
 		breakpt = delayf = true;
 	};
-	
+
 	__variables__.template = function(str) {
 		// str = str.split();
 		var str2 = "", vn;
@@ -345,15 +345,15 @@ function stepinto () {
 	__variables__.qexp = function(x, b) {
 		return 2 * __variables__.sinh(b ? x * Math.log(b) : x);
 	};
-	
+
 	__variables__.asin = Math.asin;
-	
+
 	__variables__.asinh = Math.asinh || function(x) {
 		sgn = 1;
 		x < 0 && (x = -x, sgn = -1);
 		return sgn * Math.log(x + Math.sqrt(x * x + 1));
 	};
-	
+
 	__variables__.qlog = function(x, b) {
 		var tmp = __variables__.asinh(x / 2);
 		return b ? tmp / Math.log(b) : tmp;
@@ -408,7 +408,7 @@ function stepinto () {
 	};
 
 	__variables__.sqrt = Math.sqrt;
-	
+
 	__variables__.cube = function(x) {
 		return x * x * x;
 	};
@@ -417,7 +417,7 @@ function stepinto () {
 		var y = Math.pow(Math.abs(x), 1/3);
 		return x < 0 ? -y : y;
 	};
-	
+
 	__variables__.ln = Math.log;
 
 	__variables__.log = function(x, b) {
@@ -516,7 +516,7 @@ function stepinto () {
 	__variables__.max = Math.max;
 
 	__variables__.min = Math.min;
-	
+
 	__variables__.gcd = function (x, y) { // 最大公因数函数 (使用辗转相除法)
 		var tmp;
 		while (y !== 0) { // GCD(m, n) = GCD(n, m modulo n)
@@ -534,7 +534,7 @@ function stepinto () {
 	__variables__.and = function(a, b) {
 		return a && b;
 	};
-	
+
 	__variables__.str_and = function(a, b) {
 		var len = a.length, tmp, s = "";
 		(tmp = b.length) < len && (len = tmp); // min
@@ -596,7 +596,7 @@ function stepinto () {
 		}
 		return s;
 	};
-	
+
 	__variables__.bit_xor = function(a, b) {
 		return a ^ b;
 	};
@@ -616,7 +616,7 @@ function stepinto () {
 	__variables__.bit_shr = function(a, b) {
 		return a >> b;
 	};
-	
+
 	__variables__.str_shl = function(a, bits) {
 		var max = Math.pow(2, bits) - 1;
 		var len = a.length, s = "";
@@ -625,11 +625,11 @@ function stepinto () {
 		}
 		return s;
 	};
-	
+
 	__variables__.str_shl2 = function(a, len) {
 		return len < 0 ? __variables__.str_shr2(a, -len) : a.slice(len);
 	};
-	
+
 	__variables__.str_shr = function(a, bits) {
 		var max = Math.pow(2, bits) - 1;
 		var len = a.length, s = "";
@@ -638,16 +638,16 @@ function stepinto () {
 		}
 		return s;
 	};
-	
+
 	__variables__.str_shr2 = function(a, len) {
 		return len < 0 ? __variables__.str_shl2(a, -len) : __variables__.repeat("\0", len) + a;
 	};
-	
+
 	__variables__.clz32 = Math.clz32 || function(value) {
 		var value = Number(value) >>> 0;
 		return value ? 32 - value.toString(2).length : 32;
 	}
-	
+
 	__variables__.fib = function(n) {
 		var a = 0, b = 1, tmp, sgn = n % 2 === 0 ? -1 : 1;
 		n < 0 ? (n = -n) : sgn = 1;
@@ -659,7 +659,7 @@ function stepinto () {
 		}
 		return b * sgn;
 	};
-	
+
 	__variables__.imul = Math.imul || function(a, b) {
 		var ah = (a >>> 16) & 0xffff;
 		var al = a & 0xffff;
@@ -744,7 +744,7 @@ function stepinto () {
 			return "\\u" + ("0" + s.charCodeAt(0).toString(16)).slice(-4);
 		})
 	};
-	
+
 	__variables__.sunescape = StringParser;
 
 	__variables__.beginCSS = function (str) {
@@ -771,19 +771,24 @@ function stepinto () {
 	__variables__.assign = function(varn, value) { // usage: assign("variable name", value) or variable name = value
 		return __user_vars__["x" + varn] = value;
 	};
-	
+
 	__variables__.assign2 = function(value, varn) { // usage: assign2(value, "variable name") or variable name = value
 		return __user_vars__["x" + varn] = value;
 	};
-	
+
+	__variables__.b_tovar = function(varn) {
+		return __user_vars__["x" + varn] = buffer;
+		buffer = "";
+	}
+
 	__variables__.q = __variables__.quote;
-	
+
 	__variables__.qraw = function (str) { return str; };
 	__variables__.qraw.quotf = __variables__.qraw.rawf = true;
-	
+
 	__variables__.qw = function (str) { return str.trim().split(/\s+/); };
 	__variables__.qw.quotf = true;
-	
+
 	__variables__.quote2 = function (str, left, right) { return left + str + right; };
 	__variables__.quote2.quotf = true;
 
@@ -794,11 +799,11 @@ function stepinto () {
 	__variables__.indirect = function(a) { // usage: indirect("variable name") or (variable name)
 		return (tmp2 = __user_vars__["x" + a]) == null ? __variables__[a] : tmp2;
 	};
-		
+
 	__variables__.builtinvar = function(a) {
 		return __variables__[a];
 	};
-	
+
 	__variables__.uservar = function(a) {
 		return __user_vars__["x" + a];
 	};
@@ -806,11 +811,11 @@ function stepinto () {
 	__variables__.index = function(obj, num) {
 		return obj[+num];
 	};
-	
+
 	__variables__.len = function(obj) {
 		return obj.length;
 	};
-	
+
 	__variables__.arglen = function() {
 		return arguments.length;
 	};
@@ -834,71 +839,71 @@ function stepinto () {
 	__variables__.baseconvert = function (int_, f, t) {
 		return parseInt(int_, f).toString(t);
 	}
-	
+
 	__variables__.frombin = function (int_) {
 		return parseInt(int_, 2)
 	}
-	
+
 	__variables__.tobin = function (int_) {
 		return (+int_).toString(2)
 	}
-	
+
 	__variables__.fromoct = function (int_) {
 		return parseInt(int_, 8)
 	}
-	
+
 	__variables__.tooct = function (int_) {
 		return (+int_).toString(8)
 	}
-	
+
 	__variables__.fromhex = function (int_) {
 		return parseInt(int_, 16)
 	}
-	
+
 	__variables__.tohex = function (int_) {
 		return (+int_).toString(16)
 	}
-	
+
 	__variables__.method = function(obj, mthd) {
 		if (obj == null || obj[mthd] === Function) return; // Function.prototype.constructor.call(Function.prototype, string) ==> Function(string) 出现漏洞
 		return obj[mthd].apply(obj,Array.prototype.slice.call(arguments, 2));
 	};
-	
+
 	__variables__.pushobj = function () {
 		for (var i = 0, len = arguments.length; i < len; i++) {
 			stack.push(arguments[i]);
 		}
 	};
-	
+
 	__variables__.pushv = function () {
 		for (var i = 0, len = arguments.length; i < len; i++) {
 			stack.push(__user_vars__["x" + arguments[i]]);
 		}
 	};
-	
+
 	__variables__.stack_drop = function (n) {
 		n > 0 || (n = 1);
 		while(n-- > 0) { stack.pop(); }
 	};
-	
+
 	__variables__.popv = function () {
 		for (var i = 0, len = arguments.length; i < len; i++) {
 			__user_vars__["x" + arguments[i]] = stack.pop();
 		}
 	};
-	
+
 	__variables__.stack_dup = function (n) {
 		n > 0 || (n = 1);
 		stack.push(stack[stack.length - n]);
 	};
-	
+
 	__variables__.stack_swap = function (n) {
 		n > 1 || (n = 2);
 		var tmp = stack[stack.length - 1];
 		stack[stack.length - 1] = stack[stack.length - n];
 		stack[stack.length - n] = tmp;
 	};
-	
+
 	__variables__.stack_rot = function (n) {
 		n > 1 || (n = 3);
 		var tmp = stack[id = stack.length - 1];
@@ -907,7 +912,7 @@ function stepinto () {
 		}
 		stack[id] = tmp;
 	};
-	
+
 	__variables__.stack_rotcc = function (n) {
 		n > 1 || (n = 3);
 		var tmp = stack[id = stack.length - n];
@@ -916,7 +921,7 @@ function stepinto () {
 		}
 		stack[id] = tmp;
 	};
-	
+
 	__variables__.lambda = function () { // lambda function
 		var args = arguments;
 		return function lambda () {
@@ -931,5 +936,5 @@ function stepinto () {
 			return tmp;
 		}
 	}
-	
+
 }(__variables__);
