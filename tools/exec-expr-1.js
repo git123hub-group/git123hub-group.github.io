@@ -154,9 +154,14 @@ function __expr_eval__ (iexpr) {
 		}
 	}
 	function applyfunc2 () {
+		var tmp;
 		while ((opr = ostk[optr]) === 10) {
 			--optr;
-			nstk[--nptr] = nstk[nptr](nstk[nptr + 1]);
+			if (typeof (tmp = nstk[nptr]) === "function") {
+				nstk[--nptr] = nstk[nptr](nstk[nptr + 1]);
+			} else if (typeof (tmp = nstk[nptr]) === "number") {
+				nstk[--nptr] = nstk[nptr] * nstk[nptr + 1];
+			} else throw "计算错误";
 		}
 		paptr === rtmp && (rawflag = false);
 	}
@@ -309,7 +314,7 @@ function __expr_eval__ (iexpr) {
 				omode = true;
 			break;
 			case "#":
-				while (expr[++i] !== "#") ;
+				while (i < len && expr[++i] !== "#") ;
 			break;
 			case "\\": // line continuation
 				if (expr[++i] === "\n") break;
