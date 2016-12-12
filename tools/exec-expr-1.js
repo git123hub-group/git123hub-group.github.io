@@ -154,13 +154,13 @@ function __expr_eval__ (iexpr) {
 		}
 	}
 	function applyfunc2 () {
-		var tmp;
+		var tmp, type;
 		while ((opr = ostk[optr]) === 10) {
 			--optr;
-			if (typeof (tmp = nstk[nptr]) === "function") {
-				nstk[--nptr] = nstk[nptr](nstk[nptr + 1]);
-			} else if (typeof (tmp = nstk[nptr]) === "number") {
-				nstk[--nptr] = nstk[nptr] * nstk[nptr + 1];
+			if ((type = typeof (tmp = nstk[nptr - 1])) === "function") {
+				nstk[--nptr] = tmp(nstk[nptr + 1]);
+			} else if (type === "number") {
+				nstk[--nptr] = tmp * nstk[nptr + 1];
 			} else throw "计算错误";
 		}
 		paptr === rtmp && (rawflag = false);
