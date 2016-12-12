@@ -300,13 +300,16 @@ function __expr_eval__ (iexpr) {
 				ostk[++optr] = 7;
 				omode = true;
 			break;
+			case " ": case "\t": case "\r": case "\n": // spaces
+			break;
 			case ",":
 				omode && (nstk[++nptr] = null);
 				concat();
 				pastk[paptr]++;
 				omode = true;
 			break;
-			case " ": case "\t": case "\r": case "\n": // spaces
+			case "#":
+				while (expr[++i] !== "#") ;
 			break;
 			case "\\": // line continuation
 				if (expr[++i] === "\n") break;
