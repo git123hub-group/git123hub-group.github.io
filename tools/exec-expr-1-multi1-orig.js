@@ -315,11 +315,22 @@ function stepinto () {
 		var str2 = "", vn;
 		for (var i = 0, l = str.length; i < l; i++) {
 			if (str[i] === "%") {
-				if (str[++i] === "%") str2 += "%";
-				else {
-					vn = "";
-					do vn += str[i++]; while (str[i] !== "%");
-					str2 += (/\D/.test(vn) ? __variables__.indirect(vn) : arguments[vn]);
+				switch (str[++i]) {
+					case "%": str2 += "%"; break;
+					case "~": i++; vn = "";
+						while (i < l) {
+							if (str[i] === "~" && str[i + 1] === "%") {i++; str2 += vn; break;}
+							vn += str[i];
+							i++;
+						};
+					break;
+					default:
+						vn = "";
+						do {
+							vn += str[i++];
+							if (i >= l) throw "template error";
+						} while (str[i] !== "%");
+						str2 += (/\D/.test(vn) ? __variables__.indirect(vn) : arguments[vn]);
 				}
 			} else {
 				str2 += str[i];
