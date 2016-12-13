@@ -312,16 +312,30 @@ function stepinto () {
 
 	__variables__.template = function(str) {
 		// str = str.split();
-		var str2 = "", vn;
+		var str2 = "", vn, tildes, ptil;
 		for (var i = 0, l = str.length; i < l; i++) {
 			if (str[i] === "%") {
 				switch (str[++i]) {
 					case "%": str2 += "%"; break;
-					case "~": i++; vn = "";
-						while (i < l) {
-							if (str[i] === "~" && str[i + 1] === "%") {i++; str2 += vn; break;}
-							vn += str[i];
-							i++;
+					case "~": i++; vn = "", ptil = 1, tildes = 0, untiled = false;
+						while (str[i] === "~") i++, ptil++;
+						while (i < l && !untiled) {
+							switch (str[i]) {
+								case "~":
+									tildes >= ptil ? (vn += "~") : (tildes++);
+								break;
+								case "%":
+									if (ptil === tildes) {
+										/* i += ptil; */ str2 += vn; untiled = true; break;
+									} else {
+										vn += __variables__.repeat("~", tildes) + "%";
+										tildes = 0;
+									}
+								break;
+								default:
+									vn += __variables__.repeat("~", tildes) + str[i]; tildes = 0;
+							}
+							untiled || i++;
 						};
 					break;
 					default:
