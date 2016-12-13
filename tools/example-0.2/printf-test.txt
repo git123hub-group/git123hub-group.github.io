@@ -6,3 +6,5 @@ printf(quote `Fifteen is %d and\nnot %d.\n`, a + b, 2 * a + b)
 # 模板字符串的使用方法
 print(template('Fifteen is %a% and\nnot %b%.\n'))
 print(template('%~"%~" and "~~%%~%"~%')) # "~%" 的转义字符 #
+print(template('%~"%~" and "~%~%%%~"~%')) # 另一个 "~%" 的转义字符 #
+print(template('%~"~~~%%%%%~%~%"~%')) # "~%" 的二次转义 #
