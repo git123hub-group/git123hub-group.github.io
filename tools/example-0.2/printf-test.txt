@@ -4,10 +4,14 @@ b = 10
 printf(quote `Fifteen is %d and\nnot %d.\n`, a + b, 2 * a + b)
 
 # 模板字符串的使用方法
-print(template('Fifteen is %a% and\nnot %b%.\n'))
+print(template('Five is %a% and\nnot %b%.\n'))
 print(template('"%%"\n')) # "%" 的转义字符 (普通) #
 print(template('%~"%"~%\n')) # "%" 的转义字符 #
 print(template('%~~"~%"~~%\n')) # "~%" 的转义字符 #
 print(template('%~~~"~~%"~~~%\n')) # "~~%" 的转义字符 #
 print(template('%~~~~"~~~%"~~~~%\n')) # "~~~%" 的转义字符 #
 print(template('%~~~~~"~~~~%"~~~~~%\n')) # "~~~~%" 的转义字符 #
+print(template('%~~~~~~"~~~~~%"~~~~~~%\n')) # "~~~~~%" 的转义字符 #
+print(template('%~~~~~~~"~~~~~~%"~~~~~~~%\n')) # "~~~~~~%" 的转义字符 #
+print(template('%~~~~~~~~"~~~~~~~%"~~~~~~~~%\n'))
+print(template('%~~~~~~~~~"~~~~~~~~%"~~~~~~~~~%\n'))
