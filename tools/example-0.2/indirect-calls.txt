@@ -9,4 +9,4 @@ indirect_raw = raw
 println(indirect_raw("indirect raw function using variable assignment \n"))
 
 # raw function without effect #
-println(fsubst(const(fsubst ident))(const)("indirect raw function without effect")(raw))
+print(fsubst(const(fsubst ident))(const)("indirect raw function without effect \n")(raw))
