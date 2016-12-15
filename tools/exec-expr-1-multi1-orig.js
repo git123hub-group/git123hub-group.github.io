@@ -206,6 +206,14 @@ function stepinto () {
 		}
 		return str;
 	};
+	
+	__variables__.num = __variables__.number = function(o) {
+		return +o;
+	};
+	
+	__variables__.str = __variables__.string = function(o) {
+		return ""+o;
+	};
 
 	__variables__.println = function() {
 		var alen = arguments.length;
