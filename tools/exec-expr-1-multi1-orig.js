@@ -492,6 +492,12 @@ function stepinto () {
 	__variables__.ident = function(x) {
 		return x;
 	};
+	
+	__variables__["const"] = function(x) {
+		return function () {
+			return x;
+		};
+	};
 
 	__variables__.neg = function(x) {
 		return -x;
