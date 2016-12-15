@@ -500,8 +500,10 @@ function stepinto () {
 	};
 
 	__variables__.fsubst = function(x) {
-		return function () {
-			return x;
+		return function (y) {
+			return function (z) {
+				return x(z)(y(z));
+			};
 		};
 	};
 

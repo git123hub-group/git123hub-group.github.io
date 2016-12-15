@@ -179,8 +179,10 @@ __variables__["const"] = function(x) {
 };
 
 __variables__.fsubst = function(x) {
-	return function () {
-		return x;
+	return function (y) {
+		return function (z) {
+			return x(z)(y(z));
+		};
 	};
 };
 
