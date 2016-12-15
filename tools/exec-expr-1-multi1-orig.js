@@ -499,6 +499,12 @@ function stepinto () {
 		};
 	};
 
+	__variables__.fsubst = function(x) {
+		return function () {
+			return x;
+		};
+	};
+
 	__variables__.neg = function(x) {
 		return -x;
 	};

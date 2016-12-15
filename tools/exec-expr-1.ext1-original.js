@@ -172,6 +172,18 @@ __variables__.ident = function(x) {
 	return x;
 };
 
+__variables__["const"] = function(x) {
+	return function () {
+		return x;
+	};
+};
+
+__variables__.fsubst = function(x) {
+	return function () {
+		return x;
+	};
+};
+
 __variables__.neg = function(x) {
 	return -x;
 };
