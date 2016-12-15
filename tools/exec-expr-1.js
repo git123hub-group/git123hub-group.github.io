@@ -329,7 +329,7 @@ function __expr_eval__ (iexpr) {
 				if (omode) {
 					nstk[++nptr] = tmp;
 				} else if (typeof (tmp2 = nstk[nptr]) === "function") {
-					tmp2 = tmp2(tmp);
+					nstk[nptr] = tmp2(tmp);
 				} else throw "语法错误";
 				omode = false;
 			break;
