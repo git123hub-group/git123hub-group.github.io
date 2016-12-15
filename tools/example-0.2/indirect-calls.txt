@@ -1,3 +1,4 @@
+# raw function with effect #
 println(raw("direct raw function \n"))
 println((raw)("parenthesis around raw function \n"))
 println(((raw))("another parenthesis around raw function \n"))
@@ -6,3 +7,6 @@ println(indirect("raw")("indirect raw function using indirect('raw') \n"))
 println(eval("raw")("indirect raw function using eval('raw') \n"))
 indirect_raw = raw
 println(indirect_raw("indirect raw function using variable assignment \n"))
+
+# raw function without effect #
+println(fsubst(const(fsubst ident))(const)("indirect raw function without effect")(raw))
