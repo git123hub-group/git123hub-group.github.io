@@ -514,6 +514,10 @@ function stepinto () {
 			};
 		};
 	};
+	
+	__variables__["void"] = function v(x) {
+		return v;
+	};
 
 	__variables__.neg = function(x) {
 		return -x;
