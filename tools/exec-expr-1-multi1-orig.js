@@ -850,13 +850,14 @@ function stepinto () {
 	__variables__.q = __variables__.quote;
 
 	__variables__.qraw = function (str) { return str; };
-	__variables__.qraw.quotf = __variables__.qraw.rawf = true;
+	__variables__.qraw.quotf = 1;
+	__variables__.qraw.rawf = true;
 
 	__variables__.qw = function (str) { return str.trim().split(/\s+/); };
-	__variables__.qw.quotf = true;
+	__variables__.qw.quotf = 1;
 
 	__variables__.quote2 = function (str, left, right) { return left + str + right; };
-	__variables__.quote2.quotf = true;
+	__variables__.quote2.quotf = 1;
 
 	__variables__["delete"] = function(a) {
 		return delete __user_vars__["x" + a];
