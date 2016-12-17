@@ -211,7 +211,7 @@ function __expr_eval__ (iexpr) {
 			case 2:
 				for (; i < expr.length && /[0-9A-Za-z\_\$]/.test(expr[i]); i++) {
 					tmp += expr[i];
-				}
+				}i--;
 				nstk[nptr] = fn(tmp);
 			break;
 		}
