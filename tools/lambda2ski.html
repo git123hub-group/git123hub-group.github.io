@@ -113,12 +113,12 @@ function prefixToInfix (str) {
 		return left + right;
 	}
 }
-function subst2 (str, matches) {
+function subst2 (str, matches, p1) {
 	var len = matches.length; str = infixToPrefix(str);
 	for (var i = len - 1; i >= 0; i--) {
 		str = subst (str, matches[i])
 	}
-	return prefixToInfix (str);
+	return p1 ? prefixToInfix (str) : str;
 }
 function $ (id) {
 	return document.getElementById(id);
@@ -132,7 +132,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 	<h1>Lambda 转 SKI 组合子工具</h1>
 	请输入 Lambda (&lambda;) 表达式: <input type="text" style="width: 400px" id="expr1" /><br />
 	请输入参数列表: <input type="text" style="width: 480px" id="params2" /><br />
-	<input type="button" value="转换到 SKI 组合子" onclick="var tmp; $('output3').value = subst2($('expr1').value, (tmp=$('params2').value.trim())?tmp.split(/[ ,;]+/):'')" /><br />
+	<input type="button" value="转换到 SKI 组合子" onclick="var tmp; $('output3').value = subst2($('expr1').value, (tmp=$('params2').value.trim())?tmp.split(/[ ,;]+/):'', true);" />
+	<input type="button" value="转换到 Unlambda" onclick="var tmp; $('output3').value = subst2($('expr1').value, (tmp=$('params2').value.trim())?tmp.split(/[ ,;]+/):'', false);" /><br />
 	<textarea id="output3" style="width: 550px; height: 320px"></textarea>
 </div>
 <script src="https://git123hub.github.io/static/retn/left.js"></script>
