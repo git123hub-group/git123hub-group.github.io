@@ -53,5 +53,5 @@ function decodeB26 (str) {
 }
 if (typeof __variables__ !== 'undefined') {
 	__variables__.encodez = encodeB26;
-	__variables__.decodez = encodeB26;
+	__variables__.decodez = decodeB26;
 }
