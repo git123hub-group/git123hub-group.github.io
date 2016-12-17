@@ -7,6 +7,15 @@
 // <![CDATA[
 function infixToPrefix (str) {
 	str = str.replace(/[\s\t\xa0\u3000]/g, "");
+	if (str[0] === "\\" || str[0] === "λ") {
+		var isep = str.indexOf(".");
+		if (isep < 0) throw "syntax error";
+		var p = infixToPrefix (str.slice(isep + 1));
+		while (--isep) {
+			p = subst(p, str[isep])
+		}
+		return p;
+	}
 	var nestp = 0, list = [], lptr = 0, tmp, tmp2;
 	for (var i = 0, len = str.length; i < len;) {
 		switch (tmp = str[i]) {
@@ -123,7 +132,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 	<h1>Lambda 转 SKI 组合子工具</h1>
 	请输入 Lambda (&lambda;) 表达式: <input type="text" style="width: 400px" id="expr1" /><br />
 	请输入参数列表: <input type="text" style="width: 480px" id="params2" /><br />
-	<input type="button" value="转换到 SKI 组合子" onclick="$('output3').value = subst2($('expr1').value, $('params2').value.trim().split(/[ ,;]+/))" /><br />
+	<input type="button" value="转换到 SKI 组合子" onclick="var tmp; $('output3').value = subst2($('expr1').value, (tmp=$('params2').value.trim())?tmp.split(/[ ,;]+/):'')" /><br />
 	<textarea id="output3" style="width: 550px; height: 320px"></textarea>
 </div>
 <script src="https://git123hub.github.io/static/retn/left.js"></script>
