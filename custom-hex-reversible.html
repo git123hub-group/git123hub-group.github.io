@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <style>
+	  .wborder {border: 2px solid #000; display: inline-block; width: 40px; height: 40px; box-sizing: border-box;}
+    </style>
+    <title>Reversible Rule</title>
+    <meta charset="utf-8" />
+    <script src="https://git123hub.github.io/repo-1/hexagon-rule-parser.js"></script>
+  </head>
+  <body style="background:#FFF; text-align: center;">
+    <canvas id="canvas1" width="771" height="640" onclick="setPixel(event.offsetX, event.offsetY)"></canvas>
+    <br />
+	<div style="background-color: #FFFFFF;" class="wborder" onclick="sstate=[0,0]"></div>
+    <div style="background-color: #FF0000;" class="wborder" onclick="sstate=[0,1]"></div>
+    <div style="background-color: #80FF00;" class="wborder" onclick="sstate=[1,0]"></div>
+    <div style="background-color: #0000FF;" class="wborder" onclick="sstate=[1,1]"></div>
+    <br />
+    <input type="button" onclick="toggleLoop();" value="start/stop" />
+    <input type="button" onclick="nextGen(); loopstate = 0; phase = 0" value="step" />
+	<input type="button" onclick="speed < 1 || speed--;" value="faster" />
+	<input type="button" onclick="speed++;" value="slower" />
+    <input type="button" onclick="var tmp = caarr; caarr = naarr; naarr = tmp; render()" value="Reverse" />
+    <br />
+    <span style="color:#000;">Rulestring: <input type="text" value="B245/S3" id="irulestr" style="width: 300px; color: inherit; background-color: inherit;" />H-Reversible
+    <input type="button" onclick="ruleTable = parseRule(document.getElementById('irulestr').value);" value="提交" /></span>
+    <br />
+    <a href="/"><button>返回到首页</button></a>
+    <script>
+      var $ = function (id) { return document.getElementById(id); }
+      var c = $("canvas1");
+      var ctx = c.getContext("2d");
+
+      var loopstate = 0, loopid, speed = 15, phase = 0, sstate1 = [1,0];
+      var ruleTable = [[0,0,0,1,0,1,1,0,0,1,1,0,1,0,0,1,0,1,1,0,1,0,0,1,1,0,0,1,0,1,1,1,0,1,1,0,1,0,0,1,1,0,0,1,0,1,1,1,1,0,0,1,0,1,1,1,0,1,1,1,1,1,1,0],[0,0,0,0,0,0,0,1,0,0,0,1,0,1,1,0,0,0,0,1,0,1,1,0,0,1,1,0,1,0,0,0,0,0,0,1,0,1,1,0,0,1,1,0,1,0,0,0,0,1,1,0,1,0,0,0,1,0,0,0,0,0,0,0]];
+      
+      var getNextGen = function (x, y) {
+        var p = y % 2;
+        var nid =
+        caarr[(x + p  ) % 128][(y + 127) % 128] * 32 + caarr[(x +   1    ) % 128][ y             ] * 16 +
+        caarr[(x + p  ) % 128][(y +   1) % 128] *  8 + caarr[(x + 127 + p) % 128][(y +   1) % 128] *  4 +
+        caarr[(x + 127) % 128][ y             ] *  2 + caarr[(x + 127 + p) % 128][(y + 127) % 128]
+        return ruleTable[caarr[x][y]][nid];
+      }
+      
+      var color = ["#FFFFFF", "#FF0000", "#00FF00", "#0000FF"]
+      var caarr = [], naarr = [];
+      for (var i = 0; i < 128; i++) {
+        caarr[i] = [];
+        naarr[i] = [];
+        for (var j = 0; j < 128; j++) {
+          caarr[i][j] = 0;
+		  naarr[i][j] = 0;
+        }
+      }
+      // set hexagonal pixel
+      function setPixel (x, y) {
+        var offs = (y / 5 | 0) % 2 * 3;
+        var offs2 = offs * 255;
+        x = (x + offs2) % 768;
+        var x1 = x - x % 6, y1 = y - y % 5;
+        var xd = x1 / 6, yd = y1 / 5;
+        caarr[xd][yd] = sstate[0];
+		naarr[xd][yd] = sstate[1];
+        ctx.fillStyle = color[2*naarr[xd][yd] + caarr[xd][yd]];
+        ctx.fillRect(x1 + offs, y1, 6, 5);
+      }
+      function nextGen () {
+        for (var i = 0; i < 128; i++) {
+          for (var j = 0; j < 128; j++) {
+            naarr[i][j] = (getNextGen(i, j) + naarr[i][j]) % 2;
+          }
+        }
+        var tmp = naarr;
+        naarr = caarr;
+        caarr = tmp;
+        render();
+      }
+      function render () {
+        var y2, x2off;
+        ctx.clearRect(0,0,771,640);
+        for (var y = 0; y < 128; y++) {
+          y2 = y * 5, x2off = y % 2 * 3;
+          for (var x = 0; x < 128; x++) {
+            ctx.fillStyle = color[2*naarr[x][y] + caarr[x][y]];
+            ctx.fillRect(x * 6 + x2off, y2, 6, 5);
+          }
+        }
+      }
+      function rfill () {
+        for (var y = 0; y < 128; y++) {
+          for (var x = 0; x < 128; x++) {
+            caarr[x][y] = Math.random() < 0.375 ? 1 : 0;
+          }
+        }
+        render ();
+      }
+	  
+	  function startLoop () {
+	    if (loopstate) {
+		  phase++;
+		  if (phase >= speed) {
+		    nextGen (); phase = 0;
+		  }
+		  requestAnimationFrame(startLoop);
+		}
+	  }
+	  
+	  function toggleLoop () {
+	    loopstate = !loopstate;
+		startLoop ();
+	  }
+	  
+    </script>
+    <script type="text/javascript">window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+  </body>
+</html>
