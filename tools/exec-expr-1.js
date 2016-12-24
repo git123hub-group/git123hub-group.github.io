@@ -112,13 +112,17 @@ function __expr_eval__ (iexpr) {
 		for (var i = 2; i <= n; i++) m *= i;
 		return m;
 	}
-	function calcsign () {
+	function calcpow () {
+		var opr;
+		applyfunc2();
 		for (;;) {
-			var opr = ostk[optr];
+			opr = ostk[optr];
 			if (opr === 5) {
 				nstk[nptr] = +nstk[nptr];
 			} else if (opr === 6) {
 				nstk[nptr] = -nstk[nptr];
+			} else if (opr === 7) {
+				nstk[--nptr] = Math.pow(nstk[nptr], nstk[nptr + 1]);
 			} else break;
 			--optr;
 		}
@@ -145,14 +149,6 @@ function __expr_eval__ (iexpr) {
 			return nstk[nptr] = nstk[nptr] / nstk[nptr + 1];
 		};
 	}
-	function calcpow () {
-		applyfunc2();
-		var opr;
-		while ((opr = ostk[optr]) === 7) {
-			--optr;
-			nstk[--nptr] = Math.pow(nstk[nptr], nstk[nptr + 1]);
-		}
-	}
 	function applyfunc2 () {
 		var tmp, type;
 		while ((opr = ostk[optr]) === 10) {
@@ -166,7 +162,7 @@ function __expr_eval__ (iexpr) {
 		paptr === rtmp && (rawflag = false);
 	}
 	function concat () {
-		calcpow(); calcsign(); calcmul(); calcplus();
+		calcpow(); calcmul(); calcplus();
 		if (ostk[optr] !== 9) return;
 		--nptr;--optr;
 		return nstk[nptr] = "" + nstk[nptr] + nstk[nptr + 1];
@@ -269,7 +265,7 @@ function __expr_eval__ (iexpr) {
 				if (omode) {
 					ostk[++optr] = 5;
 				} else {
-					calcpow(); calcsign(); calcmul(); calcplus();
+					calcpow(); calcmul(); calcplus();
 					ostk[++optr] = 1;
 					omode = true;
 				}
@@ -278,7 +274,7 @@ function __expr_eval__ (iexpr) {
 				if (omode) {
 					ostk[++optr] = 6;
 				} else {
-					calcpow(); calcsign(); calcmul(); calcplus();
+					calcpow(); calcmul(); calcplus();
 					ostk[++optr] = 2;
 					omode = true;
 				}
@@ -287,7 +283,7 @@ function __expr_eval__ (iexpr) {
 				if (omode) {
 					throw "语法错误 (unexpected *)";
 				}
-				calcpow(); calcsign(); calcmul();
+				calcpow(); calcmul();
 				ostk[++optr] = 3;
 				omode = true;
 			break;
@@ -295,7 +291,7 @@ function __expr_eval__ (iexpr) {
 				if (omode) {
 					throw "语法错误 (unexpected /)";
 				}
-				calcpow(); calcsign(); calcmul();
+				calcpow(); calcmul();
 				ostk[++optr] = 4;
 				omode = true;
 			break;
