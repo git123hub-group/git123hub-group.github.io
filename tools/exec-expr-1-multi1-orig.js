@@ -964,9 +964,9 @@ function stepinto () {
 		while(n-- > 0) { stack.push(stack[stack.length - 1]) };
 	};
 	
-	__variables__.stack_dup_over = function (n) {
-		n > 0 || (n = 2);
-		stack.push(stack[stack.length - n]);
+	__variables__.stack_dup_over = function (n, m) {
+		n > 0 || (n = 2); m > 0 || (m = 1);
+		while(m-- > 0) { stack.push(stack[stack.length - n]); }
 	};
 
 	__variables__.stack_swap = function (n, m) {
@@ -974,6 +974,16 @@ function stepinto () {
 		var tmp = stack[stack.length - m];
 		stack[stack.length - m] = stack[stack.length - n];
 		stack[stack.length - n] = tmp;
+	};
+	
+	__variables__.stack_rev = function (n) {
+		n > 1 || (n = 3); var m = 1, tmp;
+		while (n > m) {
+			tmp = stack[stack.length - m];
+			stack[stack.length - m] = stack[stack.length - n];
+			stack[stack.length - n] = tmp;
+			n--; m++;
+		}
 	};
 
 	__variables__.stack_rot = function (n) {
