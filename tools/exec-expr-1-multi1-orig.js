@@ -964,10 +964,10 @@ function stepinto () {
 		stack.push(stack[stack.length - n]);
 	};
 
-	__variables__.stack_swap = function (n) {
-		n > 1 || (n = 2);
-		var tmp = stack[stack.length - 1];
-		stack[stack.length - 1] = stack[stack.length - n];
+	__variables__.stack_swap = function (n, m) {
+		n > 1 || (n = 2); m > 0 || (m = 1);
+		var tmp = stack[stack.length - m];
+		stack[stack.length - m] = stack[stack.length - n];
 		stack[stack.length - n] = tmp;
 	};
 
