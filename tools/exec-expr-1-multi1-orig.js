@@ -961,6 +961,11 @@ function stepinto () {
 
 	__variables__.stack_dup = function (n) {
 		n > 0 || (n = 1);
+		while(n-- > 0) { stack.push(stack[stack.length - 1]) };
+	};
+	
+	__variables__.stack_dup_over = function (n) {
+		n > 0 || (n = 2);
 		stack.push(stack[stack.length - n]);
 	};
 
