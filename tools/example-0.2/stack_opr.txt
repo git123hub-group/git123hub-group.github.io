@@ -58,7 +58,7 @@ stack_rotcc(3)
 popv(\t1, \t2, \t3)
 printf("%s %s %s\n", t1, t2, t3)
 
-#-- output "D A B C" --#
+#-- output "B C D A" --#
 pushobj(\$, \A, \B, \C, \D)
 stack_rev()
 popv(\t1, \t2, \t3, \t4)
