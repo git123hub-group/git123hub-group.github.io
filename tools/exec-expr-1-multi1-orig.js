@@ -970,14 +970,14 @@ function stepinto () {
 	};
 
 	__variables__.stack_swap = function (n, m) {
-		n > 1 || (n = 2); m > 0 || (m = 1);
+		n > 0 || (n = 2); m > 0 || (m = 1);
 		var tmp = stack[stack.length - m];
 		stack[stack.length - m] = stack[stack.length - n];
 		stack[stack.length - n] = tmp;
 	};
 	
 	__variables__.stack_rev = function (n) {
-		n > 1 || (n = 3); var m = 1, tmp;
+		n > 0 || (n = 3); var m = 1, tmp;
 		while (n > m) {
 			tmp = stack[stack.length - m];
 			stack[stack.length - m] = stack[stack.length - n];
@@ -986,22 +986,34 @@ function stepinto () {
 		}
 	};
 
-	__variables__.stack_rot = function (n) {
+	__variables__.stack_rot = function (n, m) {
 		n > 1 || (n = 3);
-		var tmp = stack[id = stack.length - 1];
-		for (var i = 1; i < n; i++) {
-			stack[id] = stack[id - 1]; id--;
+		m = (m == null ? 1 : (m % n + n) % n);
+		if (m === 0) return;
+		if (m === 1) {
+			var tmp = stack[id = stack.length - 1];
+			for (var i = 1; i < n; i++) {
+				stack[id] = stack[id - 1]; id--;
+			}
+			stack[id] = tmp;
+		} else {
+			__variables__.stack_rev(m); __variables__.stack_rev(n); __variables__.stack_rev(n - m);
 		}
-		stack[id] = tmp;
 	};
 
-	__variables__.stack_rotcc = function (n) {
+	__variables__.stack_rotcc = function (n, m) {
 		n > 1 || (n = 3);
-		var tmp = stack[id = stack.length - n];
-		for (var i = 1; i < n; i++) {
-			stack[id] = stack[id + 1]; id++;
+		m = (m == null ? 1 : (m % n + n) % n);
+		if (m === 0) return;
+		if (m === 1) {
+			var tmp = stack[id = stack.length - n];
+			for (var i = 1; i < n; i++) {
+				stack[id] = stack[id + 1]; id++;
+			}
+			stack[id] = tmp;
+		} else {
+			__variables__.stack_rev(n - m); __variables__.stack_rev(n); __variables__.stack_rev(m);
 		}
-		stack[id] = tmp;
 	};
 
 	__variables__.lambda = function () { // lambda function
