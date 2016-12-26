@@ -34,6 +34,12 @@ stack_swap(3)
 popv(\t1, \t2, \t3)
 printf("%s %s %s\n", t1, t2, t3)
 
+#-- output "C A B" --#
+pushobj(\$, \A, \B, \C)
+stack_swap(3, 2)
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
+
 #-- output "B A C" --#
 pushobj(\$, \A, \B, \C)
 stack_rot(3)
