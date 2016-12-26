@@ -69,3 +69,15 @@ pushobj(\$, \A, \B, \C, \D)
 stack_rev(4)
 popv(\t1, \t2, \t3, \t4)
 printf("%s %s %s %s\n", t1, t2, t3, t4)
+
+#-- output "C B A E D" --#
+pushobj(\$, \A, \B, \C, \D, \E)
+stack_rot(5, 2)
+popv(\t1, \t2, \t3, \t4, \t5)
+printf("%s %s %s %s %s\n", t1, t2, t3, t4, t5)
+
+#-- output "B A E D C" --#
+pushobj(\$, \A, \B, \C, \D, \E)
+stack_rotcc(5, 2)
+popv(\t1, \t2, \t3, \t4, \t5)
+printf("%s %s %s %s %s\n", t1, t2, t3, t4, t5)
