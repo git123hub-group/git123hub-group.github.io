@@ -16,9 +16,15 @@ stack_dup()
 popv(\t1, \t2, \t3)
 printf("%s %s %s\n", t1, t2, t3)
 
-#-- output "B C B" --#
+#-- output "C C C" --#
 pushobj(\$, \A, \B, \C)
 stack_dup(2)
+popv(\t1, \t2, \t3)
+printf("%s %s %s\n", t1, t2, t3)
+
+#-- output "B C B" --#
+pushobj(\$, \A, \B, \C)
+stack_dup_over()
 popv(\t1, \t2, \t3)
 printf("%s %s %s\n", t1, t2, t3)
 
