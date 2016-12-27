@@ -3,6 +3,8 @@
 	<head>
 		<style type="text/css">
 			a { text-decoration: none; color: #AACCFF }
+			table { margin-left: auto; margin-right: auto; border: 2px solid #AAFF55; border-collapse: collapse }
+			table td { border: 1px solid #AAFF55; }
 		</style>
 		<title>Console (git123hub)</title>
 		<meta charset="utf-8" />
@@ -14,30 +16,75 @@
 			<input type="button" onclick="click3();" value="运行 (直到断点)" />
 			<input type="button" onclick="running = false;" value="暂停" />
 			<br />
-			语句:
-			<input type="button" onclick="var t=$('box1');addparen(t,'','\n:endif:\n');selstart(t);addparen(t,':if ',':\n');" value=":if:" />
-			<input type="button" onclick="addparen($('box1'),':elseif ',':\n')" value=":elseif:" />
-			<input type="button" onclick="addsym($('box1'),':else:\n')" value=":else:" />
-			<input type="button" onclick="var t=$('box1');addparen(t,'','\n:endwhile:\n');selstart(t);addparen(t,':while ',':\n');" value=":while:" />
-			<input type="button" onclick="var t=$('box1');addparen(t,':repeat:\n','');selend(t);addparen(t,'\n:until ',':\n');" value=":repeat:" />
-			<br />
-			符号:
-			<input type="button" onclick="addparen($('box1'),'(',')')" value="( ... )" />
-			<input type="button" onclick="addparen($('box1'),'[',']')" value="[ ... ]" />
-			<input type="button" onclick="addparen($('box1'),'{','}')" value="{ ... }" />
-			<input type="button" onclick="addparen($('box1'),'&lt;','&gt;')" value="&lt; ... &gt;" />
-			<input type="button" onclick="addparen($('box1'),'&quot;','&quot;')" value='" ... "' />
-			<input type="button" onclick="addparen($('box1'),'\'','\'')" value="' ... '" />
-			<input type="button" onclick="addsym($('box1'),'$')" value="$" />
-			<input type="button" onclick="addsym($('box1'),'_')" value="_" />
-			<input type="button" onclick="addsym($('box1'),'=')" value="=" />
-			<input type="button" onclick="addsym($('box1'),'\\')" value="\" /><br />
 			<input type="button" onclick="select_esc($('box1'), '')" value="转义选区" />
 			<input type="button" onclick="select_esc($('box1'), '&quot;')" value="转义并加引号" />
 			<input type="button" onclick="select_unesc($('box1'))" value="反转义选区" />
 			<input type="button" onclick="select_run($('box1'))" value="运行选区" />
 			<br />
 			<textarea id="box1" style="width: 800px; height: 400px; background: #FFAA55; color: #000"></textarea>
+			<br />
+			<table>
+			<tr><td>语句</td><td>
+			<input type="button" onclick="var t=$('box1');addparen(t,'','\n:endif:');selstart(t);addparen(t,':if ',':\n');" value=":if:" />
+			<input type="button" onclick="addparen($('box1'),':elseif ',':')" value=":elseif:" />
+			<input type="button" onclick="addsym($('box1'),':else:\n')" value=":else:" />
+			<input type="button" onclick="var t=$('box1');addparen(t,'','\n:endwhile:');selstart(t);addparen(t,':while ',':\n');" value=":while:" />
+			<input type="button" onclick="var t=$('box1');addparen(t,':repeat:\n','');selend(t);addparen(t,'\n:until ',':');" value=":repeat:" />
+			<input type="button" onclick="addparen($('box1'),':{:\n','\n:}:')" value=":{: comment :}:" />
+			</td></tr>
+			<tr><td>函数</td><td>
+			<input type="button" onclick="addparen($('box1'),'assign (&quot;','&quot;,)')" value="assign" />
+			<input type="button" onclick="addparen($('box1'),'and (',',)')" value="and" />
+			<input type="button" onclick="addparen($('box1'),'alert (',',,)')" value="alert" />
+			<input type="button" onclick="addparen($('box1'),'const (',',,)')" value="const" />
+			<input type="button" onclick="addparen($('box1'),'fsubst (',',,)')" value="fsubst" />
+			<input type="button" onclick="addparen($('box1'),'ident (',',,)')" value="ident" />
+			<input type="button" onclick="addparen($('box1'),'if (',',,)')" value="if" />
+			<input type="button" onclick="addparen($('box1'),'not (',')')" value="not" />
+			<input type="button" onclick="addparen($('box1'),'or (',',)')" value="or" />
+			<br />
+			<input type="button" onclick="addparen($('box1'),'print (',')')" value="print" />
+			<input type="button" onclick="addparen($('box1'),'printf (',')')" value="printf" />
+			<input type="button" onclick="addparen($('box1'),'println (',')')" value="println" />
+			<input type="button" onclick="addparen($('box1'),'quote ','')" value="quote" />
+			<input type="button" onclick="addparen($('box1'),'quote2 ','')" value="quote2" />
+			<input type="button" onclick="addparen($('box1'),'raw (',')')" value="raw" />
+			<input type="button" onclick="addparen($('box1'),'template (',')')" value="template" />
+			<input type="button" onclick="addparen($('box1'),'word ')" value="word" />
+			<br />
+			<input type="button" onclick="addparen($('box1'),'equ (',',)')" value="a == b" />
+			<input type="button" onclick="addparen($('box1'),'neq (',',)')" value="a != b" />
+			<input type="button" onclick="addparen($('box1'),'lss (',',)')" value="a &lt; b" />
+			<input type="button" onclick="addparen($('box1'),'gtr (',',)')" value="a &gt; b" />
+			<input type="button" onclick="addparen($('box1'),'leq (',',)')" value="a &lt;= b" />
+			<input type="button" onclick="addparen($('box1'),'geq (',',)')" value="a &gt;= b" />
+			<input type="button" onclick="addsym($('box1'),'breakpoint()')" value="断点" />
+			</td></tr>
+			<tr><td>符号</td><td>
+			<input type="button" onclick="addparen($('box1'),'(',')')" value="( ... )" />
+			<input type="button" onclick="addparen($('box1'),'[',']')" value="[ ... ]" />
+			<input type="button" onclick="addparen($('box1'),'{','}')" value="{ ... }" />
+			<input type="button" onclick="addparen($('box1'),'&lt;','&gt;')" value="&lt; ... &gt;" />
+			<input type="button" onclick="addparen($('box1'),'&quot;','&quot;')" value='" ... "' />
+			<input type="button" onclick="addsym($('box1'),'&quot;')" value='"' />
+			<input type="button" onclick="addparen($('box1'),'\'','\'')" value="' ... '" />
+			<input type="button" onclick="addsym($('box1'),'\'')" value="'" />
+			<br />
+			<input type="button" onclick="addsym($('box1'),'!')" value="!" />
+			<input type="button" onclick="addsym($('box1'),'#')" value="#" />
+			<input type="button" onclick="addsym($('box1'),'$')" value="$" />
+			<input type="button" onclick="addsym($('box1'),'%')" value="%" />
+			<input type="button" onclick="addsym($('box1'),'^')" value="^" />
+			<input type="button" onclick="addsym($('box1'),'&')" value="&amp;" />
+			<input type="button" onclick="addsym($('box1'),'*')" value="*" />
+			<input type="button" onclick="addsym($('box1'),'_')" value="_" />
+			<input type="button" onclick="addsym($('box1'),'+')" value="+" />
+			<input type="button" onclick="addsym($('box1'),'-')" value="-" />
+			<input type="button" onclick="addsym($('box1'),'=')" value="=" />
+			<input type="button" onclick="addsym($('box1'),'\\')" value="\" />
+			<input type="button" onclick="addsym($('box1'),'/')" value="/" />
+			</td></tr>
+			</table>
 			<br />
 			<br />
 			文档区
