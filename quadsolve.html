@@ -29,7 +29,7 @@ function qsolve () {
 		return document.getElementById(id);
 	}
 	var x2 = $("_a").value;
-	var x1 = $("_b").value;
+	var x1 = +$("_b").value;
 	var x0 = $("_c").value;
 	var d = x1*x1 - 4*x0*x2
 	if (d === 0) {
