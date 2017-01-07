@@ -33,11 +33,11 @@ function qsolve () {
 	var x0 = $("_c").value;
 	var d = x1*x1 - 4*x0*x2
 	if (d === 0) {
-		$("_d1").value = -x1 / (2 * x0);
+		$("_d1").value = -x1 / (2 * x2);
 		$("_d2").value = "";
 	} else if (d > 0) {
-		$("_d1").value = (Math.sqrt(d) - x1) / (2 * x0);
-		$("_d2").value = -(Math.sqrt(d) + x1) / (2 * x0);
+		$("_d1").value = (Math.sqrt(d) - x1) / (2 * x2);
+		$("_d2").value = -(Math.sqrt(d) + x1) / (2 * x2);
 	} else {
 		$("_d1").value = "此方程没有实解";
 		$("_d2").value = "";
