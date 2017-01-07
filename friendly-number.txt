@@ -18,4 +18,21 @@ A074902		Known friendly numbers.
 %A _N. J. A. Sloane_, Sep 15 2002
 %E Edited by _Dean Hickerson_, Sep 19 2002
 
+A095739		Numbers known to be solitary but not coprime to sigma.
+%I
+%S 18,45,48,52,136,148,160,162,176,192,196,208,232,244,261,272,292,296,
+%T 297,304,320,352,369
+%N Numbers known to be solitary but not coprime to sigma.
+%C Abundancy is defined as the ratio of the multiplicative sum-of-divisors function to the integer itself: abund(n) = sigma(n)/n. E.g., abund(10) = sigma(10)/10 = (1+2+5+10)/10 = 1.8 = 9/5.
+%C Integers m and n are friendly iff they have the same abundancy. E.g., abund(12) = abund(234) = 7/3 ===> 12 and 234 are friends.
+%C Integers which have no friends are called solitary.
+%C "It is believed that 10, 14, 15, 20, 22, 26, 33, 34, 38, 44, 46, 51, 54, 58, 62, 68, 69, 70, 72, 74, 76, 82, 86, 87, 88, 90, 91, 92, 94, 95, 99, 104, 105, 106 and many others are also solitary, although a proof appears to be extremely difficult." Quote from _Eric W. Weisstein_. - _Franklin T. Adams-Watters_, Feb 02 2006
+%H Claude W. Anderson and Dean Hickerson, <a href="http://www.jstor.org/stable/2318325">Advanced Problem 6020: Friendly Integers</a>, Amer. Math. Monthly, 1977, V84#1p65-6.
+%H Eric Weisstein's World of Mathematics, <a href="http://mathworld.wolfram.com/SolitaryNumber.html">Solitary Number.</a>
+%Y Cf. A095738, A074902.
+%K nonn
+%O 1,1
+%A _Walter Nissen_, Jul 08 2004
+%E More terms from _Franklin T. Adams-Watters_, Feb 02 2006
+
 5 / 2 = 60 / 24 = 229909120 / 91963648
