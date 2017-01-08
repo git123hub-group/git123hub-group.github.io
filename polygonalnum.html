@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>多边形数 计算器</title>
+</head>
+<body>
+<div style="text-align: center">
+	<h1>多边形数 计算器</h1>
+	N = <input type="text" id="param1" />, M = <input type="text" id="param2" /><br />
+	<input type="button" value="求第 N 个 M 边形数" onclick="calcpoly(+$('param1').value, +$('param2').value)" />
+	<input type="button" value="求第 N 个中心 M 边形数" onclick="calcpoly2(+$('param1').value, +$('param2').value)" />
+	<input type="button" value="求第 N 个六角星数" onclick="calcpoly3(+$('param1').value)" /><br /><br />
+	结果：
+	<input type="text" id="param3" />
+</div>
+<script>
+// <![CDATA[
+function $(id) {
+	return document.getElementById(id);
+}
+function calcpoly(n, s) {
+	$('param3').value = n / 2 * (4 - s + n * (s - 2));
+}
+function calcpoly2(n, k) {
+	$('param3').value = n / 2 * k * (n - 1) + 1;
+}
+function calcpoly3(n) {
+	$('param3').value = 6 * n * (n - 1) + 1;
+}
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+// ]]>
+</script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>
