@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 800" id="top">
+   <circle cx="400" cy="400" r="400" id="circ1" stroke-width="2" stroke="none" fill="none" />
+   <script type="text/javascript">
+   // <![CDATA[
+      var svgtop = document.getElementById("top");
+      var circ1a = document.getElementById("circ1");
+      currT = new Date().getTime();
+	  var radius = 400;
+      !function nextA () {
+         var nextT = new Date().getTime(), diffT = nextT - currT;
+		 radius -= diffT / 3;
+		 radius <= -400 && (radius += 800);
+		 var absrad = radius < 0 ? -radius : radius;
+		 circ1a.setAttribute("fill", "rgb("+((absrad/400*256)|0)+","+((absrad/400*256)|0)+","+((absrad/400*256)|0)+")")
+		 circ1a.r.baseVal.value = absrad;
+		 currT = nextT;
+		 requestAnimationFrame(nextA);
+      } ();
+   // ]]>
+   </script>
+</svg>
