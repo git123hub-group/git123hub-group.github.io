@@ -4,6 +4,22 @@
 .btn:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20161105b.png)}
 .btn.black * {background-image:url(https://git123hub.github.io/images/btn-ascii-20161105c.png)}
 .btn.black:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20161105d.png)}
+.btn.color1 * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210a.png)}
+.btn.color1:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210b.png)}
+.btn.color2 * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210c.png)}
+.btn.color2:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210d.png)}
+.btn.color3 * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210e.png)}
+.btn.color3:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210f.png)}
+.btn.color4 * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210g.png)}
+.btn.color4:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210h.png)}
+.btn.color5 * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210i.png)}
+.btn.color5:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210j.png)}
+.btn.color6 * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210k.png)}
+.btn.color6:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210l.png)}
+.btn.color7 * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210m.png)}
+.btn.color7:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210n.png)}
+.btn.color8 * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210o.png)}
+.btn.color8:active * {background-image:url(https://git123hub.github.io/images/btn-ascii-20170210p.png)}
 .c0 {background-position-x:-4px}
 .c1 {background-position-x:-12px}
 .c2 {background-position-x:-20px}
