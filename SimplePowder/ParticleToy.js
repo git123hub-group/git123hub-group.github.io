@@ -19,26 +19,29 @@ for (var i = 0; i < 66; i++)
 	map_P[i*82*params_P] = 1;
 	map_P[(i*82+81)*params_P] = 1;
 }
-var partName = ["X","BLCK","PWDR","WATR","CLNE","VOID","VIRS","CURE","ACID", "OIL"];
+var partName = ["X","BLCK","PWDR","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE"];
 
-var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810"];
+var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810", "#746A6A", "#FF0000"];
 
-var default_color_a = [0,1,1,1,1,1,1,1,1,1];
+var default_color_a = [0,1,1,1,1,1,1,1,1,1 ,1,1];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1];
 
-var can_infe = [0,0,1,1,1,1,0,0,1,1];
+var can_infe = [0,0,1,1,1,1,0,0,1,1 ,1,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0];
+
+var flammable = [0,0,0,0,0,0,0,0,0,1, 0,0];
+
+// 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: special solid
-var ST_List = [0,0,1,2,0,0,2,2,2,2];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3];
 
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2];
+var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300,900,1];
 
-var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300];
-
-var type_count = 10;
+var type_count = 12;
 
 var Update_P = [
 	null,
@@ -172,7 +175,30 @@ var Update_P = [
 		}
 		return;
 	},
-	null
+	null,
+	null,
+	function (x, y) /* fire */
+	{
+		var lifeOffset = (82*y+x)*params_P + 1;
+		if (map_P[lifeOffset] > 18)
+			map_P[lifeOffset-1] = 0;
+		for (var trade = 0; trade < 3; trade++)
+		{
+			newX = x + ((Math.random() * 3) | 0) - 1;
+			newY = y + ((Math.random() * 3) | 0) - 1;
+			if (!checkBounds (newX, newY))
+			{
+				continue;
+			}
+			var flameOffset = (82*newY+newX)*params_P;
+			if (flammable[map_P[flameOffset]])
+			{
+				map_P[flameOffset] = 11;
+				map_P[flameOffset+1] = 0;
+			}
+		}
+		map_P[lifeOffset] ++;
+	},
 ];
 
 function renderParts ()
@@ -221,7 +247,7 @@ function mouse_partOP (x, y, type, prop)
 		{
 			if ( !create_part (x, y, type) )
 			{
-				map_P[tmp] !== 8 && (map_P[tmp+1] = type);
+				map_P[tmp] !== 8 && map_P[tmp] !== 11 && (map_P[tmp+1] = type);
 				return;
 			}
 		}
@@ -291,7 +317,7 @@ function try_move (x, y)
 		}
 		break;
 	case 3:
-		inBound = checkBounds (newX = x + osc * rnd, newY);
+		inBound = checkBounds (newX = x + Math.round(Math.random() * 2 - 1), newY = y + Math.round(Math.random() * 2 - 1));
 		newPosType = map_P[(82*newY + newX)*params_P];
 		if (!inBound || newPosType === 5) {
 			disappearOld = true; break;
@@ -303,6 +329,18 @@ function try_move (x, y)
 			disappearOld = true; break;
 		}
 		break;
+	case 4:
+		inBound = checkBounds (newX = x + Math.round(Math.random() * 2 - 1), newY = y - 1);
+		newPosType = map_P[(82*newY + newX)*params_P];
+		if (!inBound || newPosType === 5) {
+			disappearOld = true; break;
+		}
+		if (ST_Weight[newPosType] < ST_Weight[type])
+		{
+			newPartFlag = true;
+			newPosType = type;
+			disappearOld = true; break;
+		}
 	}
 	if (disappearOld)
 	{
