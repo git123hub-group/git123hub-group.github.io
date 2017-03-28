@@ -140,7 +140,7 @@ var Update_P = [
 			tmp = map_P[affectOffset];
 			if ( tmp === 3 ) // dissolved by water
 			{
-				tmp = (map_P[affectOffset+1] + map_P[lifeOffset] + MAX_AFFECTED) >> 1;
+				tmp = (map_P[affectOffset+1] + MAX_AFFECTED) >> 1;
 				map_P[affectOffset] = 8;
 				map_P[affectOffset+1] = map_P[lifeOffset] = tmp;
 				return;
