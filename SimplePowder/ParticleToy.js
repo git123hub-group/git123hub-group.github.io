@@ -39,27 +39,27 @@ for (var i = 0; i < 82*66; i++)
 {
 	map_F[i] = -1;
 }
-var partName = ["X","BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE"];
+var partName = ["X","BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE","WOOD","WTRV"];
 
-var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810", "#746A6A", "#FF0000"];
+var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810", "#746A6A", "#FF0000", "#bf9c1d", "#A0A0FF"];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1];
 
-var can_infe = [0,0,1,1,1,1,0,0,1,1 ,1,1];
+var can_infe = [0,0,1,1,1,1,0,0,1,1 ,1,1,1,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4];
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: special solid
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3];
 
-var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300,900,1];
+var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300,900,1,1000,1];
 
-var type_count = 13;
+var type_count = 14;
 
 var Update_P = [
 	null,
@@ -197,7 +197,7 @@ var Update_P = [
 	null,
 	function (x, y) /* fire */
 	{
-		var lifeOffset = (82*y+x)*params_P + 1;
+		var lifeOffset = (82*y+x)*params_P + 1, tmp;
 		if (map_P[lifeOffset] > 18)
 			map_P[lifeOffset-1] = 0;
 		for (var trade = 0; trade < 2; trade++)
@@ -209,7 +209,19 @@ var Update_P = [
 				continue;
 			}
 			var flameOffset = (82*newY+newX)*params_P;
-			if (flammable[map_P[flameOffset]])
+			tmp = map_P[flameOffset]
+			if (tmp === 3)
+			{
+				if (newY < y)
+				{
+					map_P[flameOffset] = 13;
+				}
+				else
+				{
+					map_P[lifeOffset-1] = 0;
+				}
+			}
+			if (flammable[tmp])
 			{
 				map_P[flameOffset] = 11;
 				map_P[flameOffset+1] = 0;
@@ -217,6 +229,8 @@ var Update_P = [
 		}
 		map_P[lifeOffset] ++;
 	},
+	null,
+	null
 ];
 
 function renderParts ()
@@ -458,7 +472,7 @@ function try_move (x, y)
 		}
 		break;
 	case 3:
-		inBound = checkBounds (newX = x + Math.round(Math.random() * 2 - 1), newY = y + Math.round(Math.random() * 2 - 1));
+		inBound = checkBounds (newX = x + Math.round(Math.random() * 2.2 - 1.1), newY = y + Math.round(Math.random() * 2.2 - 1.1));
 		newPosType = map_P[(82*newY + newX)*params_P];
 		if (!inBound || newPosType === 5) {
 			disappearOld = true; break;
@@ -471,16 +485,20 @@ function try_move (x, y)
 		}
 		break;
 	case 4:
-		inBound = checkBounds (newX = x + Math.round(Math.random() * 2 - 1), newY = y - 1);
-		newPosType = map_P[(82*newY + newX)*params_P];
-		if (!inBound || newPosType === 5) {
-			disappearOld = true; break;
-		}
-		if (ST_Weight[newPosType] < ST_Weight[type])
+		osc = 1;
+		while (osc >= 0)
 		{
-			newPartFlag = true;
-			newPosType = type;
-			disappearOld = true; break;
+			inBound = checkBounds (newX = x + (rnd = Math.round(Math.random() * 2 - 1)), newY = y - (osc--));
+			newPosType = map_P[(82*newY + newX)*params_P];
+			if (!inBound || newPosType === 5) {
+				disappearOld = true; break;
+			}
+			if (ST_Weight[newPosType] < ST_Weight[type])
+			{
+				newPartFlag = true;
+				newPosType = type;
+				disappearOld = true; break;
+			}
 		}
 	}
 	if (disappearOld)
@@ -745,7 +763,7 @@ var menu2partID = [];
 
 function showPartMenu (id)
 {
-	if (currentProp !== 7)
+	if (currentProp !== 0)
 	{
 		currentProp = 0;
 		ElemType = 0;
