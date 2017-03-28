@@ -32,9 +32,11 @@ var can_infe = [0,0,1,1,1,1,0,0,1,1];
 var acidAffect = [0,0,1,0,0,0,1,1,0,0.2];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: special solid
-var ST_List = [4,4,1,2,4,4,2,2,2,2];
+var ST_List = [0,0,1,2,0,0,2,2,2,2];
 
-var ST_Weight = [0,1000,800,400,1000,0,420,420,200,300];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2];
+
+var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300];
 
 var type_count = 10;
 
@@ -270,7 +272,7 @@ function try_move (x, y)
 		}
 		break;
 	case 2:
-		for (osc = 0;;)
+		for (osc = 0; osc <= 1; osc = -2*osc + 1)
 		{
 			inBound = checkBounds (newX = x + osc * rnd, newY);
 			newPosType = map_P[(82*newY + newX)*params_P];
@@ -283,17 +285,9 @@ function try_move (x, y)
 				newPosType = type;
 				disappearOld = true; break;
 			}
-			if (osc === -1) {
-				if (_base)
-				{
-					break;
-				}
-				_base = true; newY = y;
+			if (osc === 1) {
+				newY = y;
 			}
-			else if (osc === 0) {
-				osc = -1;
-			}
-			osc = -osc;
 		}
 		break;
 	case 3:
@@ -392,7 +386,7 @@ function showPartMenu (id)
 	}
 	for (var i = 0; i < type_count; i++)
 	{
-		if (ST_List[i] === id)
+		if (ST_Menu_List[i] === id)
 		{
 			menu2partID[filt_c] = i;
 			filt_c ++;
