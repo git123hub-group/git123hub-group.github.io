@@ -29,7 +29,7 @@ var can_clone = [0,0,1,1,0,0,1,1,1,1];
 
 var can_infe = [0,0,1,1,1,1,0,0,1,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,1];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: special solid
 var ST_List = [4,4,1,2,4,4,2,2,2,2];
@@ -162,7 +162,7 @@ var Update_P = [
 				}
 				return;
 			}
-			if ( acidAffect[tmp] )
+			if ( Math.random() < acidAffect[tmp] )
 			{
 				map_P[affectOffset] = 0;
 				map_P[lifeOffset] += 2;
