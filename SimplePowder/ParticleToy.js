@@ -37,9 +37,9 @@ for (var i = 0; i < 82*66; i++)
 {
 	map_F[i] = -1;
 }
-var partName = ["X","BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE","LASR"];
+var partName = ["X","BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE"];
 
-var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810", "#746A6A", "#FF0000", "#CCCC40"];
+var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810", "#746A6A", "#FF0000"];
 
 var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1];
 
