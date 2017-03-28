@@ -19,20 +19,29 @@ for (var i = 0; i < 66; i++)
 	map_P[i*82*params_P] = 1;
 	map_P[(i*82+81)*params_P] = 1;
 }
-var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC"];
+var partName = ["X","BLCK","PWDR","WATR","CLNE","VOID","VIRS","CURE","ACID"];
 
-var default_color_a = [0,1,1,1,1,1,1,1];
+var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF"];
 
-var can_clone = [0,0,1,1,0,0,1,1];
+var default_color_a = [0,1,1,1,1,1,1,1,1];
 
-var can_infl = [0,0,1,1,1,1,0,0];
+var can_clone = [0,0,1,1,0,0,1,1,1];
+
+var can_infe = [0,0,1,1,1,1,0,0,1];
+
+var acidAffect = [0,0,1,0,0,0,1,1,0];
+
+// 0: solid, 1: powder, 2: liquid, 3: gas
+var ST_List = [0,0,1,2,0,0,2,2,2];
+
+var ST_Weight = [0,1000,800,400,1000,0,420,420,200];
 
 var Update_P = [
 	null,
 	null,
 	null,
 	null,
-	function (x, y)
+	function (x, y) /* clone */
 	{
 		var tmp, ctypeOffset = (82*y+x)*params_P+1;
 		if ((tmp = map_P[ctypeOffset]) !== 0)
@@ -65,18 +74,22 @@ var Update_P = [
 		}
 	},
 	null,
-	function (x, y)
+	function (x, y) /* virus */
 	{
 		var self_P = (82*y+x)*params_P;
 		var newX, newY, infectingOffset, tmp;
-		if (map_P[self_P+5] > 0)
+		if (map_P[self_P+5] > 0) /* curing virus */
 		{
 			for (var trade = 0; trade < 4; trade++)
 			{
 				newX = x + ((Math.random() * 3) | 0) - 1;
 				newY = y + ((Math.random() * 3) | 0) - 1;
+				if (!checkBounds (newX, newY))
+				{
+					continue;
+				}
 				infectingOffset = (82*newY+newX)*params_P;
-				if (map_P[infectingOffset] === 6 && map_P[infectingOffset+5] === 0)
+				if (map_P[infectingOffset] === 6 && map_P[infectingOffset+5] <= 0)
 				{
 					map_P[infectingOffset+5] = map_P[self_P+5] + 2;
 				}
@@ -90,6 +103,10 @@ var Update_P = [
 		}
 		newX = x + ((Math.random() * 3) | 0) - 1;
 		newY = y + ((Math.random() * 3) | 0) - 1;
+		if (!checkBounds (newX, newY))
+		{
+			return;
+		}
 		infectingOffset = (82*newY+newX)*params_P;
 		tmp = map_P[infectingOffset];
 		if (tmp === 7)
@@ -97,34 +114,60 @@ var Update_P = [
 			map_P[infectingOffset] = 0;
 			map_P[self_P+5] = 30;
 		}
-		else if (can_infl[tmp])
+		else if (can_infe[tmp])
 		{
 			map_P[infectingOffset] = 6;
 			map_P[infectingOffset+3] = tmp;
 			map_P[infectingOffset+5] = 0;
 		}
+		console.log (map_P[self_P+5]);
 	},
-	null
+	null,
+	function (x, y) /* acid */
+	{
+		var MAX_AFFECTED = 10;
+		var lifeOffset = (82*y+x)*params_P + 1;
+		var affectOffset, tmp;
+		if (0.6 < Math.random())
+		{
+			newX = x + ((Math.random() * 3) | 0) - 1;
+			newY = y + ((Math.random() * 3) | 0) - 1;
+			if (!checkBounds (newX, newY))
+			{
+				return;
+			}
+			affectOffset = (82*newY+newX)*params_P;
+			tmp = map_P[affectOffset];
+			if ( tmp === 3 ) // dissolved by water
+			{
+				tmp = (map_P[affectOffset+1] + map_P[lifeOffset] + MAX_AFFECTED) >> 1;
+				map_P[affectOffset] = 8;
+				map_P[affectOffset+1] = map_P[lifeOffset] = tmp;
+				return;
+			}
+			if ( tmp === 8 && map_P[lifeOffset] >= MAX_AFFECTED )
+			{
+				map_P[lifeOffset-1] = 0;
+				return;
+			}
+			if ( acidAffect[tmp] )
+			{
+				map_P[affectOffset] = 0;
+				map_P[lifeOffset] ++;
+			}
+		}
+		return;
+	}
 ];
-
-// 0: solid, 1: powder, 2: liquid, 3: gas
-var ST_List = [0,0,1,2,0,0,2,2];
-
-var ST_Weight = [0,1000,800,400,1000,0,410,420];
 
 function renderParts ()
 {
-	var partType;
+	var tmp;
 	for (var y = 0; y < 66; y++)
 	{
 		for (var x = 0; x < 82; x++)
 		{
-			ctx_P.globalAlpha = 1;
-			ctx_P.clearRect(x*10, y*10, 10, 10);
-			partType = map_P[(82*y+x)*params_P]
-			ctx_P.globalAlpha = default_color_a[partType];
-			ctx_P.fillStyle = default_color[partType];
-			ctx_P.fillRect(x*10, y*10, 10, 10);
+			renderPart ( x, y, map_P[tmp = (82*y+x)*params_P], map_P[tmp+4]);
 		}
 	}
 }
@@ -141,36 +184,43 @@ function create_part (x, y, type)
 	map_P[t+5] = 0;
 	return true;
 }
-function renderPart (x, y, type)
+function renderPart (x, y, type, dcolour)
 {
 	ctx_P.globalAlpha = 1;
 	ctx_P.clearRect(x*10, y*10, 10, 10);
 	ctx_P.globalAlpha = default_color_a[type];
 	ctx_P.fillStyle = default_color[type];
 	ctx_P.fillRect(x*10, y*10, 10, 10);
+	if (type !== 6 && (dcolour & 0xFF000000))
+	{
+		ctx_P.globalAlpha = (dcolour >>> 24) / 255.0;
+		ctx_P.fillStyle = "#" + dcolour.toString(16).slice(-6);
+	}
 }
 function mouse_partOP (x, y, type, prop)
 {
+	var tmp = (82*y+x)*params_P;
 	if (prop <= 0)
 	{
 		if (type !== 0)
 		{
 			if ( !create_part (x, y, type) )
 			{
-				map_P[(82*y+x)*params_P+1] = type;
+				map_P[t] !== 8 && (map_P[tmp+1] = type);
 				return;
 			}
 		}
 		else
 		{
-			map_P[(82*y+x)*params_P] = 0;
+			map_P[tmp] = 0;
 		}
-		renderPart (x, y, type);
+		renderPart (x, y, type, 0);
+		console.debug(map_P[tmp+5]);
 	}
-	else (prop <= 6)
+	else if (prop <= 6)
 	{
-		map_P[(82*y+x)*params_P+prop-1] = type;
-		prop === 1 && renderPart (x, y, type);
+		map_P[tmp+prop-1] = type;
+		(prop === 1 || prop === 5) && renderPart (x, y, type, map_P[tmp+4]);
 	}
 }
 function checkBounds (x, y)
@@ -283,31 +333,11 @@ function selectOpt (id)
 		runningFlag = false;
 		frame_render();
 		break;
-	case 2:
-		currentType = 0;
-		break;
-	case 3:
-		currentType = 1;
-		break;
-	case 4:
-		currentType = 2;
-		break;
-	case 5:
-		currentType = 3;
-		break;
-	case 6:
-		currentType = 4;
-		break;
-	case 7:
-		currentType = 5;
-		break;
-	case 8:
-		currentType = 6;
-		break;
-	case 9:
-		currentType = 7;
-		break;
 	}
+}
+function selectPart (id)
+{
+	currentType = id;
 }
 renderParts();
 !function UpdateSelf(){
@@ -321,11 +351,11 @@ renderParts();
 }();
 document.getElementById("Menu_0").value = "PAUS";
 document.getElementById("Menu_1").value = "FRAM";
-document.getElementById("Menu_2").value = "X";
-document.getElementById("Menu_3").value = "BLCK";
-document.getElementById("Menu_4").value = "PWDR";
-document.getElementById("Menu_5").value = "WATR";
-document.getElementById("Menu_6").value = "CLNE";
-document.getElementById("Menu_7").value = "VOID";
-document.getElementById("Menu_8").value = "VIRS";
-document.getElementById("Menu_9").value = "CURE";
+
+var menu2partID = [];
+
+for (var i = 0; i < 9; i++)
+{
+	menu2partID[i] = i;
+	document.getElementById("Part_" + i).value = partName[menu2partID[i]];
+}
