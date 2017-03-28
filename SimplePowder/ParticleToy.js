@@ -277,7 +277,7 @@ function renderPart (x, y, type, dcolour)
 }
 function mouse_partOP (x, y, type, prop)
 {
-	var tmp = (82*y+x)*params_P;
+	var tmp = (82*y+x)*params_P, id;
 	if (prop <= 0)
 	{
 		if (type !== 0)
@@ -313,15 +313,25 @@ function mouse_partOP (x, y, type, prop)
 			ctx_I.fillStyle = invisColours[type-1];
 			ctx_I.fillRect(x*10, y*10, 10, 10);
 		}
-		else if (type === 256 && !mouseEntered)
+		else if (!mouseEntered)
 		{
-			if (map_I[y*82+x] === 1)
+			switch (type)
 			{
-				floodInvis (x, y, 1, 2);
-			}
-			else if (map_I[y*82+x] === 2)
-			{
-				floodInvis (x, y, 2, 1);
+			case 256:
+				if (map_I[y*82+x] === 1)
+				{
+					floodInvis (x, y, 1, 2);
+				}
+				else if (map_I[y*82+x] === 2)
+				{
+					floodInvis (x, y, 2, 1);
+				}
+				break;
+			case 257:
+				id = alloc_phot(x,y,Math.random()*4,1);
+				map_F[tmp = 82*y+x] = id;
+				renderPhoton(id);
+				break;
 			}
 		}
 	}
@@ -628,12 +638,12 @@ function selectOpt (id)
 	case 7:
 		currentProp = 7;
 		ElemType = 1;
-		for (var i = 0; i < 15; i++)
+		for (var i = 4; i < 15; i++)
 		{
 			menu2partID[i] = -1;
 			document.getElementById("Part_"+i).value = "";
 		}
-		for (var i = 0; i < 3; i++)
+		for (var i = 0; i < 4; i++)
 		{
 			menu2partID[i] = invisMenuID[i];
 			document.getElementById("Part_"+i).value = invisMenu[i];
@@ -642,8 +652,8 @@ function selectOpt (id)
 	}
 }
 
-var invisMenu = ["X", "INVS", "TOGL"]
-var invisMenuID = [0, 1, 256]
+var invisMenu = ["X", "INVS", "TOGL", "PHOT"]
+var invisMenuID = [0, 1, 256, 257]
 
 var ElemType = 0;
 var prevElem = [2,1];
