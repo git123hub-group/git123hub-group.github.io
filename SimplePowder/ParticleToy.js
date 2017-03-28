@@ -182,7 +182,7 @@ var Update_P = [
 		var lifeOffset = (82*y+x)*params_P + 1;
 		if (map_P[lifeOffset] > 18)
 			map_P[lifeOffset-1] = 0;
-		for (var trade = 0; trade < 3; trade++)
+		for (var trade = 0; trade < 2; trade++)
 		{
 			newX = x + ((Math.random() * 3) | 0) - 1;
 			newY = y + ((Math.random() * 3) | 0) - 1;
