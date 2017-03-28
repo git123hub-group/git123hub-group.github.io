@@ -1,3 +1,5 @@
+(function () {
+
 var canvas_I = document.getElementById("InvisLayer");
 var canvas_P = document.getElementById("PartLayer");
 var canvas_F = document.getElementById("PhotonsLayer");
@@ -781,3 +783,9 @@ showPartMenu (1);
 	__frames++;
 	requestAnimationFrame(UpdateSelf);
 }();
+
+window.selectOpt = selectOpt;
+window.selectPart = selectPart;
+window.mouse_partOP = mouse_partOP;
+
+})();
