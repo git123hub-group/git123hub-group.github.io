@@ -19,7 +19,7 @@ for (var i = 0; i < 66; i++)
 	map_P[i*82*params_P] = 1;
 	map_P[(i*82+81)*params_P] = 1;
 }
-var partName = ["X","BLCK","PWDR","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE"];
+var partName = ["X","BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE"];
 
 var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810", "#746A6A", "#FF0000"];
 
@@ -31,7 +31,7 @@ var can_infe = [0,0,1,1,1,1,0,0,1,1 ,1,1];
 
 var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0];
 
-var flammable = [0,0,0,0,0,0,0,0,0,1, 0,0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward
 var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4];
