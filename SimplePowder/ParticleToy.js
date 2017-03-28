@@ -268,11 +268,12 @@ function renderPart (x, y, type, dcolour)
 	{
 		ctx_P.fillStyle = default_color[type];
 		ctx_P.fillRect(x*10, y*10, 10, 10);
-	}
-	if (type !== 6 && (dcolour & 0xFF000000))
-	{
-		ctx_P.globalAlpha = (dcolour >>> 24) / 255.0;
-		ctx_P.fillStyle = "#" + dcolour.toString(16).slice(-6);
+		if (type !== 6 && (dcolour & 0xFF000000))
+		{
+			ctx_P.globalAlpha = (dcolour >>> 24) / 255.0;
+			ctx_P.fillStyle = "#" + (dcolour>>>0).toString(16).slice(-6);
+			ctx_P.fillRect(x*10, y*10, 10, 10);
+		}
 	}
 }
 function mouse_partOP (x, y, type, prop)
@@ -297,8 +298,11 @@ function mouse_partOP (x, y, type, prop)
 	}
 	else if (prop <= 6)
 	{
-		map_P[tmp+prop-1] = type;
-		(prop === 1 || prop === 5) && renderPart (x, y, type, map_P[tmp+4]);
+		if (map_P[tmp] !== 0)
+		{
+			map_P[tmp+prop-1] = type;
+			(prop === 1 || prop === 5) && renderPart (x, y, type, map_P[tmp+4]);
+		}
 	}
 	else if (prop === 7)
 	{
@@ -609,9 +613,35 @@ function frame_render ()
 	renderPhotons();
 	renderParts();
 }
+
+var fnList = ["PAUS","FRAM","SOLD","PWDR","LIQD","GAS","SPEC","INVS","PROP","BACK","TYPE","CTYP","ARG3","ARG4","DECO","TMP"];
+var fnListID = [];
+var fnList2 = [0, 9, 16];
+
+function getFnMenu (id)
+{
+	var j = fnList2[id++];
+	var k = fnList2[id];
+	for (var i = 0; i < 15; i++)
+	{
+		if (j < k)
+		{
+			fnListID[i] = j;
+			document.getElementById("Menu_" + i).value = fnList[j++];
+		}
+		else
+		{
+			fnListID[i] = -1;
+			document.getElementById("Menu_" + i).value = "";
+		}
+	}
+}
+
+getFnMenu (0);
+
 function selectOpt (id)
 {
-	switch (id)
+	switch (fnListID[id])
 	{
 	case 0:
 		runningFlag = !runningFlag;
@@ -637,6 +667,7 @@ function selectOpt (id)
 		break;
 	case 7:
 		currentProp = 7;
+		currentType = prevElem[1];
 		ElemType = 1;
 		for (var i = 4; i < 15; i++)
 		{
@@ -649,6 +680,48 @@ function selectOpt (id)
 			document.getElementById("Part_"+i).value = invisMenu[i];
 		}
 		break;
+	case 8:
+		getFnMenu (1);
+		break;
+	case 9:
+		getFnMenu (0);
+		break;
+	case 10:
+		propertyTool (1);
+		break;
+	case 11:
+		propertyTool (2);
+		break;
+	case 12:
+		propertyTool (3);
+		break;
+	case 13:
+		propertyTool (4);
+		break;
+	case 14:
+		propertyTool (5);
+		break;
+	case 15:
+		propertyTool (6);
+		break;
+	}
+}
+
+function propertyTool (id)
+{
+	var type = prompt("Change particle property");
+	if (type == null)
+	{
+		return;
+	}
+	currentProp = id;
+	if (type.charAt(0) === "#" || type.substr(0,2) === "0x")
+	{
+		currentType = parseInt(type.slice(-8), 16);
+	}
+	else
+	{
+		currentType = parseInt(type);
 	}
 }
 
@@ -666,20 +739,11 @@ function selectPart (id)
 }
 renderParts();
 
-document.getElementById("Menu_0").value = "PAUS";
-document.getElementById("Menu_1").value = "FRAM";
-document.getElementById("Menu_2").value = "SOLD";
-document.getElementById("Menu_3").value = "PWDR";
-document.getElementById("Menu_4").value = "LIQD";
-document.getElementById("Menu_5").value = "GAS";
-document.getElementById("Menu_6").value = "SPEC";
-document.getElementById("Menu_7").value = "INVS";
-
 var menu2partID = [];
 
 function showPartMenu (id)
 {
-	if (currentProp >= 7)
+	if (currentProp !== 7)
 	{
 		currentProp = 0;
 		ElemType = 0;
