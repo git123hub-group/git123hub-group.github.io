@@ -1,3 +1,5 @@
+var currentType = 2;
+var currentProp = 0;
 (function () {
 
 var canvas_I = document.getElementById("InvisLayer");
@@ -6,8 +8,6 @@ var canvas_F = document.getElementById("PhotonsLayer");
 var ctx_I = canvas_I.getContext("2d");
 var ctx_P = canvas_P.getContext("2d");
 var ctx_F = canvas_F.getContext("2d");
-var currentType = 2;
-var currentProp = 0;
 // update 5000 times
 var params_P = 6;
 var params_F = 4;
