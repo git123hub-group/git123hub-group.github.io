@@ -125,7 +125,7 @@ var Update_P = [
 	null,
 	function (x, y) /* acid */
 	{
-		var MAX_AFFECTED = 10;
+		var MAX_AFFECTED = 30;
 		var lifeOffset = (82*y+x)*params_P + 1;
 		var affectOffset, tmp;
 		if (0.6 < Math.random())
@@ -145,15 +145,25 @@ var Update_P = [
 				map_P[affectOffset+1] = map_P[lifeOffset] = tmp;
 				return;
 			}
-			if ( tmp === 8 && map_P[lifeOffset] >= MAX_AFFECTED )
+			if ( tmp === 8 )
 			{
-				map_P[lifeOffset-1] = 0;
+				if (map_P[lifeOffset] >= MAX_AFFECTED )
+				{
+					map_P[lifeOffset-1] = 0;
+				}
+				else
+				{
+					// acid's concentration transfer
+					tmp = (map_P[affectOffset+1] - map_P[lifeOffset]) >> 1;
+					map_P[affectOffset+1] -= tmp;
+					map_P[lifeOffset] += tmp;
+				}
 				return;
 			}
 			if ( acidAffect[tmp] )
 			{
 				map_P[affectOffset] = 0;
-				map_P[lifeOffset] ++;
+				map_P[lifeOffset] += 2;
 			}
 		}
 		return;
@@ -206,7 +216,7 @@ function mouse_partOP (x, y, type, prop)
 		{
 			if ( !create_part (x, y, type) )
 			{
-				map_P[t] !== 8 && (map_P[tmp+1] = type);
+				map_P[tmp] !== 8 && (map_P[tmp+1] = type);
 				return;
 			}
 		}
