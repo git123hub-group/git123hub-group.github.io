@@ -10,7 +10,8 @@
 	<div style="text-align: center; width: 820px; height: 660px; margin: 0 auto; position: relative">
 	<script> var mouseEntered = false; </script>
 	<canvas width="820" height="660" id="InvisLayer" style="z-index: 1; position: absolute; top: 0; left: 0"></canvas>
-	<canvas width="820" height="660" id="PartLayer" style="z-index: 2; position: absolute; top: 0; left: 0"
+	<canvas width="820" height="660" id="PartLayer" style="z-index: 2; position: absolute; top: 0; left: 0"></canvas>
+	<canvas width="820" height="660" id="PhotonsLayer" style="z-index: 3; position: absolute; top: 0; left: 0"
 	onmousedown="mouseEntered = true;" onmouseout="mouseEntered = false;"
 	onmouseup="mouseEntered = false; mouse_partOP((event.offsetX/10)|0, (event.offsetY/10)|0, currentType, currentProp);"
 	onmousemove="mouseEntered && mouse_partOP((event.offsetX/10)|0, (event.offsetY/10)|0, currentType, currentProp);"></canvas>

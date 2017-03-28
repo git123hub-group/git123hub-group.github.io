@@ -1,14 +1,22 @@
 var canvas_I = document.getElementById("InvisLayer");
 var canvas_P = document.getElementById("PartLayer");
+var canvas_F = document.getElementById("PhotonsLayer");
 var ctx_I = canvas_I.getContext("2d");
 var ctx_P = canvas_P.getContext("2d");
+var ctx_F = canvas_F.getContext("2d");
 var currentType = 2;
 var currentProp = 0;
 // update 5000 times
 var params_P = 6;
+var params_F = 4;
 var runningFlag, __frames = 0;
-var map_I = new Int8Array(82*66);
-var map_P = new Int32Array(82*66*params_P); // type, ctype, param3, param4, dcolour, flags
+var map_I = new Uint8Array(82*66);
+var map_P = new Int32Array(82*66*params_P); // particle table: type, ctype, param3, param4, dcolour, flags
+var map_F = new Int16Array(82*66); // photons map
+var parts_F = new Int16Array(6000*params_F); // photons table: type, direction, x, y
+var photons_count = 0;
+var pfree = 0;
+
 for (var i = 0; i < 82; i++)
 {
 	map_P[i*params_P] = 1;
@@ -19,11 +27,19 @@ for (var i = 0; i < 66; i++)
 	map_P[i*82*params_P] = 1;
 	map_P[(i*82+81)*params_P] = 1;
 }
-var partName = ["X","BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE"];
+for (var i = 0; i < 5999;)
+{
+	parts_F[i*4+1] = ++i;
+}
+parts_F[5999*4+1] = -1;
 
-var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810", "#746A6A", "#FF0000"];
+for (var i = 0; i < 82*66; i++)
+{
+	map_F[i] = -1;
+}
+var partName = ["X","BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE","LASR"];
 
-var default_color_a = [0,1,1,1,1,1,1,1,1,1 ,1,1];
+var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810", "#746A6A", "#FF0000", "#CCCC40"];
 
 var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1];
 
@@ -41,7 +57,7 @@ var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3];
 
 var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300,900,1];
 
-var type_count = 12;
+var type_count = 13;
 
 var Update_P = [
 	null,
@@ -212,6 +228,25 @@ function renderParts ()
 		}
 	}
 }
+function renderPhoton (id)
+{
+	var phot_offset = id*params_F;
+	var x = parts_F[phot_offset+2] | 0;
+	var y = parts_F[phot_offset+3] | 0;
+	ctx_F.fillStyle = "#FFFFFF";
+	ctx_F.fillRect(x*10, y*10, 10, 10);
+}
+function renderPhotons ()
+{
+	ctx_F.clearRect(0, 0, 82*10, 66*10);
+	for (var i = 0, j = 0; j < photons_count; i++)
+	{
+		if (parts_F[i*params_F] !== 0)
+		{
+			j++; renderPhoton ( i );
+		}
+	}
+}
 function create_part (x, y, type)
 {
 	var t = (82*y+x)*params_P;
@@ -229,9 +264,11 @@ function renderPart (x, y, type, dcolour)
 {
 	ctx_P.globalAlpha = 1;
 	ctx_P.clearRect(x*10, y*10, 10, 10);
-	ctx_P.globalAlpha = default_color_a[type];
-	ctx_P.fillStyle = default_color[type];
-	ctx_P.fillRect(x*10, y*10, 10, 10);
+	if (type !== 0)
+	{
+		ctx_P.fillStyle = default_color[type];
+		ctx_P.fillRect(x*10, y*10, 10, 10);
+	}
 	if (type !== 6 && (dcolour & 0xFF000000))
 	{
 		ctx_P.globalAlpha = (dcolour >>> 24) / 255.0;
@@ -263,13 +300,101 @@ function mouse_partOP (x, y, type, prop)
 		map_P[tmp+prop-1] = type;
 		(prop === 1 || prop === 5) && renderPart (x, y, type, map_P[tmp+4]);
 	}
+	else if (prop === 7)
+	{
+		if (type === 0)
+		{
+			map_I[y*82+x] = 0;
+			ctx_I.clearRect(x*10, y*10, 10, 10);
+		}
+		else if (type < 256)
+		{
+			map_I[y*82+x] = type;
+			ctx_I.fillStyle = invisColours[type-1];
+			ctx_I.fillRect(x*10, y*10, 10, 10);
+		}
+		else if (type === 256 && !mouseEntered)
+		{
+			if (map_I[y*82+x] === 1)
+			{
+				floodInvis (x, y, 1, 2);
+			}
+			else if (map_I[y*82+x] === 2)
+			{
+				floodInvis (x, y, 2, 1);
+			}
+		}
+	}
 }
+
+function floodInvis (x, y, _from, _to)
+{
+	console.debug(_to);
+	debugger;
+	var cstack = [x, y], cptr = 2, x1, x2, y_offset, temp_y;
+	do
+	{
+		y_offset = (y = cstack[--cptr])*82;
+		x1 = x2 = x = cstack[--cptr];
+		// go left as far as possible
+		while (x1 >= 0)
+		{
+			if ( map_I[y_offset + x1 - 1] !== _from ) { break; }
+			x1--;
+		}
+		// go right as far as possible
+		while (x2 < 82)
+		{
+			if ( map_I[y_offset + x2 + 1] !== _from ) { break; }
+			x2++;
+		}
+		// fill span
+		ctx_I.fillStyle = invisColours[_to-1];
+		ctx_I.fillRect(x1*10, y*10, (x2 - x1 + 1) * 10, 10);
+		for (x = x1; x <= x2; x++)
+		{
+			map_I[y_offset + x] = _to;
+		}
+		if (y >= 1)
+		{
+			temp_y = y - 1;
+			y_offset -= 82;
+			for (x=x1; x<=x2; x++)
+			{
+				if (map_I[y_offset + x] === _from)
+				{
+					cstack[cptr++] = x;
+					cstack[cptr++] = temp_y;
+				}
+			}
+		}
+		if (y < 81)
+		{
+			temp_y = y + 1;
+			y_offset += 164; // 82 * 2
+			for (x=x1; x<=x2; x++)
+			{
+				if (map_I[y_offset + x] === _from)
+				{
+					cstack[cptr++] = x;
+					cstack[cptr++] = temp_y;
+				}
+			}
+		}
+	}
+	while (cptr);
+}
+var invisColours = ["#00CCCC", "#0F0064"];
 function checkBounds (x, y)
 {
 	return x >= 0 && x < 82 && y >= 0 && y < 66;
 }
 function try_move (x, y)
 {
+	if (map_I[82*y+x] === 1)
+	{
+		return;
+	}
 	var type = map_P[(82*y+x)*params_P];
 	if (Update_P[type] != null)
 	{
@@ -359,12 +484,119 @@ function try_move (x, y)
 		}
 	}
 }
+
+var rx_table = [1,0,-1,0];
+var ry_table = [0,-1,0,1];
+
+function try_move_phot (id)
+{
+	var phot_offset = id*params_F;
+	var d = parts_F[phot_offset+1] & 3;
+	var x = parts_F[phot_offset+2] | 0;
+	var y = parts_F[phot_offset+3] | 0;
+	var ox = x, oy = y;
+	var rx = rx_table[d];
+	var ry = ry_table[d];
+	x += rx, y += ry;
+	if (!checkBounds(x, y))
+	{
+		free_phot (id);
+		kill_phot_pos (id, ox, oy);
+		return;
+	}
+	if (map_P[(82*y + x)*params_P] === 0)
+	{
+		x += rx, y += ry;
+	}
+	if (!checkBounds(x, y))
+	{
+		free_phot (id);
+		kill_phot_pos (id, ox, oy);
+		return;
+	}
+	kill_phot_pos (id, ox, oy);
+	map_F[tmp = 82*y+x] = id; // create_phot_pos (id, x, y);
+	parts_F[phot_offset+2] = x;
+	parts_F[phot_offset+3] = y;
+}
+
+function free_phot (id)
+{
+	parts_F[id*params_F] = 0;
+	parts_F[id*params_F+1] = pfree;
+	pfree = id;
+	photons_count --;
+}
+
+function alloc_phot (x, y, dir, type)
+{
+	var id = pfree, tmp;
+	pfree = parts_F[(tmp = id*params_F)+1];
+	parts_F[tmp++] = type
+	parts_F[tmp++] = dir;
+	parts_F[tmp++] = x;
+	parts_F[tmp] = y;
+	photons_count ++;
+	return id;
+}
+
+function kill_phot_pos (id, x, y)
+{
+	var tmp;
+	if (map_F[tmp = 82*y+x] === id)
+	{
+		map_F[tmp] = -1;
+	}
+}
+
+/*
+function create_phot_pos (id, x, y)
+{
+	map_F[tmp = 82*y+x] = id;
+}
+ */
+
+function recalc_phot ()
+{
+	var x, y;
+	for (var i = 0; i < 82*66; i++)
+	{
+		map_F[i] = -1;
+	}
+	for (var i = 0, j = 0; j < photons_count; i++)
+	{
+		if (parts_F[i*params_F] !== 0)
+		{
+			j++;
+			var phot_offset = i*params_F;
+			x = parts_F[phot_offset+2] | 0;
+			y = parts_F[phot_offset+3] | 0;
+			map_F[82*y+x] = i;
+		}
+	}
+}
+
 function frame_render ()
 {
+	// if (photons_count > 0)
+	// {
+		for (var i = 0, j = 0; j < photons_count; i++)
+		{
+			if (parts_F[i*params_F] !== 0)
+			{
+				j++; try_move_phot ( i );
+			}
+		}
+	// }
 	for (var i = 0; i < 4500; i++)
 	{
 		try_move ((Math.random()*82)|0, (Math.random()*66)|0);
 	}
+	if (photons_count > 0)
+	{
+		recalc_phot ();
+	}
+	renderPhotons();
 	renderParts();
 }
 function selectOpt (id)
@@ -393,13 +625,33 @@ function selectOpt (id)
 	case 6:
 		showPartMenu (4);
 		break;
+	case 7:
+		currentProp = 7;
+		ElemType = 1;
+		for (var i = 0; i < 15; i++)
+		{
+			menu2partID[i] = -1;
+			document.getElementById("Part_"+i).value = "";
+		}
+		for (var i = 0; i < 3; i++)
+		{
+			menu2partID[i] = invisMenuID[i];
+			document.getElementById("Part_"+i).value = invisMenu[i];
+		}
+		break;
 	}
 }
+
+var invisMenu = ["X", "INVS", "TOGL"]
+var invisMenuID = [0, 1, 256]
+
+var ElemType = 0;
+var prevElem = [2,1];
 function selectPart (id)
 {
 	if (id >= 0)
 	{
-		currentType = menu2partID[id];
+		prevElem[ElemType] = currentType = menu2partID[id];
 	}
 }
 renderParts();
@@ -411,11 +663,18 @@ document.getElementById("Menu_3").value = "PWDR";
 document.getElementById("Menu_4").value = "LIQD";
 document.getElementById("Menu_5").value = "GAS";
 document.getElementById("Menu_6").value = "SPEC";
+document.getElementById("Menu_7").value = "INVS";
 
 var menu2partID = [];
 
 function showPartMenu (id)
 {
+	if (currentProp >= 7)
+	{
+		currentProp = 0;
+		ElemType = 0;
+		currentType = prevElem[0];
+	}
 	var filt_c = 0, tmp;
 	for (var i = 0; i < 15; i++)
 	{
