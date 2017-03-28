@@ -221,7 +221,7 @@ var Update_P = [
 					map_P[lifeOffset-1] = 0;
 				}
 			}
-			if (flammable[tmp])
+			else if (flammable[tmp])
 			{
 				map_P[flameOffset] = 11;
 				map_P[flameOffset+1] = 0;
@@ -634,9 +634,9 @@ function frame_render ()
 	renderParts();
 }
 
-var fnList = ["PAUS","FRAM","SOLD","PWDR","LIQD","GAS","SPEC","INVS","PROP","BACK","TYPE","CTYP","ARG3","ARG4","DECO","TMP"];
+var fnList = ["PAUS","FRAM","SOLD","PWDR","LIQD","GAS","SPEC","INVS","PROP","LINK","BACK","TYPE","CTYP","ARG3","ARG4","DECO","TMP"];
 var fnListID = [];
-var fnList2 = [0, 9, 16];
+var fnList2 = [0, 10, 17];
 
 function getFnMenu (id)
 {
@@ -704,24 +704,33 @@ function selectOpt (id)
 		getFnMenu (1);
 		break;
 	case 9:
-		getFnMenu (0);
+		var link_abbr = ["TPT", "CNWL", "RETN"]
+		for (var i = 0; i < 15; i++)
+		{
+			currentProp = -1;
+			menu2partID[i] = i;
+			document.getElementById("Part_"+i).value = i < 3 ? link_abbr[i] : "";
+		}
 		break;
 	case 10:
-		propertyTool (1);
+		getFnMenu (0);
 		break;
 	case 11:
-		propertyTool (2);
+		propertyTool (1);
 		break;
 	case 12:
-		propertyTool (3);
+		propertyTool (2);
 		break;
 	case 13:
-		propertyTool (4);
+		propertyTool (3);
 		break;
 	case 14:
-		propertyTool (5);
+		propertyTool (4);
 		break;
 	case 15:
+		propertyTool (5);
+		break;
+	case 16:
 		propertyTool (6);
 		break;
 	}
@@ -752,9 +761,20 @@ var ElemType = 0;
 var prevElem = [2,1];
 function selectPart (id)
 {
-	if (id >= 0)
+	if (currentProp >= 0)
 	{
-		prevElem[ElemType] = currentType = menu2partID[id];
+		if (id >= 0)
+		{
+			prevElem[ElemType] = currentType = menu2partID[id];
+		}
+	}
+	else
+	{
+		if (id < 3)
+		{
+			var _links = ["http://powdertoy.co.uk/", "http://conwaylife.com/", "https://git123hub.github.io/index/"];
+			location.href = _links[id];
+		}
 	}
 }
 renderParts();
