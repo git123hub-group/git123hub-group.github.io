@@ -19,22 +19,24 @@ for (var i = 0; i < 66; i++)
 	map_P[i*82*params_P] = 1;
 	map_P[(i*82+81)*params_P] = 1;
 }
-var partName = ["X","BLCK","PWDR","WATR","CLNE","VOID","VIRS","CURE","ACID"];
+var partName = ["X","BLCK","PWDR","WATR","CLNE","VOID","VIRS","CURE","ACID", "OIL"];
 
-var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF"];
+var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810"];
 
-var default_color_a = [0,1,1,1,1,1,1,1,1];
+var default_color_a = [0,1,1,1,1,1,1,1,1,1];
 
-var can_clone = [0,0,1,1,0,0,1,1,1];
+var can_clone = [0,0,1,1,0,0,1,1,1,1];
 
-var can_infe = [0,0,1,1,1,1,0,0,1];
+var can_infe = [0,0,1,1,1,1,0,0,1,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0];
+var acidAffect = [0,0,1,0,0,0,1,1,0,1];
 
-// 0: solid, 1: powder, 2: liquid, 3: gas
-var ST_List = [0,0,1,2,0,0,2,2,2];
+// 0: solid, 1: powder, 2: liquid, 3: gas, 4: special solid
+var ST_List = [4,4,1,2,4,4,2,2,2,2];
 
-var ST_Weight = [0,1000,800,400,1000,0,420,420,200];
+var ST_Weight = [0,1000,800,400,1000,0,420,420,200,300];
+
+var type_count = 9;
 
 var Update_P = [
 	null,
@@ -125,7 +127,7 @@ var Update_P = [
 	null,
 	function (x, y) /* acid */
 	{
-		var MAX_AFFECTED = 30;
+		var MAX_ACID_AFFECTED = 30;
 		var lifeOffset = (82*y+x)*params_P + 1;
 		var affectOffset, tmp;
 		if (0.6 < Math.random())
@@ -140,14 +142,14 @@ var Update_P = [
 			tmp = map_P[affectOffset];
 			if ( tmp === 3 ) // dissolved by water
 			{
-				tmp = (map_P[lifeOffset] + MAX_AFFECTED) >> 1;
+				tmp = (map_P[lifeOffset] + MAX_ACID_AFFECTED) >> 1;
 				map_P[affectOffset] = 8;
 				map_P[affectOffset+1] = map_P[lifeOffset] = tmp;
 				return;
 			}
 			if ( tmp === 8 )
 			{
-				if (map_P[lifeOffset] >= MAX_AFFECTED )
+				if (map_P[lifeOffset] >= MAX_ACID_AFFECTED )
 				{
 					map_P[lifeOffset-1] = 0;
 				}
@@ -225,7 +227,7 @@ function mouse_partOP (x, y, type, prop)
 			map_P[tmp] = 0;
 		}
 		renderPart (x, y, type, 0);
-		console.debug(map_P[tmp+5]);
+		// console.debug(map_P[tmp+5]);
 	}
 	else if (prop <= 6)
 	{
@@ -343,13 +345,67 @@ function selectOpt (id)
 		runningFlag = false;
 		frame_render();
 		break;
+	case 2:
+		showPartMenu (0);
+		break;
+	case 3:
+		showPartMenu (1);
+		break;
+	case 4:
+		showPartMenu (2);
+		break;
+	case 5:
+		showPartMenu (3);
+		break;
+	case 6:
+		showPartMenu (4);
+		break;
 	}
 }
 function selectPart (id)
 {
-	currentType = id;
+	if (id >= 0)
+	{
+		currentType = menu2partID[id];
+	}
 }
 renderParts();
+
+document.getElementById("Menu_0").value = "PAUS";
+document.getElementById("Menu_1").value = "FRAM";
+document.getElementById("Menu_2").value = "SOLD";
+document.getElementById("Menu_3").value = "PWDR";
+document.getElementById("Menu_4").value = "LIQD";
+document.getElementById("Menu_5").value = "GAS";
+document.getElementById("Menu_6").value = "SPEC";
+
+var menu2partID = [];
+
+function showPartMenu (id)
+{
+	var filt_c = 0, tmp;
+	for (var i = 0; i < 15; i++)
+	{
+		menu2partID[i] = -1;
+		document.getElementById("Part_"+i).value = "";
+	}
+	for (var i = 0; i < type_count; i++)
+	{
+		if (ST_List[i] === id)
+		{
+			menu2partID[filt_c] = i;
+			filt_c ++;
+		}
+	}
+	for (var i = 0; i < 15 && i < filt_c; i++)
+	{
+		tmp = menu2partID[i];
+		document.getElementById("Part_"+i).value = partName[tmp];
+	}
+}
+
+showPartMenu (1);
+
 !function UpdateSelf(){
 	if(runningFlag && __frames > 5)
 	{
@@ -359,13 +415,3 @@ renderParts();
 	__frames++;
 	requestAnimationFrame(UpdateSelf);
 }();
-document.getElementById("Menu_0").value = "PAUS";
-document.getElementById("Menu_1").value = "FRAM";
-
-var menu2partID = [];
-
-for (var i = 0; i < 9; i++)
-{
-	menu2partID[i] = i;
-	document.getElementById("Part_" + i).value = partName[menu2partID[i]];
-}
