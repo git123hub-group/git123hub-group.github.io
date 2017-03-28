@@ -36,7 +36,7 @@ var ST_List = [4,4,1,2,4,4,2,2,2,2];
 
 var ST_Weight = [0,1000,800,400,1000,0,420,420,200,300];
 
-var type_count = 9;
+var type_count = 10;
 
 var Update_P = [
 	null,
@@ -169,7 +169,8 @@ var Update_P = [
 			}
 		}
 		return;
-	}
+	},
+	null
 ];
 
 function renderParts ()
