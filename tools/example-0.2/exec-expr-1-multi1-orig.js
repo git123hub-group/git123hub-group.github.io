@@ -656,6 +656,10 @@ function stepinto () {
 		return value ? 32 - value.toString(2).length : 32;
 	}
 
+	__variables__.clz32 = function(value) {
+		return ((value | 0) + 0x100000000).toString(2).match(/0*$/)[0].length;
+	}
+
 	__variables__.fib = function(n) {
 		var a = 0, b = 1, tmp, sgn = n % 2 === 0 ? -1 : 1;
 		n < 0 ? (n = -n) : sgn = 1;
