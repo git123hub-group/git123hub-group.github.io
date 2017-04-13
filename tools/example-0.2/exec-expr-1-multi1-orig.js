@@ -656,7 +656,7 @@ function stepinto () {
 		return value ? 32 - value.toString(2).length : 32;
 	}
 
-	__variables__.clz32 = function(value) {
+	__variables__.ctz32 = function(value) {
 		return ((value | 0) + 0x100000000).toString(2).match(/0*$/)[0].length;
 	}
 
