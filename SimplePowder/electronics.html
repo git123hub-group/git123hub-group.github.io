@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>Electronics toy</title>
+	</head>
+	<style>
+		input._menuItem1 {text-align: center; width: 47px; background-color: #000; color: #fff}
+	</style>
+	<body style="background-color: #000; color: #fff">
+	<div style="text-align: center">Electronics toy</div>
+	<div style="text-align: center; width: 820px; height: 660px; margin: 0 auto; position: relative">
+	<canvas width="820" height="660" id="PartLayer" style="z-index: 3; position: absolute; top: 0; left: 0"
+	onclick="clickPixel ((event.offsetX/10)|0, (event.offsetY/10)|0)"></canvas>
+	</div>
+	<br />
+	<div style="text-align: center">
+	<input type="button" onclick="part_state = 0" value="X" />
+	<input type="button" onclick="part_state = 1" value="Metal" />
+	<input type="button" onclick="part_state = 2" value="Spark" />
+	<input type="button" onclick="part_state = 3" value="Insulator" />
+	<input type="button" onclick="part_state = 4" value="P-type silicon" />
+	<input type="button" onclick="part_state = 5" value="N-type silicon" />
+	<input type="button" onclick="part_state = 6" value="Switch" />
+	<input type="button" onclick="part_state = 9" value="Insulated wire" />
+	<input type="button" onclick="part_state = 10" value="Instant conductor" />
+	<input type="button" onclick="part_state = 11" value="Battery" />
+	<br />
+	<input type="button" onclick="paused = true; run_frame();" value="frame render" />
+	<input type="button" onclick="paused = !paused; paused || simLoopFn();" value="run/pause" />
+	<a href="../SimplePowder"><button>Back to "Particle toy"</button></a>
+	</div>
+	<script src="electronics.min.js"></script>
+	<script>
+	// <![CDATA[
+		window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	// ]]>
+	</script>
+	<script src="https://git123hub.github.io/static/retn/left.js"></script>
+
+	</body>
+</html>
