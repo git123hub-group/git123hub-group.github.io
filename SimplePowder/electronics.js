@@ -17,7 +17,7 @@ for (var i = height - 1; i >= 0; i--)
 
 var canvas = document.getElementById("PartLayer");
 var ctx = canvas.getContext("2d");
-var colors = ["#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040", "#40403C", "#858505"];
+var colors = ["#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040", "#40403C", "#858505", "#FFC000", "#FFFFFF"];
 
 var PART_METAL = 1;
 var PART_SPARK = 2;
@@ -30,9 +30,11 @@ var PART_SWITCH_MID = 8;
 var PART_INSUL_WIRE = 9;
 var PART_INSTC = 10;
 var PART_BATTERY = 11;
+var PART_RAY_EMIT = 12;
+var PART_RAY = 13;
 
-var conduct  = [0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0];
-var isswitch = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0];
+var conduct  = [0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0];
+var isswitch = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0];
 
 function clickPixel (x, y)
 {
@@ -68,7 +70,7 @@ function clickPixel (x, y)
 	}
 }
 
-function conductTo (x, y, array)
+function conductTo (x, y, array, extra)
 {
 	ctype = array[0];
 	if (conduct[ctype] && array[1] <= 0)
@@ -81,7 +83,19 @@ function conductTo (x, y, array)
 
 function renderPixel (x, y, array)
 {
+	var num;
 	ctx.fillStyle = colors[array[0]];
+	if (array[0] === PART_RAY && array[1])
+	{
+		if (array[2] !== 5)
+		{
+			ctx.fillStyle = "rgb(" + (num = (array[1] * 15.95) | 0) + "," + num + "," + num + ")";
+		}
+		else
+		{
+			ctx.fillStyle = "rgb(" + (num = (array[1] * 100) | 0) + "," + (num * 3 / 5) + "," + (num / 5) + ")";
+		}
+	}
 	ctx.fillRect ((x - 1) * 10, (y - 1) * 10, 10, 10);
 }
 
@@ -107,7 +121,11 @@ function run_frame ()
 		for (var x = 0; x < width; x++)
 		{
 			if ((k = pmap[y][x])[1])
+			{
 				k[1] --;
+				if (k[0] === PART_RAY && !k[1])
+					k[0] = 0;
+			}
 		}
 	}
 	
@@ -142,9 +160,11 @@ function checkBounds (x, y)
 function simPart (x, y, array)
 {
 	var type = array[0], nx, ny;
-	var ctype;
+	var ctype, tmp, id, absID;
 	var tmpArray, tmpArray2;
 	var sender, receiver;
+	var nxi, nyi, _xx, _yy;
+	var nostop, destroy;
 	var leftBound   = Math.min(2, x);
 	var topBound    = Math.min(2, y);
 	var rightBound  = Math.min(2, width  - x - 3);
@@ -231,7 +251,7 @@ function simPart (x, y, array)
 						}
 						break;
 					case PART_SWITCH_MID:
-						if (tmpArray2[2] === PART_SWITCH_ON && sender === PART_METAL)
+						if (tmpArray2[2] === PART_SWITCH_ON && tmpArray2[1] < 4 && sender === PART_METAL)
 						{
 							tmpArray2[0] = PART_SPARK;
 							tmpArray2[1] = 4;
@@ -291,6 +311,81 @@ function simPart (x, y, array)
 					if (pmap[(y + ny)>>1][(x + nx)>>1][0] !== PART_INSUL && tmpArray2[0] !== PART_INSUL_WIRE)
 					{
 						conductTo (nx = x+rx, ny, tmpArray2);
+					}
+				}
+			}
+		case PART_RAY_EMIT:
+			id = -4;
+			for (var ry = -1; ry < 2; ry++)
+			{
+				tmpArray = pmap[ny = y+ry];
+				for (var rx = -1; rx < 2; rx++, id++)
+				{
+					tmpArray2 = tmpArray[nx = x+rx];
+					debugger;
+					if (tmpArray2[0] === PART_SPARK && tmpArray2[1] === 3 && id)
+					{
+						absID = id < 0 ? -id : id;
+						nxi = -rx; nyi = -ry;
+						_xx = x+nxi; _yy = y+nyi;
+						nostop = (tmpArray2[2] === PART_INSTC);
+						destroy = (tmpArray2[2] === PART_PSCN);
+						while (checkBounds(_xx, _yy))
+						{
+							if (!(ctype = (tmp = pmap[_yy][_xx])[0]))
+							{
+								tmp[0] = PART_RAY;
+								tmp[1] = destroy ? 2 : 16;
+								tmp[2] = destroy ? 5 : absID;
+							}
+							else if (!destroy)
+							{
+								if (tmp[0] === PART_INSUL_WIRE || tmp[0] === PART_SPARK && tmp[2] === PART_INSUL_WIRE || tmp[0] === PART_RAY_EMIT || tmp[0] === PART_SWITCH_ON || tmp[0] === PART_SWITCH_MID && tmp[2] === PART_SWITCH_ON)
+								{
+									_xx += nxi; _yy += nyi;
+									continue;
+								}
+								if (tmp[0] === PART_RAY)
+								{
+									if (!tmp[1])
+									{
+										_xx += nxi; _yy += nyi;
+										continue;
+									}
+									else if (tmp[2] === absID)
+									{
+										tmp[1] = 16;
+										_xx += nxi; _yy += nyi;
+										continue;
+									}
+									else
+									{
+										if (tmp[2] !== 5)
+											tmp[1] = 0;
+										break;
+									}
+								}
+								conductTo (_xx, _yy, tmp);
+								if (!nostop || !(tmp[0] === PART_SPARK && conduct[tmp[2]]))
+									break;
+							}
+							else
+							{
+								if (tmp[0] === PART_INSUL_WIRE || tmp[0] === PART_SPARK && tmp[2] === PART_INSUL_WIRE || tmp[0] === PART_RAY_EMIT || tmp[0] === PART_SWITCH_ON || tmp[0] === PART_SWITCH_MID && tmp[2] === PART_SWITCH_ON)
+								{
+									_xx += nxi; _yy += nyi;
+									continue;
+								}
+								if (tmp[0] === PART_RAY)
+								{
+									tmp[1] = 1;
+									tmp[2] = 5;
+									_xx += nxi; _yy += nyi;
+									continue;
+								}
+							}
+							_xx += nxi; _yy += nyi;
+						}
 					}
 				}
 			}
