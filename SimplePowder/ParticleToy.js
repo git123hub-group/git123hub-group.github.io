@@ -704,12 +704,12 @@ function selectOpt (id)
 		getFnMenu (1);
 		break;
 	case 9:
-		var link_abbr = ["TPT", "CNWL", "RETN"]
+		var link_abbr = ["TPT", "CNWL", "ETRC", "RETN"]
 		for (var i = 0; i < 15; i++)
 		{
 			currentProp = -1;
 			menu2partID[i] = i;
-			document.getElementById("Part_"+i).value = i < 3 ? link_abbr[i] : "";
+			document.getElementById("Part_"+i).value = i < 4 ? link_abbr[i] : "";
 		}
 		break;
 	case 10:
@@ -772,7 +772,7 @@ function selectPart (id)
 	{
 		if (id < 3)
 		{
-			var _links = ["http://powdertoy.co.uk/", "http://conwaylife.com/", "https://git123hub.github.io/index/"];
+			var _links = ["http://powdertoy.co.uk/", "http://conwaylife.com/", "SimplePowder/electronics", "https://git123hub.github.io/index/"];
 			location.href = _links[id];
 		}
 	}
