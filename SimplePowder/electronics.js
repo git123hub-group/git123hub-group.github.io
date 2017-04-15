@@ -383,6 +383,7 @@ function simPart (x, y, array)
 									_xx += nxi; _yy += nyi;
 									continue;
 								}
+								break;
 							}
 							_xx += nxi; _yy += nyi;
 						}
