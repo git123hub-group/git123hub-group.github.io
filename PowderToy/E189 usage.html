@@ -1,0 +1,73 @@
+<style>
+.blue {color: #0000FF}
+.red {color: #FF0000}
+</style>
+<pre>
+Element number 189 (<span class="red">E189</span>) usage:
+  life =  0: Complete pressure insulator (acts <span class="red">TTAN</span>'s <span class="blue">.tmp</span> = 0)
+  life =  1: Complete pressure insulator (acts <span class="red">TTAN</span>'s <span class="blue">.tmp</span> = 1)
+  life =  2: <span class="red">TRON</span> portal IN
+  life =  3: <span class="red">TRON</span> portal OUT
+  life =  4: Photons laser
+  life =  5: Photons direction/velocity changer
+  life =  6: Heater (not powered material)
+  life =  7: Photons duplicator
+  life =  8: More destructive <span class="red">VIBR</span> (stable state)
+  life =  9: More destructive <span class="red">VIBR</span> (excited state, into normal <span class="red">VIBR</span>)
+  life = 10: Electronics debugger, or element properties changer.
+  life = 11: Photons emitter
+  life = 12: SPRK reflector. Also use by <span class="red">PSTN</span>.
+  life = 13: Static decoration particle
+  life = 14: Dynamic decoration particle
+  life = 15: <span class="red">PROT</span> reflector. Also allows <span class="red">PHOT</span>.
+  life = 16: Some electronics components:
+    life = 16, ctype =  0: Logic gates:
+      <span class="blue">.tmp</span> = 0: <span class="red">PSCN</span> input <b>OR</b> <span class="red">BMTL</span> input
+      <span class="blue">.tmp</span> = 1: <span class="red">PSCN</span> input <b>AND</b> <span class="red">BMTL</span> input
+      <span class="blue">.tmp</span> = 2: <span class="red">PSCN</span> input <b>AND NOT</b> <span class="red">BMTL</span> input
+      <span class="blue">.tmp</span> = 3: <span class="red">PSCN</span> input <b>XOR</b> <span class="red">BMTL</span> input
+      <span class="blue">.tmp</span> = 4: <span class="red">PSCN</span> input <b>NOR</b> <span class="red">BMTL</span> input
+      <span class="blue">.tmp</span> = 5: <span class="red">PSCN</span> input <b>NAND</b> <span class="red">BMTL</span> input
+      <span class="blue">.tmp</span> = 6: <span class="red">PSCN</span> input <b>NAND NOT</b> <span class="red">BMTL</span> input
+      <span class="blue">.tmp</span> = 7: <span class="red">PSCN</span> input <b>XNOR</b> <span class="red">BMTL</span> input
+    life = 16, ctype =  1: Conductor -> insulator counter (<span class="blue">.tmp</span> = 0 for insulator)
+    life = 16, ctype =  2: Insulator -> conductor counter
+    life = 16, ctype =  3: 2-state flip-flop (use <span class="blue">.tmp</span> for state number)
+    life = 16, ctype =  4: <span class="red">SPRK</span>-dependent virus curer
+    life = 16, ctype =  5: Stickmen gate?
+    life = 16, ctype =  6: Wire crossing particle
+    life = 16, ctype =  7: Acts WireWorld's cross-shape conductor
+    life = 16, ctype =  8: Write stickmen's flags (using <span class="red">SPRK</span>)
+    life = 16, ctype =  9: Read stickmen's flags (using powered materials: <span class="red">SWCH</span>, <span class="red">LCRY</span>, <!--
+--><span class="red">HSWC</span>. not Metals, etc.)
+    life = 16, ctype = 10: 2D duplicator (using <span class="red">SPRK</span> and <span class="red">E189</span>'s <span class="blue">.life</span> = 17 (with 25))
+    life = 16, ctype = 11: Reserved for <span class="red">E189</span>'s <span class="blue">.life</span> = 24.
+    life = 16, ctype = 12: <span class="red">SPRK</span>-dependent randomizer
+    life = 16, ctype = 13: <span class="red">PSCN</span> &lt;-> <span class="red">NSCN</span> flip-flop
+    life = 16, ctype = 14: <span class="red">WIFI</span> channel changer
+    life = 16, ctype = 15: WIFI2 (<span class="red">E189</span>'s <span class="blue">.life</span> = 33) channel changer
+    life = 16, ctype = 16: Sensors inverter switch
+    life = 16, ctype = 17: <span class="red">SPRK</span>-dependent FILT incrementer
+    life = 16, ctype = 18: <span class="red">SPRK</span>-dependent FILT incrementer
+    life = 16, ctype = 19: Universal <span class="red">SPRK</span> conductor
+  life = 17: <span class="red">PHOT</span> diode, absorbs <span class="red">E186</span>
+  life = 18: Decoration particle (<span class="blue">.ctype</span> = Red, <span class="blue">.tmp</span> = Green, <span class="blue">.tmp2</span> = Blue)
+  life = 19: Inverter input (unused)
+  life = 20: Single article emitter
+  life = 21: <span class="red">MERC</span>/<span class="red">DEUT</span>/<span class="red">YEST</span> expander, or <span class="red">SPNG</span><!-- 
+-->"water releaser", or <span class="red">VIBR</span>-based water splitter
+  life = 22: Solid for allows/blocks enengy particles
+  life = 23: Stickmen's jumper
+  life = 24: Moving <span class="red">DRAY</span> (duplicator ray) particle
+  life = 25: Extension for <span class="red">E189</span>'s <span class="blue">.life</span> = 16 AND <span class="blue">.tmp</span> = 10
+  life = 26: Button. Can be sparked just by clicking on it.
+  life = 27: Stickmen's element power changer
+  life = 28: <span class="red">ARAY</span>/<span class="red">BRAY</span> reflector
+  life = 29: <span class="red">TRON</span> emitter
+  life = 30: <span class="red">TRON</span> filter
+  life = 31: <span class="red">TRON</span> delayer
+  life = 32: <span class="red">ARAY</span>/<span class="red">BRAY</span> property changer 
+  life = 33: Second Wi-Fi. Has <span class="blue">.temp</span> and <span class="blue">.ctype</span> dependent channels.
+  life = 34: Sub-frame filter incrementer
+  life = 35: <span class="red">CRAY</span>/<span class="red">DRAY</span>'s <span class="blue">.ctype</span> rewriter
+</pre>
