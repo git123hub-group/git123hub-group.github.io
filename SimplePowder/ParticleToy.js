@@ -9,15 +9,18 @@ var ctx_I = canvas_I.getContext("2d");
 var ctx_P = canvas_P.getContext("2d");
 var ctx_F = canvas_F.getContext("2d");
 // update 5000 times
-var params_P = 6;
+var params_P = 8;
 var params_F = 4;
 var runningFlag, __frames = 0;
 var map_I = new Uint8Array(82*66);
-var map_P = new Int32Array(82*66*params_P); // particle table: type, ctype, param3, param4, dcolour, flags
+var map_P = new Int32Array(82*66*params_P); // particle table: type, ctype, param3, param4, param5, param6, dcolour, flags
 var map_F = new Int16Array(82*66); // photons map
 var parts_F = new Int16Array(6000*params_F); // photons table: type, direction, x, y
 var photons_count = 0;
 var pfree = 0;
+var arg_deco = params_P - 2;
+var arg_last = params_P - 1;
+var arg_infect = params_P - 3;
 
 for (var i = 0; i < 82; i++)
 {
@@ -39,27 +42,39 @@ for (var i = 0; i < 82*66; i++)
 {
 	map_F[i] = -1;
 }
-var partName = ["X","BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL", "MERC","FIRE","WOOD","WTRV"];
+var partName = [
+	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL",
+	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","STNE","PLNT"
+];
 
-var default_color = ["#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810", "#746A6A", "#FF0000", "#bf9c1d", "#A0A0FF"];
+var default_color = [
+	"#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810",
+	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00"
+];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0];
 
-var can_infe = [0,0,1,1,1,1,0,0,1,1 ,1,1,1,1];
+var can_infe = [0,0,1,1,1,1,0,0,1,1 ,1,1,1,1,1,1,1,1,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4];
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: special solid
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0];
 
-var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300,900,1,1000,1];
+var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300, 900,1,1000,1,390,440,900,1000,1000];
 
-var type_count = 14;
+var type_count = 19;
+
+var MAX_ACID_AFFECTED = 30;
+
+var SALT_WATER_SATURE = 50;
+
+var k01 = SALT_WATER_SATURE;
 
 var Update_P = [
 	null,
@@ -103,7 +118,7 @@ var Update_P = [
 	{
 		var self_P = (82*y+x)*params_P;
 		var newX, newY, infectingOffset, tmp;
-		if (map_P[self_P+5] > 0) /* curing virus */
+		if (map_P[self_P+arg_last] > 0) /* curing virus */
 		{
 			for (var trade = 0; trade < 4; trade++)
 			{
@@ -114,15 +129,15 @@ var Update_P = [
 					continue;
 				}
 				infectingOffset = (82*newY+newX)*params_P;
-				if (map_P[infectingOffset] === 6 && map_P[infectingOffset+5] <= 0)
+				if (map_P[infectingOffset] === 6 && map_P[infectingOffset+arg_last] <= 0)
 				{
-					map_P[infectingOffset+5] = map_P[self_P+5] + 2;
+					map_P[infectingOffset+arg_last] = map_P[self_P+arg_last] + 2;
 				}
 			}
-			if (!--map_P[self_P+5])
+			if (!--map_P[self_P+arg_last])
 			{
-				map_P[self_P] = map_P[self_P+3];
-				map_P[self_P+3] = 0;
+				map_P[self_P] = map_P[self_P+arg_infect];
+				map_P[self_P+arg_infect] = 0;
 			}
 			return;
 		}
@@ -137,20 +152,19 @@ var Update_P = [
 		if (tmp === 7)
 		{
 			map_P[infectingOffset] = 0;
-			map_P[self_P+5] = 30;
+			map_P[self_P+arg_last] = 30;
 		}
 		else if (can_infe[tmp])
 		{
 			map_P[infectingOffset] = 6;
-			map_P[infectingOffset+3] = tmp;
-			map_P[infectingOffset+5] = 0;
+			map_P[infectingOffset+arg_infect] = tmp;
+			map_P[infectingOffset+arg_last] = 0;
 		}
-		console.log (map_P[self_P+5]);
+		// console.log (map_P[self_P+5]);
 	},
 	null,
 	function (x, y) /* acid */
 	{
-		var MAX_ACID_AFFECTED = 30;
 		var lifeOffset = (82*y+x)*params_P + 1;
 		var affectOffset, tmp;
 		if (0.6 < Math.random())
@@ -163,15 +177,14 @@ var Update_P = [
 			}
 			affectOffset = (82*newY+newX)*params_P;
 			tmp = map_P[affectOffset];
-			if ( tmp === 3 ) // dissolved by water
+			switch ( tmp )
 			{
+			case 3:// dissolved by water
 				tmp = (map_P[lifeOffset] + MAX_ACID_AFFECTED) >> 1;
 				map_P[affectOffset] = 8;
 				map_P[affectOffset+1] = map_P[lifeOffset] = tmp;
 				return;
-			}
-			if ( tmp === 8 )
-			{
+			case 8:
 				if (map_P[lifeOffset] >= MAX_ACID_AFFECTED )
 				{
 					map_P[lifeOffset-1] = 0;
@@ -209,28 +222,237 @@ var Update_P = [
 				continue;
 			}
 			var flameOffset = (82*newY+newX)*params_P;
-			tmp = map_P[flameOffset]
-			if (tmp === 3)
+			var iflame = true;
+			do
 			{
-				if (newY < y)
+				tmp = map_P[flameOffset];
+				if (tmp === 3)
 				{
-					map_P[flameOffset] = 13;
+					if ((2.5 * Math.random() - 1.25) > (newY - y))
+					{
+						map_P[flameOffset] = 13;
+					}
+					else
+					{
+						map_P[lifeOffset-1] = 0;
+					}
+					break;
 				}
-				else
+				else if (tmp === 15)
 				{
-					map_P[lifeOffset-1] = 0;
+					if ((2.5 * Math.random() - 1.25) > (newY - y))
+					{
+						k01 += map_P[flameOffset+1];
+						if (k01 >= 2 * SALT_WATER_SATURE)
+						{
+							map_P[flameOffset] = 16;
+							map_P[flameOffset+1] = SALT_WATER_SATURE;
+							k01 -= 2 * SALT_WATER_SATURE;
+						}
+						else
+						{
+							map_P[flameOffset] = 13;
+						}
+					}
+					else
+					{
+						map_P[lifeOffset-1] = 0;
+					}
+					break;
 				}
-			}
-			else if (flammable[tmp])
-			{
-				map_P[flameOffset] = 11;
-				map_P[flameOffset+1] = 0;
-			}
+				else if (flammable[tmp] && iflame)
+				{
+					map_P[flameOffset] = 11;
+					map_P[flameOffset+1] = 0;
+					break;
+				}
+				flameOffset -= 82 * params_P;
+				if (flameOffset < 0) break;
+				iflame = !iflame;
+			} while (!iflame);
 		}
 		map_P[lifeOffset] ++;
 	},
 	null,
-	null
+	function (x, y) /* steam */
+	{
+		var currOffset = (82*y+x)*params_P;
+		if (y < 1) return;
+		var topOffset = (82*(y-1)+x)*params_P;
+		if (map_P[topOffset] === 17)
+		{
+			map_P[currOffset] = 3;
+		}
+	},
+	function (x, y) /* base / alkali */
+	{
+		var lifeOffset = (82*y+x)*params_P + 1;
+		var affectOffset, tmp, diff;
+		if (0.6 < Math.random())
+		{
+			newX = x + ((Math.random() * 3) | 0) - 1;
+			newY = y + ((Math.random() * 3) | 0) - 1;
+			if (!checkBounds (newX, newY))
+			{
+				return;
+			}
+			affectOffset = (82*newY+newX)*params_P;
+			tmp = map_P[affectOffset];
+			switch ( tmp )
+			{
+			case 3: // dissolved by water 
+				tmp = (map_P[lifeOffset] + MAX_ACID_AFFECTED) >> 1;
+				map_P[affectOffset] = 14;
+				map_P[affectOffset+1] = map_P[lifeOffset] = tmp;
+				return;
+			case 7:
+				return;
+			case 8:
+				diff = map_P[affectOffset+1] - map_P[lifeOffset]; // base concentration
+				if (diff >= 0) // if it's base or neutral
+				{
+					map_P[affectOffset] = 15; // salt water
+					map_P[affectOffset+1] = SALT_WATER_SATURE;
+				}
+				else // if it's acid
+				{
+					map_P[affectOffset+1] = 30 + diff;
+				}
+				if (diff <= 0) // if it's acid or neutral
+				{
+					map_P[lifeOffset-1] = 15; // salt water
+					map_P[lifeOffset] = SALT_WATER_SATURE;
+				}
+				else
+				{
+					map_P[lifeOffset] = 30 - diff;
+				}
+				return;
+			case 9: // make soap?
+				map_P[lifeOffset] += 8;
+				map_P[affectOffset] = 7;
+				if (map_P[lifeOffset] >= MAX_ACID_AFFECTED )
+				{
+					map_P[lifeOffset-1] = 0;
+				}
+				return;
+			case 14:
+				if (map_P[lifeOffset] >= MAX_ACID_AFFECTED )
+				{
+					map_P[lifeOffset-1] = 0;
+				}
+				else
+				{
+					// acid's concentration transfer
+					tmp = (map_P[affectOffset+1] - map_P[lifeOffset]) >> 1;
+					map_P[affectOffset+1] -= tmp;
+					map_P[lifeOffset] += tmp;
+				}
+				return;
+			}
+			if ( Math.random() < acidAffect[tmp] )
+			{
+				map_P[affectOffset] = 0;
+				map_P[lifeOffset] += 2;
+			}
+		}
+		return;
+	},
+	function (x, y) /* salt water */
+	{
+		newX = x + ((Math.random() * 3) | 0) - 1;
+		newY = y + ((Math.random() * 3) | 0) - 1;
+		if (!checkBounds (newX, newY) || (newX == x && newY == y))
+		{
+			return;
+		}
+		var concOffset  = (82*y+x)*params_P + 1;
+		var otherOffset = (82*newY+newX)*params_P;
+		var c1, c2;
+		switch (map_P[otherOffset])
+		{
+		case 3: // water
+			c1 = map_P[concOffset];
+			c2 = c1 >> 1;
+			c1 -= c2;
+			// diffusion
+			if (c2 > 0)
+			{
+				map_P[concOffset] = c2;
+			}
+			else
+			{
+				map_P[concOffset-1] = 3;
+			}
+			map_P[otherOffset] = 15;
+			map_P[otherOffset+1] = c1;
+			break;
+		case 15: // salt water
+			c1 = map_P[concOffset] + map_P[otherOffset+1];
+			c2 = c1 >> 1;
+			// diffusion
+			map_P[otherOffset+1] = c1 - c2;
+			map_P[concOffset] = c2
+			break;	
+		case 16: // salt
+			c1 = map_P[concOffset] + map_P[otherOffset+1];
+			// dissolved by water 
+			map_P[concOffset] = SALT_WATER_SATURE;
+			if (c1 > SALT_WATER_SATURE)
+			{
+				map_P[otherOffset+1] = c1 - SALT_WATER_SATURE;
+			}
+			else
+			{
+				map_P[otherOffset] = 15;
+				map_P[otherOffset+1] = c1;
+			}
+			break;	
+		}
+	},
+	function (x, y) /* salt */
+	{
+		newX = x + ((Math.random() * 3) | 0) - 1;
+		newY = y + ((Math.random() * 3) | 0) - 1;
+		if (!checkBounds (newX, newY))
+		{
+			return;
+		}
+		var saltOffset  = (82*y+x)*params_P;
+		var waterOffset = (82*newY+newX)*params_P;
+
+		if (map_P[waterOffset] === 3)
+		{
+			map_P[saltOffset] = 15;
+			map_P[waterOffset] = 15;
+			map_P[waterOffset+1] = SALT_WATER_SATURE;
+		}
+	},
+	null,
+	function (x, y) /* plant */
+	{
+		newX = x + ((Math.random() * 3) | 0) - 1;
+		newY = y + ((Math.random() * 3) | 0) - 1;
+		if (!checkBounds (newX, newY))
+		{
+			return;
+		}
+		var plantOffset = (82*y+x)*params_P;
+		var waterOffset = (82*newY+newX)*params_P;
+
+		if (Math.random() < 0.2)
+		{
+			switch (map_P[waterOffset])
+			{
+			case 3:
+				map_P[waterOffset] = 18;
+				break;
+			case 15:
+				map_P[plantOffset] = 0;
+				break;
+			}
+		}
+	},
 ];
 
 function renderParts ()
@@ -240,7 +462,7 @@ function renderParts ()
 	{
 		for (var x = 0; x < 82; x++)
 		{
-			renderPart ( x, y, map_P[tmp = (82*y+x)*params_P], map_P[tmp+4]);
+			renderPart ( x, y, map_P[tmp = (82*y+x)*params_P], map_P[tmp+arg_deco]);
 		}
 	}
 }
@@ -274,6 +496,8 @@ function create_part (x, y, type)
 	map_P[t+3] = 0;
 	map_P[t+4] = 0;
 	map_P[t+5] = 0;
+	map_P[t+6] = 0;
+	map_P[t+7] = 0;
 	return true;
 }
 function renderPart (x, y, type, dcolour)
@@ -301,8 +525,12 @@ function mouse_partOP (x, y, type, prop)
 		{
 			if ( !create_part (x, y, type) )
 			{
-				map_P[tmp] !== 8 && map_P[tmp] !== 11 && (map_P[tmp+1] = type);
+				map_P[tmp] !== 8 && map_P[tmp] !== 11 && (map_P[tmp] < 14 || map_P[tmp] > 16) && (map_P[tmp+1] = type);
 				return;
+			}
+			else if (map_P[tmp] == 15 || map_P[tmp] == 16)
+			{
+				map_P[tmp + 1] = SALT_WATER_SATURE;
 			}
 		}
 		else
@@ -312,15 +540,15 @@ function mouse_partOP (x, y, type, prop)
 		renderPart (x, y, type, 0);
 		// console.debug(map_P[tmp+5]);
 	}
-	else if (prop <= 6)
+	else if (prop <= params_P)
 	{
 		if (map_P[tmp] !== 0)
 		{
 			map_P[tmp+prop-1] = type;
-			(prop === 1 || prop === 5) && renderPart (x, y, type, map_P[tmp+4]);
+			(prop === 1 || prop === arg_deco+10) && renderPart (x, y, type, map_P[tmp+arg_deco]);
 		}
 	}
-	else if (prop === 7)
+	else if (prop === params_P+1)
 	{
 		if (type === 0)
 		{
@@ -360,7 +588,7 @@ function mouse_partOP (x, y, type, prop)
 function floodInvis (x, y, _from, _to)
 {
 	console.debug(_to);
-	debugger;
+	// debugger;
 	var cstack = [x, y], cptr = 2, x1, x2, y_offset, temp_y;
 	do
 	{
@@ -414,18 +642,41 @@ function floodInvis (x, y, _from, _to)
 	}
 	while (cptr);
 }
-var invisColours = ["#00CCCC", "#0F0064"];
+var invisColours = ["#00CCCC", "#0F0064", "#555577", "#775555", "#557755"];
 function checkBounds (x, y)
 {
 	return x >= 0 && x < 82 && y >= 0 && y < 66;
 }
+
+function isallowed (x, y, type, src)
+{
+	switch (map_I[82*y+x])
+	{
+	case 1:
+		return false;
+	case 3:
+		if (ST_List[type] !== 2 && src !== 0)
+			return false;
+		break;
+	case 4:
+		if (ST_List[type] !== 1 && src !== 0)
+			return false;
+		break;
+	case 5:
+		if (ST_List[type] !== 3 && ST_List[type] !== 4 && src !== 0)
+			return false;
+		break;
+	}
+	return true;
+}
+
 function try_move (x, y)
 {
-	if (map_I[82*y+x] === 1)
+	var type = map_P[(82*y+x)*params_P], tempTypeOffset;
+	if (!isallowed (x, y, type, 0))
 	{
 		return;
 	}
-	var type = map_P[(82*y+x)*params_P];
 	if (Update_P[type] != null)
 	{
 		Update_P[type](x, y);
@@ -444,6 +695,10 @@ function try_move (x, y)
 			if (!inBound || newPosType === 5) {
 				disappearOld = true; break;
 			}
+			if (!isallowed (newX, newY, type, 1))
+			{
+				continue;
+			}
 			if (ST_Weight[newPosType] < ST_Weight[type])
 			{
 				newPartFlag = true;
@@ -459,6 +714,10 @@ function try_move (x, y)
 			newPosType = map_P[(82*newY + newX)*params_P];
 			if (!inBound || newPosType === 5) {
 				disappearOld = true; break;
+			}
+			if (!isallowed (newX, newY, type, 1))
+			{
+				continue;
 			}
 			if (ST_Weight[newPosType] < ST_Weight[type])
 			{
@@ -477,6 +736,10 @@ function try_move (x, y)
 		if (!inBound || newPosType === 5) {
 			disappearOld = true; break;
 		}
+		if (!isallowed (newX, newY, type, 1))
+		{
+			return;
+		}
 		if (newPosType === 0)
 		{
 			newPartFlag = true;
@@ -493,6 +756,10 @@ function try_move (x, y)
 			if (!inBound || newPosType === 5) {
 				disappearOld = true; break;
 			}
+			if (!isallowed (newX, newY, type, 1))
+			{
+				return;
+			}
 			if (ST_Weight[newPosType] < ST_Weight[type])
 			{
 				newPartFlag = true;
@@ -505,9 +772,15 @@ function try_move (x, y)
 	{
 		if (newPartFlag)
 		{
+			tempTypeOffset = (82*newY+newX)*params_P;
+			var t2 = map_P[tempTypeOffset];
+			if (t2 && !isallowed (x, y, t2, 2))
+			{
+				return;
+			}
 			for (var i = 0; i < params_P; i++)
 			{
-				osc = map_P[rnd = (82*newY+newX)*params_P+i];
+				osc = map_P[rnd = tempTypeOffset+i];
 				map_P[rnd] = map_P[type = (82*y+x)*params_P+i];
 				map_P[type] = osc;
 			}
@@ -634,9 +907,9 @@ function frame_render ()
 	renderParts();
 }
 
-var fnList = ["PAUS","FRAM","SOLD","PWDR","LIQD","GAS","SPEC","INVS","PROP","LINK","BACK","TYPE","CTYP","ARG3","ARG4","DECO","TMP"];
+var fnList = ["PAUS","FRAM","SOLD","PWDR","LIQD","GAS","SPEC","INVS","PROP","LINK","BACK","TYPE","CTYP","ARG3","ARG4","ARG5","ARG6","DECO","TMP"];
 var fnListID = [];
-var fnList2 = [0, 10, 17];
+var fnList2 = [0, 10, 19];
 
 function getFnMenu (id)
 {
@@ -686,7 +959,7 @@ function selectOpt (id)
 		showPartMenu (4);
 		break;
 	case 7:
-		currentProp = 7;
+		currentProp = params_P + 1;
 		currentType = prevElem[1];
 		ElemType = 1;
 		for (var i = 4; i < 15; i++)
@@ -694,7 +967,7 @@ function selectOpt (id)
 			menu2partID[i] = -1;
 			document.getElementById("Part_"+i).value = "";
 		}
-		for (var i = 0; i < 4; i++)
+		for (var i = 0; i < 7; i++)
 		{
 			menu2partID[i] = invisMenuID[i];
 			document.getElementById("Part_"+i).value = invisMenu[i];
@@ -733,6 +1006,12 @@ function selectOpt (id)
 	case 16:
 		propertyTool (6);
 		break;
+	case 17:
+		propertyTool (7);
+		break;
+	case 18:
+		propertyTool (8);
+		break;
 	}
 }
 
@@ -754,8 +1033,8 @@ function propertyTool (id)
 	}
 }
 
-var invisMenu = ["X", "INVS", "TOGL", "PHOT"]
-var invisMenuID = [0, 1, 256, 257]
+var invisMenu = ["X", "INVS", "ALOL", "ALOP", "ALOG", "TOGL", "PHOT"]
+var invisMenuID = [0, 1, 3, 4, 5, 256, 257]
 
 var ElemType = 0;
 var prevElem = [2,1];
