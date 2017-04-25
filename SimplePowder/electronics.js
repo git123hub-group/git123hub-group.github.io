@@ -17,7 +17,7 @@ for (var i = height - 1; i >= 0; i--)
 
 var canvas = document.getElementById("PartLayer");
 var ctx = canvas.getContext("2d");
-var colors = ["#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040", "#40403C", "#858505", "#FFC000", "#FFFFFF"];
+var colors = ["#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040", "#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C"];
 
 var PART_METAL = 1;
 var PART_SPARK = 2;
@@ -32,8 +32,9 @@ var PART_INSTC = 10;
 var PART_BATTERY = 11;
 var PART_RAY_EMIT = 12;
 var PART_RAY = 13;
+var PART_GOLD = 14;
 
-var conduct  = [0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0];
+var conduct  = [0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1];
 var isswitch = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0];
 
 function clickPixel (x, y)
@@ -290,7 +291,8 @@ function simPart (x, y, array)
 					{
 						if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
 						tmpArray2 = tmpArray[nx=x+rx];
-						if (isswitch[tmpArray2[0]] || tmpArray2[0] === PART_SPARK && isswitch[tmpArray2[2]])
+						if (isswitch[tmpArray2[0]] || tmpArray2[0] === PART_SPARK && isswitch[tmpArray2[2]]
+							|| tmpArray2[0] === PART_SWITCH_MID && tmpArray2[2] == PART_SWITCH_ON)
 						{
 							tmpArray2[2] = array[2];
 							tmpArray2[0] = PART_SWITCH_MID;
@@ -314,6 +316,7 @@ function simPart (x, y, array)
 					}
 				}
 			}
+		break;
 		case PART_RAY_EMIT:
 			id = -4;
 			for (var ry = -1; ry < 2; ry++)
@@ -387,6 +390,22 @@ function simPart (x, y, array)
 							}
 							_xx += nxi; _yy += nyi;
 						}
+					}
+				}
+			}
+		break;
+		case PART_GOLD:
+			if (!array[1])
+			{
+				var checkCoordsX = [ -4, 4,  0, 0 ];
+				var checkCoordsY = [  0, 0, -4, 4 ];
+				for (var k = 0; k < 4; k ++)
+				{
+					x = checkCoordsX [k];
+					y = checkCoordsY [k];
+					if (checkBounds(x + rx, y + ry) && (tmpArray2 = pmap[y + ry][x + rx]) == PART_SPARK && tmpArray2[1] < 4)
+					{
+						conductTo (x, y, array);
 					}
 				}
 			}
