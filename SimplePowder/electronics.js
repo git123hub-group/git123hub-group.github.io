@@ -129,23 +129,29 @@ function run_frame ()
 				case PART_RAY:
 					if (!k[1]) { k[0] = 0; }
 				break;
-				case PART_SWITCH_ON:
-					if (k[3] == 5) {
-						k[0] = PART_SWITCH_MID;
-						k[1] = 4;
-						k[2] = PART_SWITCH_OFF;
-					}
-					k[3] = 0;
-				break;
-				case PART_SWITCH_OFF:
-					if (k[3] == 5) {
-						k[0] = PART_SWITCH_MID;
-						k[1] = 4;
-						k[2] = PART_SWITCH_OFF;
-					}
-					k[3] = 0;
-				break;
+				// more particle type in .life = 0
 				}
+			}
+			switch (k[0])
+			{
+			case PART_SWITCH_ON:
+				if (k[3] == 5) {
+					k[0] = PART_SWITCH_MID;
+					k[1] = 4;
+					k[2] = PART_SWITCH_OFF;
+				}
+				k[3] = 0;
+			break;
+			case PART_SWITCH_OFF:
+				debugger;
+				if (k[3] == 5) {
+					k[0] = PART_SWITCH_MID;
+					k[1] = 4;
+					k[2] = PART_SWITCH_ON;
+				}
+				k[3] = 0;
+			break;
+			// more particle type in any .life value
 			}
 		}
 	}
@@ -353,7 +359,6 @@ function simPart (x, y, array)
 				for (var rx = -1; rx < 2; rx++, id++)
 				{
 					tmpArray2 = tmpArray[nx = x+rx];
-					debugger;
 					if (tmpArray2[0] === PART_SPARK && tmpArray2[1] === 3 && id)
 					{
 						absID = id < 0 ? -id : id;
