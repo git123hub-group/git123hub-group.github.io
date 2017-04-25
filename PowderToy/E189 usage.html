@@ -31,7 +31,7 @@ Element number 189 (<span class="red">E189</span>) usage:
       <span class="blue">.tmp</span> = 6: <span class="red">PSCN</span> input <b>NAND NOT</b> <span class="red">BMTL</span> input
       <span class="blue">.tmp</span> = 7: <span class="red">PSCN</span> input <b>XNOR</b> <span class="red">BMTL</span> input
     life = 16, ctype =  1: Conductor -> insulator counter (<span class="blue">.tmp</span> = 0 for insulator)
-      use <span class="red">ARAY</span> for increment (if exist <span class="red">E189</span> <span class="blue">.life</span> = 19)
+      Use <span class="red">ARAY</span> for increment <span class="blue">.tmp</span> value.
     life = 16, ctype =  2: Insulator -> conductor counter
     life = 16, ctype =  3: 2-state flip-flop (use <span class="blue">.tmp</span> for state number)
     life = 16, ctype =  4: <span class="red">SPRK</span>-dependent virus curer
@@ -71,6 +71,7 @@ Element number 189 (<span class="red">E189</span>) usage:
   life = 17: <span class="red">PHOT</span> diode, absorbs <span class="red">E186</span>
   life = 18: Decoration particle (<span class="blue">.ctype</span> = Red, <span class="blue">.tmp</span> = Green, <span class="blue">.tmp2</span> = Blue)
   life = 19: Inverter input (unused)
+    Use for (<span class="red">E189</span>'s <span class="blue">.life</span> = 16 <span class="blue">.ctype</span> = 1) modifier
   life = 20: Single article emitter
   life = 21: <span class="red">MERC</span>/<span class="red">DEUT</span>/<span class="red">YEST</span> expander, or <span class="red">SPNG</span><!-- 
 -->"water releaser", or <span class="red">VIBR</span>-based water splitter
