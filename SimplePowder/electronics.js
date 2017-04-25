@@ -17,7 +17,10 @@ for (var i = height - 1; i >= 0; i--)
 
 var canvas = document.getElementById("PartLayer");
 var ctx = canvas.getContext("2d");
-var colors = ["#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040", "#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C"];
+var colors = [
+	"#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040",
+	"#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C", "#FD9D18"
+];
 
 var PART_METAL = 1;
 var PART_SPARK = 2;
@@ -33,9 +36,10 @@ var PART_BATTERY = 11;
 var PART_RAY_EMIT = 12;
 var PART_RAY = 13;
 var PART_GOLD = 14;
+var PART_RAY_DTEC = 15;
 
-var conduct  = [0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1];
-var isswitch = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0];
+var conduct  = [0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0];
+var isswitch = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0];
 
 function clickPixel (x, y)
 {
@@ -143,13 +147,16 @@ function run_frame ()
 				k[3] = 0;
 			break;
 			case PART_SWITCH_OFF:
-				debugger;
 				if (k[3] == 5) {
 					k[0] = PART_SWITCH_MID;
 					k[1] = 4;
 					k[2] = PART_SWITCH_ON;
 				}
 				k[3] = 0;
+			break;
+			case PART_RAY_DTEC:
+				k[1] = k[2];
+				k[2] = 0;
 			break;
 			// more particle type in any .life value
 			}
@@ -374,6 +381,10 @@ function simPart (x, y, array)
 								tmp[1] = destroy ? 2 : 16;
 								tmp[2] = destroy ? 5 : absID;
 							}
+							else if (tmp[0] == PART_RAY_DTEC)
+							{
+								tmp[2] = 1;
+							}
 							else if (!destroy)
 							{
 								if (tmp[0] === PART_INSUL_WIRE || tmp[0] === PART_SPARK && tmp[2] === PART_INSUL_WIRE || tmp[0] === PART_RAY_EMIT || tmp[0] === PART_SWITCH_ON || tmp[0] === PART_SWITCH_MID && tmp[2] === PART_SWITCH_ON)
@@ -443,6 +454,21 @@ function simPart (x, y, array)
 					if (checkBounds(x + rx, y + ry) && (tmpArray2 = pmap[y + ry][x + rx])[0] == PART_SPARK && tmpArray2[1] < 4)
 					{
 						conductTo (x, y, array);
+					}
+				}
+			}
+		break;
+		case PART_RAY_DTEC:
+			if (array[1])
+			{
+				for (var ry = -topBound; ry <= bottomBound; ry++)
+				{
+					tmpArray = pmap[ny=y+ry];
+					for (var rx = -leftBound; rx <= rightBound; rx++)
+					{
+						if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
+						tmpArray2 = tmpArray[nx=x+rx];
+						conductTo (nx, ny, tmpArray2);
 					}
 				}
 			}
