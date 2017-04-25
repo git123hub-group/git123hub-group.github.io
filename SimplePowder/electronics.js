@@ -291,12 +291,16 @@ function simPart (x, y, array)
 					{
 						if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
 						tmpArray2 = tmpArray[nx=x+rx];
-						if (isswitch[tmpArray2[0]] || tmpArray2[0] === PART_SPARK && isswitch[tmpArray2[2]]
-							|| tmpArray2[0] === PART_SWITCH_MID && tmpArray2[2] == PART_SWITCH_ON)
+						if (isswitch[tmpArray2[0]] || tmpArray2[0] === PART_SPARK && isswitch[tmpArray2[2]])
 						{
 							tmpArray2[2] = array[2];
 							tmpArray2[0] = PART_SWITCH_MID;
 							tmpArray2[1] = 4;
+						}
+						else if (tmpArray2[0] === PART_SWITCH_MID && tmpArray2[2] == PART_SWITCH_ON && array[2] == PART_SWITCH_OFF)
+						{
+							tmpArray2[1] = 4;
+							tmpArray2[2] = PART_SWITCH_OFF;
 						}
 					}
 				}
@@ -401,8 +405,8 @@ function simPart (x, y, array)
 				var checkCoordsY = [  0, 0, -4, 4 ];
 				for (var k = 0; k < 4; k ++)
 				{
-					x = checkCoordsX [k];
-					y = checkCoordsY [k];
+					rx = checkCoordsX [k];
+					ry = checkCoordsY [k];
 					if (checkBounds(x + rx, y + ry) && (tmpArray2 = pmap[y + ry][x + rx]) == PART_SPARK && tmpArray2[1] < 4)
 					{
 						conductTo (x, y, array);
