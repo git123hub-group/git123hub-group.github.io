@@ -19,7 +19,7 @@ var canvas = document.getElementById("PartLayer");
 var ctx = canvas.getContext("2d");
 var colors = [
 	"#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040",
-	"#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C", "#FD9D18"
+	"#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C", "#FD9D18", "#902090"
 ];
 
 var PART_METAL = 1;
@@ -37,6 +37,7 @@ var PART_RAY_EMIT = 12;
 var PART_RAY = 13;
 var PART_GOLD = 14;
 var PART_RAY_DTEC = 15;
+var PART_DELAY = 16;
 
 var conduct  = [0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0];
 var isswitch = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -45,6 +46,8 @@ function clickPixel (x, y)
 {
 	x >= 82 && (x = 81);
 	y >= 66 && (y = 65);
+
+	var tmpi;
 	
 	var temp = pmap[y+1][x+1];
 	if (part_state !== PART_SPARK)
@@ -58,7 +61,15 @@ function clickPixel (x, y)
 		{
 			temp[0] = part_state;
 			temp[1] = 0;
+			temp[2] = 0;
 			temp[3] = 0;
+			temp[4] = 0;
+			temp[5] = 0;
+			if (part_state === PART_DELAY)
+			{
+				tmpi = prompt ("Enter number value for delay:");
+				temp[2] = (tmpi >= 1 ? tmpi : 1);
+			}
 			renderPixel (x+1, y+1, temp);
 		}
 	}
@@ -101,6 +112,10 @@ function renderPixel (x, y, array)
 			ctx.fillStyle = "rgb(" + (num = (array[1] * 100) | 0) + "," + (num * 3 / 5) + "," + (num / 5) + ")";
 		}
 	}
+	else if (array[0] === PART_DELAY && array[1] > 0)
+	{
+		ctx.fillStyle = "#D078D0";
+	}
 	ctx.fillRect ((x - 1) * 10, (y - 1) * 10, 10, 10);
 }
 
@@ -125,21 +140,11 @@ function run_frame ()
 		part_y_index = 4 * y * width;
 		for (var x = 0; x < width; x++)
 		{
-			if ((k = pmap[y][x])[1])
-			{
-				k[1] --;
-				switch (k[0])
-				{
-				case PART_RAY:
-					if (!k[1]) { k[0] = 0; }
-				break;
-				// more particle type in .life = 0
-				}
-			}
+			k = pmap[y][x];
 			switch (k[0])
 			{
 			case PART_SWITCH_ON:
-				if (k[3] == 5) {
+				if (k[3] === 5) {
 					k[0] = PART_SWITCH_MID;
 					k[1] = 4;
 					k[2] = PART_SWITCH_OFF;
@@ -147,7 +152,7 @@ function run_frame ()
 				k[3] = 0;
 			break;
 			case PART_SWITCH_OFF:
-				if (k[3] == 5) {
+				if (k[3] === 5) {
 					k[0] = PART_SWITCH_MID;
 					k[1] = 4;
 					k[2] = PART_SWITCH_ON;
@@ -158,7 +163,21 @@ function run_frame ()
 				k[1] = k[2];
 				k[2] = 0;
 			break;
+			case PART_DELAY:
+				k[3] = k[1]; // save old .life property
+			break;
 			// more particle type in any .life value
+			}
+			if (k[1])
+			{
+				k[1] --;
+				switch (k[0])
+				{
+				case PART_RAY:
+					if (!k[1]) { k[0] = 0; }
+				break;
+				// more particle type in .life = 0
+				}
 			}
 		}
 	}
@@ -333,7 +352,7 @@ function simPart (x, y, array)
 						if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
 						tmpArray2 = tmpArray[nx=x+rx];
 						if (isswitch[tmpArray2[0]] || tmpArray2[0] === PART_SPARK && isswitch[tmpArray2[2]]
-							|| tmpArray2[0] === PART_SWITCH_MID && tmpArray2[2] == PART_SWITCH_ON && array[2] == PART_SWITCH_OFF)
+							|| tmpArray2[0] === PART_SWITCH_MID && tmpArray2[2] === PART_SWITCH_ON && array[2] === PART_SWITCH_OFF)
 						{
 							tmpArray2[2] = array[2];
 							tmpArray2[0] = PART_SWITCH_MID;
@@ -381,9 +400,10 @@ function simPart (x, y, array)
 								tmp[1] = destroy ? 2 : 16;
 								tmp[2] = destroy ? 5 : absID;
 							}
-							else if (tmp[0] == PART_RAY_DTEC)
+							else if (tmp[0] === PART_RAY_DTEC)
 							{
 								tmp[2] = 1;
+								break;
 							}
 							else if (!destroy)
 							{
@@ -451,7 +471,7 @@ function simPart (x, y, array)
 				{
 					rx = checkCoordsX [k];
 					ry = checkCoordsY [k];
-					if (checkBounds(x + rx, y + ry) && (tmpArray2 = pmap[y + ry][x + rx])[0] == PART_SPARK && tmpArray2[1] < 4)
+					if (checkBounds(x + rx, y + ry) && (tmpArray2 = pmap[y + ry][x + rx])[0] === PART_SPARK && tmpArray2[1] < 4)
 					{
 						conductTo (x, y, array);
 					}
@@ -459,7 +479,7 @@ function simPart (x, y, array)
 			}
 		break;
 		case PART_RAY_DTEC:
-			if (array[1])
+			if (array[1] === 1)
 			{
 				for (var ry = -topBound; ry <= bottomBound; ry++)
 				{
@@ -469,6 +489,42 @@ function simPart (x, y, array)
 						if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
 						tmpArray2 = tmpArray[nx=x+rx];
 						conductTo (nx, ny, tmpArray2);
+					}
+				}
+			}
+		break;
+		case PART_DELAY:
+			for (var ry = -topBound; ry <= bottomBound; ry++)
+			{
+				tmpArray = pmap[ny=y+ry];
+				for (var rx = -leftBound; rx <= rightBound; rx++)
+				{
+					if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
+					if (pmap[(y + ny)>>1][(x + nx)>>1][0] === PART_INSUL)
+					{
+						continue;
+					}
+					tmpArray2 = tmpArray[nx=x+rx];
+					switch (tmpArray2[0])
+					{
+					case PART_SPARK:
+						if (tmpArray2[1] > 0 && tmpArray2[1] < 4 && tmpArray2[2] === PART_PSCN && array[1] <= 0)
+						{
+							array[1] = array[2];
+						}
+					break;
+					case PART_DELAY:
+						if (tmpArray2[1] < array[1] && !tmpArray2[3] && array[3])
+						{
+							tmpArray2[1] = array[1];
+						}
+					break;
+					case PART_NSCN:
+						if (array[3] === 1)
+						{
+							conductTo (nx, ny, tmpArray2);
+						}
+					break;
 					}
 				}
 			}
