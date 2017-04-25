@@ -222,7 +222,7 @@ function simPart (x, y, array)
 							if (sender === PART_NSCN)
 							{
 								tmpArray2[0] = PART_SWITCH_MID;
-								tmpArray2[1] = 4;
+								tmpArray2[1] = 5;
 								tmpArray2[2] = PART_SWITCH_OFF;
 							}
 							break;
@@ -235,7 +235,7 @@ function simPart (x, y, array)
 						if (sender === PART_PSCN)
 						{
 							tmpArray2[0] = PART_SWITCH_MID;
-							tmpArray2[1] = 4;
+							tmpArray2[1] = 5;
 							tmpArray2[2] = PART_SWITCH_ON;
 						}
 						break;
@@ -245,17 +245,25 @@ function simPart (x, y, array)
 							if (sender === PART_NSCN)
 							{
 								tmpArray2[0] = PART_SWITCH_MID;
-								tmpArray2[1] = 4;
+								tmpArray2[1] = 5;
 								tmpArray2[2] = PART_SWITCH_OFF;
 							}
 							continue;
 						}
 						break;
 					case PART_SWITCH_MID:
-						if (tmpArray2[2] === PART_SWITCH_ON && tmpArray2[1] < 4 && sender === PART_METAL)
+						if (tmpArray2[2] === PART_SWITCH_ON && tmpArray2[1] < 5)
 						{
-							tmpArray2[0] = PART_SPARK;
-							tmpArray2[1] = 4;
+							if (sender === PART_METAL)
+							{
+								tmpArray2[0] = PART_SPARK;
+								tmpArray2[1] = 4;
+							}
+							else if (sender === PART_NSCN)
+							{
+								tmpArray2[1] = 5;
+								tmpArray2[2] = PART_SWITCH_OFF;
+							}
 						}
 						continue;
 					case PART_INSUL_WIRE:
@@ -282,7 +290,7 @@ function simPart (x, y, array)
 				array[0] = array[2];
 				return;
 			}
-			if (array[1] < 4)
+			if (array[1] > 1 && array[1] < 5)
 			{
 				for (var ry = -topBound; ry <= bottomBound; ry++)
 				{
@@ -291,16 +299,12 @@ function simPart (x, y, array)
 					{
 						if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
 						tmpArray2 = tmpArray[nx=x+rx];
-						if (isswitch[tmpArray2[0]] || tmpArray2[0] === PART_SPARK && isswitch[tmpArray2[2]])
+						if (isswitch[tmpArray2[0]] || tmpArray2[0] === PART_SPARK && isswitch[tmpArray2[2]]
+							|| tmpArray2[0] === PART_SWITCH_MID && tmpArray2[2] == PART_SWITCH_ON && array[2] == PART_SWITCH_OFF)
 						{
 							tmpArray2[2] = array[2];
 							tmpArray2[0] = PART_SWITCH_MID;
-							tmpArray2[1] = 4;
-						}
-						else if (tmpArray2[0] === PART_SWITCH_MID && tmpArray2[2] == PART_SWITCH_ON && array[2] == PART_SWITCH_OFF)
-						{
-							tmpArray2[1] = 4;
-							tmpArray2[2] = PART_SWITCH_OFF;
+							tmpArray2[1] = 5;
 						}
 					}
 				}
@@ -407,7 +411,7 @@ function simPart (x, y, array)
 				{
 					rx = checkCoordsX [k];
 					ry = checkCoordsY [k];
-					if (checkBounds(x + rx, y + ry) && (tmpArray2 = pmap[y + ry][x + rx]) == PART_SPARK && tmpArray2[1] < 4)
+					if (checkBounds(x + rx, y + ry) && (tmpArray2 = pmap[y + ry][x + rx])[0] == PART_SPARK && tmpArray2[1] < 4)
 					{
 						conductTo (x, y, array);
 					}
