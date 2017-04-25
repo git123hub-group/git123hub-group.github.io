@@ -11,7 +11,7 @@ for (var i = height - 1; i >= 0; i--)
 	pmap[i] = [];
 	for (var j = width - 1; j >= 0; j--)
 	{
-		pmap[i][j] = new Int32Array(4);
+		pmap[i][j] = new Int32Array(5);
 	}
 }
 
@@ -124,8 +124,28 @@ function run_frame ()
 			if ((k = pmap[y][x])[1])
 			{
 				k[1] --;
-				if (k[0] === PART_RAY && !k[1])
-					k[0] = 0;
+				switch (k[0])
+				{
+				case PART_RAY:
+					if (!k[1]) { k[0] = 0; }
+				break;
+				case PART_SWITCH_ON:
+					if (k[3] == 5) {
+						k[0] = PART_SWITCH_MID;
+						k[1] = 4;
+						k[2] = PART_SWITCH_OFF;
+					}
+					k[3] = 0;
+				break;
+				case PART_SWITCH_OFF:
+					if (k[3] == 5) {
+						k[0] = PART_SWITCH_MID;
+						k[1] = 4;
+						k[2] = PART_SWITCH_OFF;
+					}
+					k[3] = 0;
+				break;
+				}
 			}
 		}
 	}
@@ -382,6 +402,10 @@ function simPart (x, y, array)
 							}
 							else
 							{
+								if (isswitch[tmp[0]])
+								{
+									tmp[3] |= 1 << (absID - 1);
+								}
 								if (tmp[0] === PART_INSUL_WIRE || tmp[0] === PART_SPARK && tmp[2] === PART_INSUL_WIRE || tmp[0] === PART_RAY_EMIT || tmp[0] === PART_SWITCH_ON || tmp[0] === PART_SWITCH_MID && tmp[2] === PART_SWITCH_ON)
 								{
 									_xx += nxi; _yy += nyi;
