@@ -68,6 +68,18 @@ Element number 189 (<span class="red">E189</span>) usage:
       if <span class="blue">.temp</span> &lt; 0 C then remove active sparks;
       if <span class="blue">.temp</span> &gt; ~100 C then set <span class="red">SPRK</span>'s <span class="blue">.life</span> = 3;
       otherwise, set <span class="red">SPRK</span>'s <span class="blue">.life</span> = 4;
+    life = 16, ctype = 22: custom GOL type changer
+      with <span class="red">PSCN</span> input and <span class="red">FILT</span>: set 'live' rule
+      with <span class="red">NSCN</span> input and <span class="red">FILT</span>: set 'spawn' rule
+      with <span class="red">ACEL</span>: increase custom GOL states
+      with <span class="red">DCEL</span>: decrease custom GOL states
+      with <span class="red">FRAY</span>: set custom GOL states
+      with <span class="red">PSCN</span> input and {<span class="red">DTEC</span>, <!--
+--><span class="red">FILT</span>}: get 'live' rule to <span class="red">FILT</span>
+      with <span class="red">NSCN</span> input and {<span class="red">DTEC</span>, <!--
+--><span class="red">FILT</span>}: get 'spawn' rule to <span class="red">FILT</span>
+      with {<span class="red">DTEC</span>, <span class="red">FRAY</span>}<!--
+-->: get GOL states to <span class="red">FRAY</span>'s <span class="blue">.tmp</span>
   life = 17: <span class="red">PHOT</span> diode, absorbs <span class="red">E186</span>
   life = 18: Decoration particle (<span class="blue">.ctype</span> = Red, <span class="blue">.tmp</span> = Green, <span class="blue">.tmp2</span> = Blue)
   life = 19: Inverter input (unused)
