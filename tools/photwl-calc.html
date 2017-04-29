@@ -1,0 +1,114 @@
+<body style="background-color: #000; color: #FFF"> <!-- black background -->
+<div style="text-align: center">
+<canvas id="photwl_gfx" width="241" height="61" onclick="toggleWavelength(event.offsetX, event.offsetY)"></canvas><br />
+<table style="margin:0px auto">
+<tr>
+<td>Decimal: </td>
+<td><input id="photwl_dec" value="0" type="text" onkeyup="loadWavelengthData(this.value)"
+style="color: inherit; background: inherit; border: none; text-align: center; width: 130px" /></td>
+</tr>
+<tr>
+<td>Hex: </td>
+<td><input id="photwl_hex" value="0x00000000" type="text" onkeyup="loadWavelengthData(parseInt(this.value, 16))"
+style="color: inherit; background: inherit; border: none; text-align: center; width: 130px" /></td>
+</tr>
+<tr>
+<td>Decoration colour: </td>
+<td>
+<div id="photwl_decos" style="width: 20px; height: 20px; float: left; border: 1px solid #FFF"></div>
+<input id="photwl_deco" value="#000000" type="text" readonly="readonly"
+style="height: 22px; color: inherit; background: inherit; border: none; text-align: center; width: 100px; float:right" />
+</td>
+</tr>
+</table>
+</div>
+<script>
+var canvas_wl = document.getElementById("photwl_gfx");
+var ctx_wl = canvas_wl.getContext("2d");
+
+var wavelengths = 0;
+function toggleWavelength(offsetX, offsetY)
+{
+	if (offsetY < 1 && offsetY >= 60)
+	{
+		return 0;
+	}
+	if (offsetX < 1 && offsetX >= 240)
+	{
+		return 0;
+	}
+	if ((offsetX -= 1) % 8 >= 7)
+	{
+		return 0;
+	}
+	offsetX /= 8;
+	offsetX |= 0;
+	var tempMask = 1 << (29 - offsetX);
+	wavelengths ^= tempMask;
+	loadWavelength(wavelengths, offsetX, tempMask);
+	document.getElementById("photwl_dec").value = wavelengths;
+	document.getElementById("photwl_hex").value = "0x" + ("00000000" + wavelengths.toString(16)).slice(-8);
+	document.getElementById("photwl_deco").value = photwl2deco(wavelengths);
+	document.getElementById("photwl_decos").style.backgroundColor = photwl2deco(wavelengths);
+	return 1;
+}
+function loadWavelength (wlx, offsetX, tempMask)
+{
+	if (wlx & tempMask)
+	{
+		/*string*/ var colorstr = "#";
+		colorstr += (offsetX < 12) ? "ff" : "00";
+		colorstr += (offsetX >=  9 && offsetX < 21) ? "ff" : "00";
+		colorstr += (offsetX >= 18) ? "ff" : "00";
+		ctx_wl.fillStyle = colorstr;
+		ctx_wl.fillRect(offsetX * 8 + 1, 1, 7, 59);
+	}
+	else
+	{
+		ctx_wl.fillStyle = "#000";
+		ctx_wl.fillRect(offsetX * 8 + 1, 1, 7, 59);
+	}
+}
+
+function loadWavelengths (wlx)
+{
+	for (var i = 0; i < 30; i++)
+	{
+		loadWavelength (wlx, i, 1 << (29 - i));
+	}
+}
+
+function loadWavelengthData (wlx)
+{
+	wavelengths = +wlx & 0x3FFFFFFF;
+	loadWavelengths (wavelengths);
+	document.getElementById("photwl_dec").value = wavelengths;
+	document.getElementById("photwl_hex").value = "0x" + ("00000000" + wavelengths.toString(16)).slice(-8);
+	document.getElementById("photwl_deco").value = photwl2deco(wavelengths);
+	document.getElementById("photwl_decos").style.backgroundColor = photwl2deco(wavelengths);
+}
+
+function photwl2deco (/*int*/ wavelength)
+{
+	/*int*/ var x = 0;
+	/*int*/ var colr, colg, colb;
+	colr = colg = colb = 0;
+
+	for (x=0; x<12; x++) {
+		colr += (wavelength >> (x+18)) & 1;
+		colb += (wavelength >>  x)     & 1;
+	}
+
+	for (x=0; x<12; x++)
+		colg += (wavelength >> (x+9))  & 1;
+
+	x = (624 / (colr + colg + colb + 1)) | 0;
+
+	colr *= x; if (colr > 255) colr = 255;
+	colg *= x; if (colg > 255) colg = 255;
+	colb *= x; if (colb > 255) colb = 255;
+	
+	return "#" + (((0x100 + colr)*0x100 + colg)*0x100 + colb).toString(16).slice(-6);
+}
+</script>
+</body>
