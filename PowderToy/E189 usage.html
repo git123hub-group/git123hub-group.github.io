@@ -1,6 +1,7 @@
 <style>
 .blue {color: #0000FF}
 .red {color: #FF0000}
+.yellow {color: #BBBB00}
 a {text-decoration: none; color: inherit; padding: 3px 2px; display: inline-block;}
 </style>
 <pre>
@@ -10,6 +11,9 @@ a {text-decoration: none; color: inherit; padding: 3px 2px; display: inline-bloc
 <a href="E189%20alternate" style="background:#BBDDFF;">HUD display for "E189" alternate name</a>
 Note: "<span class="red">E189</span>" is experimental, and very likely to be changed.
 Note: Sorry for bad english.
+* <span class="red">Red text</span> = Element's type
+* <span class="blue">Blue text</span> = Element's property
+* <span class="yellow">Yellow text</span> = Variable
 Element number 189 (<span class="red">E189</span>) usage:
   life =  0: Complete pressure insulator (acts <span class="red">TTAN</span>'s <span class="blue">.tmp</span> = 0)
   life =  1: Complete pressure insulator (acts <span class="red">TTAN</span>'s <span class="blue">.tmp</span> = 1)
@@ -46,12 +50,12 @@ Element number 189 (<span class="red">E189</span>) usage:
     <span class="blue">.tmp</span> = 9: set 'sim_max_pressure' value
     <span class="blue">.tmp</span> = 10: reset 'currentTick' value
     <span class="blue">.tmp</span> = 11: set <span class="blue">.ctype</span> in debug HUD (for element)
-       <span class="red">PSCN</span> input: enable function 1
-       <span class="red">NSCN</span> input: disable function 1
-       <span class="red">INWR</span> input: toggle function 1
-       <span class="red">STOR</span>: function 1 = show <span class="blue">.ctype</span> as integer
-       <span class="red">CRAY</span>: function 1 = show <span class="blue">.ctype</span> as wavelengths
-       <span class="red">DRAY</span>: function 1 = show <span class="blue">.ctype</span> as special case
+       <span class="red">PSCN</span> input: enable <span class="yellow">function 1</span>
+       <span class="red">NSCN</span> input: disable <span class="yellow">function 1</span>
+       <span class="red">INWR</span> input: toggle <span class="yellow">function 1</span>
+       <span class="red">STOR</span>: <span class="yellow">function 1</span> = show <span class="blue">.ctype</span> as integer
+       <span class="red">CRAY</span>: <span class="yellow">function 1</span> = show <span class="blue">.ctype</span> as wavelengths
+       <span class="red">DRAY</span>: <span class="yellow">function 1</span> = show <span class="blue">.ctype</span> as special case
        e.g. <span class="red">PSCN</span> input + <span class="red">STOR</span> = enable show <span class="blue">.ctype</span> as integer
   life = 11: Photons emitter
   life = 12: SPRK reflector. Also use by <span class="red">PSTN</span>.
