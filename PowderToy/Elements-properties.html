@@ -14,14 +14,36 @@
 <a href="../index/" style="background:#FFBBDD;">返回到首页</a>
 <a href="../tpt-mods" style="background:#BBBBFF;">返回到 "我的 TPT Mods"</a>
 <a href="../tpt-elements" style="background:#FFDDBB;">返回到 "TPT Mod 元素说明"</a>
-<hr />
-<span style="font-size: 1.5em">元素属性</span>
+
+"Element.h":
 IPL = Impossibly Low Pressure
 IPH = Impossibly High Pressure
 ITL = Impossibly Low Temperature
 ITH = Impossibly High Temperature
 NT  = No transition (-1)
 ST  = Special transition (PT_NUM)
+
+"Element.h":
+R_TEMP     = Room temperature (22 C)
+MAX_TEMP   = Maximum temperature (9999 K)
+MIN_TEMP   = Minimum temperature (0 K)
+O_MAX_TEMP = Maximum temperature (old) (3500 C)
+O_MIN_TEMP = Minimum temperature (old) (-273 C)
+1st properties:
+   TYPE_PART              = Powder type (1)
+   TYPE_LIQUID            = Liquid type (2)
+   TYPE_PART              = Solid type (4)
+   TYPE_LIQUID            = Gas type (8)
+   TYPE_ENERGY            = Energy type (16)
+   STATE_FLAGS            = Any type (31)
+   PROP_CONDUCTS          = Conducts electricity (32)
+   PROP_BLACK             = Unused (64)
+   Neutrons interaction:
+      Reflects neutrons is default
+      PROP_NEUTPENETRATE  = Penetrated by neutrons (128)
+      PROP_NEUTABSORB     = Absorbs neutrons (256)
+      PROP_NEUTPASS       = Neutrons pass through (512)
+      PROP_DEADLY         = Deadly for stickman (1024)
 </pre>
 </body>
 </html>
