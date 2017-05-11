@@ -114,10 +114,10 @@ Simulation properties:
       <span class="src">sim->gravy[y/CELL][x/CELL]</span> : the gravity velocity y at (x, y)
    
 Single particle properties:
-   <span class="blue">.type</span> : particle's current type
+   <span class="blue">.type</span> : particle's current type [主要粒子类型]
       Can change by C++ code: <span class="src">sim->part_change_type(id, x, y, type)</span>
    <span class="blue">.life</span> : particle's life
-   <span class="blue">.ctype</span> : particle's previous type
+   <span class="blue">.ctype</span> : particle's previous type [次要粒子类型, 其实可以是任意类型]
    <span class="blue">.x</span>, <span class="blue">.y</span> : particle's coordinate (using float, not integer)
    <span class="blue">.vx</span>, <span class="blue">.vy</span> : particle's velocity
    <span class="blue">.temp</span> : particle's temperature
