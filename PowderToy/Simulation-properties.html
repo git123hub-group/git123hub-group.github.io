@@ -100,14 +100,14 @@ Simulation properties:
       <span class="src">sim->fvx[y/CELL][x/CELL]</span> : Fan velocity x at (x, y)
       <span class="src">sim->fvy[y/CELL][x/CELL]</span> : Fan velocity y at (x, y)
    Particles properties:
-      <span class="src">sim->parts[i]</span> : the particle that has index i
-      <span class="src">sim->pmap[y][x]</span> : Particle-map at (x, y)
-      <span class="src">sim->photons[y][x]</span> : Photon-map at (x, y)
+      <span class="src">sim->parts[i]</span> : the particle that has index i [粒子属性表]
+      <span class="src">sim->pmap[y][x]</span> : Particle-map at (x, y) [粒子映射表]
+      <span class="src">sim->photons[y][x]</span> : Photon-map at (x, y) [能量粒子映射表]
    Air properties:
-      <span class="src">sim->pv[y/CELL][x/CELL]</span> : the pressure at (x, y)
+      <span class="src">sim->pv[y/CELL][x/CELL]</span> : the pressure at (x, y) [气压表]
       <span class="src">sim->vx[y/CELL][x/CELL]</span> : the air velocity x at (x, y)
       <span class="src">sim->vy[y/CELL][x/CELL]</span> : the air velocity y at (x, y)
-      <span class="src">sim->hv[y/CELL][x/CELL]</span> : the ambient heat at (x, y)
+      <span class="src">sim->hv[y/CELL][x/CELL]</span> : the ambient heat at (x, y) [环境热表]
    Gravity properties:
       <span class="src">sim->gravmap[y/CELL][x/CELL]</span> : the gravity-map at (x, y)
       <span class="src">sim->gravx[y/CELL][x/CELL]</span> : the gravity velocity x at (x, y)
