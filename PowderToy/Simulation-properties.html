@@ -121,11 +121,23 @@ Single particle properties:
    <span class="blue">.x</span>, <span class="blue">.y</span> : particle's coordinate (using float, not integer)
    <span class="blue">.vx</span>, <span class="blue">.vy</span> : particle's velocity
    <span class="blue">.temp</span> : particle's temperature
+   <span class="blue">.tmp</span>, <span class="blue">.tmp2</span>, etc. : a value which can be used for anything.
    <span class="blue">.dcolour</span> : particle's decoration color
    <span class="blue">.cdcolour</span> : particle's previous decoration color
       Can change by Lua code: <span class="src">simulation.secondaryDeco</span>, <b>not</b> <span class="src">simulation.partProperty</span>
       Can't change by console: "!set cdcolour", or PROP (Property tool)
-   <span class="blue">.tmp</span>, <span class="blue">.tmp2</span>, etc. : a value which can be used for anything.
+   <span class="blue">.pavg</span>: Mainly used for pressure or storing properties of particles inside PIPE
+   Useless particle properties:
+      <span class="blue">.clife</span> : ctype's life?
+      <span class="blue">.cctype</span> : ctype's ctype?
+      <span class="blue">.ctemp</span> : ctype's temp?
+      <span class="blue">.ctmp</span> : ctype's tmp?
+      <span class="blue">.ctmp2</span> : ctype's tmp2?
+      <span class="blue">.cpavg</span> : ctype's pavg?
+      <span class="blue">.cclife</span> : ctype's clife?
+      <span class="blue">.ccctype</span> : ctype's cctype?
+      <span class="blue">.cctemp</span> : ctype's ctemp?
+      <span class="blue">.ccclife</span> : ctype's cclife?
 </pre>
 </body>
 </html>
