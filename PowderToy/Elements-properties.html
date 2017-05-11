@@ -7,7 +7,7 @@
    a {text-decoration: none; color: inherit; padding: 3px 2px; display: inline-block;}
    .blue {color: #0000FF}
    .red {color: #FF0000}
-   .src {background-color: #CCCCCC}
+   .src {background-color: #d8d8d8}
 </style>
 </head>
 <body>
@@ -89,6 +89,29 @@
    REAL_BOUNDS_CHECK(x, y) = <span class="src">sim->InBounds(x, y)</span>
    OLD_PT_WIND = Unused type (147)
    PT_NUM = 256
+
+Simulation properties:
+   CELL : The size of the pressure, gravity, and wall maps (4)
+   <span class="src">sim->pmap[y][x]</span> : Particle-map at (x, y)
+   <span class="src">sim->photons[y][x]</span> : Photon-map at (x, y)
+   <span class="src">sim->bmap[y/CELL][x/CELL]</span> : Block-map at (x, y)
+   <span class="src">sim->emap[y/CELL][x/CELL]</span> : Electronics-map at (x, y)
+   <span class="src">sim->parts[i]</span> : the particle that has index i
+   <span class="src">sim->pv[y/CELL][x/CELL]</span> : The pressure at (x, y)
+   <span class="src">sim->vx[y/CELL][x/CELL]</span> : The air velocity x at (x, y)
+   <span class="src">sim->vy[y/CELL][x/CELL]</span> : The air velocity y at (x, y)
+   <span class="src">sim->hv[y/CELL][x/CELL]</span> : The ambient heat at (x, y)
+   
+Particle properties:
+   <span class="blue">.type</span> : particle's current type
+   <span class="blue">.life</span> : particle's life
+   <span class="blue">.ctype</span> : particle's previous type
+   <span class="blue">.x</span>, <span class="blue">.y</span> : particle's coordinate (using float, not integer)
+   <span class="blue">.vx</span>, <span class="blue">.vy</span> : particle's velocity
+   <span class="blue">.temp</span> : particle's temperature
+   <span class="blue">.dcolour</span> : particle's decoration color
+   <span class="blue">.cdcolour</span> : particle's previous decoration color
+   <span class="blue">.tmp</span>, <span class="blue">.tmp2</span>, etc. : a value which can be used for anything.
 </pre>
 </body>
 </html>
