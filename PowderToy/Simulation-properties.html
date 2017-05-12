@@ -113,6 +113,15 @@ Simulation properties:
       <span class="src">sim->gravmap[y/CELL][x/CELL]</span> : the gravity-map at (x, y)
       <span class="src">sim->gravx[y/CELL][x/CELL]</span> : the gravity velocity x at (x, y)
       <span class="src">sim->gravy[y/CELL][x/CELL]</span> : the gravity velocity y at (x, y)
+   Air update properties:
+      <span class="src">sim->air->pv</span> : input for pressure
+      <span class="src">sim->air->opv</span> : output for pressure
+      <span class="src">sim->air->vx</span> : input for air velocity x
+      <span class="src">sim->air->ovx</span> : output for air velocity x
+      <span class="src">sim->air->vy</span> : input for air velocity y
+      <span class="src">sim->air->ovy</span> : output for air velocity y
+      <span class="src">sim->air->hv</span> : input for ambient heat
+      <span class="src">sim->air->ohv</span> : output for ambient heat
    
 Single particle properties:
    <span class="blue">.type</span> : particle's current type [主要粒子类型]
