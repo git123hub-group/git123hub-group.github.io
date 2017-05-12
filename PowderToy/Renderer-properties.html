@@ -23,6 +23,36 @@ ren->flm_data = Flame data (火焰数据)
 ren->plasma_data = Plasma data (等离子火焰数据)
 ren->blackDecorations = Black decorations? (是否装饰成黑色?)
 ren->decorations_enable = Draw decorations? (是否绘制装饰层?)
+
+Constants:
+   PMODE (4095)
+      PMODE_NONE     = 0
+      PMODE_FLAT     = 1
+      PMODE_BLOB     = 2
+      PMODE_BLUR     = 4
+      PMODE_GLOW     = 8
+      PMODE_SPARK    = 16
+      PMODE_FLARE    = 32
+      PMODE_LFLARE   = 64
+      PMODE_ADD      = 128
+      PMODE_BLEND    = 256
+      PSPEC_STICKMAN = 512
+   OPTIONS (61440)
+      NO_DECO        = 4096
+      DECO_FIRE      = 8192
+   FIREMODE (16711680)
+      FIRE_ADD       = 2^16
+      FIRE_BLEND     = 2^17
+      FIRE_SPARK     = 2^18
+   EFFECT (4278190080)
+      EFFECT_GRAVIN	 = 2^24
+      EFFECT_GRAVOUT  = 2^25
+      EFFECT_LINES    = 2^26
+      EFFECT_DBGLINES = 2^27
+   COLOUR_HEAT = 1
+   COLOUR_LIFE = 2
+   COLOUR_GRAD = 4
+   COLOUR_BASC = 8
 </pre>
 </body>
 </html>
