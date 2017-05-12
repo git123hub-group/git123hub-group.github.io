@@ -50,7 +50,19 @@
       <span class="src">sim->air->ovy</span> : output for air velocity y
       <span class="src">sim->air->hv</span> : input for ambient heat
       <span class="src">sim->air->ohv</span> : output for ambient heat
-   
+   Functions:
+      <span class="src">sim->create_part(id, x, y, type)</span> : Creates a particle at a given coordinate.
+      <span class="src">sim->kill_part(id)</span> : Deletes particle with index id.
+      <span class="src">sim->delete_part(x, y)</span> : Deletes a particle at location (x, y)
+      <span class="src">sim->part_change_type(id, x, y, type)</span> : Changes type of particle id
+         * Do not manually set <span class="blue">.type</span>, use this function instead.
+      <span class="src">sim->clear_area(x, y, w, h)</span> : Clears a rectangle with specified height and width.
+      <span class="src">sim->CreateBox(x1, x2, y1, y2, type)</span> : Creates a rectangle of a given particle.
+      <span class="src">sim->CreateLine(x1, x2, y1, y2, type)</span> : Draws a single pixel line of a specified element from two points.
+      <span class="src">sim->FloodParts(x, y, type)</span> : Starts a flood-fill from a point.
+      <span class="src">sim->flood_prop(x, y, offset, value, proptype)</span> : Sets a property via flood-fill.
+      <span class="src">sim->parts_avg(i, ni, type)</span>:  Checks if an element of type t is inbetween the two particles specified as indexes.
+
 <span id="particle">Single particle properties:</span>
    <span class="blue">.type</span> : particle's current type [主要粒子类型]
       Can change by C++ code: <span class="src">sim->part_change_type(id, x, y, type)</span>
@@ -133,9 +145,9 @@
       PROP_CTYPE_WAVEL        = 16
       PROP_CTYPE_SPEC         = 32
       PROP_ENERGY_PART        = 64
-      PROP_UNBREAKABLECLONE   = 16384
-      PROP_NODESTRUCT         = Indestructible property (32768)
-      PROP_CLONE              = 65536
+      PROP_UNBREAKABLECLONE   = 2^14
+      PROP_NODESTRUCT         = Indestructible property (2^15)
+      PROP_CLONE              = 2^16
       PROP_DRAWONCTYPE        = 2^19
       PROP_NOSLOWDOWN         = 2^25
       PROP_INVISIBLE          = Acts like <span class="red">INVS</span> (2^26)
