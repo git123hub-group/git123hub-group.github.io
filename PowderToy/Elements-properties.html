@@ -23,9 +23,24 @@
    Identifier = Element's name on the new lua API
    Name = Element's in-game name
    Colour = Element's colour
-   MenuVisible = Whether or not it's going to exist in any element menu.
-   MenuSection = Which menu section it's in.
+   MenuVisible = Whether or not it's going to exist in any element menu
+   MenuSection = Which menu section it's in
+   Enabled = If the element is actually used in-game: 0 will disable the element entirely
+
+   Advection = How much moving air or wind affects it
+   AirDrag = How much air the particle "drags" along with it when moving
+   AirLoss = How much the particle slows down moving air (1 = no effect)
+   Loss = 
+   Collision = 
+   Gravity = 
+   Diffusion = 
+   HotAir = 
+   Meltable = Does it melt? (if heat sim is off)
+   Hardness = How much acid affects the particle.
+   Weight = Particle weight
+   Temperature = How hot does it spawn with?
    HeatConduct = How well it transfers heat. (0 = not conduct heat, 255 = conducts instantly)
+      * in <span class="red">HSWC</span>, <span class="blue">.life</span> = 10 for Heat conductor.
    Description = Element description
    State = removed property
    Properties = Element properties
