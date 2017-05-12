@@ -90,79 +90,8 @@
       <span class="blue">.cctemp</span> : ctype's ctemp?
       <span class="blue">.ccclife</span> : ctype's cclife?
 
-<span id="element">"Element.h":</span>
-   IPL = Impossibly Low Pressure
-   IPH = Impossibly High Pressure
-   ITL = Impossibly Low Temperature
-   ITH = Impossibly High Temperature
-   NT  = No transition (-1)
-   ST  = Special transition (PT_NUM)
+<a href="PowderToy/Elements-properties">TPT 元素常数</a>
 
-<span id="elements">"Elements.h":</span>
-   R_TEMP     = Room temperature (22 C)
-   MAX_TEMP   = Maximum temperature (9999 K)
-   MIN_TEMP   = Minimum temperature (0 K)
-   O_MAX_TEMP = Maximum temperature (old) (3500 C)
-   O_MIN_TEMP = Minimum temperature (old) (-273 C)
-   1st properties:
-      TYPE_PART               = Powder type (1)
-      TYPE_LIQUID             = Liquid type (2)
-      TYPE_PART               = Solid type (4)
-      TYPE_LIQUID             = Gas type (8)
-      TYPE_ENERGY             = Energy type (16)
-      STATE_FLAGS             = Any type (31)
-      PROP_CONDUCTS           = Conducts electricity (32)
-      PROP_BLACK              = Unused (64)
-      Neutrons interaction:
-         Reflects neutrons is default
-         PROP_NEUTPENETRATE   = Penetrated by neutrons (128)
-         PROP_NEUTABSORB      = Absorbs neutrons (256)
-         PROP_NEUTPASS        = Neutrons pass through (512)
-      PROP_DEADLY             = Deadly for stickman (1024)
-      PROP_HOT_GLOW           = Hot Metal Glow (2048)
-      PROP_LIFE               = Unused (4096)
-      PROP_RADIOACTIVE        = Radioactive (8192)
-      properties for <span class="blue">.life</span>:
-         PROP_LIFE_DEC        = <span class="blue">.life</span> decreases by one every frame if > 0 (2^14)
-         PROP_LIFE_KILL       = Kill when <span class="blue">.life</span> value is &lt;= 0 (2^15)
-         PROP_LIFE_KILL_DEC   = Kill when <span class="blue">.life</span> value is decremented to &lt;= 0 (2^16)
-      PROP_SPARKSETTLE        = Allow Sparks/Embers to settle (2^17)
-      PROP_NOAMBHEAT          = Don't transfer or receive heat from ambient heat. (2^18)
-      PROP_DRAWONCTYPE        = Set its ctype to another element if the element is drawn upon it. (2^19)
-      PROP_NOCTYPEDRAW        = When this element is drawn upon with, do not set ctype (2^20)
-      PROP_NOSLOWDOWN         = Non-official property (2^25)
-      PROP_TRANSPARENT        = Non-official property (2^26)
-      PROP_UNLIMSTACKING      = Non-official property (2^27)
-      PROP_INSULATED          = Non-official property (2^28)
-      PROP_CONDUCTS_SPEC      = Non-official property (2^29)
-      PROP_NO_NBHL_GEN        = Non-official property (2^30)
-
-   2nd properties:
-      PROP_DEBUG_USE_TMP2     = 1
-      PROP_ELEC_HEATING       = 2
-      PROP_NOWAVELENGTHS      = 4
-      PROP_CTYPE_INTG         = 8
-      PROP_CTYPE_WAVEL        = 16
-      PROP_CTYPE_SPEC         = 32
-      PROP_ENERGY_PART        = 64
-      PROP_UNBREAKABLECLONE   = 2^14
-      PROP_NODESTRUCT         = Indestructible property (2^15)
-      PROP_CLONE              = 2^16
-      PROP_DRAWONCTYPE        = 2^19
-      PROP_NOSLOWDOWN         = 2^25
-      PROP_INVISIBLE          = Acts like <span class="red">INVS</span> (2^26)
-
-   <span class="blue">.flags</span> properties:
-      FLAG_STAGNANT   = stagnant (1)
-      FLAG_SKIPMOVE   = skip movement for one frame (2)
-      FLAG_WATEREQUAL = if a liquid was already checked during equalization (4)
-      FLAG_MOVABLE    = compatibility with moving <span class="red">SPNG</span> (8)
-      FLAG_PHOTDECO   = compatibility with decorated <span class="red">PHOT</span> (8)
-
-   BOUNDS_CHECK = bounds check (ignored)
-   REAL_BOUNDS_CHECK(x, y) = <span class="src">sim->InBounds(x, y)</span>
-   OLD_PT_WIND = Unused type (147)
-   PT_NUM = 256
 </pre>
 </body>
 </html>
