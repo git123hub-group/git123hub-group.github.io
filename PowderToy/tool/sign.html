@@ -13,23 +13,27 @@ a.top {text-decoration; color: inherit; padding: 3px 2px; display: inline-block;
 
 Sign tool usage:
   "{aheat}"     : shows ambient heat in sign
-  "{b:dt}"      : clickable button
-  "{c:n|dt}"    : linking to other saves
+  "{b:<span class="yellow">dt</span>}"      : clickable button
+  "{c:<span class="yellow">n</span>|<span class="yellow">dt</span>}"    : linking to other saves
   "{p}"         : shows pressure in sign
-  "{s:t|dt}"    : search online saves
+  "{s:<span class="yellow">t</span>|<span class="yellow">dt</span>}"    : search online saves
   "{t}"         : shows temperature in sign
-  "{t:n|dt}"    : linking to forum threads
+  "{t:<span class="yellow">n</span>|<span class="yellow">dt</span>}"    : linking to forum threads
   "{vx}"        : shows air velocity x in sign
   "{vy}"        : shows air velocity y in sign
-
-  "{.ctype}"    : shows particle's ctype
-  "{.i}"        : shows particle's ID
-  "{.life}"     : shows particle's life
-  "{.pavg0}"    : shows particle's pavg[0]
-  "{.pavg1}"    : shows particle's pavg[1]
-  "{.tmp}"      : shows particle's tmp
-  "{.tmp2}"     : shows particle's tmp2
-  "{.tmp3}"     : shows particle's tmp3
-  "{.tmp4}"     : shows particle's tmp4
-  "{.type}"     : shows particle's type
+  Particle debug sign:
+    "{.<span class="yellow">xxx</span>}"      : shows value as integer
+    "{.<span class="yellow">xxx</span>:f}"    : shows value as float
+    "{.<span class="yellow">xxx</span>:t}"    : shows value as particle type
+    "{.<span class="yellow">xxx</span>:x}"    : shows value as hexadecimal
+    "{.ctype}"    : shows particle's ctype
+    "{.i}"        : shows particle's ID
+    "{.life}"     : shows particle's life
+    "{.pavg0}"    : shows particle's pavg[0]
+    "{.pavg1}"    : shows particle's pavg[1]
+    "{.tmp}"      : shows particle's tmp
+    "{.tmp2}"     : shows particle's tmp2
+    "{.tmp3}"     : shows particle's tmp3
+    "{.tmp4}"     : shows particle's tmp4
+    "{.type}"     : shows particle's type
 </pre>
