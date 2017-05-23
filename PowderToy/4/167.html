@@ -20,10 +20,13 @@ Element number 167 (<span class="red">CRAY</span>) usage:
   <span class="blue">.ctype</span> = <span class="blue">.type</span> of particle that CRAY spawns in
   <span class="blue">.temp</span> = <span class="blue">.temp</span> of the particles that are spawned.
   <span class="blue">.life</span> = <span class="blue">.life</span> of the particles that are spawned.
-  <span class="blue">.pavg[0]</span> = <span class="blue">.tmp</span> of the particles that are spawned.
-  <span class="blue">.pavg[1]</span> = <span class="blue">.ctype</span> of the particles that are spawned.
-    * if <span class="red">CRAY</span>'s <span class="blue">.ctype</span> = <span class="red">PHOT</span> and <span class="red">CRAY</span>'s <span class="blue">.pavg[1]</span> = 1073741824,
-      then <span class="red">PHOT</span>'s <span class="blue">.ctype</span> = 1073741823 (0x3FFFFFFF)
+  <span class="blue">.tmp</span> = the "range" of the beam.
+  <span class="blue">.tmp2</span> = how much space to leave before particles are spawned.
+  TODO:
+    <span class="blue">.pavg[0]</span> = <span class="blue">.tmp</span> of the particles that are spawned.
+    <span class="blue">.pavg[1]</span> = <span class="blue">.ctype</span> of the particles that are spawned.
+      * if <span class="red">CRAY</span>'s <span class="blue">.ctype</span> = <span class="red">PHOT</span> and <span class="red">CRAY</span>'s <span class="blue">.pavg[1]</span> = 1073741824,
+        then <span class="red">PHOT</span>'s <span class="blue">.ctype</span> = 1073741823 (0x3FFFFFFF)
 </pre>
 </body>
 </html>
