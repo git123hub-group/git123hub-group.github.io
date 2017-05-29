@@ -1,9 +1,12 @@
 /* ElectronicsCA.js */
 var part_state = 1, paused = true;
+var channel_num = 0;
 
 (function () {
 
 var width = 84, height = 68;
+var wireless = [0];
+var ISWIRE = 0;
 var pmap = [];
 
 for (var i = height - 1; i >= 0; i--)
@@ -11,15 +14,21 @@ for (var i = height - 1; i >= 0; i--)
 	pmap[i] = [];
 	for (var j = width - 1; j >= 0; j--)
 	{
-		pmap[i][j] = new Int32Array(5);
+		pmap[i][j] = new Int32Array(6);
 	}
+}
+
+for (var i = 0; i < 100; i++)
+{
+	wireless[i] = 0;
 }
 
 var canvas = document.getElementById("PartLayer");
 var ctx = canvas.getContext("2d");
 var colors = [
 	"#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040",
-	"#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C", "#FD9D18", "#902090"
+	"#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C", "#FD9D18", "#902090", "#FFCC00", "#40A060", "#405050",
+	"#505040"
 ];
 
 var PART_METAL = 1;
@@ -38,9 +47,26 @@ var PART_RAY = 13;
 var PART_GOLD = 14;
 var PART_RAY_DTEC = 15;
 var PART_DELAY = 16;
+var PART_WIREWORLD = 17;
+var PART_WIFI = 18;
+var PART_PTC = 19;
+var PART_NTC = 20;
 
-var conduct  = [0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0];
-var isswitch = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0];
+var conduct  = [
+	0, 1, 0, 0, 1, 1, 0, 1, 0, 1,
+	0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+	1
+];
+var isswitch = [
+	0, 0, 0, 0, 0, 0, 1, 1, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0
+];
+var nradius = [
+	2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+	2, 2, 2, 2, 2, 2, 2, 1, 1, 2,
+	2
+];
 
 function clickPixel (x, y)
 {
@@ -52,6 +78,8 @@ function clickPixel (x, y)
 	var temp = pmap[y+1][x+1];
 	if (part_state !== PART_SPARK)
 	{
+		if (!paused)
+			return;
 		if (!part_state)
 		{
 			temp[0] = 0;
@@ -70,6 +98,10 @@ function clickPixel (x, y)
 				tmpi = prompt ("Enter number value for delay:");
 				temp[2] = (tmpi >= 1 ? tmpi : 1);
 			}
+			if (part_state === PART_WIFI)
+			{
+				temp[2] = channel_num;
+			}
 			renderPixel (x+1, y+1, temp);
 		}
 	}
@@ -80,6 +112,11 @@ function clickPixel (x, y)
 		{
 			floodINST(x+1, y+1, ctype);
 			return renderAll ();
+		}
+		else if (!temp[1] && ctype === PART_WIREWORLD)
+		{
+			temp[1] = 2;
+			return renderPixel (x+1, y+1, temp);
 		}
 		conductTo(x+1, y+1, temp);
 		renderPixel (x+1, y+1, temp);
@@ -101,20 +138,42 @@ function renderPixel (x, y, array)
 {
 	var num;
 	ctx.fillStyle = colors[array[0]];
-	if (array[0] === PART_RAY && array[1])
+	switch (array[0])
 	{
-		if (array[2] !== 5)
+	case PART_RAY:
+		if (array[1] > 0)
 		{
-			ctx.fillStyle = "rgb(" + (num = (array[1] * 15.95) | 0) + "," + num + "," + num + ")";
+			if (array[2] !== 5)
+			{
+				ctx.fillStyle = "rgb(" + (num = (array[1] * 15.95) | 0) + "," + num + "," + num + ")";
+			}
+			else
+			{
+				ctx.fillStyle = "rgb(" + (num = (array[1] * 100) | 0) + "," + (num * 3 / 5) + "," + (num / 5) + ")";
+			}
 		}
-		else
+	break;
+	case PART_DELAY:
+		if (array[1] > 0)
 		{
-			ctx.fillStyle = "rgb(" + (num = (array[1] * 100) | 0) + "," + (num * 3 / 5) + "," + (num / 5) + ")";
+			ctx.fillStyle = "#D078D0";
 		}
-	}
-	else if (array[0] === PART_DELAY && array[1] > 0)
-	{
-		ctx.fillStyle = "#D078D0";
+	break;
+	case PART_WIREWORLD:
+		if (array[1] === 2)
+			ctx.fillStyle = "#3366FF";
+		else if (array[1] === 1)
+			ctx.fillStyle = "#FF6633";
+	break;
+	case PART_WIFI:
+		{
+			var q = array[2]
+			var colr = Math.sin(0.0628318 * q + 0) * 127 + 128;
+			var colg = Math.sin(0.0628318 * q + 2) * 127 + 128;
+			var colb = Math.sin(0.0628318 * q + 4) * 127 + 128;
+			ctx.fillStyle = "rgb(" + [colr|0, colg|0, colb|0].join(",") + ")";
+		}
+	break;
 	}
 	ctx.fillRect ((x - 1) * 10, (y - 1) * 10, 10, 10);
 }
@@ -135,6 +194,11 @@ function run_frame ()
 {
 	var part_y_index;
 	var i, k, l;
+	if (ISWIRE > 0)
+	{
+		for (i = 0; i < 100; i++)
+			wireless[i] >>= 1;
+	}
 	for (var y = 0; y < height; y++)
 	{
 		part_y_index = 4 * y * width;
@@ -143,6 +207,13 @@ function run_frame ()
 			k = pmap[y][x];
 			switch (k[0])
 			{
+			case PART_SPARK:
+				if (k[2] === PART_PTC || k[2] === PART_NTC) {
+					k[4] = k[3];
+					if (k[3]) k[3] --;
+				}
+				k[3] = 0;
+			break;
 			case PART_SWITCH_ON:
 				if (k[3] === 5) {
 					k[0] = PART_SWITCH_MID;
@@ -165,6 +236,14 @@ function run_frame ()
 			break;
 			case PART_DELAY:
 				k[3] = k[1]; // save old .life property
+			break;
+			case PART_WIREWORLD:
+				k[2] = k[1]; // save previous WWLD state
+			break;
+			case PART_PTC:
+			case PART_NTC:
+				k[4] = k[3];
+				if (k[3]) k[3] --;
 			break;
 			// more particle type in any .life value
 			}
@@ -217,11 +296,11 @@ function simPart (x, y, array)
 	var tmpArray, tmpArray2;
 	var sender, receiver;
 	var nxi, nyi, _xx, _yy;
-	var nostop, destroy;
-	var leftBound   = Math.min(2, x);
-	var topBound    = Math.min(2, y);
-	var rightBound  = Math.min(2, width  - x - 3);
-	var bottomBound = Math.min(2, height - y - 3);
+	var nostop, destroy, radius = nradius[type];
+	var leftBound   = Math.min(radius, x);
+	var topBound    = Math.min(radius, y);
+	var rightBound  = Math.min(radius, width  - x - 3);
+	var bottomBound = Math.min(radius, height - y - 3);
 	switch (type)
 	{
 		case PART_SPARK:
@@ -244,6 +323,8 @@ function simPart (x, y, array)
 					tmpArray2 = tmpArray[nx = x+rx];
 					sender = array[2];
 					receiver = tmpArray2[0];
+					if (pmap[(y + ny)>>1][(x + nx)>>1][0] === PART_INSUL)
+						continue;
 					switch (sender)
 					{
 					case PART_SWITCH_ON:
@@ -264,6 +345,18 @@ function simPart (x, y, array)
 							conductTo(nx, ny, tmpArray2);
 						}
 						continue;
+					case PART_PTC:
+						if (receiver === PART_PSCN || receiver === PART_PTC || receiver === PART_NSCN && !array[4])
+						{
+							conductTo(nx, ny, tmpArray2);
+						}
+						continue;
+					case PART_NTC:
+						if (receiver === PART_PSCN || receiver === PART_NTC || receiver === PART_NSCN && array[4])
+						{
+							conductTo(nx, ny, tmpArray2);
+						}
+						continue;
 					}
 					switch (receiver)
 					{
@@ -276,6 +369,13 @@ function simPart (x, y, array)
 								tmpArray2[0] = PART_SWITCH_MID;
 								tmpArray2[1] = 5;
 								tmpArray2[2] = PART_SWITCH_OFF;
+							}
+							break;
+						case PART_PTC:
+						case PART_NTC:
+							if (sender === PART_METAL && array[1] === 3)
+							{
+								tmpArray2[3] = 8;
 							}
 							break;
 						}
@@ -330,9 +430,28 @@ function simPart (x, y, array)
 							floodINST(nx, ny, receiver);
 						}
 						continue;
+					case PART_PTC:
+						if (sender === PART_METAL && array[1] === 3)
+						{
+							tmpArray2[3] = 8;
+						}
+						if (sender === PART_NSCN || sender === PART_PSCN && !tmpArray2[4])
+						{
+							conductTo(nx, ny, tmpArray2);
+						}
+						continue;
+					case PART_NTC:
+						if (sender === PART_METAL && array[1] === 3)
+						{
+							tmpArray2[3] = 8;
+						}
+						if (sender === PART_NSCN || sender === PART_PSCN && tmpArray2[4])
+						{
+							conductTo(nx, ny, tmpArray2);
+						}
+						continue;
 					}
-					if (pmap[(y + ny)>>1][(x + nx)>>1][0] !== PART_INSUL)
-						conductTo(nx, ny, tmpArray2);
+					conductTo(nx, ny, tmpArray2);
 				}
 			}
 		break;
@@ -370,7 +489,7 @@ function simPart (x, y, array)
 				{
 					if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
 					tmpArray2 = tmpArray[nx = x+rx];
-					if (pmap[(y + ny)>>1][(x + nx)>>1][0] !== PART_INSUL && tmpArray2[0] !== PART_INSUL_WIRE)
+					if (pmap[(y + ny)>>1][(x + nx)>>1][0] !== PART_INSUL && tmpArray2[0] !== PART_INSUL_WIRE && tmpArray2[0] !== PART_INSUL_PTC && tmpArray2[0] !== PART_INSUL_NTC)
 					{
 						conductTo (nx = x+rx, ny, tmpArray2);
 					}
@@ -525,6 +644,58 @@ function simPart (x, y, array)
 							conductTo (nx, ny, tmpArray2);
 						}
 					break;
+					}
+				}
+			}
+		break;
+		case PART_WIREWORLD:
+			tmp = 0;
+			for (var ry = -topBound; ry <= bottomBound; ry++)
+			{
+				tmpArray = pmap[ny=y+ry];
+				for (var rx = -leftBound; rx <= rightBound; rx++)
+				{
+					tmpArray2 = tmpArray[nx=x+rx];
+					switch (tmpArray2[0])
+					{
+					case PART_SPARK:
+						if (tmpArray2[1] === 3 && tmpArray2[2] === PART_PSCN)
+						{
+							array[1] = 2; return;
+						}
+					break;
+					case PART_NSCN:
+						if (array[2] === 2) conductTo (nx, ny, tmpArray2);
+					break;
+					case PART_WIREWORLD:
+						if (tmpArray2[2] === 2) tmp ++;
+					break;
+					}
+				}
+			}
+			if (array[2] === 0 && (tmp === 1 || tmp === 2))
+				array[1] = 2;
+		break;
+		case PART_WIFI:
+			id = array[2]; // channel ID
+			for (var ry = -topBound; ry <= bottomBound; ry++)
+			{
+				tmpArray = pmap[ny=y+ry];
+				for (var rx = -leftBound; rx <= rightBound; rx++)
+				{
+					tmpArray2 = tmpArray[nx=x+rx];
+					// wireless[] & 1 - whether channel is active on this frame
+					// wireless[] & 2 - whether channel should be active on next frame
+					if (wireless[id] & 1)
+					{
+						tmp = tmpArray2[0];
+						if (tmp === PART_NSCN || tmp === PART_PSCN || tmp === PART_INSUL_WIRE)
+							conductTo (nx, ny, tmpArray2);
+					}
+					if (tmpArray2[0] === PART_SPARK && tmpArray2[1] === 3 && tmpArray2[2] !== PART_NSCN)
+					{
+						wireless[id] |= 2;
+						ISWIRE = 2;
 					}
 				}
 			}
