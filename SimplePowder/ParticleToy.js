@@ -9,11 +9,11 @@ var ctx_I = canvas_I.getContext("2d");
 var ctx_P = canvas_P.getContext("2d");
 var ctx_F = canvas_F.getContext("2d");
 // update 5000 times
-var params_P = 8;
+var params_P = 10;
 var params_F = 6;
 var runningFlag, __frames = 0;
 var map_I = new Uint8Array(82*66);
-var map_P = new Int32Array(82*66*params_P); // particle table: type, ctype, param3, param4, param5, param6, dcolour, flags
+var map_P = new Int32Array(82*66*params_P); // particle table: type, ctype, param3, param4, param5, param6, infected type, dcolour, flags, tmp
 var map_F = new Int16Array(82*66); // photons map
 var parts_F = new Int16Array(6000*params_F); // photons table: type, x, y, vx, vy, flags
 var laser_map = new Int16Array(82*66); // laser map
@@ -21,9 +21,10 @@ var laser_pos = new Int8Array(2000);
 var laser_num = 0;
 var photons_count = 0;
 var pfree = 0;
-var arg_deco = params_P - 2;
+var arg_deco = params_P - 3;
 var arg_last = params_P - 1;
-var arg_infect = params_P - 3;
+var arg_flags = params_P - 2;
+var arg_infect = params_P - 4;
 
 for (var i = 0; i < 82; i++)
 {
@@ -46,38 +47,58 @@ for (var i = 0; i < 82*66; i++)
 	map_F[i] = -1;
 }
 var partName = [
-	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL",
-	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","STNE","PLNT"
+	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL" ,
+	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","STNE","PLNT","WPIP",
+	"VRSS"
 ];
 
 var default_color = [
 	"#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810",
-	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00"
+	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00" ,"#FFBE30",
+	"#BE11B6",
 ];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0];
 
-var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,1,1,1,1,1,1,1,1];
+// can_infe =
+//   0: no effect,
+//   1: infected to solid virus,
+//   2: infected to liquid virus
+var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0];
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0];
 
-// 0: solid, 1: powder, 2: liquid, 3: gas, 4: special solid
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0];
+// Menu Section ID:
+//   0: solid
+//   1: powder
+//   2: liquid
+//   3: gas
+//   4: special solid
+//  -1: hidden
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1];
 
-var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300, 900,1,1000,1,390,440,900,1000,1000];
+var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300, 900,1,1000,1,390,440,900,1000,1000,1000, 1000];
 
-var type_count = 19;
+var type_count = 21;
 
 var MAX_ACID_AFFECTED = 30;
 
 var SALT_WATER_SATURE = 50;
 
 var k01 = SALT_WATER_SATURE;
+
+
+var smodtable = [
+	[0,1,2,1],
+	[2,0,1,1],
+	[1,2,0,1],
+	[2,2,2,0]
+];
 
 var Update_P = [
 	null,
@@ -120,7 +141,7 @@ var Update_P = [
 	function (x, y) /* virus */
 	{
 		var self_P = (82*y+x)*params_P;
-		var newX, newY, infectingOffset, tmp;
+		var newX, newY, infectingOffset, tmp, tmp2;
 		if (map_P[self_P+arg_last] > 0) /* curing virus */
 		{
 			for (var trade = 0; trade < 4; trade++)
@@ -132,7 +153,8 @@ var Update_P = [
 					continue;
 				}
 				infectingOffset = (82*newY+newX)*params_P;
-				if (map_P[infectingOffset] === 6 && map_P[infectingOffset+arg_last] <= 0)
+				tmp = map_P[infectingOffset];
+				if ((tmp === 6 || tmp === 20) && map_P[infectingOffset+arg_last] <= 0)
 				{
 					map_P[infectingOffset+arg_last] = map_P[self_P+arg_last] + 2;
 				}
@@ -141,6 +163,7 @@ var Update_P = [
 			{
 				map_P[self_P] = map_P[self_P+arg_infect];
 				map_P[self_P+arg_infect] = 0;
+				map_P[self_P+arg_flags] = 0;
 			}
 			return;
 		}
@@ -152,16 +175,42 @@ var Update_P = [
 		}
 		infectingOffset = (82*newY+newX)*params_P;
 		tmp = map_P[infectingOffset];
-		if (tmp === 7)
+		tmp2 = self_P + arg_flags;
+		if (map_P[tmp2] > 0) // cooling down?
+			map_P[tmp2] --;
+		switch (tmp)
 		{
+		case 6:
+			if (map_P[self_P] === 20)
+			{
+				if (map_P[infectingOffset+arg_flags] > 0)
+				{
+					map_P[self_P] = 6;
+					map_P[tmp2] = 50;
+				}
+				else
+				{
+					map_P[infectingOffset] = 20;
+				}
+			}
+			break;
+		case 7:
 			map_P[infectingOffset] = 0;
 			map_P[self_P+arg_last] = 30;
-		}
-		else if (can_infe[tmp])
-		{
-			map_P[infectingOffset] = 6;
-			map_P[infectingOffset+arg_infect] = tmp;
-			map_P[infectingOffset+arg_last] = 0;
+			break;
+		case 11:
+			map_P[self_P] = 6;
+			map_P[tmp2] = 50;
+			break;
+		default:
+			if (can_infe[tmp])
+			{
+				tmp2 = can_infe[tmp] === 2;
+				map_P[infectingOffset] = (tmp2 ? 6 : 20);
+				map_P[infectingOffset+arg_infect] = tmp;
+				map_P[infectingOffset+arg_last] = 0;
+				map_P[infectingOffset+arg_flags] = 50;
+			}
 		}
 		// console.log (map_P[self_P+5]);
 	},
@@ -456,7 +505,72 @@ var Update_P = [
 			}
 		}
 	},
+	function (x, y) /* sponge/water pipe */
+	{
+		newX = x + ((Math.random() * 3) | 0) - 1;
+		newY = y + ((Math.random() * 3) | 0) - 1;
+		if (!checkBounds (newX, newY))
+		{
+			return;
+		}
+		var spongeOffset = (82*y+x)*params_P;
+		var waterOffset  = (82*newY+newX)*params_P;
+		var water_sum;
+		var water_tmp;
+		var modulo;
+		var from_fn = map_P[spongeOffset+1];
+
+		switch (map_P[waterOffset])
+		{
+		case 0:
+			if (from_fn == 3 && map_P[spongeOffset+2])
+			{
+				create_part( newX, newY, 3 );
+				map_P[spongeOffset+2] --;
+			}
+			break;
+		case 3:
+			if (from_fn != 3)
+			{
+				map_P[waterOffset] = 0;
+				map_P[spongeOffset+2] ++;
+			}
+			break;
+		case 15:
+			if (from_fn != 3)
+			{
+				k01 += map_P[waterOffset+1];
+				if (k01 >= 2 * SALT_WATER_SATURE)
+				{
+					map_P[waterOffset] = 16;
+					map_P[waterOffset+1] = SALT_WATER_SATURE;
+					k01 -= 2 * SALT_WATER_SATURE;
+				}
+				else
+				{
+					map_P[waterOffset] = 0;
+					map_P[spongeOffset+2] ++;
+				}
+			}
+			break;
+		case 19:
+			modulo = smodtable[from_fn][map_P[waterOffset+1]];
+			water_sum = map_P[waterOffset+2] + map_P[spongeOffset+2];
+			switch (modulo)
+			{
+				case 0: water_tmp = water_sum >> 1; break;
+				case 1: water_tmp = 0; break;
+				case 2: water_tmp = water_sum; break;
+			}
+			map_P[spongeOffset+2] = water_tmp;
+			map_P[waterOffset+2] = water_sum - water_tmp;
+			break;
+		}
+	},
+	null
 ];
+
+Update_P[20] = Update_P[6];
 
 function renderParts ()
 {
@@ -465,7 +579,7 @@ function renderParts ()
 	{
 		for (var x = 0; x < 82; x++)
 		{
-			renderPart ( x, y, map_P[tmp = (82*y+x)*params_P], map_P[tmp+arg_deco]);
+			renderPart ( x, y, map_P[tmp = (82*y+x)*params_P], map_P[tmp+arg_deco], tmp );
 		}
 	}
 }
@@ -494,24 +608,62 @@ function create_part (x, y, type)
 	if (map_P[t] !== 0)
 		return false;
 	map_P[t] = type;
-	map_P[t+1] = 0;
-	map_P[t+2] = 0;
-	map_P[t+3] = 0;
-	map_P[t+4] = 0;
-	map_P[t+5] = 0;
-	map_P[t+6] = 0;
-	map_P[t+7] = 0;
+	for (iter = 1; iter < params_P; iter++)
+	{
+		map_P[t+iter] = 0;
+	}
 	return true;
 }
-function renderPart (x, y, type, dcolour)
+function renderPart (x, y, type, dcolour, other_prop_offset)
 {
+	var temp, tmpr, tmpg, tmpb, nodeco = false;
 	ctx_P.globalAlpha = 1;
 	ctx_P.clearRect(x*10, y*10, 10, 10);
 	if (type !== 0)
 	{
-		ctx_P.fillStyle = default_color[type];
+		switch (type)
+		{
+		case  6:
+			nodeco = true;
+			temp = map_P[other_prop_offset+arg_flags];
+			tmpr = 254 - temp; tmpg =  17; tmpb = 246 - temp;
+			ctx_P.fillStyle = "#" + (((256 + tmpr) * 256 + tmpg) * 256 + tmpb).toString(16).slice(-6);
+			break;
+		case 20:
+			nodeco = true;
+			ctx_P.fillStyle = default_color[type];
+			break;
+		case 19:
+			temp = map_P[other_prop_offset+2];
+			tmpr = 255 - 20 * temp; tmpr < 50 && (tmpr = 50);
+			tmpg = 190 - 20 * temp; tmpg < 50 && (tmpg = 50);
+			tmpb =  48 - 20 * temp; tmpb < 20 && (tmpb = 20);
+			switch (map_P[other_prop_offset+1])
+			{
+			case 1:
+				temp = tmpr;
+				tmpr = tmpg;
+				tmpg = temp;
+				break;
+			case 2:
+				temp = tmpb;
+				tmpb = tmpg;
+				tmpg = tmpr;
+				tmpr = temp;
+				break;
+			case 3:
+				temp = tmpb;
+				tmpb = tmpg;
+				tmpg = temp;
+				break;
+			}
+			ctx_P.fillStyle = "#" + (((256 + tmpr) * 256 + tmpg) * 256 + tmpb).toString(16).slice(-6);
+			break;
+		default:
+			ctx_P.fillStyle = default_color[type];
+		}
 		ctx_P.fillRect(x*10, y*10, 10, 10);
-		if (type !== 6 && (dcolour & 0xFF000000))
+		if (!nodeco && (dcolour & 0xFF000000))
 		{
 			ctx_P.globalAlpha = (dcolour >>> 24) / 255.0;
 			ctx_P.fillStyle = "#" + (dcolour>>>0).toString(16).slice(-6);
@@ -531,7 +683,7 @@ function mouse_partOP (x, y, type, prop)
 		{
 			if ( !create_part (x, y, type) )
 			{
-				map_P[tmp] !== 8 && map_P[tmp] !== 11 && (map_P[tmp] < 14 || map_P[tmp] > 16) && (map_P[tmp+1] = type);
+				map_P[tmp] !== 8 && map_P[tmp] !== 11 && (map_P[tmp] < 14 || map_P[tmp] > 16) && map_P[tmp] !== 19 && (map_P[tmp+1] = type);
 				return;
 			}
 			else if (map_P[tmp] == 15 || map_P[tmp] == 16)
@@ -543,7 +695,7 @@ function mouse_partOP (x, y, type, prop)
 		{
 			map_P[tmp] = 0;
 		}
-		renderPart (x, y, type, 0);
+		renderPart (x, y, type, 0, tmp);
 		// console.debug(map_P[tmp+5]);
 	}
 	else if (prop <= params_P)
@@ -551,7 +703,7 @@ function mouse_partOP (x, y, type, prop)
 		if (map_P[tmp] !== 0)
 		{
 			map_P[tmp+prop-1] = type;
-			(prop === 1 || prop === arg_deco+10) && renderPart (x, y, type, map_P[tmp+arg_deco]);
+			/* (prop === 1 || prop === arg_deco+10) && */ renderPart (x, y, map_P[tmp], map_P[tmp+arg_deco], tmp);
 		}
 	}
 	else if (prop === params_P+1)
@@ -952,9 +1104,9 @@ function frame_render ()
 	renderParts();
 }
 
-var fnList = ["PAUS","FRAM","SOLD","PWDR","LIQD","GAS","SPEC","INVS","PROP","LINK","BACK","TYPE","CTYP","ARG3","ARG4","ARG5","ARG6","DECO","TMP"];
+var fnList = ["PAUS","FRAM","SOLID","PWDR","LIQD","GAS","SPEC","INVS","PROP","LINK","BACK","TYPE","CTYP","ARG3","ARG4","ARG5","ARG6","ITYPE","DECO","TMP","TMP2"];
 var fnListID = [];
-var fnList2 = [0, 10, 19];
+var fnList2 = [0, 10, 21];
 
 function getFnMenu (id)
 {
@@ -1056,6 +1208,12 @@ function selectOpt (id)
 		break;
 	case 18:
 		propertyTool (8);
+		break;
+	case 19:
+		propertyTool (9);
+		break;
+	case 20:
+		propertyTool (10);
 		break;
 	}
 }
