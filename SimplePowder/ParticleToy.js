@@ -49,29 +49,29 @@ for (var i = 0; i < 82*66; i++)
 var partName = [
 	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL" ,
 	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","STNE","PLNT","WPIP",
-	"VRSS","ANAR"
+	"VRSS","ANAR","IGRV"
 ];
 
 var default_color = [
 	"#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810",
 	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00" ,"#FFBE30",
-	"#BE11B6", "#FFFFEE"
+	"#BE11B6", "#FFFFEE", "#66FF33"
 ];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0];
 
 // can_infe =
 //   0: no effect,
 //   1: infected to solid virus,
 //   2: infected to liquid virus
-var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1];
+var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward, 5: anti-gravity powder
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5];
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0];
 
 // Menu Section ID:
 //   0: solid
@@ -80,15 +80,15 @@ var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5];
 //   3: gas
 //   4: special solid
 //  -1: hidden
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4];
 
 var ST_Weight = [
 	   0,1000, 800 ,400,1000,   0, 420,  420, 390, 300,
 	 900,   1,1000,   1, 390, 440, 890, 1000,1000,1000,
-	1000, 800
+	1000, 800,1000
 ];
 
-var type_count = 22;
+var type_count = 23;
 
 var MAX_ACID_AFFECTED = 30;
 
@@ -571,7 +571,26 @@ var Update_P = [
 			break;
 		}
 	},
-	null
+	null,
+	null,
+	function (x, y) /* gravity inverter */
+	{
+		var ny, aoffset;
+		if (y >= 1)
+		{
+			ny = y - 1;
+			aoffset = (82*ny+x)*params_P;
+			if (map_P[aoffset] === 2)
+				map_P[aoffset] = 21;
+		}
+		if (y < 65)
+		{
+			ny = y + 1;
+			aoffset = (82*ny+x)*params_P;
+			if (map_P[aoffset] === 21)
+				map_P[aoffset] = 2;
+		}
+	}
 ];
 
 Update_P[20] = Update_P[6];
@@ -828,7 +847,7 @@ function floodInvis (x, y, _from, _to)
 	}
 	while (cptr);
 }
-var invisColours = ["#00CCCC", "#0F0064", "#555577", "#775555", "#557755", "#885088"];
+var invisColours = ["#00CCCC", "#0F0064", "#555577", "#775555", "#557755", "#885088", "#996655"];
 function checkBounds (x, y)
 {
 	return x >= 0 && x < 82 && y >= 0 && y < 66;
@@ -847,6 +866,10 @@ function isallowed (x, y, type, src)
 		break;
 	case 4:
 		if (ST_List[type] !== 1 && src !== 0)
+			return false;
+		break;
+	case 7:
+		if (ST_List[type] !== 5 && src !== 0)
 			return false;
 		break;
 	case 5:
@@ -1243,8 +1266,8 @@ function propertyTool (id)
 	}
 }
 
-var invisMenu = ["X", "INVS", "ALOL", "ALOP", "ALOG", "LSER", "TOGL", "PHOT"]
-var invisMenuID = [0, 1, 3, 4, 5, 6, 256, 257]
+var invisMenu = ["X", "INVS", "ALOL", "ALOP", "ALOG", "LSER", "ALOA", "TOGL", "PHOT"]
+var invisMenuID = [0, 1, 3, 4, 5, 6, 7, 256, 257]
 
 var ElemType = 0;
 var prevElem = [2,1];
