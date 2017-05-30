@@ -49,29 +49,29 @@ for (var i = 0; i < 82*66; i++)
 var partName = [
 	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL" ,
 	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","STNE","PLNT","WPIP",
-	"VRSS"
+	"VRSS","ANAR"
 ];
 
 var default_color = [
 	"#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810",
 	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00" ,"#FFBE30",
-	"#BE11B6",
+	"#BE11B6", "#FFFFEE"
 ];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1];
 
 // can_infe =
 //   0: no effect,
 //   1: infected to solid virus,
 //   2: infected to liquid virus
-var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0];
+var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0];
 
-// 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0];
+// 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward, 5: anti-gravity powder
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5];
 
 // Menu Section ID:
 //   0: solid
@@ -80,11 +80,15 @@ var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0];
 //   3: gas
 //   4: special solid
 //  -1: hidden
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1];
 
-var ST_Weight = [0,1000,800,400,1000,0,420,420,390,300, 900,1,1000,1,390,440,900,1000,1000,1000, 1000];
+var ST_Weight = [
+	   0,1000, 800 ,400,1000,   0, 420,  420, 390, 300,
+	 900,   1,1000,   1, 390, 440, 900, 1000,1000,1000,
+	1000, 800
+];
 
-var type_count = 21;
+var type_count = 22;
 
 var MAX_ACID_AFFECTED = 30;
 
@@ -871,6 +875,9 @@ function try_move (x, y)
 	switch (state)
 	{
 	case 1:
+	case 5:
+		if (state === 5)
+			newY = y - 1;
 		for (osc = 0; osc <= 1; osc = -2*osc + 1)
 		{
 			inBound = checkBounds (newX = x + osc * rnd, newY);
