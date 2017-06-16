@@ -49,29 +49,29 @@ for (var i = 0; i < 82*66; i++)
 var partName = [
 	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL" ,
 	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","STNE","PLNT","WPIP",
-	"VRSS","ANAR","IGRV"
+	"VRSS","ANAR","IGRV","CFLM","FIRE","CONV"
 ];
 
 var default_color = [
 	"#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810",
 	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00" ,"#FFBE30",
-	"#BE11B6", "#FFFFEE", "#66FF33"
+	"#BE11B6", "#FFFFEE", "#66FF33", "#8080E0", "#FF0000", "#0AAB0A"
 ];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0,1,0,0];
 
 // can_infe =
 //   0: no effect,
 //   1: infected to solid virus,
 //   2: infected to liquid virus
-var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1];
+var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1,0,0,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0,0,0,0];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0,0,0,0];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward, 5: anti-gravity powder
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0];
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0];
 
 // Menu Section ID:
 //   0: solid
@@ -80,15 +80,15 @@ var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0];
 //   3: gas
 //   4: special solid
 //  -1: hidden
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4,3,-1,4];
 
 var ST_Weight = [
 	   0,1000, 800 ,400,1000,   0, 420,  420, 390, 300,
 	 900,   1,1000,   1, 390, 440, 890, 1000,1000,1000,
-	1000, 800,1000
+	1000, 800,1000,   1,   1,1000
 ];
 
-var type_count = 23;
+var type_count = 26;
 
 var MAX_ACID_AFFECTED = 30;
 
@@ -206,6 +206,9 @@ var Update_P = [
 			map_P[self_P] = 6;
 			map_P[tmp2] = 50;
 			break;
+		case 23:
+			map_P[self_P] = 20;
+			break;
 		default:
 			if (can_infe[tmp])
 			{
@@ -263,12 +266,57 @@ var Update_P = [
 		return;
 	},
 	null,
-	null,
+	function (x, y) /* mercury (Hg) */
+	{
+		var concOffset1 = (82*y+x)*params_P + 1;
+		var tmp, sum, anotherOffset;
+		for (var trade = 0; trade < 2; trade++)
+		{
+			newX = x + ((Math.random() * 3) | 0) - 1;
+			newY = y + ((Math.random() * 3) | 0) - 1;
+			if (!checkBounds (newX, newY) || (newX == x && newY == y))
+			{
+				continue;
+			}
+			anotherOffset = (82*newY+newX)*params_P;
+			tmp = map_P[anotherOffset];
+			if (!tmp && map_P[concOffset1] > 1)
+			{
+				map_P[concOffset1] --;
+				create_part( newX, newY, 10 );
+				map_P[anotherOffset+1] = 0;
+			}
+			else if (tmp == 10)
+			{
+				sum = map_P[concOffset1] + map_P[anotherOffset+1];
+				if (sum < 2)
+				{
+					map_P[concOffset1] = sum + 1;
+					map_P[anotherOffset] = 0;
+				}
+				else
+				{
+					map_P[concOffset1] = sum >> 1;
+					map_P[anotherOffset+1] = (sum + 1) >> 1;
+				}
+			}
+		}
+	},
 	function (x, y) /* fire */
 	{
 		var lifeOffset = (82*y+x)*params_P + 1, tmp;
-		if (map_P[lifeOffset] > 18)
-			map_P[lifeOffset-1] = 0;
+		var type1 = map_P[lifeOffset-1];
+		var life1 = map_P[lifeOffset];
+		if (type1 == 11)
+		{
+			if (life1 > 18)
+				map_P[lifeOffset-1] = 0;
+		}
+		else if (life1 == 4)
+		{
+			map_P[lifeOffset-1] = 11;
+			map_P[lifeOffset] = 0;
+		}
 		for (var trade = 0; trade < 2; trade++)
 		{
 			newX = x + ((Math.random() * 3) | 0) - 1;
@@ -292,6 +340,12 @@ var Update_P = [
 					{
 						map_P[lifeOffset-1] = 0;
 					}
+					break;
+				}
+				else if (tmp === 10)
+				{
+					if (Math.random() < 0.4)
+						map_P[flameOffset+1] += 1;
 					break;
 				}
 				else if (tmp === 15)
@@ -318,7 +372,7 @@ var Update_P = [
 				}
 				else if (flammable[tmp] && iflame)
 				{
-					map_P[flameOffset] = 11;
+					map_P[flameOffset] = 24;
 					map_P[flameOffset+1] = 0;
 					break;
 				}
@@ -590,10 +644,83 @@ var Update_P = [
 			if (map_P[aoffset] === 21)
 				map_P[aoffset] = 2;
 		}
+	},
+	function (x, y) /* cold flame */
+	{
+		var lifeOffset = (82*y+x)*params_P + 1, tmp;
+		if (map_P[lifeOffset] > 18)
+			map_P[lifeOffset-1] = 0;
+		for (var trade = 0; trade < 2; trade++)
+		{
+			newX = x + ((Math.random() * 3) | 0) - 1;
+			newY = y + ((Math.random() * 3) | 0) - 1;
+			if (!checkBounds (newX, newY))
+			{
+				continue;
+			}
+			var flameOffset = (82*newY+newX)*params_P;
+			var iflame = true;
+			do
+			{
+				tmp = map_P[flameOffset];
+				if (tmp === 10)
+				{
+					if (Math.random() < 0.6 && map_P[flameOffset+1] > 0)
+						map_P[flameOffset+1] -= 1;
+					break;
+				}
+				else if (tmp === 13)
+				{
+					if ((2.5 * Math.random() - 1.25) > (newY - y))
+					{
+						map_P[flameOffset] = 3;
+					}
+					break;
+				}
+				else if (tmp === 21)
+				{
+					if (Math.random() < 0.7)
+					{
+						map_P[flameOffset] = 23;
+						map_P[flameOffset+1] = 0;
+					}
+					break;
+				}
+				flameOffset -= 82 * params_P;
+				if (flameOffset < 0) break;
+				iflame = !iflame;
+			} while (!iflame);
+		}
+		map_P[lifeOffset] ++;
+	},
+	null,
+	function (x, y) /* converter */
+	{
+		var tmp, tmp2, ctypeOffset = (82*y+x)*params_P+1;
+		for (var trade = 0; trade < 4; trade++)
+		{
+			var newX = x + ((Math.random() * 3) | 0) - 1;
+			var newY = y + ((Math.random() * 3) | 0) - 1;
+			if (checkBounds (newX, newY))
+			{
+				tmp2 = (82*newY+newX)*params_P;
+				if (map_P[tmp2] >= 2 && map_P[tmp2] !== 4 && map_P[tmp2] !== 25)
+				{
+					if (map_P[ctypeOffset] && map_P[ctypeOffset] != map_P[tmp2])
+					{
+						map_P[tmp2] = 0;
+						create_part( newX, newY, map_P[ctypeOffset] );
+					}
+					else
+						map_P[ctypeOffset] = map_P[tmp2];
+				}
+			}
+		}
 	}
 ];
 
 Update_P[20] = Update_P[6];
+Update_P[24] = Update_P[11];
 
 function renderParts ()
 {
@@ -706,8 +833,12 @@ function mouse_partOP (x, y, type, prop)
 		{
 			if ( !create_part (x, y, type) )
 			{
-				map_P[tmp] !== 8 && map_P[tmp] !== 11 && (map_P[tmp] < 14 || map_P[tmp] > 16) && map_P[tmp] !== 19 && (map_P[tmp+1] = type);
+				map_P[tmp] != type && (map_P[tmp] === 4 || map_P[tmp] === 25) && (map_P[tmp+1] = type);
 				return;
+			}
+			else if (map_P[tmp] == 10)
+			{
+				map_P[tmp + 1] = 1;
 			}
 			else if (map_P[tmp] == 15 || map_P[tmp] == 16)
 			{
