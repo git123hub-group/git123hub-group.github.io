@@ -49,29 +49,29 @@ for (var i = 0; i < 82*66; i++)
 var partName = [
 	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL" ,
 	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","STNE","PLNT","WPIP",
-	"VRSS","ANAR","IGRV","CFLM","FIRE","CONV"
+	"VRSS","ANAR","IGRV","CFLM","FIRE","CONV","IGNT","ICE" ,
 ];
 
 var default_color = [
 	"#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810",
 	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00" ,"#FFBE30",
-	"#BE11B6", "#FFFFEE", "#66FF33", "#8080E0", "#FF0000", "#0AAB0A"
+	"#BE11B6", "#FFFFEE", "#66FF33", "#8080E0", "#FF0000", "#0AAB0A", "#C0B050", "#A0C0FF"
 ];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0,1,0,0];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0,1,0,0,0,0];
 
 // can_infe =
 //   0: no effect,
 //   1: infected to solid virus,
 //   2: infected to liquid virus
-var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1,0,0,1];
+var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1,0,0,1,1,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0,0,0,0];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0,0,0,0,0,0];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0,0,0,0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward, 5: anti-gravity powder
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0];
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0];
 
 // Menu Section ID:
 //   0: solid
@@ -80,15 +80,15 @@ var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0];
 //   3: gas
 //   4: special solid
 //  -1: hidden
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4,3,-1,4];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4,3,-1,4,0,0];
 
 var ST_Weight = [
 	   0,1000, 800 ,400,1000,   0, 420,  420, 390, 300,
 	 900,   1,1000,   1, 390, 440, 890, 1000,1000,1000,
-	1000, 800,1000,   1,   1,1000
+	1000, 800,1000,   1,   1,1000,1000, 1000
 ];
 
-var type_count = 26;
+var type_count = 28;
 
 var MAX_ACID_AFFECTED = 30;
 
@@ -330,8 +330,9 @@ var Update_P = [
 			do
 			{
 				tmp = map_P[flameOffset];
-				if (tmp === 3)
+				switch (tmp)
 				{
+				case 3:
 					if ((2.5 * Math.random() - 1.25) > (newY - y))
 					{
 						map_P[flameOffset] = 13;
@@ -340,16 +341,14 @@ var Update_P = [
 					{
 						map_P[lifeOffset-1] = 0;
 					}
+					flameOffset = 0;
 					break;
-				}
-				else if (tmp === 10)
-				{
+				case 10:
 					if (Math.random() < 0.4)
 						map_P[flameOffset+1] += 1;
+					flameOffset = 0;
 					break;
-				}
-				else if (tmp === 15)
-				{
+				case 15:
 					if ((2.5 * Math.random() - 1.25) > (newY - y))
 					{
 						k01 += map_P[flameOffset+1];
@@ -362,19 +361,27 @@ var Update_P = [
 						else
 						{
 							map_P[flameOffset] = 13;
+							map_P[flameOffset+1] = 0
 						}
 					}
 					else
 					{
 						map_P[lifeOffset-1] = 0;
 					}
+					flameOffset = 0;
 					break;
-				}
-				else if (flammable[tmp] && iflame)
-				{
-					map_P[flameOffset] = 24;
-					map_P[flameOffset+1] = 0;
+				case 27:
+					if (map_P[flameOffset+1] === 0)
+						map_P[flameOffset+1] = 50;
 					break;
+				default:
+					if (flammable[tmp] && iflame)
+					{
+						map_P[flameOffset] = 24;
+						map_P[flameOffset+1] = 0;
+						flameOffset = 0;
+						break;
+					}
 				}
 				flameOffset -= 82 * params_P;
 				if (flameOffset < 0) break;
@@ -387,11 +394,27 @@ var Update_P = [
 	function (x, y) /* steam */
 	{
 		var currOffset = (82*y+x)*params_P;
-		if (y < 1) return;
-		var topOffset = (82*(y-1)+x)*params_P;
-		if (map_P[topOffset] === 17)
+		var difsOffset;
+		if (map_P[currOffset+1] > 0)
 		{
-			map_P[currOffset] = 3;
+			map_P[currOffset+1]--;
+			if (map_P[currOffset+1] === 0)
+			{
+				map_P[currOffset] = 3;
+				return;
+			}
+			newX = x + ((Math.random() * 3) | 0) - 1;
+			newY = y + ((Math.random() * 3) | 0) - 1;
+			if (checkBounds (newX, newY))
+			{
+				difsOffset = (82*newY+newX)*params_P;
+				if ((map_P[difsOffset] == 13 || map_P[difsOffset] == 27) && map_P[difsOffset+1] <= 0)
+					map_P[difsOffset+1] = 50;
+			}
+		}
+		else if (y > 0 && map_P[currOffset-82*params_P] === 17)
+		{
+			map_P[currOffset+1] = 50;
 		}
 	},
 	function (x, y) /* base / alkali */
@@ -663,27 +686,34 @@ var Update_P = [
 			do
 			{
 				tmp = map_P[flameOffset];
-				if (tmp === 10)
+				switch (tmp)
 				{
+				case 3:
+					if (Math.random() < 0.3)
+					{
+						map_P[flameOffset] = 27;
+					}
+					flameOffset = 0;
+					break;
+				case 10:
 					if (Math.random() < 0.6 && map_P[flameOffset+1] > 0)
 						map_P[flameOffset+1] -= 1;
+					flameOffset = 0;
 					break;
-				}
-				else if (tmp === 13)
-				{
+				case 13:
 					if ((2.5 * Math.random() - 1.25) > (newY - y))
 					{
-						map_P[flameOffset] = 3;
+						map_P[flameOffset+1] = 50;
 					}
+					flameOffset = 0;
 					break;
-				}
-				else if (tmp === 21)
-				{
+				case 21:
 					if (Math.random() < 0.7)
 					{
 						map_P[flameOffset] = 23;
 						map_P[flameOffset+1] = 0;
 					}
+					flameOffset = 0;
 					break;
 				}
 				flameOffset -= 82 * params_P;
@@ -716,7 +746,67 @@ var Update_P = [
 				}
 			}
 		}
-	}
+	},
+	function (x, y) // Ignition cord
+	{
+		var lifeOffset = (82*y+x)*params_P+1, tmp2;
+		var	newX = x + ((Math.random() * 3) | 0) - 1;
+		var newY = y + ((Math.random() * 3) | 0) - 1;
+		if (map_P[lifeOffset] !== 0)
+		{
+			if (map_P[lifeOffset] < 120)
+				map_P[lifeOffset] ++;
+			else
+			{
+				map_P[lifeOffset] = 0;
+				map_P[lifeOffset-1] = 24;
+			}
+		}
+		else if (checkBounds (newX, newY))
+		{
+			tmp2 = (82*newY+newX)*params_P;
+			if (map_P[tmp2] === 8 || map_P[tmp2] === 11 || map_P[tmp2] === 14 || map_P[tmp2] === 26 && map_P[tmp2+1] > 80)
+			{
+				map_P[lifeOffset] = 1;
+			}
+		}
+	},
+	function (x, y) // Ice
+	{
+		var lifeOffset = (82*y+x)*params_P+1, tmp;
+		var	newX = x + ((Math.random() * 3) | 0) - 1;
+		var newY = y + ((Math.random() * 3) | 0) - 1;
+		if (checkBounds (newX, newY))
+		{
+			tmp = (82*newY+newX)*params_P;
+			if (map_P[lifeOffset] <= 0)
+			{
+				if (map_P[tmp] === 3)
+				{
+					if (Math.random() < 0.2)
+					{
+						map_P[tmp] = 27;
+						map_P[tmp+1] = 0;
+					}
+				}
+				else if (map_P[tmp] === 13 || map_P[tmp] === 15 || map_P[tmp] === 16)
+				{
+					map_P[tmp] === 13 && (map_P[tmp+1] = 50);
+					map_P[lifeOffset] = 50;
+				}
+			}
+			else if ((map_P[tmp] === 13 || map_P[tmp] === 27) && map_P[tmp+1] <= 0)
+			{
+				map_P[tmp+1] = 50;
+			}
+		}
+		if (map_P[lifeOffset] > 0)
+		{
+			map_P[lifeOffset]--;
+			if (!map_P[lifeOffset])
+				map_P[lifeOffset-1] = 3;
+		}
+	},
 ];
 
 Update_P[20] = Update_P[6];
@@ -782,6 +872,11 @@ function renderPart (x, y, type, dcolour, other_prop_offset)
 		case 20:
 			nodeco = true;
 			ctx_P.fillStyle = default_color[type];
+			break;
+		case 26:
+			temp = map_P[other_prop_offset+1];
+			tmpr = 0xC0 - temp; tmpg = 0xB0 - temp; tmpb = 0x50 - (temp >> 1);
+			ctx_P.fillStyle = "#" + (((256 + tmpr) * 256 + tmpg) * 256 + tmpb).toString(16).slice(-6);
 			break;
 		case 19:
 			temp = map_P[other_prop_offset+2];
