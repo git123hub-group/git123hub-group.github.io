@@ -28,8 +28,10 @@ var ctx = canvas.getContext("2d");
 var colors = [
 	"#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040",
 	"#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C", "#FD9D18", "#902090", "#FFCC00", "#40A060", "#405050",
-	"#505040", "#002080", "#707070"
+	"#505040", "#002080", "#707070", "#383838"
 ];
+
+var Electrodes = [];
 
 var PART_METAL = 1;
 var PART_SPARK = 2;
@@ -53,21 +55,22 @@ var PART_PTC = 19;
 var PART_NTC = 20;
 var PART_RANDOMC = 21;
 var PART_CNDTR2 = 22;
+var PART_ETRD = 23;
 
 var conduct  = [
 	0, 1, 0, 0, 1, 1, 0, 1, 0, 1,
 	0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
-	1, 1, 1
+	1, 1, 1, 0
 ];
 var isswitch = [
 	0, 0, 0, 0, 0, 0, 1, 1, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0
+	0, 0, 0, 0
 ];
 var nradius = [
 	2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 	2, 2, 2, 2, 2, 2, 2, 1, 1, 2,
-	2, 2, 2
+	2, 2, 2, 2
 ];
 
 function clickPixel (x, y)
@@ -75,7 +78,7 @@ function clickPixel (x, y)
 	x >= 82 && (x = 81);
 	y >= 66 && (y = 65);
 
-	var tmpi;
+	var tmpi, tmpj;
 	
 	var temp = pmap[y+1][x+1];
 	if (part_state !== PART_SPARK)
@@ -84,6 +87,13 @@ function clickPixel (x, y)
 			return;
 		if (!part_state)
 		{
+			if (temp[0] === PART_ETRD)
+			{
+				tmpi = temp[2];
+				tmpj = Electrodes.length - 1;
+				Electrodes[tmpi] = Electrodes[tmpj];
+				Electrodes.length = tmpj;
+			}
 			temp[0] = 0;
 			renderPixel (x+1, y+1, temp);
 		}
@@ -100,9 +110,15 @@ function clickPixel (x, y)
 				tmpi = prompt ("Enter number value for delay:");
 				temp[2] = (tmpi >= 1 ? tmpi : 1);
 			}
-			if (part_state === PART_WIFI)
+			else if (part_state === PART_WIFI)
 			{
 				temp[2] = channel_num;
+			}
+			else if (part_state === PART_ETRD) // allocate electrode ID
+			{
+				tmpi = Electrodes.length;
+				Electrodes[tmpi] = [x+1, y+1];
+				temp[2] = tmpi;
 			}
 			renderPixel (x+1, y+1, temp);
 		}
@@ -138,7 +154,7 @@ function conductTo (x, y, array, extra)
 
 function renderPixel (x, y, array)
 {
-	var num;
+	var num, num2;
 	ctx.fillStyle = colors[array[0]];
 	switch (array[0])
 	{
@@ -147,7 +163,9 @@ function renderPixel (x, y, array)
 		{
 			if (array[2] !== 5)
 			{
-				ctx.fillStyle = "rgb(" + (num = (array[1] * 12.79) | 0) + "," + num + "," + num + ")";
+				num = num2 = (array[1] * 12.79) | 0;
+				(array[2] === 6) && (num2 = num2 > 80 ? (num2 - 80) : 0);
+				ctx.fillStyle = "rgb(" + num + "," + num2 + "," + num + ")";
 			}
 			else
 			{
@@ -174,6 +192,12 @@ function renderPixel (x, y, array)
 			var colg = Math.sin(0.0628318 * q + 2) * 127 + 128;
 			var colb = Math.sin(0.0628318 * q + 4) * 127 + 128;
 			ctx.fillStyle = "rgb(" + [colr|0, colg|0, colb|0].join(",") + ")";
+		}
+	break;
+	case PART_ETRD:
+		if (array[1] > 10)
+		{
+			ctx.fillStyle = "#D0D0D0";
 		}
 	break;
 	}
@@ -296,10 +320,12 @@ function checkBounds (x, y)
 function simPart (x, y, array)
 {
 	var type = array[0], nx, ny;
+	var hasConductor = false;
 	var ctype, tmp, id, absID;
 	var tmpArray, tmpArray2;
 	var sender, receiver;
 	var nxi, nyi, _xx, _yy;
+	var xy;
 	var nostop, destroy, radius = nradius[type];
 	var leftBound   = Math.min(radius, x);
 	var topBound    = Math.min(radius, y);
@@ -475,8 +501,11 @@ function simPart (x, y, array)
 						continue;
 					case PART_RANDOMC:
 						tmpArray2[3] = Math.random() < 0.5 ? 0 : 1;
-						debugger;
 						break;
+					case PART_ETRD:
+						if (tmpArray2[1] <= 0)
+							tmpArray2[1] = 12;
+						continue;
 					}
 					conductTo(nx, ny, tmpArray2);
 				}
@@ -568,7 +597,7 @@ function simPart (x, y, array)
 										// long life?
 										continue;
 									}
-									else if (tmp[2] === absID)
+									else if (tmp[2] === absID || tmp[2] === 6)
 									{
 										break;
 									}
@@ -728,8 +757,95 @@ function simPart (x, y, array)
 				}
 			}
 		break;
+		case PART_ETRD:
+			if (array[1] === 11)
+			{
+				for (var ry = -topBound; ry <= bottomBound; ry++)
+				{
+					tmpArray = pmap[ny=y+ry];
+					for (var rx = -leftBound; rx <= rightBound; rx++)
+					{
+						tmpArray2 = tmpArray[nx=x+rx];
+						if ((tmpArray2[0] === PART_METAL || tmpArray2[0] === PART_CNDTR2) && tmpArray2[1] <= 0)
+						{
+							conductTo (nx, ny, tmpArray2);
+							hasConductor = true;
+						}
+					}
+				}
+				if (!hasConductor)
+				{
+					var xy = findNearestSparkableElectrode(x, y);
+					nx = xy[0];
+					if (nx >= 0)
+					{
+						ny = xy[1];
+						pmap[ny][nx][1] = 12;
+						createPlasmaArc(x, y, nx, ny);
+					}
+				}
+			}
+		break;
 	}
 }
+
+function findNearestSparkableElectrode (x, y)
+{
+	var tmpArray, tmpArray2, xx, yy, retc = [-1], diff, mindiff = 1e4;
+	for (var i = 0, l = Electrodes.length; i < l; i++)
+	{
+		tmpArray = Electrodes[i];
+		tmpArray2 = pmap[yy = tmpArray[1]][xx = tmpArray[0]];
+		if (tmpArray2[0] === PART_ETRD && tmpArray2[1] <= 0)
+		{
+			diff = (x>xx ? x-xx : xx-x) + (y>yy ? y-yy : yy-y);
+			if (diff < mindiff)
+			{
+				mindiff = diff;
+				retc[0] = xx;
+				retc[1] = yy;
+			}
+		}
+	}
+	return retc;
+}
+
+function createPlasmaArc (x1, y1, x2, y2)
+{
+	var reverseXY = Math.abs(y2-y1) > Math.abs(x2-x1), backw = false;
+	var x, y, dx, dy, Ystep, e = 0, de, ta;
+	if (reverseXY)
+	{
+		y = x1, x1 = y1, y1 = y;
+		y = x2, x2 = y2, y2 = y;
+	}
+	if (x1 > x2)
+	{
+		y = x1, x1 = x2, x2 = y;
+		y = y1, y1 = y2, y2 = y;
+	}
+	dx = x2 - x1;
+	dy = Math.abs(y2 - y1);
+	de = dy/dx;
+	y = y1; Ystep = (y1<y2) ? 1 : -1;
+	for (x=x1; x<=x2; x++)
+	{
+		ta = (reverseXY ? pmap[x][y] : pmap[y][x]);
+		if (!ta[0] || (ta[0] === PART_RAY) && (ta[2] = 6))
+		{
+			ta[0] = PART_RAY;
+			ta[1] = 20;
+			ta[2] = 6;
+		}
+		e += de;
+		if (e >= 0.5)
+		{
+			y += Ystep;
+			e -= 1;
+		}
+	}
+}
+
 
 function cmp_conduct (type, array)
 {
