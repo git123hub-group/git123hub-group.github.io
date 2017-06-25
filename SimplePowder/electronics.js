@@ -404,17 +404,25 @@ function simPart (x, y, array)
 						}
 						break;
 					case PART_SWITCH_MID:
-						if (tmpArray2[2] === PART_SWITCH_ON && tmpArray2[1] < 5)
+						if (tmpArray2[1] < 5)
 						{
-							if (sender === PART_METAL)
+							if (tmpArray2[2] === PART_SWITCH_ON)
 							{
-								tmpArray2[0] = PART_SPARK;
-								tmpArray2[1] = 4;
+								if (sender === PART_METAL)
+								{
+									tmpArray2[0] = PART_SPARK;
+									tmpArray2[1] = 4;
+								}
+								else if (sender === PART_NSCN)
+								{
+									tmpArray2[1] = 5;
+									tmpArray2[2] = PART_SWITCH_OFF;
+								}
 							}
-							else if (sender === PART_NSCN)
+							else if (tmpArray2[2] === PART_SWITCH_OFF && sender === PART_PSCN)
 							{
 								tmpArray2[1] = 5;
-								tmpArray2[2] = PART_SWITCH_OFF;
+								tmpArray2[2] = PART_SWITCH_ON;
 							}
 						}
 						continue;
