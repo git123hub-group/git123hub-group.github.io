@@ -34,6 +34,9 @@
 	<input type="button" onclick="channel_num = Math.min(Math.max(prompt('Enter channel number:') | 0, 0), 99);" value="Set channel" />
 	<input type="button" onclick="part_state = 19" value="PTC" />
 	<input type="button" onclick="part_state = 20" value="NTC" />
+	<input type="button" onclick="part_state = 21" value="Randomizer (conductor)" />
+	<br />
+	<input type="button" onclick="part_state = 22" value="Conductor #2" />
 	<br />
 	<input type="button" onclick="paused = true; run_frame();" value="frame render" />
 	<input type="button" onclick="paused = !paused; paused || simLoopFn();" value="run/pause" />

@@ -28,7 +28,7 @@ var ctx = canvas.getContext("2d");
 var colors = [
 	"#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040",
 	"#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C", "#FD9D18", "#902090", "#FFCC00", "#40A060", "#405050",
-	"#505040"
+	"#505040", "#002080", "#707070"
 ];
 
 var PART_METAL = 1;
@@ -51,21 +51,23 @@ var PART_WIREWORLD = 17;
 var PART_WIFI = 18;
 var PART_PTC = 19;
 var PART_NTC = 20;
+var PART_RANDOMC = 21;
+var PART_CNDTR2 = 22;
 
 var conduct  = [
 	0, 1, 0, 0, 1, 1, 0, 1, 0, 1,
 	0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
-	1
+	1, 1, 1
 ];
 var isswitch = [
 	0, 0, 0, 0, 0, 0, 1, 1, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0
+	0, 0, 0
 ];
 var nradius = [
 	2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 	2, 2, 2, 2, 2, 2, 2, 1, 1, 2,
-	2
+	2, 2, 2
 ];
 
 function clickPixel (x, y)
@@ -145,7 +147,7 @@ function renderPixel (x, y, array)
 		{
 			if (array[2] !== 5)
 			{
-				ctx.fillStyle = "rgb(" + (num = (array[1] * 15.95) | 0) + "," + num + "," + num + ")";
+				ctx.fillStyle = "rgb(" + (num = (array[1] * 12.79) | 0) + "," + num + "," + num + ")";
 			}
 			else
 			{
@@ -212,7 +214,9 @@ function run_frame ()
 					k[4] = k[3];
 					if (k[3]) k[3] --;
 				}
-				k[3] = 0;
+				else if (isswitch[k[2]]) {
+					k[3] = 0;
+				}
 			break;
 			case PART_SWITCH_ON:
 				if (k[3] === 5) {
@@ -328,7 +332,7 @@ function simPart (x, y, array)
 					switch (sender)
 					{
 					case PART_SWITCH_ON:
-						if (receiver === PART_METAL || receiver === PART_SWITCH_ON)
+						if (receiver === PART_METAL || receiver === PART_SWITCH_ON || receiver === PART_GOLD || receiver === PART_CNDTR2)
 						{
 							conductTo(nx, ny, tmpArray2);
 						}
@@ -353,6 +357,17 @@ function simPart (x, y, array)
 						continue;
 					case PART_NTC:
 						if (receiver === PART_PSCN || receiver === PART_NTC || receiver === PART_NSCN && array[4])
+						{
+							conductTo(nx, ny, tmpArray2);
+						}
+						continue;
+					case PART_RANDOMC:
+						if (receiver === PART_RANDOMC)
+						{
+							conductTo(nx, ny, tmpArray2);
+							tmpArray2[3] = array[3];
+						}
+						if (array[3] === 0 && receiver === PART_METAL || array[3] === 1 && receiver === PART_CNDTR2)
 						{
 							conductTo(nx, ny, tmpArray2);
 						}
@@ -392,7 +407,7 @@ function simPart (x, y, array)
 						}
 						break;
 					case PART_SWITCH_ON:
-						if (sender !== PART_METAL)
+						if (sender !== PART_METAL && sender !== PART_GOLD && sender !== PART_CNDTR2)
 						{
 							if (sender === PART_NSCN)
 							{
@@ -408,7 +423,7 @@ function simPart (x, y, array)
 						{
 							if (tmpArray2[2] === PART_SWITCH_ON)
 							{
-								if (sender === PART_METAL)
+								if (sender === PART_METAL || sender === PART_GOLD || sender === PART_CNDTR2)
 								{
 									tmpArray2[0] = PART_SPARK;
 									tmpArray2[1] = 4;
@@ -458,6 +473,10 @@ function simPart (x, y, array)
 							conductTo(nx, ny, tmpArray2);
 						}
 						continue;
+					case PART_RANDOMC:
+						tmpArray2[3] = Math.random() < 0.5 ? 0 : 1;
+						debugger;
+						break;
 					}
 					conductTo(nx, ny, tmpArray2);
 				}
@@ -497,9 +516,11 @@ function simPart (x, y, array)
 				{
 					if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
 					tmpArray2 = tmpArray[nx = x+rx];
-					if (pmap[(y + ny)>>1][(x + nx)>>1][0] !== PART_INSUL && tmpArray2[0] !== PART_INSUL_WIRE && tmpArray2[0] !== PART_INSUL_PTC && tmpArray2[0] !== PART_INSUL_NTC)
+					if (pmap[(y + ny)>>1][(x + nx)>>1][0] !== PART_INSUL && tmpArray2[0] !== PART_INSUL_WIRE && tmpArray2[0] !== PART_PTC && tmpArray2[0] !== PART_NTC)
 					{
 						conductTo (nx = x+rx, ny, tmpArray2);
+						if (tmpArray2[0] == PART_RANDOMC)
+							tmpArray2[3] = Math.random() < 0.5 ? 1 : 0;
 					}
 				}
 			}
@@ -524,7 +545,7 @@ function simPart (x, y, array)
 							if (!(ctype = (tmp = pmap[_yy][_xx])[0]))
 							{
 								tmp[0] = PART_RAY;
-								tmp[1] = destroy ? 2 : 16;
+								tmp[1] = destroy ? 2 : 20;
 								tmp[2] = destroy ? 5 : absID;
 							}
 							else if (tmp[0] === PART_RAY_DTEC)
@@ -544,13 +565,12 @@ function simPart (x, y, array)
 									if (!tmp[1])
 									{
 										_xx += nxi; _yy += nyi;
+										// long life?
 										continue;
 									}
 									else if (tmp[2] === absID)
 									{
-										tmp[1] = 16;
-										_xx += nxi; _yy += nyi;
-										continue;
+										break;
 									}
 									else
 									{
