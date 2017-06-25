@@ -92,6 +92,7 @@ function clickPixel (x, y)
 				tmpi = temp[2];
 				tmpj = Electrodes.length - 1;
 				Electrodes[tmpi] = Electrodes[tmpj];
+				pmap[Electrodes[tmpi][1]][Electrodes[tmpi][0]][2] = tmpi;
 				Electrodes.length = tmpj;
 			}
 			temp[0] = 0;
@@ -134,6 +135,11 @@ function clickPixel (x, y)
 		else if (!temp[1] && ctype === PART_WIREWORLD)
 		{
 			temp[1] = 2;
+			return renderPixel (x+1, y+1, temp);
+		}
+		else if (!temp[1] && ctype === PART_ETRD)
+		{
+			temp[1] = 12;
 			return renderPixel (x+1, y+1, temp);
 		}
 		conductTo(x+1, y+1, temp);
@@ -187,7 +193,7 @@ function renderPixel (x, y, array)
 	break;
 	case PART_WIFI:
 		{
-			var q = array[2]
+			var q = array[2];
 			var colr = Math.sin(0.0628318 * q + 0) * 127 + 128;
 			var colg = Math.sin(0.0628318 * q + 2) * 127 + 128;
 			var colb = Math.sin(0.0628318 * q + 4) * 127 + 128;
@@ -195,9 +201,10 @@ function renderPixel (x, y, array)
 		}
 	break;
 	case PART_ETRD:
-		if (array[1] > 10)
+		if (array[1] > 0)
 		{
-			ctx.fillStyle = "#D0D0D0";
+			num = 14*array[1];
+			ctx.fillStyle = "rgb(" + [64+num, 60+num, 56+num].join(",") + ")";
 		}
 	break;
 	}
@@ -766,7 +773,7 @@ function simPart (x, y, array)
 					for (var rx = -leftBound; rx <= rightBound; rx++)
 					{
 						tmpArray2 = tmpArray[nx=x+rx];
-						if ((tmpArray2[0] === PART_METAL || tmpArray2[0] === PART_CNDTR2) && tmpArray2[1] <= 0)
+						if (((rx < 2 && rx > -2) || (ry < 2 && ry > -2)) && (tmpArray2[0] === PART_METAL || tmpArray2[0] === PART_CNDTR2 || tmpArray2[0] === PART_PSCN || tmpArray2[0] === PART_NSCN) && tmpArray2[1] <= 0)
 						{
 							conductTo (nx, ny, tmpArray2);
 							hasConductor = true;
@@ -780,8 +787,7 @@ function simPart (x, y, array)
 					if (nx >= 0)
 					{
 						ny = xy[1];
-						pmap[ny][nx][1] = 12;
-						createPlasmaArc(x, y, nx, ny);
+						createPlasmaArc(x, y, nx, ny) && (pmap[ny][nx][1] = 12);
 					}
 				}
 			}
@@ -812,6 +818,7 @@ function findNearestSparkableElectrode (x, y)
 
 function createPlasmaArc (x1, y1, x2, y2)
 {
+	var points = [], pointsL = 0;
 	var reverseXY = Math.abs(y2-y1) > Math.abs(x2-x1), backw = false;
 	var x, y, dx, dy, Ystep, e = 0, de, ta;
 	if (reverseXY)
@@ -831,11 +838,10 @@ function createPlasmaArc (x1, y1, x2, y2)
 	for (x=x1; x<=x2; x++)
 	{
 		ta = (reverseXY ? pmap[x][y] : pmap[y][x]);
-		if (!ta[0] || (ta[0] === PART_RAY) && (ta[2] = 6))
+		points[pointsL++] = ta;
+		if (ta[0] === PART_INSUL)
 		{
-			ta[0] = PART_RAY;
-			ta[1] = 20;
-			ta[2] = 6;
+			return false;
 		}
 		e += de;
 		if (e >= 0.5)
@@ -844,6 +850,17 @@ function createPlasmaArc (x1, y1, x2, y2)
 			e -= 1;
 		}
 	}
+	for (x = 0; x < pointsL; x++)
+	{
+		ta = points[x];
+		if (!ta[0] || (ta[0] === PART_RAY) && (ta[2] = 6))
+		{
+			ta[0] = PART_RAY;
+			ta[1] = 20;
+			ta[2] = 6;
+		}
+	}
+	return true;
 }
 
 
