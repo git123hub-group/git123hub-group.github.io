@@ -49,29 +49,29 @@ for (var i = 0; i < 82*66; i++)
 var partName = [
 	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL" ,
 	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","STNE","PLNT","WPIP",
-	"VRSS","ANAR","IGRV","CFLM","FIRE","CONV","IGNT","ICE" ,
+	"VRSS","ANAR","IGRV","CFLM","FIRE","CONV","IGNT","ICE" ,"WARP"
 ];
 
 var default_color = [
 	"#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810",
 	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00" ,"#FFBE30",
-	"#BE11B6", "#FFFFEE", "#66FF33", "#8080E0", "#FF0000", "#0AAB0A", "#C0B050", "#A0C0FF"
+	"#BE11B6", "#FFFFEE", "#66FF33", "#8080E0", "#FF0000", "#0AAB0A", "#C0B050", "#A0C0FF", "#000000"
 ];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0,1,0,0,0,0];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0,1,0,0,0,0,1];
 
 // can_infe =
 //   0: no effect,
 //   1: infected to solid virus,
 //   2: infected to liquid virus
-var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1,0,0,1,1,1];
+var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1,0,0,1,1,1,0];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0,0,0,0,0,0];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0,0,0,0,0,0,0];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0,0];
 
-// 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward, 5: anti-gravity powder
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0];
+// 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward, 5: anti-gravity powder, 6: displacer
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0,6];
 
 // Menu Section ID:
 //   0: solid
@@ -80,15 +80,15 @@ var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0];
 //   3: gas
 //   4: special solid
 //  -1: hidden
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4,3,-1,4,0,0];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4,3,-1,4,0,0,3];
 
 var ST_Weight = [
 	   0,1000, 800 ,400,1000,   0, 420,  420, 390, 300,
 	 900,   1,1000,   1, 390, 440, 890, 1000,1000,1000,
-	1000, 800,1000,   1,   1,1000,1000, 1000
+	1000, 800,1000,   1,   1,1000,1000, 1000,   1
 ];
 
-var type_count = 28;
+var type_count = 29;
 
 var MAX_ACID_AFFECTED = 30;
 
@@ -807,6 +807,7 @@ var Update_P = [
 				map_P[lifeOffset-1] = 3;
 		}
 	},
+	null
 ];
 
 Update_P[20] = Update_P[6];
@@ -1120,7 +1121,7 @@ function try_move (x, y)
 	var state = ST_List[type], osc;
 	var rnd = Math.random()<0.5 ? 1 : -1;
 	var inBound, newX, newY = y + 1, newPosType, _base = false;
-	var disappearOld = false, newPartFlag = false;
+	var disappearOld = false, newPartFlag = false, nnX, nnY;
 	switch (state)
 	{
 	case 1:
@@ -1206,6 +1207,26 @@ function try_move (x, y)
 				disappearOld = true; break;
 			}
 		}
+		break;
+	case 6: // displace anything
+		osc = 3, newX = x, newY = y;
+		disappearOld = true;
+		newPartFlag = true;
+		while (osc--)
+		{
+			nnX = newX + (Math.random()*3 | 0) - 1;
+			nnY = newY + (Math.random()*3 | 0) - 1;
+			newPosType = map_P[(82*nnY + nnX)*params_P];
+			if (!checkBounds (nnX, nnY) || newPosType === 5)
+			{
+				newPartFlag = false; break;
+			}
+			if (newPosType !== 1 && newPosType !== 4)
+			{
+				newX = nnX, newY = nnY;
+			}
+		}
+		break;
 	}
 	if (disappearOld)
 	{
