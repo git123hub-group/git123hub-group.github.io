@@ -137,6 +137,8 @@ Element number 189 (<span class="red">E189</span>) usage:
       this particle + <span class="red">WIFI</span> + <span class="red">FILT</span>: variable <span class="red">WIFI</span> inputs
     life = 16, ctype = 19: Universal <span class="red">SPRK</span> conductor
     life = 16, ctype = 20: Clock generator
+      * When <span class="red">BRAY</span> pass through this, change <span class="red">DLAY</span>'s <span class="blue">.life</span><!--
+--> to "Clock generator" <span class="blue">.tmp2</span> + 1.
     life = 16, ctype = 21: Subframe SPRK generator/remover, Conditions:
       if <span class="blue">.temp</span> &lt; 0 C then remove active sparks;
       if <span class="blue">.temp</span> &gt; ~100 C then set <span class="red">SPRK</span>'s <span class="blue">.life</span> = 3;
