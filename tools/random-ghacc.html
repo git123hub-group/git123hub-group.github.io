@@ -1,0 +1,17 @@
+<script>
+	for (var i = 0; i < 20; i++)
+	{
+		var charlist = "0123456789qwertyuiopasdfghjklzxcvbnm-".split("");
+		var prevchr = 36, currchr, len = 0;
+		while (len < 39)
+		{
+			currchr = (Math.random() * 37) | 0;
+			if ((len !== 38 || currchr !== 36) && (prevchr !== 36 || currchr !== 36))
+			{
+				prevchr = currchr, len++; 
+				document.write(charlist[currchr]);
+			}
+		}
+		document.write("<br />");
+	}
+</script>
