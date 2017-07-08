@@ -8,7 +8,7 @@ var cssP1 = document.createElement("link");
 
 var cssP1b = document.createElement("div");
 	cssP1b.className = "linkh"
-	cssP1b.style.top = (+window._bd_share_config.slide.bdTop + 58) + "px";
+	cssP1b.style.top = (+window._bd_share_config.slide.bdTop + 58 + (window._bd_share_config.slide.bdPos === "right") * 88) + "px";
 	cssP1b.onclick = function (event) {
 		location.href = "/index/"
 	}
