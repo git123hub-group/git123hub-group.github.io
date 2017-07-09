@@ -2,17 +2,24 @@ body {
   background-color: #eeeeee;
   color: #333;
   font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px; }
+  /* font-size: 13px; */
+  /* line-height: 18px; */
+}
+
+h1 {
+    font-size: 200%;
+}
 
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px; }
+  /* font-size: 13px; */
+  /* line-height: 18px; */
+}
 
 pre {
   padding: 10px;
-  font-size: 11px; }
+  /* font-size: 11px; */
+}
 
 a {
   color: #333; }
@@ -20,17 +27,12 @@ a {
     text-decoration: none; }
 
 #head {
-  font-size: 25px;
+  font-size: 150%;
   font-weight: bold;
   text-decoration: none; }
 
-#page_head {
-  font-size: 20px;
-  padding: 10px;
-  padding-left: 0px; }
-
 #head_holder {
-  padding-top: 20px;
+  padding-top: 0.5em;
   padding-left: 0px;
-  padding-bottom: 20px;
+  padding-bottom: 0.5em;
   border-bottom: 3px double black; }
