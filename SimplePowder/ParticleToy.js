@@ -48,30 +48,32 @@ for (var i = 0; i < 82*66; i++)
 }
 var partName = [
 	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL" ,
-	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","STNE","PLNT","WPIP",
-	"VRSS","ANAR","IGRV","CFLM","FIRE","CONV","IGNT","ICE" ,"WARP"
+	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","BRCK","PLNT","WPIP",
+	"VRSS","ANAR","IGRV","CFLM","FIRE","CONV","IGNT","ICE" ,"WARP","SAWD",
+	"ROTL","ROTR"
 ];
 
 var default_color = [
 	"#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810",
 	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00" ,"#FFBE30",
-	"#BE11B6", "#FFFFEE", "#66FF33", "#8080E0", "#FF0000", "#0AAB0A", "#C0B050", "#A0C0FF", "#000000"
+	"#BE11B6", "#FFFFEE", "#66FF33", "#8080E0", "#FF0000", "#0AAB0A", "#C0B050", "#A0C0FF", "#000000", "#F0F0A0",
+	"#664433", "#664433"
 ];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0,1,0,0,0,0,1];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0,1,0,0,0,0,1,1, 0,0];
 
 // can_infe =
 //   0: no effect,
 //   1: infected to solid virus,
 //   2: infected to liquid virus
-var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1,0,0,1,1,1,0];
+var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1,0,0,1,1,1,0,1, 1,1];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0,0,0,0,0,0,0];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0,0,0,0,0,0,0,1, 0,0];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0,0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0,0,1, 0,0];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward, 5: anti-gravity powder, 6: displacer
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0,6];
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0,6,1, 0,0];
 
 // Menu Section ID:
 //   0: solid
@@ -80,15 +82,16 @@ var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0,6];
 //   3: gas
 //   4: special solid
 //  -1: hidden
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4,3,-1,4,0,0,3];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4,3,-1,4,0,0,3,1, 4,4];
 
 var ST_Weight = [
 	   0,1000, 800 ,400,1000,   0, 420,  420, 390, 300,
 	 900,   1,1000,   1, 390, 440, 890, 1000,1000,1000,
-	1000, 800,1000,   1,   1,1000,1000, 1000,   1
+	1000, 800,1000,   1,   1,1000,1000, 1000,   1, 250,
+	1000,1000
 ];
 
-var type_count = 29;
+var type_count = 32;
 
 var MAX_ACID_AFFECTED = 30;
 
@@ -657,15 +660,22 @@ var Update_P = [
 		{
 			ny = y - 1;
 			aoffset = (82*ny+x)*params_P;
-			if (map_P[aoffset] === 2)
+			if (map_P[aoffset] === 2 || map_P[aoffset] === 29)
+			{
+				map_P[aoffset+1] = map_P[aoffset];
 				map_P[aoffset] = 21;
+			}
 		}
 		if (y < 65)
 		{
 			ny = y + 1;
 			aoffset = (82*ny+x)*params_P;
 			if (map_P[aoffset] === 21)
-				map_P[aoffset] = 2;
+			{
+				map_P[aoffset] = map_P[aoffset+1];
+				if (!map_P[aoffset]) map_P[aoffset] = 2;
+				map_P[aoffset+1] = 0;
+			}
 		}
 	},
 	function (x, y) /* cold flame */
@@ -807,11 +817,45 @@ var Update_P = [
 				map_P[lifeOffset-1] = 3;
 		}
 	},
+	null,
+	null,
+	function (x, y) // Conveyor
+	{
+		var typeOffset = (82*y+x)*params_P;
+		var multipler = map_P[typeOffset] == 30 ? 1 : -1;
+		var rand = Math.random() < 0.5 ? 0 : multipler;
+		var sptr, dptr, sptr2, dptr2, stype, dtype;
+		sptr = rand - multipler;
+		dptr = rand;
+		var sx, sy, dx, dy;
+		for (var dir = 0; dir < 4; dir++)
+		{
+			rx = photVX[dir];
+			ry = photVY[dir];
+			sx = x+rx+sptr*ry;
+			sy = y+ry-sptr*rx;
+			stype = map_P[sptr2 = (82*sy+sx)*params_P];
+			if (stype < 2 || stype === 4 || stype === 30 || stype === 31)
+				continue;
+			dx = x+rx+dptr*ry;
+			dy = y+ry-dptr*rx;
+			dtype = map_P[dptr2 = (82*dy+dx)*params_P];
+			if (!dtype)
+			{
+				for (iter = 0; iter < params_P; iter++)
+				{
+					map_P[dptr2+iter] = map_P[sptr2+iter];
+				}
+				map_P[sptr2] = 0;
+			}
+		}
+	},
 	null
 ];
 
 Update_P[20] = Update_P[6];
 Update_P[24] = Update_P[11];
+Update_P[31] = Update_P[30];
 
 function renderParts ()
 {
@@ -961,6 +1005,8 @@ function mouse_partOP (x, y, type, prop)
 		if (type < 256)
 		{
 			var origType = map_I[y*82+x];
+			if (mouseEntered && type === 6)
+				return;
 			if (origType === 6)
 			{
 				laser_id = laser_map [y*82+x];
@@ -1139,7 +1185,7 @@ function try_move (x, y)
 			{
 				continue;
 			}
-			if (ST_Weight[newPosType] < ST_Weight[type])
+			if (newPosType !== 29 && ST_Weight[newPosType] < ST_Weight[type]) // Sawdust cannot be displaced by other powders
 			{
 				newPartFlag = true;
 				newPosType = type;
@@ -1441,7 +1487,7 @@ function selectOpt (id)
 			menu2partID[i] = -1;
 			document.getElementById("Part_"+i).value = "";
 		}
-		for (var i = 0; i < 8; i++)
+		for (var i = 0; i < 9; i++)
 		{
 			menu2partID[i] = invisMenuID[i];
 			document.getElementById("Part_"+i).value = invisMenu[i];

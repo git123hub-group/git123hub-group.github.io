@@ -28,7 +28,7 @@ var ctx = canvas.getContext("2d");
 var colors = [
 	"#000000", "#444466", "#FFFFCC", "#AAAAAA", "#805050", "#505080", "#003000", "#20CC20", "#108010", "#554040",
 	"#40403C", "#858505", "#FFC000", "#FFFFFF", "#DCAD2C", "#FD9D18", "#902090", "#FFCC00", "#40A060", "#405050",
-	"#505040", "#002080", "#707070", "#383838"
+	"#505040", "#002080", "#707070", "#383838", "#504050"
 ];
 
 var Electrodes = [];
@@ -56,21 +56,22 @@ var PART_NTC = 20;
 var PART_RANDOMC = 21;
 var PART_CNDTR2 = 22;
 var PART_ETRD = 23;
+var PART_RAY_CONDUIT = 24;
 
 var conduct  = [
 	0, 1, 0, 0, 1, 1, 0, 1, 0, 1,
 	0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
-	1, 1, 1, 0
+	1, 1, 1, 0, 0
 ];
 var isswitch = [
 	0, 0, 0, 0, 0, 0, 1, 1, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0
+	0, 0, 0, 0, 0
 ];
 var nradius = [
 	2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 	2, 2, 2, 2, 2, 2, 2, 1, 1, 2,
-	2, 2, 2, 2
+	2, 2, 2, 2, 2
 ];
 
 function clickPixel (x, y)
@@ -139,7 +140,7 @@ function clickPixel (x, y)
 		}
 		else if (!temp[1] && ctype === PART_ETRD)
 		{
-			temp[1] = 12;
+			temp[1] = 8;
 			return renderPixel (x+1, y+1, temp);
 		}
 		conductTo(x+1, y+1, temp);
@@ -203,8 +204,14 @@ function renderPixel (x, y, array)
 	case PART_ETRD:
 		if (array[1] > 0)
 		{
-			num = 14*array[1];
+			num = 20*array[1];
 			ctx.fillStyle = "rgb(" + [64+num, 60+num, 56+num].join(",") + ")";
+		}
+	break;
+	case PART_RAY_CONDUIT:
+		if (array[1] > 0)
+		{
+			ctx.fillStyle = "#C090C0";
 		}
 	break;
 	}
@@ -268,7 +275,7 @@ function run_frame ()
 			case PART_RAY_DTEC:
 				k[1] = k[2];
 				k[2] = 0;
-			break;
+			continue;
 			case PART_DELAY:
 				k[3] = k[1]; // save old .life property
 			break;
@@ -351,6 +358,7 @@ function simPart (x, y, array)
 			{
 				return;
 			}
+			sender = array[2];
 			for (var ry = -topBound; ry <= bottomBound; ry++)
 			{
 				tmpArray = pmap[ny = y+ry];
@@ -358,12 +366,12 @@ function simPart (x, y, array)
 				{
 					if ((rx > 0 ? rx : -rx) + (ry > 0 ? ry : -ry) >= 4) continue;
 					tmpArray2 = tmpArray[nx = x+rx];
-					sender = array[2];
 					receiver = tmpArray2[0];
 					if (pmap[(y + ny)>>1][(x + nx)>>1][0] === PART_INSUL)
 						continue;
 					switch (sender)
 					{
+					case PART_SWITCH_OFF:
 					case PART_SWITCH_ON:
 						if (receiver === PART_METAL || receiver === PART_SWITCH_ON || receiver === PART_GOLD || receiver === PART_CNDTR2)
 						{
@@ -414,8 +422,11 @@ function simPart (x, y, array)
 						case PART_SWITCH_ON:
 							if (sender === PART_NSCN)
 							{
-								tmpArray2[0] = PART_SWITCH_MID;
-								tmpArray2[1] = 5;
+								if ((ry + rx << 2) < 0)
+								{
+									tmpArray2[0] = PART_SWITCH_MID;
+									tmpArray2[1] = 5;
+								}
 								tmpArray2[2] = PART_SWITCH_OFF;
 							}
 							break;
@@ -511,11 +522,16 @@ function simPart (x, y, array)
 						break;
 					case PART_ETRD:
 						if (tmpArray2[1] <= 0)
-							tmpArray2[1] = 12;
+							tmpArray2[1] = 8;
 						continue;
 					}
 					conductTo(nx, ny, tmpArray2);
 				}
+			}
+			if (sender == PART_SWITCH_OFF)
+			{
+				array[0] = PART_SWITCH_MID;
+				array[1] = 5;
 			}
 		break;
 		case PART_SWITCH_MID:
@@ -589,6 +605,12 @@ function simPart (x, y, array)
 								tmp[2] = 1;
 								break;
 							}
+							else if (tmp[0] === PART_RAY_CONDUIT)
+							{
+								tmp[1] = 4;
+								_xx += nxi; _yy += nyi;
+								continue;
+							}
 							else if (!destroy)
 							{
 								if (tmp[0] === PART_INSUL_WIRE || tmp[0] === PART_SPARK && tmp[2] === PART_INSUL_WIRE || tmp[0] === PART_RAY_EMIT || tmp[0] === PART_SWITCH_ON || tmp[0] === PART_SWITCH_MID && tmp[2] === PART_SWITCH_ON)
@@ -614,6 +636,10 @@ function simPart (x, y, array)
 											tmp[1] = 0;
 										break;
 									}
+								}
+								else if (tmp[0] === PART_RANDOMC)
+								{
+									tmp[3] = (2 * Math.random()) & 1;
 								}
 								conductTo (_xx, _yy, tmp);
 								if (!nostop || !(tmp[0] === PART_SPARK && conduct[tmp[2]]))
@@ -765,7 +791,7 @@ function simPart (x, y, array)
 			}
 		break;
 		case PART_ETRD:
-			if (array[1] === 11)
+			if (array[1] === 7)
 			{
 				for (var ry = -topBound; ry <= bottomBound; ry++)
 				{
@@ -787,7 +813,7 @@ function simPart (x, y, array)
 					if (nx >= 0)
 					{
 						ny = xy[1];
-						createPlasmaArc(x, y, nx, ny) && (pmap[ny][nx][1] = 12);
+						createPlasmaArc(x, y, nx, ny) && (pmap[ny][nx][1] = 8);
 					}
 				}
 			}
