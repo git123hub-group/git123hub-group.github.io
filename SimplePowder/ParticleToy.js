@@ -50,30 +50,30 @@ var partName = [
 	"X",   "BLCK","DUST","WATR","CLNE","VOID","VIRS","CURE","ACID","OIL" ,
 	"MERC","FIRE","WOOD","WTRV","BASE","SLTW","SALT","BRCK","PLNT","WPIP",
 	"VRSS","ANAR","IGRV","CFLM","FIRE","CONV","IGNT","ICE" ,"WARP","SAWD",
-	"ROTL","ROTR","CNCT"
+	"ROTL","ROTR","CNCT","LAVA"
 ];
 
 var default_color = [
 	"#000000", "#AAAAAA", "#FFE0A0", "#2030D0", "#CCCC00", "#790B0B", "#FE11F6", "#F5F5DC", "#EE66FF", "#483810",
 	"#746A6A", "#FF0000", "#BF9C1D", "#A0A0FF", "#13BDFF", "#505CD4", "#FFFFFF", "#999999", "#0CAC00" ,"#FFBE30",
 	"#BE11B6", "#FFFFEE", "#66FF33", "#8080E0", "#FF0000", "#0AAB0A", "#C0B050", "#A0C0FF", "#000000", "#F0F0A0",
-	"#664433", "#664433", "#C0C0C0"
+	"#664433", "#664433", "#C0C0C0", "#E05010"
 ];
 
-var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0,1,0,0,0,0,1,1, 0,0,1];
+var can_clone = [0,0,1,1,0,0,1,1,1,1 ,1,1,0,1,1,1,1,0,0,0, 0,1,0,1,0,0,0,0,1,1, 0,0,1,1];
 
 // can_infe =
 //   0: no effect,
 //   1: infected to solid virus,
 //   2: infected to liquid virus
-var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1,0,0,1,1,1,0,1, 1,1,1];
+var can_infe = [0,0,1,1,0,0,0,0,1,1 ,1,0,1,2,1,1,1,1,1,1, 0,1,1,0,0,1,1,1,0,1, 1,1,1,2];
 
-var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0,0,0,0,0,0,0,1, 0,0,0];
+var acidAffect = [0,0,1,0,0,0,1,1,0,0.2, 1,0,1,1,0,0,0,0,1,1, 0.5,1,0,0,0,0,0,0,0,1, 0,0,0,0];
 
-var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0,0,1, 0,0,0];
+var flammable = [0,0,1,0,0,0,0,0,0,1, 0,0,1,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0,0,1, 0,0,0,0];
 
 // 0: solid, 1: powder, 2: liquid, 3: gas, 4: go upward, 5: anti-gravity powder, 6: displacer
-var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0,6,1, 0,0,1];
+var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0,6,1, 0,0,1,2];
 
 // Menu Section ID:
 //   0: solid
@@ -82,16 +82,16 @@ var ST_List = [0,0,1,2,0,0,2,2,2,2, 2,4,0,4,2,2,1,0,0,0, 0,5,0,4,0,0,0,0,6,1, 0,
 //   3: gas
 //   4: special solid
 //  -1: hidden
-var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4,3,-1,4,0,0,3,1, 4,4,1];
+var ST_Menu_List = [4,4,1,2,4,4,2,2,2,2, 2,3,0,3,2,2,1,0,0,4, -1,1,4,3,-1,4,0,0,3,1, 4,4,1,2];
 
 var ST_Weight = [
 	   0,1000, 800 ,400,1000,   0, 420,  420, 390, 300,
 	 900,   1,1000,   1, 390, 440, 890, 1000,1000,1000,
 	1000, 800,1000,   1,   1,1000,1000, 1000,   1, 250,
-	1000,1000, 750
+	1000,1000, 750, 450
 ];
 
-var type_count = 33;
+var type_count = 34;
 
 var MAX_ACID_AFFECTED = 30;
 
@@ -114,14 +114,19 @@ var Update_P = [
 	null,
 	function (x, y) /* clone */
 	{
-		var tmp, ctypeOffset = (82*y+x)*params_P+1;
+		var tmp, lavaOffset, ctypeOffset = (82*y+x)*params_P+1;
 		if ((tmp = map_P[ctypeOffset]) !== 0)
 		{
 			var newX = x + ((Math.random() * 3) | 0) - 1;
 			var newY = y + ((Math.random() * 3) | 0) - 1;
 			if (checkBounds (newX, newY))
 			{
-				create_part( newX, newY, tmp /* ctype */ );
+				if (create_part( newX, newY, tmp ) && tmp === 33)
+				{
+					lavaOffset = (82*newY+newX)*params_P;
+					map_P[lavaOffset+1] = 50;
+					map_P[lavaOffset+2] = map_P[ctypeOffset+1];
+				}
 			}
 		}
 		else
@@ -133,10 +138,12 @@ var Update_P = [
 				{
 					if (checkBounds (newX = x + rx, newY = y + ry))
 					{
-						tmp = map_P[(82*newY+newX)*params_P];
+						tmp = map_P[lavaOffset = (82*newY+newX)*params_P];
 						if (can_clone[tmp])
 						{
 							map_P[ctypeOffset] = tmp;
+							if (tmp === 33)
+								map_P[ctypeOffset+1] = map_P[lavaOffset+2];
 							break loop_clone;
 						}
 					}
@@ -204,10 +211,6 @@ var Update_P = [
 		case 7:
 			map_P[infectingOffset] = 0;
 			map_P[self_P+arg_last] = 30;
-			break;
-		case 11:
-			map_P[self_P] = 6;
-			map_P[tmp2] = 50;
 			break;
 		case 23:
 			map_P[self_P] = 20;
@@ -310,12 +313,25 @@ var Update_P = [
 		var lifeOffset = (82*y+x)*params_P + 1, tmp;
 		var type1 = map_P[lifeOffset-1];
 		var life1 = map_P[lifeOffset];
-		if (type1 == 11)
+		if (type1 === 11)
 		{
 			if (life1 > 18)
 				map_P[lifeOffset-1] = 0;
 		}
-		else if (life1 == 4)
+		else if (type1 === 33)
+		{
+			if (life1 <= 0)
+			{
+				map_P[lifeOffset-1] = map_P[lifeOffset+1];
+				if (map_P[lifeOffset-1] <= 0)
+					map_P[lifeOffset-1] = 17;
+				map_P[lifeOffset] = 0;
+				return;
+			}
+			else if (life1 < 50)
+				map_P[lifeOffset]--;
+		}
+		else if (life1 === 4)
 		{
 			map_P[lifeOffset-1] = 11;
 			map_P[lifeOffset] = 0;
@@ -340,9 +356,13 @@ var Update_P = [
 					{
 						map_P[flameOffset] = 13;
 					}
-					else
+					else if (type1 !== 33)
 					{
 						map_P[lifeOffset-1] = 0;
+					}
+					else if (life1 >= 50)
+					{
+						map_P[lifeOffset] = 49;
 					}
 					flameOffset = 0;
 					break;
@@ -364,18 +384,43 @@ var Update_P = [
 						else
 						{
 							map_P[flameOffset] = 13;
-							map_P[flameOffset+1] = 0
+							map_P[flameOffset+1] = 0;
 						}
 					}
-					else
+					else if (type1 !== 33)
 					{
 						map_P[lifeOffset-1] = 0;
 					}
+					else if (life1 >= 50)
+					{
+						map_P[lifeOffset] = 49;
+					}
 					flameOffset = 0;
+					break;
+				case 6:
+				case 20:
+					map_P[flameOffset] = 6;
+					map_P[flameOffset+arg_flags] = 50;
 					break;
 				case 27:
 					if (map_P[flameOffset+1] === 0)
 						map_P[flameOffset+1] = 50;
+					if (iflame && type1 === 33 && life1 >= 50)
+						map_P[lifeOffset] = 49;
+					break;
+				case 17: // maybe PROP_MELTABLE?
+					if (type1 !== 33 || (iflame && life1 >= 50))
+					{
+						map_P[flameOffset] = 33;
+						map_P[flameOffset+1] = 50;
+						map_P[flameOffset+2] = tmp;
+					}
+					break;
+				case 33:
+					if (iflame && type1 === 33 && map_P[flameOffset+1] < 50 && life1 >= 50)
+					{
+						map_P[lifeOffset] = 49;
+					}
 					break;
 				default:
 					if (flammable[tmp] && iflame)
@@ -391,7 +436,8 @@ var Update_P = [
 				iflame = !iflame;
 			} while (!iflame);
 		}
-		map_P[lifeOffset] ++;
+		if (type1 !== 33)
+			map_P[lifeOffset] ++;
 	},
 	null,
 	function (x, y) /* steam */
@@ -725,6 +771,11 @@ var Update_P = [
 					}
 					flameOffset = 0;
 					break;
+				case 33:
+					if (map_P[flameOffset+1] >= 50)
+						map_P[flameOffset+1] = 49;
+					flameOffset = 0;
+					break;
 				}
 				flameOffset -= 82 * params_P;
 				if (flameOffset < 0) break;
@@ -857,6 +908,7 @@ var Update_P = [
 Update_P[20] = Update_P[6];
 Update_P[24] = Update_P[11];
 Update_P[31] = Update_P[30];
+Update_P[33] = Update_P[11];
 
 function renderParts ()
 {
@@ -984,6 +1036,11 @@ function mouse_partOP (x, y, type, prop)
 			else if (map_P[tmp] == 15 || map_P[tmp] == 16)
 			{
 				map_P[tmp + 1] = SALT_WATER_SATURE;
+			}
+			else if (map_P[tmp] == 33)
+			{
+				map_P[tmp + 1] = 50;
+				map_P[tmp + 2] = 17;
 			}
 		}
 		else
