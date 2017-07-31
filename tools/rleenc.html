@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			a { text-decoration: none; }
+		</style>
+		<title>RLE 编码/解码器</title>
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' https://git123hub.github.io; object-src 'none'" />
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<div style="text-align: center">
+			<h1>RLE 编码/解码器</h1>
+			<textarea id="input1" style="width: 70%; height: 500px;"></textarea><br />
+			<input type="button" value="RLE 编码" onclick="$('input1').value = RLE_p($('input1').value)" />
+			<input type="button" value="RLE 解码" onclick="$('input1').value = RLE_u($('input1').value)" />
+			<br /><br />
+			<a href="/index/">返回到首页</a>
+		</div>
+		
+<script>
+function $(id){
+	return document.getElementById(id);
+};
+String.prototype.repeat || (String.prototype.repeat = function(n) {
+    return new Array(1 + (n || 0)).join(this);
+});
+ 
+function RLE_p (str) {
+	function encn (num) {
+		var tail = num % 10, rem;
+		num = (num - tail) / 10;
+		while (num > 26) {
+			rem = (num - 1) % 26 + 1;
+			num = (num - rem) / 26;
+			tail = String.fromCharCode(rem + 64) + tail;
+		}
+		return String.fromCharCode(num + 64) + tail;
+	}
+	var p = str.charAt(0), k = "", count = 0, out = "";
+	for (var i = 0, l = str.length; i < l; i++) {
+		k = str.charAt(i);
+		if (p === k) {
+			count++;
+		} else {
+			out += (count < 10 ? count : encn(count)) + p;
+			count = 1;
+		}
+		p = k;
+	}
+	return out + (count < 10 ? count : encn(count)) + k;
+}
+
+function RLE_u (str) {
+	var cc, n, out = "";
+	for (var i = 0, l = str.length; i < l; i++) {
+		n = 0;
+		while ((cc = str.charCodeAt(i)) >= 64) {
+			n = n * 26 + (cc - 64) * 10; i++;
+		}
+		n += cc - 48;
+		out += str.charAt(++i).repeat(n);
+	}
+	return out;
+}
+</script>
+
+<script>with(window._bd_share_config={common:{bdSnsKey:{},bdText:"",bdMini:"2",bdMiniList:!1,bdPic:"",bdStyle:"0",bdSize:"32"},share:{bdSize:16},slide:{type:"slide",bdImg:"0",bdPos:"right",bdTop:"100"},image:{viewList:["qzone","tsina","tqq","renren","weixin"],viewText:"分享到：",viewSize:"32"},selectShare:{bdContainerClass:null,bdSelectMiniList:["qzone","tsina","tqq","renren","weixin"]}},document)0[(getElementsByTagName("head")[0]||body).appendChild(createElement("script")).src="https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion="+~(-new Date/36e5)];</script>
+
+	</body>
+</html>

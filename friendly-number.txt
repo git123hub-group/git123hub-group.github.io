@@ -1,0 +1,38 @@
+A074902		Known friendly numbers.
+%I
+%S 6,12,24,28,30,40,42,56,60,66,78,80,84,96,102,108,114,120,132,135,138,
+%T 140,150,168,174,186,200,204,210,222,224,228,234,240,246,252,258,264,
+%U 270,273,276,280,282,294,300,308,312,318,330,348,354,360,364,366,372
+%N Known friendly numbers.
+%C The sequence is not known to be complete up to 372, since there are many small numbers, including 10, 14, 15 and 20, which have not been proved to be solitary. If any other numbers up to 372 are friendly, the smallest corresponding values of m are > 10^30.
+%C A positive integer n is 'friendly' if abundancy(n) = abundancy(m) for some positive integer m not equal to n, where abundancy(n) = sigma(n)/n (cf. A000203); otherwise n is 'solitary'. (The name "friendly" is also sometimes mistakenly used with other meanings; cf. A063990 and A007770.)
+%C All perfect numbers are friendly numbers, but they are only friendly with each other (a perfect number being defined as having abundancy index of 2.) [From _Daniel Forgues_, Jun 23 2009]
+%C Triangle A211679 has rows that list the first numbers that have n-1 smaller friends. Sequence A211677 lists just the last number in each row. - _T. D. Noe_, May 10 2012
+%D Claude W. Anderson and Dean Hickerson, Problem 6020: Friendly Integers, Amer. Math. Monthly 84 (1977) 65-66
+%H Eric Weisstein's World of Mathematics, <a href="http://mathworld.wolfram.com/FriendlyPair.html">Friendly Pair</a>
+%H Eric Weisstein's World of Mathematics, <a href="http://mathworld.wolfram.com/FriendlyNumber.html">Friendly Number</a>
+%e 24 is in the sequence since abundancy(24) = abundancy(91963648) = 5/2.
+%Y Union of A050972 and A050973. Cf. A014567.
+%K nonn
+%O 1,1
+%A _N. J. A. Sloane_, Sep 15 2002
+%E Edited by _Dean Hickerson_, Sep 19 2002
+
+A095739		Numbers known to be solitary but not coprime to sigma.
+%I
+%S 18,45,48,52,136,148,160,162,176,192,196,208,232,244,261,272,292,296,
+%T 297,304,320,352,369
+%N Numbers known to be solitary but not coprime to sigma.
+%C Abundancy is defined as the ratio of the multiplicative sum-of-divisors function to the integer itself: abund(n) = sigma(n)/n. E.g., abund(10) = sigma(10)/10 = (1+2+5+10)/10 = 1.8 = 9/5.
+%C Integers m and n are friendly iff they have the same abundancy. E.g., abund(12) = abund(234) = 7/3 ===> 12 and 234 are friends.
+%C Integers which have no friends are called solitary.
+%C "It is believed that 10, 14, 15, 20, 22, 26, 33, 34, 38, 44, 46, 51, 54, 58, 62, 68, 69, 70, 72, 74, 76, 82, 86, 87, 88, 90, 91, 92, 94, 95, 99, 104, 105, 106 and many others are also solitary, although a proof appears to be extremely difficult." Quote from _Eric W. Weisstein_. - _Franklin T. Adams-Watters_, Feb 02 2006
+%H Claude W. Anderson and Dean Hickerson, <a href="http://www.jstor.org/stable/2318325">Advanced Problem 6020: Friendly Integers</a>, Amer. Math. Monthly, 1977, V84#1p65-6.
+%H Eric Weisstein's World of Mathematics, <a href="http://mathworld.wolfram.com/SolitaryNumber.html">Solitary Number.</a>
+%Y Cf. A095738, A074902.
+%K nonn
+%O 1,1
+%A _Walter Nissen_, Jul 08 2004
+%E More terms from _Franklin T. Adams-Watters_, Feb 02 2006
+
+5 / 2 = 60 / 24 = 229909120 / 91963648

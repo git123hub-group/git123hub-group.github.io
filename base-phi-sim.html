@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>无标题</title>
+<style>
+.frac { display:inline-table;vertical-align:middle;border-collapse:collapse;font-size:smaller; }
+.frac>* { display:table-row; }
+.frac>*:first-child { border-bottom:thin solid; }
+.top-border { border-top:solid thin; }
+a { text-decoration:none; }
+</style>
+</head>
+<body>
+<div style="text-align: center">
+   <canvas id="base_phi" width="810" height="30"></canvas>
+   <br />
+   <input type="button" onclick="incrPos(40)" value="递增" />
+   <input type="button" onclick="decrPos(40)" value="递减" />
+   <br />
+   <span>&phi;进制 (英文名:
+      <a href="https://en.wikipedia.org/wiki/Golden_ratio_base">Golden ratio base</a>
+   或 phinary), 使用 &phi; = <span class="frac"><span>&radic;<span class="top-border">5</span> + 1</span><span>2</span></span>
+   = 1.6180… 作为底数</span>
+</div>
+<pre>
+* <a href="fibbase">Fibonacci 进制计数器</a>
+* 参考 <a href="http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/phigits.html">"Using Powers of Phi to represent Integers (Base Phi)"</a>
+</pre>
+<script type="text/javascript">
+// <![CDATA[
+var ctx = document.getElementById("base_phi").getContext("2d");
+var arr = new Int8Array(81);
+ctx.fillStyle = "#FFFFFF";
+ctx.fillRect(0,0,810,30);
+
+function incrPos (offset) {
+   arr[offset]++;
+   updateFunc(offset);
+}
+function decrPos (offset) {
+   arr[offset]--;
+   updateFunc(offset);
+}
+function updateFunc (offset) {
+   while (offset >= 0 && 81 > offset) {
+      switch (true) {
+         case arr[offset] >= 2:
+            arr[offset-1] ++;
+            arr[offset  ] -= 2;
+            arr[offset+2] ++;
+            offset--;
+         break;
+         case arr[offset] === 1 && arr[offset-1] === 1:
+            arr[offset-2] ++;
+            arr[offset-1] --;
+            arr[offset  ] --;
+            offset -= 2;
+         break;
+         case arr[offset] < 0:
+            arr[offset-1] --;
+            arr[offset  ] ++;
+            arr[offset+1] ++;
+            offset--;
+         break;
+         default:
+            offset++;
+      }
+   }
+   render();
+}
+function render () {
+   ctx.fillStyle = "#FFFFFF";
+   ctx.fillRect(0,0,810,30);
+   ctx.fillStyle = "#000000";
+   for (var i = 0; 81 > i; ++i) {
+      arr[i] && ctx.fillRect(i * 10,0,10,30);
+   }
+}
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+// ]]>
+</script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>

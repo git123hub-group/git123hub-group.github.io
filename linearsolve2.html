@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+	a {text-decoration: none;}
+</style>
+<title>二元一次方程组求解</title>
+</head>
+<body>
+<div style="text-align: center">
+<input type="text" id="_a11" /> x +
+<input type="text" id="_a12" /> y =
+<input type="text" id="_b1" />
+<br />
+<input type="text" id="_a21" /> x +
+<input type="text" id="_a22" /> y =
+<input type="text" id="_b2" />
+<br />
+<input type="button" value="解二元一次方程组" onclick="solveeq2b()" />
+<br />
+x = <input type="text" id="eqx" />,
+y = <input type="text" id="eqy" />
+<br />
+<div style="margin-top:5px">
+	源代码地址 (百度网盘): <a href="http://pan.baidu.com/s/1dF0v3KP">http://pan.baidu.com/s/1dF0v3KP</a><br />
+	<a href="/index/">返回到首页</a>
+</div>
+</div>
+<script>
+function solveeq2 (a, b, c, d, e, f) {
+	var tmp;
+	if (a * e === b * d) { return ["未定义", "未定义"] }
+	// ax + by = c
+	// dx + ey = f
+
+	g  = a * e - d * b
+	g1 = c * e - f * b
+	g2 = a * f - d * c
+
+	return [g1/g, g2/g];
+
+}
+function solveeq2b () {
+	var $ = function (id) {
+		return document.getElementById(id);
+	}
+	var tmp = solveeq2(+$("_a11").value,+$("_a12").value,+$("_b1").value,+$("_a21").value,+$("_a22").value,+$("_b2").value);
+	$("eqx").value = tmp[0];
+	$("eqy").value = tmp[1];
+}
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"share":{"bdSize":16},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="https://git123hub.github.io/static/sbase64.min.js"></script>
+<script type="text/javascript" src="https://git123hub.github.io/repo-1/clipboard.min.js"></script>
+</head>
+<body>
+<h1 style="text-align: center">QQ邮箱&ldquo;邮我&rdquo;生成器</h1>
+<form action="http://mail.qq.com/cgi-bin/qm_share" method="get" onsubmit="encodeM()">
+	<input type="hidden" name="t" value="qm_mailme" />
+	<input type="hidden" name="email" id="oemail" value="qm_mailme" />
+	<div style="text-align: center">
+		收信人 (邮箱): <input type="email" id="iemail" />
+		<input type="button" value="生成 HTML 代码" onclick="genHTMLMail()" />
+		<input type="submit" />
+	</div>
+</form>
+<div style="text-align: center; margin: 12px 0">
+&darr; HTML 代码区 <input type="button" value="复制" class="mcopy" /> &darr;<br />
+<textarea id="HTMLCode" rows="30" cols="100" readonly="readonly"></textarea><br />
+<!-- <a href="/index/" style="text-decoration:none">返回到首页</a> -->
+</div>
+<script type="text/javascript">
+// <![CDATA[
+var stylenum = "01";
+function encodeM () {
+	var inps = document.getElementById("iemail").value;
+	var sub = document.getElementById("oemail");
+	sub.value = inps === "" ? "" : b64enc1(inps);
+}
+function HTMLEscape (str) {
+	return (""+str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/['`]/g, function (s) {return "&#" + s.charCodeAt(0) + ";"});
+}
+function genHTMLMail () {
+	var inps = document.getElementById("iemail").value;
+	document.getElementById("HTMLCode").value = inps === "" ? "" : '<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=' + HTMLEscape(b64enc1(inps)) + '" style="text-decoration:none;"><img alt="给我写信" src="https://git123hub.github.io/images/writemsg.gif" /></a>'
+}
+(function () {
+  var c = new Clipboard('.mcopy', {
+    text: function() {
+      return document.getElementById("HTMLCode").value;
+    }
+  });
+  c.on("success", function (e) {
+    alert("复制成功");
+  });
+  c.on("error", function (e) {
+    alert("复制失败");
+  });
+})();
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+// ]]>
+</script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>

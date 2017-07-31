@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>最大公约数与最小公倍数 计算器</title>
+</head>
+<body>
+<div style="text-align: center">
+	<h1>最大公约数与最小公倍数 计算器</h1>
+	请输入两个正整数：
+	<input type="text" id="param1" />
+	<input type="text" id="param2" />
+	<br />
+	<input type="button" value="求最大公约数" onclick="getgcd();" />
+	<input type="button" value="求最小公倍数" onclick="getlcm();" />
+	<input type="button" value="判断是否是互质数" onclick="checkcoprime();" />
+	<br />
+	结果：
+	<input type="text" id="param3" />
+</div>
+<script>
+// <![CDATA[
+function $(id) {
+	return document.getElementById(id);
+}
+function GCD (x, y) { // 这个“GCD”不是“共产党”，而是“最大公因数”
+	var tmp;
+	while (y !== 0) { // GCD(m, n) = GCD(n, m modulo n)
+		tmp = x % y;
+		x = y;
+		y = tmp;
+	}
+	return x;
+}
+function LCM (x, y) {
+	return x * (y / GCD(x, y)); // GCD(m, n) 乘以 LCM(m, n) 等于 m 乘以 n
+}
+function getgcd () {
+	if (!($("param1").value.match(/^[1-9]\d*$/) && $("param2").value.match(/^[1-9]\d*$/))) {
+		return alert("无效的数字");
+	}
+	$("param3").value = GCD(+$("param1").value,+$("param2").value);
+}
+function getlcm () {
+	if (!($("param1").value.match(/^[1-9]\d*$/) && $("param2").value.match(/^[1-9]\d*$/))) {
+		return alert("无效的数字");
+	}
+	$("param3").value = LCM(+$("param1").value,+$("param2").value);
+}
+function checkcoprime () { // 判断两个整数中公因数只有 1
+	var a, b;
+	if (!($("param1").value.match(/^[1-9]\d*$/) && $("param2").value.match(/^[1-9]\d*$/))) {
+		return alert("无效的数字");
+	}
+	if (GCD(a = +$("param1").value,b = +$("param2").value) < 2) {
+		return alert(a+" 和 "+b+" 是互质数");
+	}
+	return alert(a+" 和 "+b+" 不是互质数");
+}
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+// ]]>
+</script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>

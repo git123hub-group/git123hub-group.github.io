@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+.tab1, .tab1 tr td{border:3px solid #000; border-collapse:collapse;}
+.tab1 tr td { width: 110px; height: 90px; text-align: center; }
+.tab1 tr:first-child td { height: 120px; }
+.mstk { width: 600px; padding: 4px 0; border: 1px solid black; margin: 1px auto; font-size: 16px; }
+</style>
+<title>计算器</title>
+</head>
+<body>
+<div style="text-align: center;">
+<table style="font-size: 70px; margin-left: auto; margin-right: auto;" class="tab1">
+<tr>
+<td onclick="" colspan="5">
+<input type="text" style="text-align: right; font-size: inherit; width: 540px" id="display1" value="0" readonly="readonly" />
+</td>
+</tr>
+<tr>
+<td onclick="pinit = false; memclear(); inputting = '0'; havingDP = false">MC</td>
+<td onclick="pinit = false; negateb()" style="font-size: 0.75em">+/-</td>
+<td onclick="pinit = false; sqrtkey()" style="position: relative;"><img src="sqrt.png" style="top: 16px; left: 19.5px; position: absolute;" /></td>
+<td onclick="pinit = false; backsp()">&larr;</td>
+<td onclick="pinit = true; allclear()" style="color:#FFF; background:#F00">AC</td>
+</tr>
+<tr>
+<td onclick="pinit = false; memplus(); inputting = '0'; havingDP = false">M+</td>
+<td onclick="pinit = false; memminus(); inputting = '0'; havingDP = false">M-</td>
+<td onclick="pinit = false; mstore(); inputting = '0'; havingDP = false">MS</td>
+<td onclick="pinit = false; mrecall(); inputting = '0'; havingDP = false">MR</td>
+<td onclick="pinit = false; clear1()">CE</td>
+</tr>
+<tr>
+<td onclick="addparen(); pinit = true;">(</td>
+<td onclick="pinit = false; entern('7')">7</td>
+<td onclick="pinit = false; entern('8')">8</td>
+<td onclick="pinit = false; entern('9')">9</td>
+<td onclick="pinit = true; addop(OP_DIV)">&divide;</td>
+</tr>
+<tr>
+<td onclick="pinit = false; nestParens &gt; 0 &amp;&amp; evalparen()">)</td>
+<td onclick="pinit = false; entern('4')">4</td>
+<td onclick="pinit = false; entern('5')">5</td>
+<td onclick="pinit = false; entern('6')">6</td>
+<td onclick="pinit = true; addop(OP_MUL)">&times;</td>
+</tr>
+<tr>
+<td onclick="pinit = false; popmem()"><span style="border-bottom: 4px solid">&uarr;</span></td>
+<td onclick="pinit = false; entern('1')">1</td>
+<td onclick="pinit = false; entern('2')">2</td>
+<td onclick="pinit = false; entern('3')">3</td>
+<td onclick="pinit = true; addop(OP_SUB)">-</td>
+</tr>
+<tr>
+<td onclick="pinit = false; pushmem()"><span style="border-bottom: 4px solid">&darr;</span></td>
+<td onclick="pinit = false; entern('0')">0</td>
+<td onclick="pinit = false; enterdp()">.</td>
+<td onclick="pinit = true; evexpr()">=</td>
+<td onclick="pinit = true; addop(OP_ADD)">+</td>
+</tr>
+</table>
+<br />
+&darr; 内存 (M) 堆栈区 &darr;
+<div class="mstk" id="m_st0" onclick="pinit = false; mrecall(); inputting = '0'; havingDP = false">0</div>
+<div class="mstk" id="m_st1" onclick="recallMstk(1)">空</div>
+<div class="mstk" id="m_st2" onclick="recallMstk(2)">空</div>
+<div class="mstk" id="m_st3" onclick="recallMstk(3)">空</div>
+<div class="mstk" id="m_st4" onclick="recallMstk(4)">空</div>
+</div>
+<script src="calcwithshare.min.js"></script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>

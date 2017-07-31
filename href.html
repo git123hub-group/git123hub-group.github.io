@@ -2,10 +2,10 @@
 <head></head>
 <body>
 <script type="text/javascript">
-var index$3F = location.href.indexOf("?");
-if (index$3F >= 0) {
-  location.href = location.href.slice(index$3F + 1);
-}
+var index$q = location.href.indexOf("?");
+var index$h = location.href.indexOf("#");
+(index$h < 0 || index$q >= 0 && index$h > index$q) && (index$h = index$q);
+index$h >= 0 && (location.href = location.href.slice(index$h + 1));
 </script>
 </body>
 </html>

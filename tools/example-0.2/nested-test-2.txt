@@ -1,0 +1,14 @@
+n = 1
+jump(3)
+:repeat:
+  n = n - 1
+  print(1)
+:{:
+  print(2)
+:repeat:
+  n = n - 1
+  print(3)
+:}:
+  print(4)
+:until leq(n, 0):
+  print(5)

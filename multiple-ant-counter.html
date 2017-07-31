@@ -1,0 +1,165 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+.wborder {border: 2px solid #000; display: inline-block; width: 40px; height: 40px; box-sizing: border-box;}
+/*
+a {text-decoration: none; color: #80BFFF}
+a:hover {text-decoration: none; color: #FF6060}
+a:active {text-decoration: none; color: #FFFF20}
+*/
+</style>
+<title>Langton's ant variation</title>
+</head>
+<body style="background-color:#EEEEEE; color:#000000">
+<pre>
+* <a href="/index/" style="text-decoration: none;">返回到首页</a>
+</pre>
+<center>
+<canvas id="CACanvas" width="640" height="640" onclick="setPixel(event.offsetX, event.offsetY)"></canvas>
+<br />
+
+<div style="display: inline-block;" onclick="editState ^= 1; editState || createRunInterval()">
+<div style="display: table; width: 120px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">run / pause</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="randomPatt()">
+<div style="display: table; width: 160px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">random pattern</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="clear1(1)">
+<div style="display: table; width: 180px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">clear background</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="clear1(2)">
+<div style="display: table; width: 120px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">clear ants</div>
+</div>
+</div>
+<div style="display: inline-block;" onclick="clear1(3)">
+<div style="display: table; width: 120px; height: 40px; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: table-cell; vertical-align: middle; text-align: center">clear all</div>
+</div>
+</div>
+<br />
+<!-- <textarea id="code" rows="20" cols="80"></textarea> -->
+</center>
+<script type="text/javascript">
+//<![CDATA[
+var array = new Int8Array(16384);
+var antdir = new Int8Array(16384);
+var antpos = new Int16Array(16384*3);
+var can = document.getElementById("CACanvas");
+var ctx = can.getContext("2d");
+ctx.fillStyle = "#FFFFFF";
+ctx.fillRect(0,0,640,640);
+var frames = 0, nextFrameSpeed = 10, editState = 1;
+
+var cellColor = ["#FFFFFF", "#000000"];
+var xtable = [1,0,127,0];
+var ytable = [0,1,0,127];
+
+var nextGeneration = function () {
+  var i, ii = 0, t, tt, x, y, d;
+  for (i = 0; i < 16384; i++)
+  {
+    t = antdir[i];
+	if (t && !(t & (t-1)))
+	{
+	  antpos[16384+ii] = i%128;
+	  antpos[32768+ii] = i/128;
+	  antpos[ii++] = (t > 4) ? 3 : (t / 2);
+	}
+	antdir[i] = 0;
+  }
+  for (i = 0; i < ii; i++)
+  {
+  	d = antpos[i];
+    x = antpos[16384+i];
+	y = antpos[32768+i];
+	tt = x+128*y;
+	t = array[tt];
+	if (t == 0)
+	{
+	  d = (d + 1) % 4;
+	  array[tt] = 1;
+	  ctx.fillStyle = "#000000";
+	}
+	else
+	{
+	  array[tt] = 0;
+	  ctx.fillStyle = "#FFFFFF";
+	}
+	ctx.fillRect(x*5, y*5, 5, 5);
+	x = (x + xtable[d]) % 128;
+	y = (y + ytable[d]) % 128;
+	antdir[x+128*y] |= 1<<d;
+  }
+}
+
+var createRunInterval = function () {
+  if (!frames) {
+    nextGeneration();
+  }
+  frames = (frames + 1) % nextFrameSpeed;
+  (editState) ? (frames = 0) : requestAnimationFrame(createRunInterval);
+}
+
+var setPixel = function (x, y) {
+  if (!editState) { return false; }
+  var x1 = (x / 5) | 0;
+  var y1 = (y / 5) | 0;
+  x1 > 127 && (x1 = 127);
+  y1 > 127 && (y1 = 127);
+  array[y1 * 128 + x1] ^= 1;
+  ctx.fillStyle = cellColor[array[y1 * 128 + x1]];
+  ctx.fillRect(x1*5, y1*5, 5, 5);
+  return true;
+}
+
+var randomPatt = function () {
+  for (i = 0; i < 16384; i++)
+  {
+    array[i] = Math.random()*2;
+    antdir[i] = (Math.random()*16)&0xF;
+	if (array[i] == 0)
+	{
+	  ctx.fillStyle = "#FFFFFF";
+	}
+	else
+	{
+	  ctx.fillStyle = "#000000";
+	}
+	ctx.fillRect(i%128*5, ((i/128)|0)*5, 5, 5);
+  }
+}
+
+var clear1 = function (flags) {
+  if (flags & 1)
+  {
+    ctx.fillStyle = "#FFFFFF";
+	ctx.fillRect(0, 0, 640, 640);
+  }
+  for (i = 0; i < 16384; i++)
+  {
+    if (flags & 1)
+	{
+      array[i] = 0;
+	}
+	if (flags & 2)
+	{
+      antdir[i] = 0;
+	}
+  }
+}
+
+//]]>
+</script>
+<script type="text/javascript">window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</body>
+</html>

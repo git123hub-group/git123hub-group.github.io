@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 254 660" id="top">
+   <defs>
+      <g id="content1">
+          <rect width="220" height="150" x="0" y="0" fill="#cf9" stroke-width="1" stroke="#000" />
+          <path d="M44 65 L48 65 L48 85 L52 85 L52 87 L42 87 L42 85 L46 85 L46 67 L44 67 Z M60 65 L64 65 L64 85 L68 85 L68 87 L58 87 L58 85 L62 85 L62 67 L60 67 Z M172 65 L176 65 L176 85 L180 85 L180 87 L170 87 L170 85 L174 85 L174 67 L172 67 Z M194 65 L196 65 L196 87 L194 87 L194 85 L184 85 L184 73 L194 73 Z M8 67 L10 67 L10 75 L18 75 L18 67 L20 67 L20 87 L18 87 L18 77 L10 77 L10 87 L8 87 Z M120 67 L122 67 L122 79 L130 79 L130 67 L132 67 L132 87 L130 87 L130 83 L128 83 L128 75 L124 75 L124 83 L122 83 L122 87 L120 87 Z M206 67 L208 67 L208 81 L206 81 Z M26 71 L34 71 L34 77 L26 77 Z M74 71 L82 71 L82 87 L74 87 Z M138 71 L146 71 L146 87 L138 87 Z M152 71 L154 71 L154 73 L164 73 L164 77 L162 77 L162 71 L156 71 L156 75 L154 75 L154 87 L152 87 Z M186 71 L192 71 L192 75 L194 75 L194 83 L192 83 L192 87 L186 87 Z M24 73 L36 73 L36 79 L26 79 L26 87 L34 87 L34 83 L36 83 L36 85 L24 85 Z M72 73 L84 73 L84 85 L72 85 Z M136 73 L148 73 L148 85 L136 85 Z M92 83 L96 83 L96 89 L92 89 L92 91 L94 91 L94 85 L92 85 Z M206 83 L208 83 L208 87 L206 87 Z" fill="#000" fill-rule="evenodd" />
+      </g>
+   </defs>
+   <circle cx="127" cy="533" r="125" stroke-width="2" stroke="#000" fill="none" />
+   <circle cx="127" cy="533" r="5" fill="#000" />
+   <polyline id="rot1" stroke-width="2" stroke="#000" fill="none" stroke-miterlimit="1.5" />
+   <line id="rot2" stroke-width="2" stroke="#000" fill="none" x1="0" y1="311.887" x2="254" y2="311.887" />
+   <a href="https://git123hub.github.io/index/">
+      <use x="17" y="160.387" xlink:href="#content1" id="content_box" />
+   </a>
+   <script type="text/javascript">
+   // <![CDATA[
+      var svgtop = document.getElementById("top");
+      var rot1a = document.getElementById("rot1");
+      var rot1b = rot1a.points;
+      var rot2a = document.getElementById("rot2");
+      var cbox = document.getElementById("content_box");
+      var svgpt1, svgpt2, svgpt3;
+      svgpt1 = svgtop.createSVGPoint();
+      svgpt1.x = 127; svgpt1.y = 533; rot1b.appendItem(svgpt1);
+      svgpt2 = svgtop.createSVGPoint();
+      svgpt2.x = 127+125; svgpt2.y = 533; rot1b.appendItem(svgpt2);
+      svgpt3 = svgtop.createSVGPoint();
+      svgpt3.x = 127; svgpt3.y = 311.887; rot1b.appendItem(svgpt3);
+      var angle = 0, twopi = 2 * Math.PI, currT = new Date().getTime();
+      !function nextA () {
+         var nextT = new Date().getTime(), diffT = nextT - currT;
+         angle = (angle + diffT / 796) % twopi;
+         svgpt2.x = 127+Math.cos(angle)*125; svgpt2.y = 533-Math.sin(angle)*125;
+         svgpt3.x = 127;
+         // 56703.5 = 254 ^ 2 - 125 ^ 2 / 2
+         rot2a.y1.baseVal.value = rot2a.y2.baseVal.value = svgpt3.y = svgpt2.y-Math.sqrt(56703.5-Math.cos(2*angle)*7812.5);
+         cbox.y.baseVal.value = rot2a.y1.baseVal.value - 151.5
+         currT = nextT;
+         requestAnimationFrame(nextA);
+      } ();
+   // ]]>
+   </script>
+</svg>

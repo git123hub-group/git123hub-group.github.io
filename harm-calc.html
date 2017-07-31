@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>调和数 (Harmonic number) 计算器</title>
+<style>
+a { text-decoration: none; }
+.frac, .ou { display:inline-table;vertical-align:middle;border-collapse:collapse; }
+.frac>*, .ou>*:not(:nth-child(2)) { font-size:smaller; }
+.frac>*, .ou>* { display:table-row; }
+.frac>*:first-child { border-bottom:thin solid; }
+</style>
+</head>
+<body>
+<div style="text-align: center"><h1>调和数 (<a href="http://en.wikipedia.org/wiki/Harmonic_number">Harmonic number</a>) 计算器</h1>
+请输入一个非负整数: <input type="text" id="p" /><input type="button" onclick="Hbtn()" value="计算" /><br />
+<br />第 <i>n</i> 个调和数的公式: H<sub><i>n</i></sub> = 1 + <span class="frac"><span>1</span><span>2</span></span> +
+<span class="frac"><span>1</span><span>3</span></span> + &hellip; + <span class="frac"><span>1</span><span><i>n</i></span></span> =
+<span class="ou"><span><i>n</i></span><span>&sum;</span><span><i>k</i> = 1</span></span> <span class="frac"><span>1</span>
+<span><i>k</i></span></span><br /><span id="o1"></span>
+</div>
+<script>
+// <![CDATA[
+function HApprox(n) { // Harmonic number approx
+	var EulerGamma = 0.57721566490153286061
+	if (n <= 24) return [0, 1, 1.5, 1.833333333333333,
+		2.083333333333333, 2.283333333333333, 2.45,
+		2.592857142857143, 2.717857142857143, 2.828968253968254,
+		2.928968253968254, 3.019877344877345, 3.103210678210678,
+		3.180133755133755, 3.251562326562327, 3.318228993228993,
+		3.380728993228993, 3.439552522640758, 3.495108078196313,
+		3.547739657143682, 3.597739657143682, 3.6453587047627294,
+		3.690813250217275, 3.734291511086840, 3.7759581777535067][n];
+	var m, p;
+	return Math.log(n) + EulerGamma + 1/(2*n) - 1/(12*(m = n*n)) + 1/(120*(p = m*m)) - 1/(252*p*m) + 1/(240*p*p);
+}
+function $(id) { // 不是 jQuery
+	return document.getElementById(id);
+}
+function Hbtn () {
+	var n = $("p").value;
+	if (!/^\d+$/.test(n.trim())) return alert("无效输入");
+	$("o1").innerHTML = "第 " + n + " 个调和数为:<br />" + HApprox(+n);
+}
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+// ]]>
+</script>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+a = "a = %c%s%c%creturn(printf(%c%s%c,34,a,34,10,34,a,34,10))%c"
+return(printf("a = %c%s%c%creturn(printf(%c%s%c,34,a,34,10,34,a,34,10))%c",34,a,34,10,34,a,34,10))

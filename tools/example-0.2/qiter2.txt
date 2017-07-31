@@ -1,0 +1,13 @@
+#--------------------------------<====< 程序 1 >====>--------------------------------#
+# iteration 0
+println(template(q(println(q(println(template(q(%0%))))))))
+
+# iteration 1
+println(q(println(template(q(println(q(println(template(q(%0%))))))))))
+
+# iteration 2
+println(template(q(println(q(println(template(q(%0%))))))))
+
+#--------------------------------<====< 程序 2 >====>--------------------------------#
+
+#--------------------------------<====< 程序 3 >====>--------------------------------#

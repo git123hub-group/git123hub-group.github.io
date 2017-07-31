@@ -9,6 +9,8 @@
 <pre>* <a href="https://git123hub.github.io/index/" style="text-decoration: none;">返回到首页</a></pre>
 <textarea id="input" rows="30" cols="100" readonly="readonly"></textarea><br />
 <input type="button" onclick="submitHTML();" value="提交代码" />
+<input type="button" onclick="document.getElementById('input').readOnly = false;" value="启用编辑" />
+<input type="button" onclick="document.getElementById('input').readOnly = true;" value="禁用编辑" />
 <script type="text/javascript">
 //<![CDATA[
 var progIter = 0;
@@ -24,6 +26,8 @@ var quine_list = [
 "<pre>* <a href=\"https:\/\/git123hub.github.io\/index\/\" style=\"text-decoration: none;\">返回到首页<\/a><\/pre>",
 "<textarea id=\"input\" rows=\"30\" cols=\"100\" readonly=\"readonly\"><\/textarea><br \/>",
 "<input type=\"button\" onclick=\"submitHTML();\" value=\"提交代码\" \/>",
+"<input type=\"button\" onclick=\"document.getElementById('input').readOnly = false;\" value=\"启用编辑\" \/>",
+"<input type=\"button\" onclick=\"document.getElementById('input').readOnly = true;\" value=\"禁用编辑\" \/>",
 "<script type=\"text\/javascript\">",
 "\/\/<![CDATA[",
 "var quine_list = [",
@@ -35,11 +39,11 @@ var quine_list = [
 "};",
 "var decodeQuine = function () {",
 "  var s = \"\";",
-"  for (var i = 0; i < 13; ++i) {",
+"  for (var i = 0; i < 15; ++i) {",
 "    s += quine_list[i] + \"\\n\";",
 "  }",
 "  s += \"var progIter = \" + (progIter + 1) + \";\\n\";",
-"  for (; i < 14; ++i) {",
+"  for (; i < 16; ++i) {",
 "    s += quine_list[i] + \"\\n\";",
 "  }",
 "  for (var j = 0, l = quine_list.length; j < l; ++j) {",
@@ -65,11 +69,11 @@ function submitHTML () {
 };
 var decodeQuine = function () {
   var s = "";
-  for (var i = 0; i < 13; ++i) {
+  for (var i = 0; i < 15; ++i) {
     s += quine_list[i] + "\n";
   }
   s += "var progIter = " + (progIter + 1) + ";\n";
-  for (; i < 14; ++i) {
+  for (; i < 16; ++i) {
     s += quine_list[i] + "\n";
   }
   for (var j = 0, l = quine_list.length; j < l; ++j) {

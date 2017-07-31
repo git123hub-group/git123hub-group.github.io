@@ -1,0 +1,114 @@
+<html>
+  <head>
+    <style>
+      a {text-decoration: none; color: inherit}
+      a.a1 {padding: 3px 2px; display: inline-block;}
+      .red {color: #FF0000}
+    </style>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <pre>
+<a class="a1" href="../index/" style="background:#FFBBDD;">返回到首页</a>
+<a class="a1" href="../tpt-mods" style="background:#BBBBFF;">返回到 "我的 TPT Mods"</a>
+<a class="a1" href="../tpt-elements" style="background:#FFDDBB;">返回到 "TPT Mod 元素说明"</a>
+
+* Wall # 0 (identifier: DEFAULT_WL_ERASE) usage:
+  Eraser. Erases walls.
+
+* Wall # 1 (identifier: DEFAULT_WL_CNDTW) usage:
+  Conductive Wall. Blocks everything. Conductive.
+  Special: Conducts SPRK to anything conductive.
+
+* Wall # 2 (identifier: DEFAULT_WL_EWALL) usage:
+  E-Wall. Becomes transparent when electricity is connected.
+  Special: Acts like WALL (Non conductive) when not electrified, otherwise acts like Conductor.
+
+* Wall # 3 (identifier: DEFAULT_WL_DTECT) usage:
+  Detector. Generates electricity when a particle is inside.
+  Special: Will pass SPRK on to anything conductive while a particle is in its area. When activated, it gives out a orange glow.
+
+* Wall # 4 (identifier: DEFAULT_WL_STRM) usage:
+  Streamline. Set start point of a streamline.
+  Special: Shows you how pressure is moving around the simulation. Unlike other walls, the brush size doesn't matter.
+
+* Wall # 5 (identifier: DEFAULT_WL_FAN) usage:
+  Fan. Accelerates Air. Use the line tool to set direction and strength.
+  Special:
+    Creates pressure and airflow. To use, place the wall where you need it, while you still have the Fan wall selected hold shift,
+    click on the wall then drag in the direction you want air to flow.
+    Fan gives stickmen the ability to shoot out air, just like it would an element. Its head will turn light blue, and it will get
+    overridden by any other element it touches.
+
+* Wall # 6 (identifier: DEFAULT_WL_LIQD) usage:
+  Liquid Permeable.
+  Blocks most particles but lets liquids through. Conductive.
+  Special: Conducts SPRK to anything conductive.
+
+* Wall # 7 (identifier: DEFAULT_WL_ABSRB) usage:
+  Absorbing wall. Absorbs particles but lets air currents through.
+  Special:
+    Absorbs all particles that enter its space. However, if the particle has a vector speed (X) and the thickness is less than X,
+    the particles will pass.
+
+* Wall # 8 (identifier: DEFAULT_WL_WALL) usage:
+  Basic wall, blocks everything.
+
+* Wall # 9 (identifier: DEFAULT_WL_AIR) usage:
+  Non-permeable wall. Allows air, but blocks all particles.
+
+* Wall # 10 (identifier: DEFAULT_WL_POWDR) usage:
+  Powder Permeable. Allows powders, blocks all other particles.
+
+* Wall # 11 (identifier: DEFAULT_WL_CNDTR) usage:
+  Conductor. Allows all particles to pass through and conducts electricity.
+  Special: Conducts SPRK to anything conductive.
+
+* Wall # 12 (identifier: DEFAULT_WL_EHOLE) usage:
+  E-Hole. Absorbs particles, releases them when powered.
+  Special:
+    Holds particles in place until electrified, releases them when electrified. Forms Black Holes when too much mass is put
+    into it. Each pixel of E-Hole can have up to 1500 parts in it before it forms Black Hole. E-Hole will also remove jetpacks
+    from stickmen or fighters.
+  
+* Wall # 13 (identifier: DEFAULT_WL_GAS) usage:
+  Gas permeable wall. Allows gases (include <span class="red">FIRE</span>), blocks all other particles.
+
+* Wall # 14 (identifier: DEFAULT_WL_GRVTY) usage:
+  Gravity wall. Newtonian Gravity has no effect inside a box drawn with this.
+  Special:
+    If you make a box using gravity wall, then Newtonian gravity has no effect inside the box. It does not block how things like
+    pressure are blocked, it just sets the gravity of all things inside the box to 0.
+    When a stickman/fighter makes contact, small purple rocket boots appear (Or what others call jetpacks), giving that person the
+    ability to fly by ejecting hot plasma downwards. A stickman can still use another element, but cannot walk or jump without
+    creating plasma, making troublesome to walk across flammable materials. A stickman cannot be hurt by plasma when it has a jet-
+    pack on, but will still be hurt by heat.
+    <span class="red">STKM</span> Controls:
+      ^ arrow key: up
+      &lt; arrow key: left
+      &gt; arrow key: right
+      &lt;&gt; simultaneously held down: Brake (Slowly goes down)
+
+* Wall # 15 (identifier: DEFAULT_WL_ENRGY) usage:
+  Energy Wall. Allows energy particles, blocks all other particles.
+
+* Wall # 16 (identifier: DEFAULT_WL_NOAIR) usage:
+  Air-block Wall. Allows all particles, but blocks air.
+
+* Wall # 17 (identifier: DEFAULT_WL_ERASEA) usage:
+  Erase All. Erases walls, particles, and signs.
+  Note: "Erase All" isn't true walls
+
+* Wall # 18 (identifier: DEFAULT_WL_BRWALL) usage:
+  Breakable wall, but allows air.
+  Special: Can break under pressure. (turns to <span class="red">STNE</span>)
+  
+* Wall # 19 (identifier: DEFAULT_WL_BCNDTW) usage:
+  Breakable conductive wall, but allows air.
+  Special: Can break under pressure. (turns to <span class="red">BRMT</span>)
+
+* Wall # 255 (C++ define from: WL_FLOODHELPER) usage:
+  Use by fan flood fill helper
+    </pre>
+  </body>
+</html>

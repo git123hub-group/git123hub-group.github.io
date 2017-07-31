@@ -1,0 +1,3 @@
+print q zhelloz
+print chr tohex ord uc q zdz
+print q z worldz

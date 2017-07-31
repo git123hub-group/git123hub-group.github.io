@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Lambda 转 SKI 组合子工具</title>
+<script>
+// <![CDATA[
+function infixToPrefix (str) {
+	str = str.replace(/[\s\t\xa0\u3000]/g, "");
+	if (str[0] === "\\" || str[0] === "λ") {
+		var isep = str.indexOf(".");
+		if (isep < 0) throw "syntax error";
+		var p = infixToPrefix (str.slice(isep + 1));
+		while (--isep) {
+			p = subst(p, str[isep])
+		}
+		return p;
+	}
+	var nestp = 0, list = [], lptr = 0, tmp, tmp2;
+	for (var i = 0, len = str.length; i < len;) {
+		switch (tmp = str[i]) {
+			case "\x28":
+				nestp++; i++; tmp2 = ""
+				for (;;) {
+					if (i >= len) throw "unmatched \x28";
+					if ((tmp = str[i++]) === "\x28") {
+						nestp++;
+					} else if (tmp === "\x29") {
+						nestp--;
+					}
+					if (nestp) {
+						tmp2 += tmp;
+					} else break;
+				}
+				list[lptr++] = tmp2;
+			break;
+			case "\x29": throw "unmatched \x29"; break;
+			default:
+				list[lptr++] = tmp; i++;
+		}
+	}
+	if (len < 1) {
+		throw "this parameter is no lambda expression"
+	} else if (len === 1) {
+		return "," + str;
+	} else {
+		tmp2 = infixToPrefix(list[0]);
+		for (i = 1, len = list.length; i < len; i++) {
+			tmp2 = "`" + tmp2 + infixToPrefix(list[i]);
+		}
+		return tmp2;
+	}
+}
+function splita1 (str, match) { // str = "````sii,x,x", match = "x";
+	var posit = nlev = 1, tmp;
+	var s1 = s2 = "", s3 = s4 = 0;
+	while (nlev) { // 1st matching
+		switch (tmp = str[posit]) {
+			case "`": nlev++; s1 += "`"; break;
+			case ",": nlev--; s1 += ","; s1 += (tmp = str[++posit]);
+				match === tmp && (s3++);
+			break;
+			default:  nlev--; s1 += tmp; 
+		}
+		posit++;
+	}
+	nlev = 1;
+	while (nlev) { // 2nd matching
+		switch (tmp = str[posit]) {
+			case "`": nlev++; s2 += "`"; break;
+			case ",": nlev--; s2 += ","; s2 += (tmp = str[++posit]);
+				match === tmp && (s4++);
+			break;
+			default:  nlev--; s2 += tmp; 
+		}
+		posit++;
+	}
+	return [s1, s2, s3, s4];
+}
+// testing:
+//   splita1("````sii,x,x", "x");
+function subst (str, match) {
+/* rules:
+ * \x.x  = I               -->  i
+ * \x.y  = K y             --> `k,y
+ * \x.fx = f               --> ,f
+ * \x.fg = S (\x.f) (\x.g) --> ``sfg (recursive)
+ */
+	switch (str[0]) {
+		case "`":
+			var a = splita1 (str, match);
+			var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3];
+			if (a1 === "," + match && a2 === 0) {
+				return a0;
+			} else if (a2 === 0 && a3 === 0) { // \x.`y --> K`y --> `k`y
+				return "`k`" + a0 + a1;
+			} else { // recursive
+				return "``s" + subst(a0, match) + subst(a1, match);
+			}
+		break;
+		case ",": return str[1] === match ? "i" : "`k," + str[1]; break;
+		default: return "`k" + str[0];
+	}
+}
+function prefixToInfix (str) {
+	if (str[0] !== "`") {
+		return str[0] === "," ? str[1] : str[0].toUpperCase();
+	} else {
+		var a = splita1(str);
+		var left  = prefixToInfix (a[0]);
+		var right = prefixToInfix (a[1]);
+		right.length === 1 || (right = "(" + right + ")");
+		return left + right;
+	}
+}
+function subst2 (str, matches, p1) {
+	var len = matches.length; str = infixToPrefix(str);
+	for (var i = len - 1; i >= 0; i--) {
+		str = subst (str, matches[i])
+	}
+	return p1 ? prefixToInfix (str) : str;
+}
+function $ (id) {
+	return document.getElementById(id);
+}
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"0","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://git123hub.github.io/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+// ]]>
+</script>
+</head>
+<body>
+<div style="text-align: center">
+	<h1>Lambda 转 SKI 组合子工具</h1>
+	请输入 Lambda (&lambda;) 表达式: <input type="text" style="width: 400px" id="expr1" /><br />
+	请输入参数列表: <input type="text" style="width: 480px" id="params2" /><br />
+	<input type="button" value="转换到 SKI 组合子" onclick="var tmp; $('output3').value = subst2($('expr1').value, (tmp=$('params2').value.trim())?tmp.split(/[ ,;]+/):'', true);" />
+	<input type="button" value="转换到 Unlambda" onclick="var tmp; $('output3').value = subst2($('expr1').value, (tmp=$('params2').value.trim())?tmp.split(/[ ,;]+/):'', false);" /><br />
+	<textarea id="output3" style="width: 550px; height: 320px"></textarea>
+</div>
+<script src="https://git123hub.github.io/static/retn/left.js"></script>
+</body>
+</html>

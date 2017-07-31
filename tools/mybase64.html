@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			a { text-decoration: none; }
+		</style>
+		<title>base64 编码器/解码器</title>
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' https://git123hub.github.io; object-src 'none'" />
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<div style="text-align: center">
+			<h1>base64 编码器/解码器</h1>
+			<textarea id="input1" style="width: 70%; height: 500px;"></textarea><br />
+			<input type="button" value="base64 编码" onclick="$('input1').value = mybase64e($('input1').value)" />
+			<input type="button" value="base64 解码" onclick="$('input1').value = mybase64d($('input1').value)" />
+			<input type="button" value="base64 编码 (btoa)" onclick="$('input1').value = btoa($('input1').value)" />
+			<input type="button" value="base64 解码 (atob)" onclick="$('input1').value = atob($('input1').value)" /><br />
+			<br />
+			<a href="/index/">返回到首页</a>
+		</div>
+<script>
+// <![CDATA[
+
+function $(e) {
+	return document.getElementById(e)
+}
+
+var alphabets = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_".split("");
+function mybase64e (str) {
+	var asc = "", len = str.length, num = 0, basef = 1, quo, rem;
+	for (var i = 0; i < len; i++) {
+		num = num * 256 + str.charCodeAt(i); basef *= 256;
+		while (basef >= 64) {
+			basef /= 64;
+			rem = num % basef; quo = (num - rem) / basef;
+			num = rem; asc += alphabets[quo];
+		}
+	}
+	basef > 1 && (asc += alphabets[num * 64 / basef]);
+	return asc;
+}
+
+var inv_alpha = [,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,62,,,,,,,,,,,,0,1,2,3,4,5,6,7,8,9,,,,,,,,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,,,,,63,,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35];
+function mybase64d (asc) {
+	var str = "", len = asc.length, num = 0, basef = 1, quo, rem;
+	for (var i = 0; i < len; i++) {
+		num = num * 64 + inv_alpha[asc.charCodeAt(i)]; basef *= 64;
+		if (basef >= 256) {
+			basef /= 256;
+			rem = num % basef; quo = (num - rem) / basef;
+			num = rem; str += String.fromCharCode(quo);
+		}
+	}
+	return str;
+}
+
+// ]]>
+</script>
+	</body>
+</html>

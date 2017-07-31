@@ -1,0 +1,217 @@
+<meta charset="utf-8" />
+<style>
+	input.a1 { color: inherit; background: inherit; border: none; text-align: center; width: 130px }
+	input.a2 { color: inherit; background: inherit; border: none; text-align: center; width: 100px }
+	a {color: inherit; text-decoration: none}
+</style>
+<body style="background-color: #000; color: #FFF"> <!-- black background -->
+<div style="text-align: center">
+<canvas id="photwl_gfx" width="241" height="101" onclick="toggleWavelength(event.offsetX, event.offsetY)"></canvas><br />
+<table style="margin:0px auto">
+<tr>
+<td>Decimal: </td>
+<td>
+<input class="a1" id="photwl_dec" value="0" type="text" oninput="loadWavelengthData(this.value.replace(/\D/g, &quot;&quot;))" />
+</td>
+</tr>
+<tr>
+<td>Hex: </td>
+<td>
+<input class="a1" id="photwl_hex" value="0x00000000" type="text" oninput="loadWavelengthData(parseInt(this.value.replace(/[^0-9A-F]/gi, &quot;&quot;), 16))" />
+</td>
+</tr>
+<tr>
+<td>Decoration colour: </td>
+<td>
+<div id="photwl_decos" style="width: 20px; height: 20px; float: left; border: 1px solid #FFF"></div>
+<input class="a2" id="photwl_deco" value="#000000" type="text" readonly="readonly" style="height: 22px; float: right" />
+</td>
+</tr>
+<tr>
+<td>FILT tmp value: </td>
+<td>
+<input class="a1" id="filtwl_tmpv" value="0" type="text" oninput="this.value = this.value.replace(/\D, &quot;&quot;/g)" />
+</td>
+</tr>
+<tr>
+<td>FILT temperature: </td>
+<td>
+<input class="a2" id="filtwl_temp" value="0" type="text" oninput="" /> C
+</td>
+</tr>
+</table>
+<button type="button" onclick="
+loadWavelengthData(FILT_op(wavelengths[0], wavelengths[1],
++document.getElementById('filtwl_tmpv').value,
++document.getElementById('filtwl_temp').value))">A = FILT (A OP B)</button>
+<button type="button" onclick="
+set_filt_wl(FILT_op(wavelengths[1], wavelengths[0],
++document.getElementById('filtwl_tmpv').value,
++document.getElementById('filtwl_temp').value))">B = FILT (B OP A)</button>
+<button type="button" onclick="var tempvar = wavelengths[0];
+loadWavelengthData(wavelengths[1]); set_filt_wl(tempvar);">swap A and B</button>
+<br />
+<a href="..">返回到首页</a> | <a href="/tpt-mods">返回到我的 TPT Mods</a>
+</div>
+<script>
+var canvas_wl = document.getElementById("photwl_gfx");
+var ctx_wl = canvas_wl.getContext("2d");
+
+var wavelengths = [0, 0];
+function toggleWavelength(offsetX, offsetY)
+{
+	if (offsetY < 1 || offsetY >= 100)
+	{
+		return 0;
+	}
+	if (offsetX < 1 || offsetX >= 240)
+	{
+		return 0;
+	}
+	if ((offsetX -= 1) % 8 >= 7)
+	{
+		return 0;
+	}
+	offsetX /= 8;
+	offsetX |= 0;
+	var tempMask = 1 << (29 - offsetX);
+	if (offsetY < 50)
+	{
+		wavelengths[0] ^= tempMask;
+		loadWavelength(wavelengths[0], offsetX, 1, tempMask);
+		document.getElementById("photwl_dec").value = wavelengths[0];
+		document.getElementById("photwl_hex").value = "0x" + ("00000000" + wavelengths[0].toString(16)).slice(-8);
+		document.getElementById("photwl_deco").value = photwl2deco(wavelengths[0]);
+		document.getElementById("photwl_decos").style.backgroundColor = photwl2deco(wavelengths[0]);
+	}
+	else if (offsetY > 51)
+	{
+		wavelengths[1] ^= tempMask;
+		loadWavelength(wavelengths[1], offsetX, 51, tempMask);
+	}
+	return 1;
+}
+function loadWavelength (wlx, offsetX, addY, tempMask)
+{
+	if (wlx & tempMask)
+	{
+		/*string*/ var colorstr = "#";
+		colorstr += (offsetX < 12) ? "ff" : "00";
+		colorstr += (offsetX >=  9 && offsetX < 21) ? "ff" : "00";
+		colorstr += (offsetX >= 18) ? "ff" : "00";
+		ctx_wl.fillStyle = colorstr;
+	}
+	else
+	{
+		ctx_wl.fillStyle = "#000";
+	}
+	ctx_wl.fillRect(offsetX * 8 + 1, addY, 7, 49);
+}
+
+function loadWavelengths (wlx, addY)
+{
+	for (var i = 0; i < 30; i++)
+	{
+		loadWavelength (wlx, i, addY, 1 << (29 - i));
+	}
+}
+
+function loadWavelengthData (wlx)
+{
+	wavelengths[0] = +wlx & 0x3FFFFFFF;
+	loadWavelengths (wavelengths[0], 1);
+	document.getElementById("photwl_dec").value = wavelengths[0];
+	document.getElementById("photwl_hex").value = "0x" + ("00000000" + wavelengths[0].toString(16)).slice(-8);
+	document.getElementById("photwl_deco").value = photwl2deco(wavelengths[0]);
+	document.getElementById("photwl_decos").style.backgroundColor = photwl2deco(wavelengths[0]);
+}
+
+function set_filt_wl (wlx)
+{
+	wavelengths[1] = +wlx & 0x3FFFFFFF;
+	loadWavelengths (wavelengths[1], 51);
+}
+
+function photwl2deco (/*int*/ wavelength)
+{
+	/*int*/ var x = 0;
+	/*int*/ var colr, colg, colb;
+	colr = colg = colb = 0;
+
+	for (x=0; x<12; x++) {
+		colr += (wavelength >> (x+18)) & 1;
+		colb += (wavelength >>  x)     & 1;
+	}
+
+	for (x=0; x<12; x++)
+		colg += (wavelength >> (x+9))  & 1;
+
+	x = (624 / (colr + colg + colb + 1)) | 0;
+
+	colr *= x; if (colr > 255) colr = 255;
+	colg *= x; if (colg > 255) colg = 255;
+	colb *= x; if (colb > 255) colb = 255;
+	
+	return "#" + (((0x100 + colr)*0x100 + colg)*0x100 + colb).toString(16).slice(-6);
+}
+
+function FILT_op (origWl, ctype, tmp, temp)
+{
+	var filtWl, temp_bin, shift, lsb;
+	var mask = 0x3FFFFFFF;
+	if (ctype & mask)
+		filtWl = ctype;
+	else
+	{
+		temp_bin = ((temp + 0.15) * 0.025) | 0;
+		if (temp_bin < 0) temp_bin = 0;
+		if (temp_bin > 25) temp_bin = 25;
+		filtWl = 0x1F << temp_bin;
+	}
+	switch (tmp)
+	{
+		case 0:
+			return filtWl;
+		case 1:
+			return origWl & filtWl;
+		case 2:
+			return origWl | filtWl;
+		case 3:
+			return origWl & ~filtWl;
+		case 4:
+			shift = ((temp + 0.15) * 0.025) | 0;
+			if (shift <= 0) shift = 1;
+			return (origWl << shift) & mask;
+		case 5:
+			shift = ((temp + 0.15) * 0.025) | 0;
+			if (shift <= 0) shift = 1;
+			return (origWl >> shift) & mask;
+		case 6:
+			return origWl;
+		case 7:
+			return origWl ^ filtWl;
+		case 8:
+			return ~origWl & filtWl;
+		case 9:
+		{
+			var t1 = ((origWl & 0x0000FF) + (Math.random () * 5) - 2) | 0;
+			var t2 = (((origWl & 0x00FF00) >>  8) + (Math.random () * 5) - 2) | 0;
+			var t3 = (((origWl & 0xFF0000) >> 16) + (Math.random () * 5) - 2) | 0;
+			return (origWl & 0xFF000000) | (t3 << 16) | (t2 << 8) | t1;
+		}
+		case 10:
+		{
+			lsb = filtWl & -filtWl
+			return (origWl * lsb) & mask;
+		}
+		case 11:
+		{
+			lsb = filtWl & -filtWl
+			return (origWl / lsb) & mask;
+		}
+		default:
+			return filtWl;
+	}
+}
+</script>
+</body>
